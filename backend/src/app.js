@@ -55,4 +55,17 @@ app.use((err, req, res, next) => {
   });
 });
 
+
+
+ //MONTAJE DE RUTAS SEPARADAS
+const productosRouter = require("./routes/product-routes");
+app.use("/", productosRouter);
+
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
+
 module.exports = app;
