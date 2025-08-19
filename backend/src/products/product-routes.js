@@ -7,7 +7,7 @@ const {
   crearProducto,
   actualizarProducto,
   eliminarProducto
-} = require('../controllers/products.controller');
+} = require('./products.controller');
 
 
 // obtener todos los productos

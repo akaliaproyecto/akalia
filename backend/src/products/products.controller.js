@@ -1,7 +1,7 @@
 // Importar el modelo de productos
-const modeloProducto = require("../models/product.model");
+const modeloProducto = require("./product.model");
 
- //Consultar todos los productos
+//Consultar todos los productos
 exports.obtenerProductos = async (req, res) => {
   try {
     let productosEncontrados = await modeloProducto.find();
@@ -17,17 +17,17 @@ exports.obtenerProductos = async (req, res) => {
 
 //Consultar un producto por su id
 exports.obtenerProductoPorId = async (req, res) => {
-    const idProducto = req.params.id;
-    try {
-        const productoEncontrado = await modeloProducto.findById(idProducto);
-        if (productoEncontrado) {
-        res.status(200).json(productoEncontrado);
-        } else {
-        res.status(404).json({ mensaje: "Producto no encontrado" });
-        }
-    } catch (error) {
-        res.status(500).json({ mensaje: "Error al consultar producto", detalle: error.message });
+  const idProducto = req.params.id;
+  try {
+    const productoEncontrado = await modeloProducto.findById(idProducto);
+    if (productoEncontrado) {
+      res.status(200).json(productoEncontrado);
+    } else {
+      res.status(404).json({ mensaje: "Producto no encontrado" });
     }
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al consultar producto", detalle: error.message });
+  }
 };
 
 //Crear un nuevo producto
@@ -40,7 +40,7 @@ exports.crearProducto = async (req, res) => {
   } catch (error) {
     res.status(500).json({ mensaje: "Error al crear producto", detalle: error.message });
   }
-};  
+};
 
 //editar un producto por su id
 exports.actualizarProducto = async (req, res) => {
@@ -67,7 +67,7 @@ exports.eliminarProducto = async (req, res) => {
     if (productoEliminado) {
       res.status(200).json({ mensaje: "Producto eliminado correctamente" });
     } else {
-        res.status(404).json({ mensaje: "Producto no encontrado" });
+      res.status(404).json({ mensaje: "Producto no encontrado" });
     }
   } catch (error) {
     res.status(500).json({ mensaje: "Error al eliminar producto", detalle: error.message });

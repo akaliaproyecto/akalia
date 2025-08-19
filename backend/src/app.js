@@ -30,7 +30,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 1000*60*60*24*7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true // para que JS en frontend no acceda a la cookie
   }
 }));
@@ -57,15 +57,15 @@ app.use((err, req, res, next) => {
 
 
 
- //MONTAJE DE RUTAS SEPARADAS
-const productosRouter = require("./routes/product-routes");
+//MONTAJE DE RUTAS SEPARADAS
+const productosRouter = require("./products/product-routes.js");
 app.use("/", productosRouter);
 
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+/*app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+});*/
 
 module.exports = app;
