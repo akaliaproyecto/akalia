@@ -5,6 +5,7 @@ const modeloProducto = require("./product.model");
 exports.obtenerProductos = async (req, res) => {
   try {
     let productosEncontrados = await modeloProducto.find();
+
     if (productosEncontrados && productosEncontrados.length > 0) {
       res.status(200).json(productosEncontrados);
     } else {
@@ -17,9 +18,11 @@ exports.obtenerProductos = async (req, res) => {
 
 //Consultar un producto por su id
 exports.obtenerProductoPorId = async (req, res) => {
-  const idProducto = req.params.id;
+  const idProducto = req.params.id;   // obtener el parámetro de la URL
+
   try {
     const productoEncontrado = await modeloProducto.findById(idProducto);
+
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
     } else {
@@ -32,7 +35,8 @@ exports.obtenerProductoPorId = async (req, res) => {
 
 //Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
-  const datosProducto = req.body;
+  const datosProducto = req.body; // datos enviados por el cliente
+
   try {
     const nuevoProducto = new modeloProducto(datosProducto);
     const productoGuardado = await nuevoProducto.save();
@@ -44,10 +48,12 @@ exports.crearProducto = async (req, res) => {
 
 //editar un producto por su id
 exports.actualizarProducto = async (req, res) => {
-  const idProducto = req.params.idProducto || req.params.id;
-  const datosProducto = req.body;
+
+  const idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
+  const datosProducto = req.body; // datos que llegan con el request
 
   try {
+    // actualizar y devolver el documento actualizado (new:true)
     const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
     if (productoActualizado) {
       res.status(200).json(productoActualizado);

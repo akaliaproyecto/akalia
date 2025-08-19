@@ -4,6 +4,8 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
 const app = express();
+const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
+
 
 dotenv.config();
 
@@ -56,10 +58,10 @@ app.use((err, req, res, next) => {
 });
 
 
-
 //MONTAJE DE RUTAS SEPARADAS
+//importa el archivo donde se definió todas las rutas relacionadas con productos
 const productosRouter = require("./products/product-routes.js");
-app.use("/", productosRouter);
+app.use("/", validateApiKey, productosRouter);
 
 
 const PORT = process.env.PORT || 3000;
