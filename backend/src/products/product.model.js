@@ -11,11 +11,7 @@ const ProductoSchema = new mongoose.Schema({
     { type: String, required: true, trim: true, minLength: 3, maxLength: 100 },
 
   idEmprendimiento:
-    { type: mongoose.Schema.Types.ObjectId, ref: 'Emprendimiento', required: false },
-  /***************************************/
-  /* IMPORTANTE CAMBIAR REQUIRED: TRUE  */
-  /***************************************/
-
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Emprendimiento', required: true },
 
   descripcionProducto:
     { type: String, required: true, trim: true, minLength: 3, maxLength: 1000 },
@@ -32,7 +28,7 @@ const ProductoSchema = new mongoose.Schema({
     validate: [
       {
         validator: function (value) {
-          return value.length === 0 || value.length >= 1 && value.length <= 10;
+          return value.length >= 1 && value.length <= 10;
         },
         message: 'Debes proporcionar entre 1 y 10 imágenes'
       },
@@ -40,32 +36,20 @@ const ProductoSchema = new mongoose.Schema({
         validator: function (value) {
           return value.every(url => /^https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/i.test(url));
         },
-        message: 'Todas las imágenes deben ser URLs válidas con formato jpg, jpeg, png, gif o svg', required: false
+        message: 'Todas las imágenes deben ser URLs válidas con formato jpg, jpeg, png, gif o svg'
       }
     ]
   },
-  /***************************************/
-  /* IMPORTANTE CAMBIAR REQUIRED: TRUE y value.length === 0 ||*/
-  /***************************************/
-
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Categoria', required: false },
-  /***************************************/
-  /* IMPORTANTE CAMBIAR REQUIRED: TRUE  */
-  /***************************************/
-
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Categoria', required: true },
   tags: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Etiqueta' }],
     validate: {
       validator: function (value) {
-        return value.length === 0 || value.length >= 1 && value.length <= 10;
+        return value.length >= 1 && value.length <= 10;
       },
-      message: 'Debes proporcionar entre 1 y 10 etiquetas', required: false
+      message: 'Debes proporcionar entre 1 y 10 etiquetas'
     }
   },
-  /***************************************/
-  /* IMPORTANTE CAMBIAR REQUIRED: TRUE y value.length === 0 || */
-  /***************************************/
-
 }, { timestamps: true });
 
 module.exports = mongoose.model('Producto', ProductoSchema);
