@@ -1,5 +1,5 @@
 // Importar el modelo de productos
-const modeloProducto = require("./product.model");
+const modeloProducto = require("./productos.model");
 
 //Consultar todos los productos
 exports.obtenerProductos = async (req, res) => {

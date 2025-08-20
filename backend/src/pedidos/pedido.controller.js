@@ -1,5 +1,5 @@
 //Importar el modelo de pedido
-const modeloPedido = require("./order.model");
+const modeloPedido = require("./pedidos.model");
 
 
 //Consultar todos los pedidos (panel admin)

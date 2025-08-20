@@ -51,7 +51,7 @@ app.use((err, req, res, next) => {
 
 //MONTAJE DE RUTAS
 
-const productosRouter = require("./products/product.routes.js");
+const productosRouter = require("./productos/productos.routes.js");
 app.use("/", validateApiKey, productosRouter);
 
 const pedidosRouter = require('./pedidos/pedido.routes.js');
