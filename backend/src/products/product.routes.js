@@ -1,6 +1,8 @@
+// Importa Express y crea un router para definir las rutas de productos
 const express = require('express');
 const router = express.Router();
 
+// Importa las funciones del controlador que se van a ejecutar cuando se llame cada ruta
 const {
   obtenerProductos,
   obtenerProductoPorId,
@@ -16,10 +18,10 @@ router.get('/productos', obtenerProductos);
 // obtener un producto por ID
 router.get('/productos/:id', obtenerProductoPorId);
 
-// crear un producto
+// crear un nuevo producto
 router.post('/productos', crearProducto);
 
-// actualizar un producto
+// editar un producto existente
 router.put('/productos/:id', actualizarProducto);
 
 // eliminar un producto por ID

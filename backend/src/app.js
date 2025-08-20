@@ -60,9 +60,11 @@ app.use((err, req, res, next) => {
 
 //MONTAJE DE RUTAS SEPARADAS
 //importa el archivo donde se definió todas las rutas relacionadas con productos
-const productosRouter = require("./products/product-routes.js");
+const productosRouter = require("./products/product.routes.js");
 app.use("/", validateApiKey, productosRouter);
 
+const pedidosRouter = require('./pedidos/pedido.routes.js');
+app.use("/", validateApiKey, pedidosRouter);
 
 const PORT = process.env.PORT || 3000;
 
