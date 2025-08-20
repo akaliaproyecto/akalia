@@ -33,6 +33,23 @@ exports.obtenerProductoPorId = async (req, res) => {
   }
 };
 
+//Consultar un producto por su nombre
+exports.obtenerProductoPorNombre = async (req, res) => {
+  const nombreProducto = req.params.nombre;
+
+  try {
+    const productoEncontrado = await modeloProducto.findOne({ tituloProducto: nombreProducto });
+
+    if (productoEncontrado) {
+      res.status(200).json(productoEncontrado);
+    } else {
+      res.status(404).json({ mensaje: "Producto no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al consultar producto", detalle: error.message });
+  }
+};
+
 //Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
   const datosProducto = req.body; // datos enviados por el cliente

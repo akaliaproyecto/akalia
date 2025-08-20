@@ -6,6 +6,7 @@ const router = express.Router();
 const {
   obtenerProductos,
   obtenerProductoPorId,
+  obtenerProductoPorNombre,
   crearProducto,
   actualizarProducto,
   eliminarProducto
@@ -17,6 +18,9 @@ router.get('/productos', obtenerProductos);
 
 // obtener un producto por ID
 router.get('/productos/:id', obtenerProductoPorId);
+
+// obtener un producto por nombre
+router.get('/productos/nombre/:nombre', obtenerProductoPorNombre);
 
 // crear un nuevo producto
 router.post('/productos', crearProducto);

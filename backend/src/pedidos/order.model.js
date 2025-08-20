@@ -71,7 +71,7 @@ const PedidoSchema = new mongoose.Schema({
     validate: {
       validator: function (value) {
         // Acepta solo si value es mayor o igual a la fecha de creacion
-        return value >= this.fechaCreacion;
+        return !value || value >= this.fechaCreacion;
       },
       message: "La fecha de aceptación no puede ser anterior a la fecha de creacion."
     },
@@ -80,8 +80,8 @@ const PedidoSchema = new mongoose.Schema({
     type: Date,
     validate: {
       validator: function (value) {
-        // Acepta solo si value es mayor o igual a la fecha actual
-        return value >= this.fechaAceptacion;
+        // Acepta solo si value es mayor o igual a la fecha de aceptación
+        return !value || (this.fechaAceptacion && value >= this.fechaAceptacion);
       },
       message: "La fecha de completado no puede ser anterior a la fecha de aceptación."
     },

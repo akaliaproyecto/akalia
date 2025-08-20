@@ -56,7 +56,11 @@ exports.editarPedido = async (req, res) => {
   const datosPedido = req.body;
 
   try {
-    const pedidoActualizado = await modeloPedido.findByIdAndUpdate(idPedido, { new: true });
+    const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
+      idPedido,
+      datosPedido,
+      { new: true, runValidators: true }
+    );
 
     if (pedidoActualizado) {
       res.status(200).json(pedidoActualizado);
@@ -65,7 +69,7 @@ exports.editarPedido = async (req, res) => {
     }
 
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al actualizar el pedido", detalle: error.mensaje });
+    res.status(500).json({ mensaje: "Error al actualizar el pedido", detalle: error.message });
   }
 };
 

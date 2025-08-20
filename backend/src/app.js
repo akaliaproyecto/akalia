@@ -6,7 +6,6 @@ const dotenv = require('dotenv');
 const app = express();
 const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
 
-
 dotenv.config();
 
 
@@ -40,15 +39,7 @@ app.use(session({
 //Method Override
 app.use(methodOverride('_method'));
 
-// Rutas
-/* const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes); */
-
-//Manejo de errores simple
-
+//Manejo de errores 
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({
@@ -58,18 +49,16 @@ app.use((err, req, res, next) => {
 });
 
 
-//MONTAJE DE RUTAS SEPARADAS
-//importa el archivo donde se definió todas las rutas relacionadas con productos
+//MONTAJE DE RUTAS
+
 const productosRouter = require("./products/product.routes.js");
 app.use("/", validateApiKey, productosRouter);
 
 const pedidosRouter = require('./pedidos/pedido.routes.js');
 app.use("/", validateApiKey, pedidosRouter);
 
+
 const PORT = process.env.PORT || 3000;
 
-/*app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});*/
 
 module.exports = app;
