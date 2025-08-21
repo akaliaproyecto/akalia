@@ -57,6 +57,10 @@ const ComisionSchema = new mongoose.Schema({
       message: 'Debe haber al menos un detalle de comisión'
     }
   },
+  activo: {
+    type: Boolean,
+    default: true
+  },
   fechaPagoComision: { 
     type: Date,
     validate: {
