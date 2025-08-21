@@ -61,8 +61,7 @@ const ComisionSchema = new mongoose.Schema({
     type: Date,
     validate: {
       validator: function(value) {
-        // Si existe fecha, no puede ser antes de la fecha actual menos un año (lógica ejemplo)
-        return !value || value >= new Date('2020-01-01');
+        return value >= new Date();
       },
       message: 'La fecha de pago de comisión no es válida'
     }
