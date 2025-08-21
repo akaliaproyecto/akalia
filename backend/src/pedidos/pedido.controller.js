@@ -49,44 +49,72 @@ exports.crearPedido = async (req, res) => {
   }
 };
 
-
-//Editar un pedido por su id
+// Editar un pedido existente
 exports.editarPedido = async (req, res) => {
-  const idPedido = req.params.id;
-  const datosPedido = req.body;
-
   try {
+    // id y body recibidos
+    const idPedido = req.params.id;
+    const datosPedido = req.body;
+
+    // primero recuperar por id
+    const pedidoExistente = await modeloPedido.findById(idPedido).lean();
+    if (!pedidoExistente) {
+      return res.status(404).json({ mensaje: 'Pedido no encontrado' });
+    }
+
+    // si ya está marcado como eliminado no permitir edición
+    if (pedidoExistente.estadoEliminacion === 'eliminado') {
+      return res.status(400).json({ mensaje: 'No se puede editar un pedido eliminado' });
+    }
+
+    // realizar la actualización
     const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
       idPedido,
       datosPedido,
       { new: true, runValidators: true }
     );
 
-    if (pedidoActualizado) {
-      res.status(200).json(pedidoActualizado);
-    } else {
-      res.status(404).json({ mensaje: "Pedido no encontrado" });
-    }
-
+    res.json(pedidoActualizado);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al actualizar el pedido", detalle: error.message });
+    res.status(400).json({ mensaje: error.message });
   }
 };
 
 
-//Eliminar pedido por id
+// Eliminar lógicamente un pedido (solo si no está activo)
 exports.eliminarPedido = async (req, res) => {
-  const idPedido = req.params.id;
-
   try {
-    const pedidoEliminado = await modeloPedido.findByIdAndDelete(idPedido);
+    // Buscar el pedido por ID
+    const pedido = await modeloPedido.findById(req.params.id);
 
-    if (pedidoEliminado) {
-      res.status(200).json({ mensaje: "Pedido eliminado correctamente" })
-    } else {
-      res.status(404).json({ mensaje: "Pedido no encontrado" })
+    if (!pedido) {
+      return res.status(404).json({ mensaje: 'Pedido no encontrado' });
     }
+
+    // Verificar si el pedido ya está eliminado
+    if (pedido.estadoEliminacion === 'eliminado') {
+      return res.status(400).json({ mensaje: 'El pedido ya está eliminado' });
+    }
+
+    // Regla de negocio: No eliminar si hay compra activa
+    if (pedido.estadoPedido === 'aceptado' || pedido.estadoPedido === 'pendiente') {
+      return res.status(400).json({
+        mensaje: 'No se puede eliminar un pedido con compra activa. Estado actual: ' + pedido.estadoPedido
+      });
+    }
+
+    // Realizar eliminación lógica
+    const pedidoEliminado = await modeloPedido.findByIdAndUpdate(
+      req.params.id,
+      { estadoEliminacion: 'eliminado' },
+      { new: true }
+    );
+
+    res.json({
+      mensaje: 'Pedido eliminado correctamente',
+      pedido: pedidoEliminado
+    });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al elimianr pedido", detalle: error.message })
+    res.status(500).json({ mensaje: error.message });
   }
 };

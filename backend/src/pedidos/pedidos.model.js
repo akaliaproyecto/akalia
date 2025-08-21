@@ -96,6 +96,11 @@ const PedidoSchema = new mongoose.Schema({
     required: [true, 'El precio total es obligatorio'],
     min: [0, 'El precio total no puede ser negativo']
   },
+  estadoEliminacion: {
+    type: String,
+    enum: ['activo', 'eliminado'],
+    default: 'activo'
+  },
   detalles: {
     type: [DetallePedidoSchema],
     validate: {
