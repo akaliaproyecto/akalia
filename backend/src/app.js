@@ -58,7 +58,9 @@ const pedidosRouter = require('./pedidos/pedido.routes.js');
 app.use("/", validateApiKey, pedidosRouter);
 
 
-const PORT = process.env.PORT || 3000;
+// USUARIOS
+const usuariosRoutes = require('./usuarios/usuarios.routes.js');
+app.use('/', validateApiKey, usuariosRoutes);
 
 
 module.exports = app;
