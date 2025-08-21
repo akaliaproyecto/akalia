@@ -62,5 +62,9 @@ app.use("/", validateApiKey, pedidosRouter);
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
 app.use('/', validateApiKey, usuariosRoutes);
 
+// EMPRENDIMIENTOS
+const emprendimientosRoutes = require('./emprendimientos/emprendimiento.route.js');
+app.use('/', validateApiKey, emprendimientosRoutes);
+
 
 module.exports = app;
