@@ -58,9 +58,12 @@ const pedidosRouter = require('./pedidos/pedido.routes.js');
 app.use("/", validateApiKey, pedidosRouter);
 
 
-// USUARIOS
+// USUARIOS RUTA
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
 app.use('/', validateApiKey, usuariosRoutes);
 
+// CATEGORIAS RUTA
+const categoriasRoutes = require('./categorias/categorias.routes.js');
+app.use('/', validateApiKey, categoriasRoutes);
 
 module.exports = app;
