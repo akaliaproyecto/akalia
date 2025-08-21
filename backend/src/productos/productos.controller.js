@@ -4,7 +4,8 @@ const modeloProducto = require("./productos.model");
 //Consultar todos los productos
 exports.obtenerProductos = async (req, res) => {
   try {
-    let productosEncontrados = await modeloProducto.find();
+    // Solo mostramos productos que NO están eliminados lógicamente
+    let productosEncontrados = await modeloProducto.find({ estadoEliminacion: 'activo' });
 
     if (productosEncontrados && productosEncontrados.length > 0) {
       res.status(200).json(productosEncontrados);
@@ -16,12 +17,17 @@ exports.obtenerProductos = async (req, res) => {
   }
 };
 
+
 //Consultar un producto por su id
 exports.obtenerProductoPorId = async (req, res) => {
-  const idProducto = req.params.id;   // obtener el parámetro de la URL
+  const idProducto = req.params.id;
 
   try {
-    const productoEncontrado = await modeloProducto.findById(idProducto);
+    // Solo buscamos productos que NO están eliminados lógicamente
+    const productoEncontrado = await modeloProducto.findOne({
+      _id: idProducto,
+      estadoEliminacion: 'activo'
+    });
 
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
@@ -33,22 +39,34 @@ exports.obtenerProductoPorId = async (req, res) => {
   }
 };
 
-//Consultar un producto por su nombre
+
+//Consultar un producto por su nombre (coincidencia parcial, case-insensitive)
 exports.obtenerProductoPorNombre = async (req, res) => {
   const nombreProducto = req.params.nombre;
 
-  try {
-    const productoEncontrado = await modeloProducto.findOne({ tituloProducto: nombreProducto });
+  const escapeRegex = (text) => {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
 
-    if (productoEncontrado) {
-      res.status(200).json(productoEncontrado);
+  try {
+    const regex = new RegExp(escapeRegex(nombreProducto), 'i'); // 'i': case-insensitive
+
+    // Usamos find para devolver todos los productos que contengan la palabra
+    const productosEncontrados = await modeloProducto.find({
+      tituloProducto: { $regex: regex },
+      estadoEliminacion: 'activo'
+    });
+
+    if (productosEncontrados && productosEncontrados.length > 0) {
+      res.status(200).json(productosEncontrados);
     } else {
-      res.status(404).json({ mensaje: "Producto no encontrado" });
+      res.status(404).json({ mensaje: "No se encontraron productos con ese nombre/parcial" });
     }
   } catch (error) {
     res.status(500).json({ mensaje: "Error al consultar producto", detalle: error.message });
   }
 };
+
 
 //Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
@@ -82,13 +100,22 @@ exports.actualizarProducto = async (req, res) => {
   }
 };
 
-//eliminar un producto por su id
+//Borrado lógico de un producto por su id
 exports.eliminarProducto = async (req, res) => {
   const idProducto = req.params.id;
   try {
-    const productoEliminado = await modeloProducto.findByIdAndDelete(idProducto);
-    if (productoEliminado) {
-      res.status(200).json({ mensaje: "Producto eliminado correctamente" });
+    // En lugar de eliminar, se actualiza estadoEliminacion en 'eliminado' y estadoProducto en 'inactivo'
+    const productoActualizado = await modeloProducto.findByIdAndUpdate(
+      idProducto,
+      { estadoEliminacion: 'eliminado', estadoProducto: 'inactivo' },
+      { new: true }
+    );
+
+    if (productoActualizado) {
+      res.status(200).json({
+        mensaje: "Producto eliminado lógicamente y desactivado",
+        producto: productoActualizado
+      });
     } else {
       res.status(404).json({ mensaje: "Producto no encontrado" });
     }
@@ -96,4 +123,3 @@ exports.eliminarProducto = async (req, res) => {
     res.status(500).json({ mensaje: "Error al eliminar producto", detalle: error.message });
   }
 };
-

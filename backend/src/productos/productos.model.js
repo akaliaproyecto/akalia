@@ -21,6 +21,13 @@ const ProductoSchema = new mongoose.Schema({
 
   estadoProducto: { type: String, enum: ['activo', 'inactivo'], default: 'activo', required: true },
 
+  // Campo para manejar el borrado lógico
+  estadoEliminacion: {
+    type: String,
+    enum: ['activo', 'eliminado'],
+    default: 'activo'
+  },
+
   fechaPublicacion: { type: Date, required: true, default: Date.now },
 
   imagenes: {
