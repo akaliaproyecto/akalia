@@ -3,7 +3,7 @@ const modeloComision = require('./comision.model');
 // Obtener todas las comisiones activas
 const obtenerComisiones = async (req, res) => {
   try {
-    const comisiones = await modeloComision.find({ activo: true })
+    const comisiones = await modeloComision.find()
       .populate('idUsuario')
       .populate('detalles.idPedido');
     res.status(200).json(comisiones);
