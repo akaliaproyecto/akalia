@@ -28,7 +28,7 @@ router.post('/productos', crearProducto);
 // editar un producto existente
 router.put('/productos/:id', actualizarProducto);
 
-// eliminar un producto por ID
-router.delete('/productos/:id', eliminarProducto);
+// borrado lógico de un producto por ID 
+router.patch('/productos/:id/eliminar', eliminarProducto);
 
 module.exports = router;

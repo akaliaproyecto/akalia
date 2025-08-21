@@ -70,8 +70,13 @@ const PedidoSchema = new mongoose.Schema({
     type: Date,
     validate: {
       validator: function (value) {
-        // Acepta solo si value es mayor o igual a la fecha de creacion
-        return !value || value >= this.fechaCreacion;
+        // Convertir a Date si viene como string y ser tolerante si faltan fechas
+        if (!value) return true;
+        let fechaAcept = (value instanceof Date) ? value : new Date(value);
+        if (isNaN(fechaAcept)) return true; // si no es fecha válida, no bloquear aquí
+        let fechaC = (this.fechaCreacion instanceof Date) ? this.fechaCreacion : (this.fechaCreacion ? new Date(this.fechaCreacion) : null);
+        if (!fechaC || isNaN(fechaC)) return true; // no hay base para comparar -> no bloquear
+        return fechaAcept >= fechaC;
       },
       message: "La fecha de aceptación no puede ser anterior a la fecha de creacion."
     },
@@ -80,8 +85,13 @@ const PedidoSchema = new mongoose.Schema({
     type: Date,
     validate: {
       validator: function (value) {
-        // Acepta solo si value es mayor o igual a la fecha de aceptación
-        return !value || (this.fechaAceptacion && value >= this.fechaAceptacion);
+        // Convertir a Date si viene como string y ser tolerante si faltan fechas
+        if (!value) return true;
+        let fechaComp = (value instanceof Date) ? value : new Date(value);
+        if (isNaN(fechaComp)) return true;
+        let fechaA = (this.fechaAceptacion instanceof Date) ? this.fechaAceptacion : (this.fechaAceptacion ? new Date(this.fechaAceptacion) : null);
+        if (!fechaA || isNaN(fechaA)) return true;
+        return fechaComp >= fechaA;
       },
       message: "La fecha de completado no puede ser anterior a la fecha de aceptación."
     },
