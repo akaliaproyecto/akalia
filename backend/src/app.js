@@ -66,5 +66,9 @@ app.use('/', validateApiKey, usuariosRoutes);
 const emprendimientosRoutes = require('./emprendimientos/emprendimiento.route.js');
 app.use('/', validateApiKey, emprendimientosRoutes);
 
+// COMISIONES
+const comisionesRoutes = require('./comisiones/comision.routes.js');
+app.use('/', validateApiKey, comisionesRoutes);
+
 
 module.exports = app;
