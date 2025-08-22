@@ -23,7 +23,7 @@ router.post('/pedidos', crearPedido);
 //editar un pedido existente
 router.put('/pedidos/:id', editarPedido);
 
-//borrado lógico de un pedido por ID 
+//eliminar un pedido (delete lógico con PATCH)
 router.patch('/pedidos/:id/eliminar', eliminarPedido);
 
 module.exports = router;
