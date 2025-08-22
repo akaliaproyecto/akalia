@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
-const ProductoSchema = new mongoose.Schema({
-  idProducto: {
-    type: String,
-    required: [true, "El identificador del producto es obligatorio"],
-    unique: true,
-  },
+module.exports = mongoose.model('Producto', ProductoSchema);
 
+const ProductoSchema = new mongoose.Schema({
   tituloProducto:
     { type: String, required: true, trim: true, minLength: 3, maxLength: 100 },
 
@@ -19,16 +15,12 @@ const ProductoSchema = new mongoose.Schema({
   precio:
     { type: Number, required: true, min: 0, default: 0 },
 
-  estadoProducto: { type: String, enum: ['activo', 'inactivo'], default: 'activo', required: true },
-
   // Campo para manejar el borrado lógico
-  estadoEliminacion: {
+  estadoProducto: {
     type: String,
-    enum: ['activo', 'eliminado'],
+    enum: ['activo', 'inactivo', 'eliminado'],
     default: 'activo'
   },
-
-  fechaPublicacion: { type: Date, required: true, default: Date.now },
 
   imagenes: {
     type: [String], // Array de URLs de imágenes
@@ -47,9 +39,9 @@ const ProductoSchema = new mongoose.Schema({
       }
     ]
   },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Categoria', required: true },
-  tags: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Etiqueta' }],
+  categoria: { type: String, required: true },
+  etiquetas: {
+    type: [{ type: String, required: true }],
     validate: {
       validator: function (value) {
         return value.length >= 1 && value.length <= 10;
