@@ -52,8 +52,7 @@ app.use((err, req, res, next) => {
 
 /*MONTAJE DE RUTAS*/
 
-// PRODUCTOS
-const productosRouter = require("./products/product.routes.js");
+const productosRouter = require("./productos/productos.routes.js");
 app.use("/", validateApiKey, productosRouter);
 
 // PEDIDOS
@@ -80,5 +79,9 @@ app.use('/', validateApiKey, emprendimientosRoutes);
 // COMISIONES
 const comisionesRoutes = require('./comisiones/comision.routes.js');
 app.use('/', validateApiKey, comisionesRoutes);
+
+// CATEGORIAS RUTA
+const categoriasRoutes = require('./categorias/categorias.routes.js');
+app.use('/', validateApiKey, categoriasRoutes);
 
 module.exports = app;
