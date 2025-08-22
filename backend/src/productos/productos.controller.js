@@ -1,11 +1,13 @@
 // Importar el modelo de productos
 const modeloProducto = require("./productos.model");
+const uploadImage = require('../servicios/subirImagen');
+
 
 //Consultar todos los productos
 exports.obtenerProductos = async (req, res) => {
   try {
     // Solo mostramos productos que NO están eliminados lógicamente
-    let productosEncontrados = await modeloProducto.find({ estadoEliminacion: 'activo' });
+    let productosEncontrados = await modeloProducto.find({ estadoProducto: 'activo' });
 
     if (productosEncontrados && productosEncontrados.length > 0) {
       res.status(200).json(productosEncontrados);
@@ -71,10 +73,20 @@ exports.obtenerProductoPorNombre = async (req, res) => {
 //Crear un nuevo producto
 exports.crearProducto = async (req, res) => {
   const datosProducto = req.body; // datos enviados por el cliente
+  const imagenes = req.files.map(imagen => imagen.path); // Obtener las rutas de las imágenes subidas
 
   try {
-    const nuevoProducto = new modeloProducto(datosProducto);
+    let imagenes = [];
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const url = await uploadImage(file,"productos");
+        imagenes.push(url);
+      }
+    }
+    const nuevoProducto = new modeloProducto({ ...datosProducto, imagenes });
     const productoGuardado = await nuevoProducto.save();
+    
     res.status(201).json(productoGuardado);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al crear producto", detalle: error.message });
@@ -88,8 +100,19 @@ exports.actualizarProducto = async (req, res) => {
   const datosProducto = req.body; // datos que llegan con el request
 
   try {
+
+    let imagenes = [];
+    //Si hay nuevas imagenes en la request
+     if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const url = await uploadImage(file,"productos");
+        imagenes.push(url);
+      }
+       datosProducto.imagenes = imagenes; // reemplazar completamente
+    }
     // actualizar y devolver el documento actualizado (new:true)
     const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
+    
     if (productoActualizado) {
       res.status(200).json(productoActualizado);
     } else {
