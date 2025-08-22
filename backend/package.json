@@ -22,10 +22,7 @@
     "multer": "^2.0.2",
     "nodemailer": "^7.0.5",
     "nodemon": "^3.1.10",
-<<<<<<< HEAD
     "sharp": "^0.34.3",
-=======
->>>>>>> 9200b55 (Se ajusta el modelo, controlador y rutas  de productos para aplicar delete lógico)
     "speakeasy": "^2.0.0",
     "uuid": "^11.1.0"
   }
