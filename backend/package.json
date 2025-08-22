@@ -22,10 +22,7 @@
     "multer": "^2.0.2",
     "nodemailer": "^7.0.5",
     "nodemon": "^3.1.10",
-<<<<<<< HEAD
-=======
     "sharp": "^0.34.3",
->>>>>>> 50b0c8b (Modulo Categorias: Controlador y rutas listas, pruebas en postman funcionan. Se implementó el manejo de imagenes con multer y supabase)
     "speakeasy": "^2.0.0",
     "uuid": "^11.1.0"
   }
