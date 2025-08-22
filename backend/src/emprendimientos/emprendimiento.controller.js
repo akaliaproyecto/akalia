@@ -1,4 +1,6 @@
 const modeloEmprendimiento = require('./emprendimiento.model');
+const uploadImage = require('../servicios/subirImagen')
+const mongoose = require('mongoose');
 
 //listar emprendimientos
 const obtenerEmprendimientos = async (req, res) => {
@@ -17,8 +19,9 @@ const obtenerEmprendimientos = async (req, res) => {
 
 // listar un emprendimiento por ID
 const obtenerEmprendimientoPorId = async (req, res) => {
+    const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
   try {
-    const emprendimiento = await modeloEmprendimiento.findById(req.params.id);
+    const emprendimiento = await modeloEmprendimiento.findById(idEmprendimiento);
 
     if (emprendimiento) {
       res.status(200).json(emprendimiento); 
@@ -32,9 +35,10 @@ const obtenerEmprendimientoPorId = async (req, res) => {
 
 // listar emprendimientos por ID de usuario
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
+  const idUsuario = req.params.id;
+  console.log(idUsuario)
   try {
-    const idUsuario = req.params.id;
-    const emprendimientos = await modeloEmprendimiento.find({ idPersona: idUsuario });
+    const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario) });
 
     if (emprendimientos && emprendimientos.length > 0) {
       res.status(200).json(emprendimientos); 
@@ -49,53 +53,59 @@ const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
 
 // crear un nuevo emprendimiento
 const crearEmprendimiento = async (req, res) => {
-  try {
-    const { idPersona, nombreEmprendimiento, descripcionNegocio, fechaRegistro, ubicacionEmprendimiento } = req.body;
+   try {
+    let datosEmprendimiento = {
+      usuario: req.body.usuario,
+      nombreEmprendimiento: req.body.nombreEmprendimiento,
+      descripcionEmprendimiento: req.body.descripcionEmprendimiento,
+      ubicacionEmprendimiento: {
+        departamento: req.body["ubicacionEmprendimiento.departamento"],
+        ciudad: req.body["ubicacionEmprendimiento.ciudad"],
+      }
+    };
 
-    let imagenLogo = null;
     if (req.file) {
-      imagenLogo = `http://localhost:3000/uploads/${req.file.filename}`;
+      datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
     }
-
-    const nuevo = new modeloEmprendimiento({
-      idPersona,
-      nombreEmprendimiento,
-      descripcionNegocio,
-      fechaRegistro: fechaRegistro || Date.now(),
-      imagenLogo,
-      emprendimientoActivo: true,
-      ubicacionEmprendimiento
-    });
-    await nuevo.save();
-
-    res.status(201).json({ mensaje: "Emprendimiento creado correctamente", nuevo }); 
+    const nuevoEmprendimiento = new modeloEmprendimiento(datosEmprendimiento);
+    const emprendimientoGuardado = await nuevoEmprendimiento.save();
+    res.status(201).json(emprendimientoGuardado);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al crear el emprendimiento", detalle: error.message });
+    res.status(500).json({ mensaje: "Error al crear emprendimiento", detalle: error.message });
   }
 };
 
 // actualizar un emprendimiento
 const actualizarEmprendimiento = async (req, res) => {
+  const idEmprendimiento = req.params.id;
   try {
-    const datosActualizados = {
+    let datosEmprendimiento = {
+      usuario: req.body.usuario,
       nombreEmprendimiento: req.body.nombreEmprendimiento,
-      descripcionNegocio: req.body.descripcionNegocio,
-      categoria: req.body.categoria,
-      fechaRegistro: req.body.fechaRegistro,
+      descripcionEmprendimiento: req.body.descripcionEmprendimiento,
+      ubicacionEmprendimiento: {
+        departamento: req.body["ubicacionEmprendimiento.departamento"],
+        ciudad: req.body["ubicacionEmprendimiento.ciudad"],
+      }
     };
 
-    const actualizacion = await modeloEmprendimiento.findByIdAndUpdate(
-      req.params.id,
-      datosActualizados,
+    if (req.file) {
+      datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
+    }
+
+    const emprendimientoActualizado = await modeloEmprendimiento.findByIdAndUpdate(
+      idEmprendimiento,
+      datosEmprendimiento,
       { new: true }
     );
 
-    if (actualizacion) {
-      res.status(200).json({ mensaje: "Emprendimiento actualizado correctamente", actualizacion }); 
-      res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
+    if (!emprendimientoActualizado) {
+      return res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
+
+    res.status(200).json(emprendimientoActualizado);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al actualizar el emprendimiento", detalle: error.message });
+    res.status(500).json({ mensaje: "Error al actualizar emprendimiento", detalle: error.message });
   }
 };
 
@@ -104,7 +114,7 @@ const deshabilitarEmprendimiento = async (req, res) => {
   try {
     const emprendimiento = await modeloEmprendimiento.findByIdAndUpdate(
       req.params.id,
-      { estadoEmprendimiento: 'inactivo' }, // Cambia el estado a inactivo
+      { emprendimientoActivo: false }, // Cambia el estado a false
       { new: true }
     );
 
