@@ -1,4 +1,5 @@
 const express = require('express');
+const subirImagen = require('../middlewares/manejadorImg.js');
 const router = express.Router();
 
 const {
@@ -20,12 +21,12 @@ router.get('/emprendimientos/:id', obtenerEmprendimientoPorId);
 router.get('/emprendimientos/usuario/:id', obtenerEmprendimientoPorIdUsuario);
 
 // crear un nuevo emprendimiento
-router.post('/emprendimientos', crearEmprendimiento);
+router.post('/emprendimientos', subirImagen.single('logo'), crearEmprendimiento);
 
 // actualizar un emprendimiento
-router.put('/emprendimientos/:id', actualizarEmprendimiento);
+router.put('/emprendimientos/:id', subirImagen.single('logo'), actualizarEmprendimiento);
 
 // deshabilitar un emprendimiento
-router.patch('/emprendimientos/:id/deshabilitar', deshabilitarEmprendimiento);
+router.patch('/emprendimientos/:id', deshabilitarEmprendimiento);
 
 module.exports = router;
