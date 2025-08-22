@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const EmprendimientoSchema = new mongoose.Schema({
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Usuario', 
+    required: true
+  },
   nombreEmprendimiento: { 
     type: String, 
     required: [true, 'El nombre del emprendimiento es obligatorio'], 
@@ -33,7 +38,7 @@ const EmprendimientoSchema = new mongoose.Schema({
       required: true
     }
   },
-  urlLogoEmprendimiento: {
+  logo: {
     type: String,
     trim: true,
     match: [/^https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/, 'La URL del logo no es válida']
