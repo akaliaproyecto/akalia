@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-module.exports = mongoose.model('Producto', ProductoSchema);
-
 const ProductoSchema = new mongoose.Schema({
   tituloProducto:
     { type: String, required: true, trim: true, minLength: 3, maxLength: 100 },

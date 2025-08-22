@@ -7,7 +7,7 @@ const uploadImage = require('../servicios/subirImagen');
 exports.obtenerProductos = async (req, res) => {
   try {
     // Solo mostramos productos que NO están eliminados lógicamente
-    let productosEncontrados = await modeloProducto.find({ estadoEliminacion: 'activo' });
+    let productosEncontrados = await modeloProducto.find({ estadoProducto: 'activo' });
 
     if (productosEncontrados && productosEncontrados.length > 0) {
       res.status(200).json(productosEncontrados);
@@ -76,6 +76,14 @@ exports.crearProducto = async (req, res) => {
   const imagenes = req.files.map(imagen => imagen.path); // Obtener las rutas de las imágenes subidas
 
   try {
+    let imagenes = [];
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const url = await uploadImage(file,"productos");
+        imagenes.push(url);
+      }
+    }
     const nuevoProducto = new modeloProducto({ ...datosProducto, imagenes });
     const productoGuardado = await nuevoProducto.save();
     
@@ -93,11 +101,15 @@ exports.actualizarProducto = async (req, res) => {
 
   try {
 
+    let imagenes = [];
     //Si hay nuevas imagenes en la request
-    if(req.files && req.files.length > 0) {
-      datosProducto.imagenes = req.files.map(imagen => imagen.path)
+     if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const url = await uploadImage(file,"productos");
+        imagenes.push(url);
+      }
+       datosProducto.imagenes = imagenes; // reemplazar completamente
     }
-
     // actualizar y devolver el documento actualizado (new:true)
     const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
     
