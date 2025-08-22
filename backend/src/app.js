@@ -80,4 +80,8 @@ app.use('/', validateApiKey, emprendimientosRoutes);
 const comisionesRoutes = require('./comisiones/comision.routes.js');
 app.use('/', validateApiKey, comisionesRoutes);
 
+// CATEGORIAS RUTA
+const categoriasRoutes = require('./categorias/categorias.routes.js');
+app.use('/', validateApiKey, categoriasRoutes);
+
 module.exports = app;
