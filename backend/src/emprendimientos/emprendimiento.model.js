@@ -29,12 +29,10 @@ const EmprendimientoSchema = new mongoose.Schema({
   },
   ubicacionEmprendimiento: {
     idDepartamento: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: 'Departamento', 
+      type: String,  
       required: true },
     idCiudad: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: 'Ciudad', 
+      type: String, 
       required: true }
   },
   urlLogoEmprendimiento: {
@@ -42,7 +40,6 @@ const EmprendimientoSchema = new mongoose.Schema({
     trim: true,
     match: [/^https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/, 'La URL del logo no es válida']
   },
-   timestamps: true
-});
+}, { timestamps: true }); // Agrega createdAt y updatedAt automáticamente
 
 module.exports = mongoose.model('Emprendimiento', EmprendimientoSchema);

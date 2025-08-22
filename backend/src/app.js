@@ -69,5 +69,10 @@ app.use('/', validateApiKey, categoriasRoutes);
 // ETIQUETAS RUTA
 const etiquetasRoutes = require('./etiquetas/etiquetas.routes.js');
 app.use('/', validateApiKey, etiquetasRoutes);
+// EMPRENDIMIENTOS
+
+const emprendimientosRoutes = require('./emprendimientos/emprendimiento.route.js');
+app.use('/', validateApiKey, emprendimientosRoutes);
+
 
 module.exports = app;
