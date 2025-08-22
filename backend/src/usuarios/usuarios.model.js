@@ -31,17 +31,17 @@ const DireccionSchema = new mongoose.Schema({
     type: String, 
     required: true,
     trim: true,
-    minLength: 5,
-    maxLength: 100
+    minLength: [5, 'La dirección debe tener al menos 5 caracteres'],
+    maxLength: [100, 'La dirección no puede superar los 100 caracteres']
   },
-  idDepartamento: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Departamento', 
-    required: true },
-  idCiudad: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Ciudad', 
-    required: true },
+  departamento: {
+      type: String,
+      required: true
+    },
+    ciudad: {
+      type: String,
+      required: true
+    },
   fechaCreacion: { 
     type: Date, 
     required: true,

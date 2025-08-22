@@ -63,8 +63,8 @@ const crearEmprendimiento = async (req, res) => {
       descripcionNegocio,
       fechaRegistro: fechaRegistro || Date.now(),
       imagenLogo,
-      estadoEmprendimiento: 'activo',
-      ubicacionEmprendimiento 
+      emprendimientoActivo: true,
+      ubicacionEmprendimiento
     });
     await nuevo.save();
 

@@ -18,22 +18,20 @@ const EmprendimientoSchema = new mongoose.Schema({
     default: Date.now, 
     required: true
   },
-  estadoEmprendimiento: { 
-    type: String, 
-    enum: {
-      values: ['activo', 'inactivo'],
-      message: 'El estado debe ser "activo" o "inactivo"'
-    },
-    required: true,
-    default: 'activo'
+  emprendimientoActivo: { 
+    type: Boolean, 
+    default: true,
+    required: true
   },
   ubicacionEmprendimiento: {
-    idDepartamento: { 
-      type: String,  
-      required: true },
-    idCiudad: { 
-      type: String, 
-      required: true }
+    departamento: {
+      type: String,
+      required: true
+    },
+    ciudad: {
+      type: String,
+      required: true
+    }
   },
   urlLogoEmprendimiento: {
     type: String,
