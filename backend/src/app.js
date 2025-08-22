@@ -40,6 +40,7 @@ app.use(session({
 app.use(methodOverride('_method'));
 
 //Manejo de errores 
+//Manejo de errores 
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({
@@ -49,11 +50,13 @@ app.use((err, req, res, next) => {
 });
 
 
-//MONTAJE DE RUTAS
+/*MONTAJE DE RUTAS*/
 
-const productosRouter = require("./productos/productos.routes.js");
+// PRODUCTOS
+const productosRouter = require("./products/product.routes.js");
 app.use("/", validateApiKey, productosRouter);
 
+// PEDIDOS
 const pedidosRouter = require('./pedidos/pedido.routes.js');
 app.use("/", validateApiKey, pedidosRouter);
 
@@ -77,6 +80,5 @@ app.use('/', validateApiKey, emprendimientosRoutes);
 // COMISIONES
 const comisionesRoutes = require('./comisiones/comision.routes.js');
 app.use('/', validateApiKey, comisionesRoutes);
-
 
 module.exports = app;
