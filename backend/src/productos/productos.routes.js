@@ -15,21 +15,21 @@ const {
 
 
 // obtener todos los productos
-router.get('/productos', obtenerProductos);
+router.get('/', obtenerProductos);
 
 // obtener un producto por ID
-router.get('/productos/:id', obtenerProductoPorId);
+router.get('/:id', obtenerProductoPorId);
 
 // obtener un producto por nombre
-router.get('/productos/nombre/:nombre', obtenerProductoPorNombre);
+router.get('/nombre/:nombre', obtenerProductoPorNombre);
 
 // crear un nuevo producto
-router.post('/productos', subirImagen.array('imagenes', 10), crearProducto);
+router.post('/', subirImagen.array('imagenes', 10), crearProducto);
 
 // editar un producto existente
-router.put('/productos/:id', subirImagen.array('imagenes', 10), actualizarProducto);
+router.put('/:id', subirImagen.array('imagenes', 10), actualizarProducto);
 
 // borrado lógico de un producto por ID 
-router.patch('/productos/:id/eliminar', eliminarProducto);
+router.patch('/:id/eliminar', eliminarProducto);
 
 module.exports = router;
