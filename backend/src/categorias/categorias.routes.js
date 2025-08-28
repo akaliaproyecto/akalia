@@ -14,18 +14,18 @@ const {
 
 
 // obtener todos los categorias
-router.get('/categorias', obtenerCategorias);
+router.get('/', obtenerCategorias);
 
 // obtener un categoria por ID
-router.get('/categorias/:id', obtenerCategoriaPorId);
+router.get('/:id', obtenerCategoriaPorId);
 
 // crear una nueva categoria
-router.post('/categorias', subirImagen.single('imagen'), crearCategoria);
+router.post('/', subirImagen.single('imagen'), crearCategoria);
 
 // editar un categoria existente
-router.put('/categorias/:id', subirImagen.single('imagen'), actualizarCategoria);
+router.put('/:id', subirImagen.single('imagen'), actualizarCategoria);
 
 // eliminar un categoria por ID
-router.patch('/categorias/:id', eliminarCategoria);
+router.patch('/:id', eliminarCategoria);
 
 module.exports = router;

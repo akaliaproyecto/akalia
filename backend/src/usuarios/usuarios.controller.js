@@ -1,5 +1,6 @@
 // Se importa el modelo de usuarios
 const modeloUsuario = require("./usuarios.model");
+const bcrypt = require('bcrypt');
 
 //Listar todos los usuarios
 exports.obtenerUsuarios = async (req, res) => {
@@ -8,30 +9,30 @@ exports.obtenerUsuarios = async (req, res) => {
 
     let filtros = {};
 
-    if(nombre){
+    if (nombre) {
       filtros.$or = [
-          { nombreUsuario: { $regex: nombre, $options: 'i' } },
+        { nombreUsuario: { $regex: nombre, $options: 'i' } },
         { apellidoUsuario: { $regex: nombre, $options: 'i' } }
       ];
     }
 
-    if(correo){
+    if (correo) {
       filtros.correo = { $regex: correo, $options: 'i' };
     }
 
-    if(rol){
+    if (rol) {
       filtros.rolUsuario = rol;
     }
 
-    if(estado){
+    if (estado) {
       filtros.estadoUsuario = estado;
     }
 
-    if(esVendedor){
+    if (esVendedor) {
       filtros.esVendedor = esVendedor === 'true';
     }
 
-    if(telefono){
+    if (telefono) {
       filtros.telefono = { $regex: telefono, $options: 'i' };
     }
 
@@ -89,11 +90,59 @@ exports.crearUsuario = async (req, res) => {
   const datosUsuario = req.body; // datos enviados por el cliente
 
   try {
-    const nuevoUsuario = new modeloUsuario(datosUsuario);
+    // Verificar si el usuario ya existe
+    const usuarioExistente = await modeloUsuario.findOne({ correo: correo.toLowerCase() });
+
+    if (usuarioExistente) {
+      return res.status(400).json({
+        error: 'Ya existe una cuenta con este correo electrónico.'
+      });
+    }
+
+    // Hashear la contraseña
+    const saltRounds = 10;
+    const contrasenaHasheada = await bcrypt.hash(contrasena, saltRounds);
+
+    // Crear nuevo usuario
+    const nuevoUsuario = new modeloUsuario({
+      nombreUsuario,
+      apellidoUsuario,
+      correo: correo.toLowerCase(),
+      contrasena: contrasenaHasheada,
+      telefono: telefono || null,
+    });
+
+    // Guardar en la base de datos
     const usuarioGuardado = await nuevoUsuario.save();
-    res.status(201).json(usuarioGuardado);
+
+    // Remover la contraseña de la respuesta
+    const { contrasena: _, ...usuarioSinContrasena } = usuarioGuardado.toObject();
+
+    console.log("Usuario registrado correctamente:", usuarioGuardado._id);
+
+    res.status(201).json({
+      message: 'Usuario registrado exitosamente',
+      usuario: usuarioSinContrasena
+    });
+
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al crear usuario", detalle: error.message });
+    console.error("Error al registrar usuario:", error);
+
+    if (error.name === 'ValidationError') {
+      const errores = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        error: 'Datos de entrada inválidos',
+        detalles: errores
+      });
+    }
+
+    if (error.code === 11000) {
+      return res.status(400).json({
+        error: 'Ya existe una cuenta con este correo electrónico.'
+      });
+    }
+
+    next(error);
   }
 };
 

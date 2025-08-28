@@ -53,31 +53,30 @@ app.use((err, req, res, next) => {
 /*MONTAJE DE RUTAS*/
 
 const productosRouter = require("./productos/productos.routes.js");
-app.use("/", validateApiKey, productosRouter);
+app.use("/productos", validateApiKey, productosRouter);
 
 // PEDIDOS
 const pedidosRouter = require('./pedidos/pedido.routes.js');
-app.use("/", validateApiKey, pedidosRouter);
-
+app.use("/pedidos", validateApiKey, pedidosRouter);
 
 // USUARIOS RUTA
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
-app.use('/', validateApiKey, usuariosRoutes);
+app.use('/usuarios', validateApiKey, usuariosRoutes);
 
 // CATEGORIAS RUTA
 const categoriasRoutes = require('./categorias/categorias.routes.js');
-app.use('/', validateApiKey, categoriasRoutes);
+app.use('/categorias', validateApiKey, categoriasRoutes);
 
 // ETIQUETAS RUTA
 const etiquetasRoutes = require('./etiquetas/etiquetas.routes.js');
-app.use('/', validateApiKey, etiquetasRoutes);
-// EMPRENDIMIENTOS
+app.use('/etiquetas', validateApiKey, etiquetasRoutes);
 
+// EMPRENDIMIENTOS
 const emprendimientosRoutes = require('./emprendimientos/emprendimiento.route.js');
-app.use('/', validateApiKey, emprendimientosRoutes);
+app.use('/emprendimientos', validateApiKey, emprendimientosRoutes);
 
 // COMISIONES
 const comisionesRoutes = require('./comisiones/comision.routes.js');
-app.use('/', validateApiKey, comisionesRoutes);
+app.use('/comisiones', validateApiKey, comisionesRoutes);
 
 module.exports = app;
