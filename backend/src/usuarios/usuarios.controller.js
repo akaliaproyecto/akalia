@@ -37,7 +37,7 @@ exports.obtenerUsuarios = async (req, res) => {
     }
 
     if (fecha) {
-      filtros.fechaRegistro = { $regex: fechaRegistro, $options: 'i' };
+      filtros.fechaRegistro = { $regex: fecha, $options: 'i' };
     }
     const listarUsuarios = await modeloUsuario.find(filtros);
 
@@ -86,18 +86,66 @@ exports.obtenerUsuarioPorNombre = async (req, res) => {
 };
 
 //Crear un nuevo usuario
-exports.crearUsuario = async (req, res) => {
-  const datosUsuario = req.body; // datos enviados por el cliente
+exports.crearUsuario = async (req, res, next) => {
+  const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono } = req.body;
+
+  console.log('Datos recibidos para crear usuario:', { nombreUsuario, apellidoUsuario, correo, contrasena: '***', telefono });
 
   try {
+    // Validaciones individuales para mejor debugging
+    console.log('Validando contraseña:', contrasena);
+    console.log('Longitud de contraseña:', contrasena.length);
+
+    if (contrasena.length < 8) {
+      console.log('Error: Contraseña muy corta');
+      return res.status(400).json({
+        error: 'La contraseña debe tener al menos 8 caracteres'
+      });
+    }
+
+    // Verificar que tenga al menos una minúscula
+    const tieneMinuscula = /[a-zñáéíóú]/.test(contrasena);
+    console.log('Tiene minúscula:', tieneMinuscula);
+    if (!tieneMinuscula) {
+      console.log('Error: Sin minúscula');
+      return res.status(400).json({
+        error: 'La contraseña debe incluir al menos una letra minúscula'
+      });
+    }
+
+    // Verificar que tenga al menos una mayúscula
+    const tieneMayuscula = /[A-ZÑÁÉÍÓÚ]/.test(contrasena);
+    console.log('Tiene mayúscula:', tieneMayuscula);
+    if (!tieneMayuscula) {
+      console.log('Error: Sin mayúscula');
+      return res.status(400).json({
+        error: 'La contraseña debe incluir al menos una letra mayúscula'
+      });
+    }
+
+    // Verificar que tenga al menos un número
+    const tieneNumero = /\d/.test(contrasena);
+    console.log('Tiene número:', tieneNumero);
+    if (!tieneNumero) {
+      console.log('Error: Sin número');
+      return res.status(400).json({
+        error: 'La contraseña debe incluir al menos un número'
+      });
+    }
+
+    console.log('Validaciones de contraseña pasadas correctamente');
+
     // Verificar si el usuario ya existe
     const usuarioExistente = await modeloUsuario.findOne({ correo: correo.toLowerCase() });
 
     if (usuarioExistente) {
+      console.log('Error: Usuario ya existe');
       return res.status(400).json({
         error: 'Ya existe una cuenta con este correo electrónico.'
       });
     }
+
+    console.log('Usuario no existe, procediendo a crear...');
 
     // Hashear la contraseña
     const saltRounds = 10;
@@ -120,7 +168,7 @@ exports.crearUsuario = async (req, res) => {
 
     console.log("Usuario registrado correctamente:", usuarioGuardado._id);
 
-    res.status(201).json({
+    return res.status(201).json({
       message: 'Usuario registrado exitosamente',
       usuario: usuarioSinContrasena
     });
@@ -142,7 +190,7 @@ exports.crearUsuario = async (req, res) => {
       });
     }
 
-    next(error);
+    return res.status(500).json({ mensaje: "Error al crear usuario", detalle: error.message });
   }
 };
 
@@ -179,6 +227,84 @@ exports.eliminarUsuario = async (req, res) => {
     res.json({ mensaje: 'Usuario deshabilitado correctamente', usuario });
   } catch (error) {
     res.status(500).json({ mensaje: error.message });
+  }
+};
+
+/*****************************************
+ *    FUNCIÓN PARA INICIAR SESIÓN       *
+ *****************************************/
+exports.iniciarSesion = async (req, res) => {
+  console.log('=== INICIO FUNCIÓN INICIAR SESIÓN ===');
+  const { correo, contrasena } = req.body;
+
+  // Validar que lleguen los datos requeridos
+  if (!correo || !contrasena) {
+    console.log('Error: Faltan credenciales');
+    return res.status(400).json({
+      error: 'Correo y contraseña son requeridos'
+    });
+  }
+
+  console.log('Intentando iniciar sesión para:', correo);
+
+  try {
+    // Buscar usuario activo por correo en la base de datos
+    const usuarioEncontrado = await modeloUsuario.findOne({
+      correo: correo.toLowerCase(),
+      estadoUsuario: 'activo'
+    });
+
+    if (!usuarioEncontrado) {
+      console.log('Usuario no encontrado o inactivo:', correo);
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
+      });
+    }
+
+    // Verificar que el usuario tenga contraseña válida
+    if (!usuarioEncontrado.contrasena) {
+      console.log('Usuario sin contraseña válida:', correo);
+      return res.status(401).json({
+        error: 'Error en la cuenta del usuario'
+      });
+    }
+
+    // Comparar contraseña ingresada con contraseña encriptada en BD
+    console.log('Verificando contraseña...');
+    const contrasenaValida = await bcrypt.compare(contrasena, usuarioEncontrado.contrasena);
+
+    if (!contrasenaValida) {
+      console.log('Contraseña incorrecta para:', correo);
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
+      });
+    }
+
+    // Preparar datos del usuario para respuesta (sin contraseña)
+    const datosUsuarioParaSesion = {
+      idPersona: usuarioEncontrado._id,
+      nombreUsuario: usuarioEncontrado.nombreUsuario,
+      apellidoUsuario: usuarioEncontrado.apellidoUsuario,
+      correo: usuarioEncontrado.correo,
+      telefono: usuarioEncontrado.telefono,
+      rolUsuario: usuarioEncontrado.rolUsuario
+    };
+
+    console.log('Inicio de sesión exitoso para:', correo);
+    console.log('=== FIN EXITOSO FUNCIÓN INICIAR SESIÓN ===');
+
+    // Responder con datos del usuario
+    return res.status(200).json({
+      mensaje: 'Inicio de sesión exitoso',
+      usuario: datosUsuarioParaSesion
+    });
+
+  } catch (error) {
+    console.error('Error en función iniciar sesión:', error);
+    return res.status(500).json({
+      error: 'Error interno del servidor',
+      detalle: error.message
+    });
   }
 };
 

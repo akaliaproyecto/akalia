@@ -15,14 +15,11 @@ router.get('/', async (req, res) => {
     const responseCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers });
     const categorias = responseCategorias.data;
 
-    console.log('Categorías obtenidas:', categorias); // Para debug
-
     // Intentar obtener productos, pero continuar si no existen
     let productos = [];
     try {
       const responseProductos = await axios.get(`${API_BASE_URL}/productos`, { headers });
       productos = responseProductos.data;
-      console.log('Productos obtenidos:', productos); // Para debug
     } catch (productError) {
       console.log('No se pudieron obtener productos, continuando solo con categorías');
     }

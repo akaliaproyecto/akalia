@@ -78,8 +78,7 @@ const UsuarioSchema = new mongoose.Schema({
   contrasena: {
     type: String,
     required: true,
-    minLength: 8,
-    match: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/
+    minLength: 8
   },
 
   twoFAEnabled: { type: Boolean, default: false },
@@ -121,3 +120,4 @@ const UsuarioSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);
+

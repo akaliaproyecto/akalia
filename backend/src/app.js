@@ -18,7 +18,7 @@ app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'akalia-api-key'] // Agregar header de API key
 }));
 
 //Sesiones

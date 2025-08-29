@@ -103,4 +103,119 @@ router.post("/usuario-editar-perfil/:id", async (req, res) => {
 });
 
 
+/*****************************************
+ *       RUTA POST PARA REGISTRO         *
+ *****************************************/
+router.post('/registro', async (req, res) => {
+  const { email, nombreUsuario, apellidoUsuario, telefono, contrasena } = req.body;
+
+  try {
+    // Hacer petición al backend para crear el usuario
+    const response = await axios.post(`${API_BASE_URL}/usuarios`, {
+      correo: email,
+      nombreUsuario,
+      apellidoUsuario,
+      telefono: telefono || null,
+      contrasena
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'akalia-api-key': process.env.API_KEY
+      }
+    });
+
+    console.log('Usuario registrado exitosamente:', response.data);
+
+    // Crear cookie con datos del usuario para mantener la sesión
+    const datosUsuarioParaCookie = {
+      idPersona: response.data.usuario._id,
+      nombreUsuario: response.data.usuario.nombreUsuario,
+      apellidoUsuario: response.data.usuario.apellidoUsuario,
+      correo: response.data.usuario.correo
+    };
+
+    // Establecer cookie que dura 7 días
+    res.cookie('usuario', JSON.stringify(datosUsuarioParaCookie), {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días en milisegundos
+      httpOnly: false, // Permitir acceso desde JavaScript del frontend
+      secure: false // Para desarrollo local
+    });
+
+    // Redirigir a la página principal (mismo contenido, solo cambia navbar)
+    res.redirect('/');
+
+  } catch (error) {
+    console.error('Error al registrar usuario:', error.response?.data || error.message);
+
+    // Si hay error, mostrar mensaje de error
+    const errorMessage = error.response?.data?.error || 'Error al crear la cuenta';
+
+    res.render('pages/index', {
+      error: errorMessage,
+      titulo: 'Inicio'
+    });
+  }
+});
+
+/*****************************************
+ *       RUTA POST PARA INICIO SESIÓN   *
+ *****************************************/
+router.post('/login', async (req, res) => {
+  const { email, contrasena } = req.body;
+
+  console.log('Procesando inicio de sesión para:', email);
+
+  try {
+    // Hacer petición al backend para validar credenciales
+    const response = await axios.post(`${API_BASE_URL}/usuarios/login`, {
+      correo: email,
+      contrasena: contrasena
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'akalia-api-key': process.env.API_KEY
+      }
+    });
+
+    console.log('Login exitoso en backend');
+
+    // Crear cookie con datos del usuario para mantener la sesión
+    const datosUsuarioParaCookie = {
+      idPersona: response.data.usuario.idPersona,
+      nombreUsuario: response.data.usuario.nombreUsuario,
+      apellidoUsuario: response.data.usuario.apellidoUsuario,
+      correo: response.data.usuario.correo,
+      rolUsuario: response.data.usuario.rolUsuario
+    };
+
+    // Establecer cookie que dura 7 días
+    res.cookie('usuario', JSON.stringify(datosUsuarioParaCookie), {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días en milisegundos
+      httpOnly: false, // Permitir acceso desde JavaScript del frontend
+      secure: false // Para desarrollo local
+    });
+
+    // Responder con éxito para JavaScript del frontend
+    res.status(200).json({
+      mensaje: 'Inicio de sesión exitoso',
+      usuario: datosUsuarioParaCookie
+    });
+
+  } catch (error) {
+    console.error('Error al iniciar sesión:', error.response?.data || error.message);
+
+    // Responder con error específico según el tipo
+    if (error.response?.status === 401) {
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
+      });
+    }
+
+    res.status(500).json({
+      error: 'Error al iniciar sesión. Inténtalo de nuevo más tarde.'
+    });
+  }
+});
+
+
 module.exports = router;

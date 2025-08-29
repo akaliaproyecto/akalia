@@ -16,113 +16,203 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-/* Funcionalidad de redirección al iniciar sesión con credenciales correctas */
-document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('loginForm');
+/*****************************************
+ * LÓGICA PARA CAMBIAR NAVBAR SEGÚN USUARIO *
+ *****************************************/
+document.addEventListener("DOMContentLoaded", () => {
 
-  if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // Variables para identificar elementos de la navbar
+  const elementosNavbarVisitante = document.querySelectorAll(".solo-visitante");
+  const elementosNavbarUsuario = document.querySelectorAll(".solo-usuario");
 
-      const email = loginForm.email.value;
-      const contrasena = loginForm.contrasena.value;
+  /**
+   * Función para obtener datos del usuario desde las cookies del navegador
+   * @returns {Object|null} - Objeto con datos del usuario o null si no existe
+   */
+  function obtenerDatosUsuarioDesdeCookie() {
+    // Buscar cookie específica del usuario
+    const cookieUsuario = document.cookie
+      .split('; ') // Separar todas las cookies
+      .find(fila => fila.startsWith('usuario=')); // Encontrar la cookie 'usuario'
 
+    if (cookieUsuario) {
       try {
-        const res = await fetch('/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, contrasena })
-        });
-
-        if (!res.ok) throw new Error('Error en la respuesta del servidor');
-
-        const data = await res.json();
-
-        if (data.error) {
-          alert('Credenciales incorrectas. Inténtalo de nuevo.');
-        } else {
-          console.log('Inicio de sesión exitoso:', data);
-
-          // Guardar usuario en cookie si lo necesitas para otra cosa
-          document.cookie = `usuario=${encodeURIComponent(JSON.stringify(data.usuario))}; path=/`;
-
-          // Aquí simplemente redirigimos a la ruta limpia
-          window.location.href = '/perfil';
-        }
+        // Extraer el valor de la cookie y convertirlo de JSON
+        const valorCookie = cookieUsuario.split('=')[1];
+        return JSON.parse(decodeURIComponent(valorCookie));
       } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        alert('Error al iniciar sesión. Por favor, inténtalo de nuevo más tarde.');
+        console.log('Error al leer datos del usuario:', error);
+        return null;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Función para mostrar navbar cuando el usuario está logueado
+   * @param {Object} datosUsuario - Información del usuario logueado
+   */
+  function mostrarNavbarUsuarioLogueado(datosUsuario) {
+    // Ocultar elementos de visitante (botones registro/login)
+    elementosNavbarVisitante.forEach(elemento => {
+      elemento.classList.add("d-none");
+    });
+
+    // Mostrar elementos de usuario (dropdown con ícono de persona)
+    elementosNavbarUsuario.forEach(elemento => {
+      elemento.classList.remove("d-none", "nav-protegida");
+    });
+
+    // Personalizar saludo con nombre del usuario
+    const elementoSaludo = document.querySelector(".user-name");
+    if (elementoSaludo && datosUsuario.nombreUsuario) {
+      elementoSaludo.innerText = `Hola ${datosUsuario.nombreUsuario}`;
+    }
+
+    // Configurar enlace para ir al perfil del usuario
+    const enlacePerfilUsuario = document.querySelector(".user-profile");
+    if (enlacePerfilUsuario) {
+      enlacePerfilUsuario.href = `/perfil`;
+    }
+
+    // Configurar enlace para ver emprendimientos del usuario
+    const enlaceEmprendimientos = document.querySelector(".user-emprendimientos");
+    if (enlaceEmprendimientos && datosUsuario.idPersona) {
+      enlaceEmprendimientos.href = `/usuario-emprendimientos/${datosUsuario.idPersona}`;
+    }
+  }
+
+  /**
+   * Función para mostrar navbar cuando es un visitante (no logueado)
+   */
+  function mostrarNavbarVisitante() {
+    // Mostrar elementos de visitante (botones registro/login)
+    elementosNavbarVisitante.forEach(elemento => {
+      elemento.classList.remove("d-none", "nav-protegida");
+    });
+
+    // Ocultar elementos de usuario (dropdown con ícono de persona)
+    elementosNavbarUsuario.forEach(elemento => {
+      elemento.classList.add("d-none");
+    });
+  }
+
+  // LÓGICA PRINCIPAL: Verificar si hay usuario y mostrar navbar correspondiente
+  const usuarioActual = obtenerDatosUsuarioDesdeCookie();
+
+  if (usuarioActual) {
+    // Si hay usuario logueado, mostrar navbar de usuario
+    console.log('Usuario encontrado:', usuarioActual.nombreUsuario);
+    mostrarNavbarUsuarioLogueado(usuarioActual);
+  } else {
+    // Si no hay usuario, mostrar navbar de visitante
+    console.log('No hay usuario logueado');
+    mostrarNavbarVisitante();
+  }
+});
+
+/*****************************************
+ *      FUNCIÓN PARA CERRAR SESIÓN      *
+ *****************************************/
+/**
+ * Función para cerrar sesión del usuario
+ * Elimina la cookie y redirige a la página principal
+ */
+function cerrarSesionUsuario() {
+  // Eliminar cookie del usuario estableciendo fecha de expiración en el pasado
+  document.cookie = 'usuario=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+
+  // Redirigir a página principal (se mostrará navbar de visitante automáticamente)
+  window.location.href = '/';
+}
+
+// Mantener función logout para compatibilidad con código existente
+function logout() {
+  cerrarSesionUsuario();
+}
+
+/*****************************************
+ * LÓGICA PARA MANEJAR FORMULARIO DE REGISTRO *
+ *****************************************/
+document.addEventListener('DOMContentLoaded', () => {
+  const formularioRegistro = document.querySelector('form[action="/registro"]');
+
+  if (formularioRegistro) {
+    formularioRegistro.addEventListener('submit', function () {
+      // Mostrar mensaje temporal mientras se procesa el registro
+      console.log('Procesando registro...');
+
+      // Cerrar modal de registro si existe
+      const modalRegistro = document.getElementById('registerModal');
+      if (modalRegistro) {
+        const instanciaModal = bootstrap.Modal.getInstance(modalRegistro);
+        if (instanciaModal) {
+          instanciaModal.hide();
+        }
       }
     });
   }
 });
 
-// FUNCION NAVBAR SEGÚN USUARIO
-  document.addEventListener("DOMContentLoaded", () => {
-    // Leer usuario desde cookie
-    function getCookie(name) {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-      return null;
-    }
-    let usuario = null;
-    try {
-      const usuarioCookie = getCookie('usuario');
-      usuario = usuarioCookie ? JSON.parse(decodeURIComponent(usuarioCookie)) : null;
-    } catch (e) {
-      usuario = null;
-    }
+/*****************************************
+ * LÓGICA PARA MANEJAR INICIO DE SESIÓN *
+ *****************************************/
+document.addEventListener('DOMContentLoaded', () => {
+  const formularioInicioSesion = document.getElementById('loginForm');
 
-    const soloVisitante = document.querySelectorAll(".solo-visitante");
-    const soloUsuario = document.querySelectorAll(".solo-usuario");
+  if (formularioInicioSesion) {
+    formularioInicioSesion.addEventListener('submit', async (eventoEnvio) => {
+      eventoEnvio.preventDefault(); // Evitar envío tradicional del formulario
 
-    if (usuario) {
-      soloVisitante.forEach(el => el.classList.add("d-none"));
-      soloUsuario.forEach(el => el.classList.remove("d-none","nav-protegida"));
+      // Obtener datos del formulario
+      const correoIngresado = formularioInicioSesion.email.value;
+      const contrasenaIngresada = formularioInicioSesion.contrasena.value;
 
-          if (usuario && usuario.idPersona) {
-            const userName = document.querySelector(".user-name");
-            if (userName) userName.innerText = `Hola ${usuario.nombreUsuario}`;
-            // Enlace de perfil: usar formulario oculto y POST
-            const userProfileLink = document.querySelector(".user-profile");
-            if (userProfileLink) {
-                userProfileLink.href = `/perfil`;
+      console.log('Intentando iniciar sesión con correo:', correoIngresado);
 
-              // userProfileLink.onclick = function(e) {
-              //   e.preventDefault();
-              //   fetch('/usuario-perfil', {
-              //     method: 'POST',
-              //     headers: { 'Content-Type': 'application/json' },
-              //     body: JSON.stringify({ id: usuario.idPersona })
-              //   })
-              //   .then(res => res.text())
-              //   .then(html => {
-              //     document.open();
-              //     document.write(html);
-              //     document.close();
-              //   });
-              // };
+      try {
+        // Hacer petición POST al servidor para validar credenciales
+        const respuestaDelServidor = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: correoIngresado,
+            contrasena: contrasenaIngresada
+          })
+        });
+
+        const datosDeRespuesta = await respuestaDelServidor.json();
+
+        if (respuestaDelServidor.ok) {
+          // Si el inicio de sesión fue exitoso
+          console.log('Inicio de sesión exitoso:', datosDeRespuesta);
+
+          // Crear cookie adicional para JavaScript (por si acaso)
+          document.cookie = `usuario=${encodeURIComponent(JSON.stringify(datosDeRespuesta.usuario))}; path=/; max-age=${7 * 24 * 60 * 60}`;
+
+          // Cerrar modal de inicio de sesión
+          const modalInicioSesion = document.getElementById('loginModal');
+          if (modalInicioSesion) {
+            const instanciaModal = bootstrap.Modal.getInstance(modalInicioSesion);
+            if (instanciaModal) {
+              instanciaModal.hide();
             }
-            const userEmprendimientosLink = document.querySelector(".user-emprendimientos");
-            if (userEmprendimientosLink) {
-              userEmprendimientosLink.href = `/usuario-emprendimientos/${usuario.idPersona}`;
-            }
+          }
+
+          // Recargar la página para que se actualice la navbar automáticamente
+          window.location.reload();
+
+        } else {
+          // Si hay error en las credenciales
+          console.error('Error de credenciales:', datosDeRespuesta);
+          alert(datosDeRespuesta.error || 'Credenciales incorrectas. Verifica tu correo y contraseña.');
+        }
+
+      } catch (errorDeConexion) {
+        console.error('Error de conexión al iniciar sesión:', errorDeConexion);
+        alert('Error de conexión. Por favor, inténtalo de nuevo más tarde.');
       }
-
-    } else {
-      soloVisitante.forEach(el => el.classList.remove("d-none","nav-protegida"));
-      soloUsuario.forEach(el => el.classList.add("d-none"));
-    }
-    
-  });
-
-    // LOGOUT
-
-    function logout() {
-      // Eliminar la cookie de usuario
-      document.cookie = 'usuario=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-      window.location.href = `/`;
-
-    }
+    });
+  }
+});
 
