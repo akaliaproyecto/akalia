@@ -1,3 +1,4 @@
+//IMPORTANTE REVISAR SI ESTA PORCION DE CÓDIGO ES NECESARIA (Permite a los usuarios alternar entre ver la contraseña en texto plano o mantenerla oculta (como asteriscos) en ambos formularios.) 
 document.addEventListener('DOMContentLoaded', () => {
   const toggleLoginPwd = document.getElementById('toggleLoginPwd');
   const loginPwd = document.getElementById('loginPwd');
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Configurar enlace para ir al perfil del usuario
     const enlacePerfilUsuario = document.querySelector(".user-profile");
     if (enlacePerfilUsuario) {
-      enlacePerfilUsuario.href = `/perfil`;
+      enlacePerfilUsuario.href = `/mi-perfil`; // Corregir ruta de /perfil a /mi-perfil
     }
 
     // Configurar enlace para ver emprendimientos del usuario
