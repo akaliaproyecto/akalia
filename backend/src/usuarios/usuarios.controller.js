@@ -2,6 +2,8 @@
 const modeloUsuario = require("./usuarios.model");
 const bcrypt = require('bcrypt');
 
+const Log = require('../middlewares/log');
+
 //Listar todos los usuarios
 exports.obtenerUsuarios = async (req, res) => {
   try {
@@ -46,6 +48,7 @@ exports.obtenerUsuarios = async (req, res) => {
     } else {
       res.status(404).json({ mensaje: "No se encontraron usuarios" });
     }
+
   } catch (error) {
     res.status(500).json({ mensaje: "Error al listar usuarios", detalle: error.message });
   }
@@ -293,6 +296,9 @@ exports.iniciarSesion = async (req, res) => {
     console.log('Inicio de sesión exitoso para:', correo);
     console.log('=== FIN EXITOSO FUNCIÓN INICIAR SESIÓN ===');
 
+    //Registrar log
+    Log.generateLog('logs/usuario.log', `Un usuario inició sesión: ${correo}`);
+    
     // Responder con datos del usuario
     return res.status(200).json({
       mensaje: 'Inicio de sesión exitoso',

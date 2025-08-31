@@ -5,10 +5,20 @@ const path = require('path');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 const PORT = process.env.PORT || 3000;
 
+const backup = require('./config/backup.js');
+const cron = require('node-cron');
+
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {
     app.listen(PORT, () => console.log(`API en http://localhost:${PORT}`));
   })
   .catch(err => console.error('Error conectando a Mongo:', err));
+
+
+  cron.schedule('* * * * * *', async () => {
+    console.log('Realizando Backup de la Base de datos');
+    backup.backupDatabase();
+});
+
 
 module.exports = mongoose;
