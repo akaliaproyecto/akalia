@@ -1,0 +1,43 @@
+<div class="modal fade" id="registerModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content akalia-modal">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Crear cuenta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <form action="/registro" method="POST">
+          <div class="mb-3 text-start">
+            <label class="form-label">Dirección de correo electrónico</label>
+            <input type="email" class="akalia-input" name="email" required>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="akalia-input" name="nombreUsuario" required>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label">Apellido</label>
+            <input type="text" class="akalia-input" name="apellidoUsuario" required>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label">Teléfono (opcional)</label>
+            <input type="text" class="akalia-input" name="telefono">
+          </div>
+
+          <div class="mb-3 text-start position-relative">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="akalia-input" name="contrasena" required minlength="8"
+              title="Debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo.">
+          </div>
+
+          <button type="submit" class="btn btn-terracota w-100 mb-3 text-start">Crear cuenta</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

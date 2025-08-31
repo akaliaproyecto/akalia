@@ -4,6 +4,7 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
 const app = express();
+const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
 
 dotenv.config();
 
@@ -30,7 +31,7 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 1000*60*60*24*7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true // para que JS en frontend no acceda a la cookie
   }
 }));
@@ -38,15 +39,8 @@ app.use(session({
 //Method Override
 app.use(methodOverride('_method'));
 
-// Rutas
-/* const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes); */
-
-//Manejo de errores simple
-
+//Manejo de errores 
+//Manejo de errores 
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({
@@ -56,16 +50,34 @@ app.use((err, req, res, next) => {
 });
 
 
+/*MONTAJE DE RUTAS*/
 
- //MONTAJE DE RUTAS SEPARADAS
-const productosRouter = require("./routes/product-routes");
-app.use("/", productosRouter);
+const productosRouter = require("./productos/productos.routes.js");
+app.use("/", validateApiKey, productosRouter);
+
+// PEDIDOS
+const pedidosRouter = require('./pedidos/pedido.routes.js');
+app.use("/", validateApiKey, pedidosRouter);
 
 
-const PORT = process.env.PORT || 3000;
+// USUARIOS RUTA
+const usuariosRoutes = require('./usuarios/usuarios.routes.js');
+app.use('/', validateApiKey, usuariosRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// CATEGORIAS RUTA
+const categoriasRoutes = require('./categorias/categorias.routes.js');
+app.use('/', validateApiKey, categoriasRoutes);
+
+// ETIQUETAS RUTA
+const etiquetasRoutes = require('./etiquetas/etiquetas.routes.js');
+app.use('/', validateApiKey, etiquetasRoutes);
+// EMPRENDIMIENTOS
+
+const emprendimientosRoutes = require('./emprendimientos/emprendimiento.route.js');
+app.use('/', validateApiKey, emprendimientosRoutes);
+
+// COMISIONES
+const comisionesRoutes = require('./comisiones/comision.routes.js');
+app.use('/', validateApiKey, comisionesRoutes);
 
 module.exports = app;
