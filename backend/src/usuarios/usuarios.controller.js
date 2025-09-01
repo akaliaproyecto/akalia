@@ -247,7 +247,6 @@ exports.iniciarSesion = async (req, res) => {
       error: 'Correo y contraseña son requeridos'
     });
   }
-
   console.log('Intentando iniciar sesión para:', correo);
 
   try {
