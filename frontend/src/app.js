@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser'); // Middleware para manejar cookies
 const app = express();
-const router = require('./routes/indexRoutes.js');
+const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
 
@@ -29,7 +29,6 @@ app.use((req, res, next) => {
 // Middleware para obtener datos del usuario logueado desde cookies
 app.use((req, res, next) => {
   // Verificar si existe cookie con datos del usuario autenticado
-  // IMPORTANTE: Cambiar nombre de cookie de 'datosUsuarioLogueado' a 'usuario'
   if (req.cookies && req.cookies.usuario) {
     try {
       // Decodificar y parsear los datos del usuario desde la cookie

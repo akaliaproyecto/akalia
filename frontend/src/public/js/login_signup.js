@@ -1,163 +1,78 @@
-//IMPORTANTE REVISAR SI ESTA PORCION DE CÓDIGO ES NECESARIA (Permite a los usuarios alternar entre ver la contraseña en texto plano o mantenerla oculta (como asteriscos) en ambos formularios.) 
-document.addEventListener('DOMContentLoaded', () => {
-  const toggleLoginPwd = document.getElementById('toggleLoginPwd');
-  const loginPwd = document.getElementById('loginPwd');
-
-  toggleLoginPwd.addEventListener('click', () => {
-    loginPwd.type = loginPwd.type === 'password' ? 'text' : 'password';
-    toggleLoginPwd.innerHTML = loginPwd.type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
-  });
-
-  const toggleRegisterPwd = document.getElementById('toggleRegisterPwd');
-  const registerPwd = document.getElementById('registerPwd');
-
-  toggleRegisterPwd.addEventListener('click', () => {
-    registerPwd.type = registerPwd.type === 'password' ? 'text' : 'password';
-    toggleRegisterPwd.innerHTML = registerPwd.type === 'password' ? '<i class="fa fa-eye"></i>' : '<i class="fa fa-eye-slash"></i>';
-  });
-});
-
-/*****************************************
- * LÓGICA PARA CAMBIAR NAVBAR SEGÚN USUARIO *
- *****************************************/
+/* lógica de la navbar */
 document.addEventListener("DOMContentLoaded", () => {
-
-  // Variables para identificar elementos de la navbar
+  // Elementos de la navbar para visitante y usuario
   const elementosNavbarVisitante = document.querySelectorAll(".solo-visitante");
   const elementosNavbarUsuario = document.querySelectorAll(".solo-usuario");
 
-  /**
-   * Función para obtener datos del usuario desde las cookies del navegador
-   * @returns {Object|null} - Objeto con datos del usuario o null si no existe
-   */
+  /* Obtener datos del usuario desde la cookie 'usuario' */
   function obtenerDatosUsuarioDesdeCookie() {
-    // Buscar cookie específica del usuario
-    const cookieUsuario = document.cookie
-      .split('; ') // Separar todas las cookies
-      .find(fila => fila.startsWith('usuario=')); // Encontrar la cookie 'usuario'
-
-    if (cookieUsuario) {
-      try {
-        // Extraer el valor de la cookie y convertirlo de JSON
-        const valorCookie = cookieUsuario.split('=')[1];
-        return JSON.parse(decodeURIComponent(valorCookie));
-      } catch (error) {
-        console.log('Error al leer datos del usuario:', error);
-        return null;
-      }
+    const fila = document.cookie.split('; ').find(f => f.startsWith('usuario='));
+    if (!fila) return null;
+    try {
+      const valor = fila.split('=')[1];
+      return JSON.parse(decodeURIComponent(valor));
+    } catch (e) {
+      console.log('Error al leer datos del usuario:', e);
+      return null;
     }
-    return null;
   }
 
   /**
-   * Función para mostrar navbar cuando el usuario está logueado
-   * @param {Object} datosUsuario - Información del usuario logueado
+   * Muestra u oculta los elementos de la navbar según si el usuario está logueado.
+   * @param {boolean} estaLogueado
    */
-  function mostrarNavbarUsuarioLogueado(datosUsuario) {
-    // Ocultar elementos de visitante (botones registro/login)
-    elementosNavbarVisitante.forEach(elemento => {
-      elemento.classList.add("d-none");
+
+  function actualizarNavbar(estaLogueado, datosUsuario) {
+    // Mostrar/ocultar elementos de visitante
+    elementosNavbarVisitante.forEach(el => {
+      el.classList.toggle("d-none", estaLogueado);
+      if (!estaLogueado) el.classList.remove("nav-protegida");
     });
 
-    // Mostrar elementos de usuario (dropdown con ícono de persona)
-    elementosNavbarUsuario.forEach(elemento => {
-      elemento.classList.remove("d-none", "nav-protegida");
+    // Mostrar/ocultar elementos de usuario
+    elementosNavbarUsuario.forEach(el => {
+      el.classList.toggle("d-none", !estaLogueado);
+      if (estaLogueado) el.classList.remove("nav-protegida");
     });
 
-    // Personalizar saludo con nombre del usuario
+    if (!estaLogueado) return;
+
+    // Personalizar saludo y enlaces (si existen)
+    const nombre = datosUsuario?.nombreUsuario;
+    const idPersona = datosUsuario?.idPersona;
     const elementoSaludo = document.querySelector(".user-name");
-    if (elementoSaludo && datosUsuario.nombreUsuario) {
-      elementoSaludo.innerText = `Hola ${datosUsuario.nombreUsuario}`;
-    }
+    if (elementoSaludo && nombre) elementoSaludo.innerText = `Hola ${nombre}`;
 
-    // Configurar enlace para ir al perfil del usuario
-    const enlacePerfilUsuario = document.querySelector(".user-profile");
-    if (enlacePerfilUsuario) {
-      enlacePerfilUsuario.href = `/mi-perfil`; // Corregir ruta de /perfil a /mi-perfil
-    }
+    const enlacePerfil = document.querySelector(".user-profile");
+    if (enlacePerfil) enlacePerfil.href = `/mi-perfil`;
 
-    // Configurar enlace para ver emprendimientos del usuario
-    const enlaceEmprendimientos = document.querySelector(".user-emprendimientos");
-    if (enlaceEmprendimientos && datosUsuario.idPersona) {
-      enlaceEmprendimientos.href = `/usuario-emprendimientos/${datosUsuario.idPersona}`;
-    }
+    const enlaceEmpr = document.querySelector(".user-emprendimientos");
+    if (enlaceEmpr && idPersona) enlaceEmpr.href = `/usuario-emprendimientos/${idPersona}`;
   }
 
-  /**
-   * Función para mostrar navbar cuando es un visitante (no logueado)
-   */
-  function mostrarNavbarVisitante() {
-    // Mostrar elementos de visitante (botones registro/login)
-    elementosNavbarVisitante.forEach(elemento => {
-      elemento.classList.remove("d-none", "nav-protegida");
-    });
-
-    // Ocultar elementos de usuario (dropdown con ícono de persona)
-    elementosNavbarUsuario.forEach(elemento => {
-      elemento.classList.add("d-none");
-    });
-  }
-
-  // LÓGICA PRINCIPAL: Verificar si hay usuario y mostrar navbar correspondiente
+  // Ejecutar lógica principal
   const usuarioActual = obtenerDatosUsuarioDesdeCookie();
-
   if (usuarioActual) {
-    // Si hay usuario logueado, mostrar navbar de usuario
     console.log('Usuario encontrado:', usuarioActual.nombreUsuario);
-    mostrarNavbarUsuarioLogueado(usuarioActual);
+    actualizarNavbar(true, usuarioActual);
   } else {
-    // Si no hay usuario, mostrar navbar de visitante
     console.log('No hay usuario logueado');
-    mostrarNavbarVisitante();
+    actualizarNavbar(false);
   }
 });
 
-/*****************************************
- *      FUNCIÓN PARA CERRAR SESIÓN      *
- *****************************************/
-/**
- * Función para cerrar sesión del usuario
- * Elimina la cookie y redirige a la página principal
- */
+/* lógica para cerrar sesión */
 function cerrarSesionUsuario() {
   // Eliminar cookie del usuario estableciendo fecha de expiración en el pasado
   document.cookie = 'usuario=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
-
   // Redirigir a página principal (se mostrará navbar de visitante automáticamente)
   window.location.href = '/';
 }
-
-// Mantener función logout para compatibilidad con código existente
 function logout() {
   cerrarSesionUsuario();
 }
 
-/*****************************************
- * LÓGICA PARA MANEJAR FORMULARIO DE REGISTRO *
- *****************************************/
-document.addEventListener('DOMContentLoaded', () => {
-  const formularioRegistro = document.querySelector('form[action="/registro"]');
-
-  if (formularioRegistro) {
-    formularioRegistro.addEventListener('submit', function () {
-      // Mostrar mensaje temporal mientras se procesa el registro
-      console.log('Procesando registro...');
-
-      // Cerrar modal de registro si existe
-      const modalRegistro = document.getElementById('registerModal');
-      if (modalRegistro) {
-        const instanciaModal = bootstrap.Modal.getInstance(modalRegistro);
-        if (instanciaModal) {
-          instanciaModal.hide();
-        }
-      }
-    });
-  }
-});
-
-/*****************************************
- * LÓGICA PARA MANEJAR INICIO DE SESIÓN *
- *****************************************/
+/* logica de inicio de sesion */
 document.addEventListener('DOMContentLoaded', () => {
   const formularioInicioSesion = document.getElementById('loginForm');
 
@@ -216,4 +131,3 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
-
