@@ -78,7 +78,8 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end " aria-labelledby="userDropdown">
           <li class="ps-3 fw-semibold user-name">`Hola ${data.nombre}`</li>
-          <li><a class="dropdown-item user-profile" href="">Mi perfil</a></li>
+          <!-- Usar la misma ruta /mi-perfil para consistencia con sidebar -->
+          <li><a class="dropdown-item user-profile" href="/mi-perfil">Mi perfil</a></li>
           <li><a class="dropdown-item user-emprendimientos" href="">Mis emprendimientos</a></li>
           <li>
             <hr class="dropdown-divider">
