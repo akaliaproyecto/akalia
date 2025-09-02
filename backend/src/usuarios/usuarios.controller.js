@@ -2,7 +2,7 @@
 const modeloUsuario = require("./usuarios.model");
 const bcrypt = require('bcrypt');
 
-//Listar todos los usuarios
+/*Listar todos los usuarios*/
 exports.obtenerUsuarios = async (req, res) => {
   try {
     const { nombre, correo, rol, estado, esVendedor, telefono, fecha } = req.query;
@@ -50,7 +50,7 @@ exports.obtenerUsuarios = async (req, res) => {
   }
 };
 
-//Listar un usuario por su id
+/*Listar un usuario por su id*/
 exports.obtenerUsuarioPorId = async (req, res) => {
   const idUsuario = req.params.id;   // obtener el parámetro de la URL
 
@@ -67,7 +67,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
   }
 };
 
-//Consultar un usuario por su nombre
+/*Consultar un usuario por su nombre*/
 exports.obtenerUsuarioPorNombre = async (req, res) => {
   const nombreUsuario = req.params.nombre;
 
@@ -84,7 +84,7 @@ exports.obtenerUsuarioPorNombre = async (req, res) => {
   }
 };
 
-//Crear un nuevo usuario
+/*Crear un nuevo usuario*/
 exports.crearUsuario = async (req, res, next) => {
   try {
     const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono } = req.body;
@@ -134,6 +134,7 @@ exports.crearUsuario = async (req, res, next) => {
   }
 };
 
+/* Actualizar un usuario por su id */
 exports.actualizarUsuario = async (req, res) => {
 
   const idUsuario = req.params.idUsuario || req.params.id;  // leer el id desde la URL 
@@ -152,7 +153,7 @@ exports.actualizarUsuario = async (req, res) => {
   }
 };
 
-//eliminar un usuario por su id
+/* eliminar un usuario por su id */
 exports.eliminarUsuario = async (req, res) => {
   try {
     const usuario = await modeloUsuario.findByIdAndUpdate(
@@ -169,69 +170,4 @@ exports.eliminarUsuario = async (req, res) => {
   }
 };
 
-/*****************************************
- *    FUNCIÓN PARA INICIAR SESIÓN       *
- *****************************************/
-exports.iniciarSesion = async (req, res) => {
-  const { correo, contrasena } = req.body;
 
-  // Validar que lleguen los datos requeridos
-  if (!correo || !contrasena) {
-    return res.status(400).json({
-      error: 'Correo y contraseña son requeridos'
-    });
-  }
-
-  try {
-    // Buscar usuario activo por correo en la base de datos
-    const usuarioEncontrado = await modeloUsuario.findOne({
-      correo: correo.toLowerCase(),
-      estadoUsuario: 'activo'
-    });
-
-    if (!usuarioEncontrado) {
-      return res.status(401).json({
-        error: 'Credenciales incorrectas'
-      });
-    }
-
-    // Verificar que el usuario tenga contraseña válida
-    if (!usuarioEncontrado.contrasena) {
-      return res.status(401).json({
-        error: 'Error en la cuenta del usuario'
-      });
-    }
-
-    // Comparar contraseña ingresada con contraseña encriptada en BD
-    const contrasenaValida = await bcrypt.compare(contrasena, usuarioEncontrado.contrasena);
-
-    if (!contrasenaValida) {
-      return res.status(401).json({
-        error: 'Credenciales incorrectas'
-      });
-    }
-
-    // Preparar datos del usuario para respuesta (sin contraseña)
-    const datosUsuarioParaSesion = {
-      idPersona: usuarioEncontrado._id,
-      nombreUsuario: usuarioEncontrado.nombreUsuario,
-      apellidoUsuario: usuarioEncontrado.apellidoUsuario,
-      correo: usuarioEncontrado.correo,
-      telefono: usuarioEncontrado.telefono,
-      rolUsuario: usuarioEncontrado.rolUsuario
-    };
-
-    // Responder con datos del usuario
-    return res.status(200).json({
-      mensaje: 'Inicio de sesión exitoso',
-      usuario: datosUsuarioParaSesion
-    });
-
-  } catch (error) {
-    console.error('Error en función iniciar sesión:', error);
-    return res.status(500).json({
-      error: 'Error interno del servidor',
-      detalle: error.message
-    });
-  }
-};

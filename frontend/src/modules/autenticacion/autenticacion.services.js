@@ -51,7 +51,7 @@ exports.iniciarSesion = async (req, res) => {
   const { email, contrasena } = req.body;
 
   try {
-    const response = await axios.post(`${API_BASE_URL}/usuarios/login`, { correo: email, contrasena }, { headers: HEADERS });
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, { correo: email, contrasena }, { headers: HEADERS });
 
     // Extraer usuario de la respuesta
     const usuario = extraerUsuario(response);

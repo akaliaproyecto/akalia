@@ -52,6 +52,11 @@ app.use((err, req, res, next) => {
 
 /*MONTAJE DE RUTAS*/
 
+//AUTENTICACIÓN
+const authRoutes = require('./autenticacion/authRoutes.js');
+app.use("/auth", authRoutes);
+
+//PRODUCTOS
 const productosRouter = require("./productos/productos.routes.js");
 app.use("/productos", validateApiKey, productosRouter);
 

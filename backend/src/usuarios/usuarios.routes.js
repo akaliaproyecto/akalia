@@ -10,7 +10,6 @@ const {
   crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
-  iniciarSesion // Agregar función de inicio de sesión
 } = require('./usuarios.controller');
 
 
@@ -31,8 +30,5 @@ router.put('/:id', actualizarUsuario);
 
 // eliminar un usuario por ID
 router.patch('/:id', eliminarUsuario);
-
-// Ruta para iniciar sesión (validar credenciales)
-router.post('/login', iniciarSesion);
 
 module.exports = router;

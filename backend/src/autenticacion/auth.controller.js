@@ -1,21 +1,87 @@
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
-const User = require('../models/user.model');
+const User = require('../usuarios/usuarios.model.js');
 const bcrypt = require('bcrypt');
 
-exports.login = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-    const user = await User.findOne({ correo: email });
-    if (!user) return res.status(401).json({ error: 'Credenciales inválidas' });
+/* Iniciar sesión */
+exports.iniciarSesion = async (req, res) => {
+  const { correo, contrasena } = req.body;
 
-    req.session.userId = user._id;
-    req.session.mfaPassed = !user.twoFAEnabled; //  si no tiene 2FA, ya pasó
-    res.json({ ok: true, reqire2FA: user.twoFAEnabled });
-  } catch (err) {
-    next(err);
+  // Validar que lleguen los datos requeridos
+  if (!correo || !contrasena) {
+    return res.status(400).json({
+      error: 'Correo y contraseña son requeridos'
+    });
   }
-}
+
+  try {
+    // Buscar usuario activo por correo en la base de datos
+    const usuarioEncontrado = await User.findOne({
+      correo: correo.toLowerCase(),
+      estadoUsuario: 'activo'
+    });
+
+    if (!usuarioEncontrado) {
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
+      });
+    }
+
+    // Verificar que el usuario tenga contraseña válida
+    if (!usuarioEncontrado.contrasena) {
+      return res.status(401).json({
+        error: 'Error en la cuenta del usuario'
+      });
+    }
+
+    // Comparar contraseña ingresada con contraseña encriptada en BD
+    const contrasenaValida = await bcrypt.compare(contrasena, usuarioEncontrado.contrasena);
+
+    if (!contrasenaValida) {
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
+      });
+    }
+
+    // Preparar datos del usuario para respuesta (sin contraseña)
+    const datosUsuarioParaSesion = {
+      idPersona: usuarioEncontrado._id,
+      nombreUsuario: usuarioEncontrado.nombreUsuario,
+      apellidoUsuario: usuarioEncontrado.apellidoUsuario,
+      correo: usuarioEncontrado.correo,
+      telefono: usuarioEncontrado.telefono,
+      rolUsuario: usuarioEncontrado.rolUsuario
+    };
+
+    // Responder con datos del usuario
+    return res.status(200).json({
+      mensaje: 'Inicio de sesión exitoso',
+      usuario: datosUsuarioParaSesion
+    });
+
+  } catch (error) {
+    console.error('Error en función iniciar sesión:', error);
+    return res.status(500).json({
+      error: 'Error interno del servidor',
+      detalle: error.message
+    });
+  }
+};
+
+
+// exports.login = async (req, res, next) => {
+//   try {
+//     const { email } = req.body;
+//     const user = await User.findOne({ correo: email });
+//     if (!user) return res.status(401).json({ error: 'Credenciales inválidas' });
+
+//     req.session.userId = user._id;
+//     req.session.mfaPassed = !user.twoFAEnabled; //  si no tiene 2FA, ya pasó
+//     res.json({ ok: true, reqire2FA: user.twoFAEnabled });
+//   } catch (err) {
+//     next(err);
+//   }
+// }
 
 exports.mfaVerify = async (req, res, next) => {
   try {
@@ -38,14 +104,12 @@ exports.mfaVerify = async (req, res, next) => {
   }
 };
 
-
 exports.logout = (req, res) => {
   req.session.destroy(() => {
     res.clearCookie('sid');
     res.json({ ok: true });
   });
 };
-
 
 exports.me = async (req, res, next) => {
   try {
