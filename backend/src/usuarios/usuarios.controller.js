@@ -169,5 +169,3 @@ exports.eliminarUsuario = async (req, res) => {
     res.status(500).json({ mensaje: error.message });
   }
 };
-
-

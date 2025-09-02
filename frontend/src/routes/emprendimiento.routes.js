@@ -139,7 +139,6 @@ router.post('/usuario-agregar-emprendimiento', async (req, res) => {
   }
 });
 
-
 //renderizar el formulario de edición de emprendimientos
 router.get('/usuario-emprendimientos/:idUsuario/editar/:idEmprendimiento', async (req, res) => {
   try {
