@@ -55,13 +55,38 @@ exports.obtenerUsuarioPorId = async (req, res) => {
   const idUsuario = req.params.id;   // obtener el parámetro de la URL
 
   try {
-    const usuarioEncontrado = await modeloUsuario.findById(idUsuario);
-
-    if (usuarioEncontrado) {
-      res.status(200).json(usuarioEncontrado);
-    } else {
-      res.status(404).json({ mensaje: "Usuario no encontrado" });
+    // Autorización mínima: se asume que validateApiKey o middleware de auth ya está en la ruta,
+    // pero comprobamos que exista la cabecera para dar un mensaje claro.
+    if (!req.headers['akalia-api-key']) {
+      return res.status(401).json({ mensaje: 'No autorizado' });
     }
+
+    // Consulta a Mongo (lean para obtener objeto plano)
+    const usuarioEncontrado = await modeloUsuario.findById(idUsuario).lean();
+
+    if (!usuarioEncontrado) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    // Formateo simple y eliminación de datos sensibles
+    const usuarioFormateado = {
+      idPersona: usuarioEncontrado._id,
+      nombreUsuario: usuarioEncontrado.nombreUsuario || 'No disponible',
+      apellidoUsuario: usuarioEncontrado.apellidoUsuario || 'No disponible',
+      email: usuarioEncontrado.correo || usuarioEncontrado.email || 'No disponible',
+      telefono: usuarioEncontrado.telefono || 'No registrado',
+      rolUsuario: usuarioEncontrado.rolUsuario || 'usuario',
+      estadoUsuario: usuarioEncontrado.estadoUsuario || 'activo',
+      esVendedor: !!usuarioEncontrado.esVendedor,
+      fechaRegistro: usuarioEncontrado.fechaRegistro || usuarioEncontrado.createdAt || null,
+      // Fecha formateada para mostrar en frontend
+      fechaRegistroFormateada: usuarioEncontrado.fechaRegistro ? new Date(usuarioEncontrado.fechaRegistro).toLocaleDateString('es-ES', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      }) : null
+      // NOTA: no incluimos contrasena, totpSecret ni campos sensibles
+    };
+
+    return res.status(200).json({ usuario: usuarioFormateado });
   } catch (error) {
     res.status(500).json({ mensaje: "Error al consultar usuario", detalle: error.message });
   }
@@ -136,20 +161,81 @@ exports.crearUsuario = async (req, res, next) => {
 
 /* Actualizar un usuario por su id */
 exports.actualizarUsuario = async (req, res) => {
-
   const idUsuario = req.params.idUsuario || req.params.id;  // leer el id desde la URL 
-  const datosUsuario = req.body; // datos que llegan con el request
+  const datosRecibidos = req.body; // datos que llegan con el request
 
   try {
-    // actualizar y devolver el documento actualizado (new:true)
-    const usuarioActualizado = await modeloUsuario.findByIdAndUpdate(idUsuario, datosUsuario, { new: true });
-    if (usuarioActualizado) {
-      res.status(200).json(usuarioActualizado);
-    } else {
-      res.status(404).json({ mensaje: "Usuario no encontrado" });
+    // Construir objeto con solo campos permitidos para actualizar (delegar validaciones al schema)
+    const camposPermitidos = ['nombreUsuario', 'apellidoUsuario', 'correo', 'telefono', 'contrasena'];
+    const datosParaActualizar = {};
+    for (const key of camposPermitidos) {
+      if (typeof datosRecibidos[key] !== 'undefined') {
+        datosParaActualizar[key] = datosRecibidos[key];
+      }
     }
+
+    // Normalizar correo si viene
+    if (datosParaActualizar.correo) {
+      datosParaActualizar.correo = datosParaActualizar.correo.toLowerCase();
+      // NOTA: no validar unicidad aquí; el schema/índice único lanzará error si aplica
+    }
+
+    // Si llega nueva contraseña, hashearla aquí
+    if (datosParaActualizar.contrasena) {
+      const saltRounds = 10;
+      datosParaActualizar.contrasena = await bcrypt.hash(datosParaActualizar.contrasena, saltRounds);
+    }
+
+    // Ejecutar actualización (runValidators para respetar esquema)
+    const usuarioActualizado = await modeloUsuario.findByIdAndUpdate(idUsuario, datosParaActualizar, { new: true, runValidators: true }).lean();
+
+    if (!usuarioActualizado) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Formatear respuesta (eliminar campos sensibles)
+    const usuarioFormateado = {
+      idPersona: usuarioActualizado._id,
+      nombreUsuario: usuarioActualizado.nombreUsuario || 'No disponible',
+      apellidoUsuario: usuarioActualizado.apellidoUsuario || 'No disponible',
+      email: usuarioActualizado.correo || usuarioActualizado.email || 'No disponible',
+      telefono: usuarioActualizado.telefono || 'No registrado',
+      rolUsuario: usuarioActualizado.rolUsuario || 'usuario',
+      estadoUsuario: usuarioActualizado.estadoUsuario || 'activo',
+      esVendedor: !!usuarioActualizado.esVendedor,
+      fechaRegistro: usuarioActualizado.fechaRegistro || usuarioActualizado.createdAt || null,
+      fechaRegistroFormateada: usuarioActualizado.fechaRegistro ? new Date(usuarioActualizado.fechaRegistro).toLocaleDateString('es-ES', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      }) : null
+    };
+
+    // Actualizar cookie pública 'usuario' si se desea exponerla al frontend
+    const cookieUsuario = {
+      idPersona: usuarioFormateado.idPersona,
+      nombreUsuario: usuarioFormateado.nombreUsuario,
+      apellidoUsuario: usuarioFormateado.apellidoUsuario,
+      correo: usuarioFormateado.email,
+      rolUsuario: usuarioFormateado.rolUsuario
+    };
+
+    res.cookie('usuario', JSON.stringify(cookieUsuario), {
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
+
+    return res.status(200).json({ mensaje: 'Perfil actualizado exitosamente', usuario: usuarioFormateado });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al actualizar usuario", detalle: error.message });
+    console.error('actualizarUsuario:', error);
+    if (error.name === 'ValidationError') {
+      const errores = Object.values(error.errors).map(e => e.message);
+      return res.status(400).json({ error: 'Datos de entrada inválidos', detalles: errores });
+    }
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Correo ya registrado' });
+    }
+    return res.status(500).json({ error: 'Error al actualizar usuario', detalle: error.message });
   }
 };
 

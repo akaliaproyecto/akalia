@@ -13,77 +13,41 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 
 /* Verificar usuario logueado */
 exports.obtenerUsuario = async (req, res) => {
-  // Verificar si el usuario está autenticado
-  const id = req.usuarioAutenticado.idPersona;
-  let datos = req.usuarioAutenticado;
+  const id = req.usuarioAutenticado?.idPersona;
+  if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
 
   try {
-    const rutas = [`/usuarios/${id}`, `/api/usuarios/${id}`]; //crea un array con dos rutas que incluyen el id del usuario
-    // itera el array de rutas y prueba cada una con una petición GET
-    for (const ruta of rutas) {
-      try {
-        const { data } = await axios.get(`${API_BASE_URL}${ruta}`, { headers: HEADERS });
-        datos = data;
-        break;
-      } catch (e) {
-        /* intenta siguiente ruta */
-      }
-    }
-  } catch (e) {
-    console.error('Error API:', e.message || e);
+    // Llamamos a la ruta correcta del backend (/usuarios/:id).
+    const respuesta = await require('axios').get(`${API_BASE_URL}/usuarios/${id}`, { headers: HEADERS });
+    const usuarioPerfil = (respuesta.data && (respuesta.data.usuario || respuesta.data)) || req.usuarioAutenticado;
+
+    return res.render('pages/usuario-perfil-ver', {
+      usuario: usuarioPerfil,
+      titulo: 'Mi Perfil - Akalia',
+      mensajeExito: req.query.exito || null
+    });
+  } catch (err) {
+    console.error('obtenerUsuario (frontend):', err.message || err);
+    return res.render('pages/usuario-perfil-ver', {
+      usuario: req.usuarioAutenticado,
+      titulo: 'Mi Perfil - Akalia',
+      mensajeExito: req.query.exito || null,
+      // Enviamos errorCarga sólo cuando ocurrió un problema (para que la vista decida mostrar la advertencia)
+      errorCarga: 'Datos básicos de sesión'
+    });
   }
-
-  //Ese bloque crea un objeto "usuario" con los campos que la vista necesita, tomando los valores de "datos" (respuesta de la API) y usando valores por defecto si faltan.
-  const usuario = {
-    idPersona: datos._id || datos.idPersona || id,
-    nombreUsuario: datos.nombreUsuario || 'No disponible',
-    apellidoUsuario: datos.apellidoUsuario || 'No disponible',
-    email: datos.correo || datos.email || 'No disponible',
-    telefono: datos.telefono || 'No registrado',
-    contrasena: '********',
-    fechaRegistro: datos.fechaRegistro || 'No disponible',
-    rolUsuario: datos.rolUsuario || 'Usuario',
-    estadoUsuario: datos.estadoUsuario || 'Activo'
-  };
-
-  // Formatear fecha de registro a formato legible
-  if (datos.fechaRegistro) {
-    const fecha = new Date(datos.fechaRegistro);
-    if (!isNaN(fecha.getTime())) {
-      usuario.fechaRegistroFormateada = fecha.toLocaleDateString('es-ES', {
-        year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-      });
-    }
-  }
-
-  // Renderizar la vista con los datos del usuario
-  const renderData = {
-    usuario,
-    titulo: 'Mi Perfil - Akalia',
-    mensajeExito: req.query.exito || null
-  };
-
-  if (datos === req.usuarioAutenticado) {
-    renderData.errorCarga = 'Datos básicos de sesión';
-  } else {
-    renderData.errorCarga = null;
-  }
-
-  res.render('pages/usuario-perfil-ver', renderData);
 };
 
 /* Actualizar perfil del usuario */
 exports.actualizarPerfilUsuario = async (req, res) => {
-  // Extrae el id desde los parámetros de la ruta y los campos enviados en el body del formulario para actualizar el usuario
   const { id } = req.params;
   const { nombreUsuario, apellidoUsuario, email, contrasena, telefono } = req.body;
 
-  // Error de validación
   if (!id) {
     return res.status(400).json({ error: 'Falta id de usuario' });
   }
 
-  // Crea el objeto que se enviará a la API con los campos esperados
+  // Construir objeto que se enviará al backend 
   const datosParaApi = {
     nombreUsuario,
     apellidoUsuario,
@@ -91,28 +55,19 @@ exports.actualizarPerfilUsuario = async (req, res) => {
     telefono
   };
 
-  // Enviar la solicitud de actualización de perfil
+  // Si se envía nueva contraseña, la mandamos para que el backend la procese 
+  if (contrasena) datosParaApi.contrasena = contrasena;
+
   try {
-    await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS });
-    // Actualizar la cookie con los nuevos datos del usuario
-    const cookieUsuario = {
-      idPersona: id,
-      nombreUsuario: datosParaApi.nombreUsuario,
-      apellidoUsuario: datosParaApi.apellidoUsuario,
-      correo: datosParaApi.correo,
-      rolUsuario: req.usuarioAutenticado?.rolUsuario || 'usuario'
-    };
-
-    // Establecer la cookie con los nuevos datos del usuario
-    res.cookie('usuario', JSON.stringify(cookieUsuario), {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: false,
-      secure: false
-    });
-
-    return res.status(200).json({ mensaje: 'Perfil actualizado exitosamente', usuario: cookieUsuario });
+    const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS });
+    // Reenviamos al cliente SSR la respuesta tal cual viene del backend
+    return res.status(respuesta.status).json(respuesta.data);
   } catch (err) {
-    return res.status(500).json({ error: 'Error al actualizar el perfil', mensaje: 'Inténtalo de nuevo más tarde.' });
+    console.error('frontend actualizarPerfilUsuario:', err.message || err);
+    const status = err.response?.status || 500;
+    // Mensaje genérico para el frontend; detalles opcionales del backend en development
+    const mensaje = err.response?.data?.error || 'No se pudo actualizar el perfil, inténtalo más tarde.';
+    return res.status(status).json({ error: mensaje });
   }
 };
 

@@ -113,31 +113,31 @@ router.get('/usuario-agregar-emprendimiento/:id', async (req, res) => {
 });
 
 // Ruta POST para recibir el formulario y reenviar al backend
-router.post('/usuario-agregar-emprendimiento', async (req, res) => {
-  try {
-    const { idPersona, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
+// router.post('/usuario-agregar-emprendimiento', async (req, res) => {
+//   try {
+//     const { idPersona, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
 
-    const payload = {
-      idPersona,
-      nombreEmprendimiento,
-      imagenLogo,
-      descripcionNegocio,
-      fechaRegistro: new Date().toISOString().split('T')[0]
-    };
+//     const payload = {
+//       idPersona,
+//       nombreEmprendimiento,
+//       imagenLogo,
+//       descripcionNegocio,
+//       fechaRegistro: new Date().toISOString().split('T')[0]
+//     };
 
-    // Enviar al backend real (puerto 3000)
-    await axios.post(`${API_BASE_URL}/api/emprendimientos`, payload);
+//     // Enviar al backend real (puerto 3000)
+//     await axios.post(`${API_BASE_URL}/api/emprendimientos`, payload);
 
-    // Redirigir al listado de emprendimientos del usuario
-    res.redirect(`/usuario-emprendimientos/${idPersona}`);
-  } catch (error) {
-    console.error('Error al crear emprendimiento:', error.message);
-    res.status(500).render('error', {
-      error: 'Error al crear emprendimiento',
-      message: 'No se pudo guardar el emprendimiento. Verifica los datos o intenta más tarde.'
-    });
-  }
-});
+//     // Redirigir al listado de emprendimientos del usuario
+//     res.redirect(`/usuario-emprendimientos/${idPersona}`);
+//   } catch (error) {
+//     console.error('Error al crear emprendimiento:', error.message);
+//     res.status(500).render('error', {
+//       error: 'Error al crear emprendimiento',
+//       message: 'No se pudo guardar el emprendimiento. Verifica los datos o intenta más tarde.'
+//     });
+//   }
+// });
 
 //renderizar el formulario de edición de emprendimientos
 router.get('/usuario-emprendimientos/:idUsuario/editar/:idEmprendimiento', async (req, res) => {

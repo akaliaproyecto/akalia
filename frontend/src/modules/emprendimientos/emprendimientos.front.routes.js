@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const { listarEmprendimientosUsuario } = require('./emprendimientos.services');
+const {
+  listarEmprendimientosUsuario,
+  agregarEmprendimiento
+} = require('./emprendimientos.services');
 
-// Ruta que coincide con el enlace en sidebar.ejs
+/* Ruta GET para obtener los emprendimientos del usuario */
 router.get('/usuario-emprendimientos/:id', listarEmprendimientosUsuario);
+
+/* Ruta POST para agregar un nuevo emprendimiento */
+router.post('/usuario-agregar-emprendimiento', agregarEmprendimiento);
 
 module.exports = router;

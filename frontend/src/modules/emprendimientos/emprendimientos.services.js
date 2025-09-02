@@ -44,3 +44,30 @@ exports.listarEmprendimientosUsuario = async (req, res) => {
     apiKey: HEADERS['akalia-api-key'] || ''
   });
 };
+
+/* Agregar un nuevo emprendimiento */
+exports.agregarEmprendimiento = async (req, res) => {
+  try {
+    const { idPersona, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
+
+    const payload = {
+      idPersona,
+      nombreEmprendimiento,
+      imagenLogo,
+      descripcionNegocio,
+      fechaRegistro: new Date().toISOString().split('T')[0]
+    };
+
+    // Enviar al backend real (puerto 3000)
+    await axios.post(`${API_BASE_URL}/api/emprendimientos`, payload);
+
+    // Redirigir al listado de emprendimientos del usuario
+    res.redirect(`/usuario-emprendimientos/${idPersona}`);
+  } catch (error) {
+    console.error('Error al crear emprendimiento:', error.message);
+    res.status(500).render('error', {
+      error: 'Error al crear emprendimiento',
+      message: 'No se pudo guardar el emprendimiento. Verifica los datos o intenta más tarde.'
+    });
+  }
+};
