@@ -8,25 +8,25 @@ const {
   obtenerEmprendimientoPorIdUsuario,
   crearEmprendimiento,
   actualizarEmprendimiento,
-  deshabilitarEmprendimiento   
+  deshabilitarEmprendimiento
 } = require('./emprendimiento.controller');
 
 // obtener todos los emprendimientos
-router.get('/emprendimientos', obtenerEmprendimientos);
+router.get('/', obtenerEmprendimientos);
 
 // obtener un emprendimiento por su ID
-router.get('/emprendimientos/:id', obtenerEmprendimientoPorId);
+router.get('/:id', obtenerEmprendimientoPorId);
 
 // obtener emprendimientos por ID de usuario
-router.get('/emprendimientos/usuario/:id', obtenerEmprendimientoPorIdUsuario);
+router.get('/usuario/:id', obtenerEmprendimientoPorIdUsuario);
 
 // crear un nuevo emprendimiento
-router.post('/emprendimientos', subirImagen.single('logo'), crearEmprendimiento);
+router.post('/', subirImagen.single('logo'), crearEmprendimiento);
 
 // actualizar un emprendimiento
-router.put('/emprendimientos/:id', subirImagen.single('logo'), actualizarEmprendimiento);
+router.put('/:id', subirImagen.single('logo'), actualizarEmprendimiento);
 
 // deshabilitar un emprendimiento
-router.patch('/emprendimientos/:id', deshabilitarEmprendimiento);
+router.patch('/:id', deshabilitarEmprendimiento);
 
 module.exports = router;

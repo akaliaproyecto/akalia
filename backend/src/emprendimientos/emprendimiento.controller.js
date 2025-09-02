@@ -8,7 +8,7 @@ const obtenerEmprendimientos = async (req, res) => {
     const emprendimientos = await modeloEmprendimiento.find();
 
     if (emprendimientos && emprendimientos.length > 0) {
-      res.status(200).json(emprendimientos); 
+      res.status(200).json(emprendimientos);
     } else {
       res.status(404).json({ mensaje: "No se encontraron emprendimientos" });
     }
@@ -19,12 +19,12 @@ const obtenerEmprendimientos = async (req, res) => {
 
 // listar un emprendimiento por ID
 const obtenerEmprendimientoPorId = async (req, res) => {
-    const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
+  const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
   try {
     const emprendimiento = await modeloEmprendimiento.findById(idEmprendimiento);
 
     if (emprendimiento) {
-      res.status(200).json(emprendimiento); 
+      res.status(200).json(emprendimiento);
     } else {
       res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
@@ -41,7 +41,7 @@ const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
     const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario) });
 
     if (emprendimientos && emprendimientos.length > 0) {
-      res.status(200).json(emprendimientos); 
+      res.status(200).json(emprendimientos);
     } else {
       res.status(404).json({ mensaje: "No se encontraron emprendimientos para este usuario" });
     }
@@ -53,20 +53,26 @@ const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
 
 // crear un nuevo emprendimiento
 const crearEmprendimiento = async (req, res) => {
-   try {
+  try {
+    // obtenemos ciudad/departamento intentando los nombres más comunes que puede enviar el formulario
+    const ciudad = req.body['ubicacionEmprendimiento.ciudad'] || req.body['ubicacionEmprendimiento[ciudad]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.ciudad) || '';
+    const departamento = req.body['ubicacionEmprendimiento.departamento'] || req.body['ubicacionEmprendimiento[departamento]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.departamento) || '';
+
     let datosEmprendimiento = {
       usuario: req.body.usuario,
       nombreEmprendimiento: req.body.nombreEmprendimiento,
       descripcionEmprendimiento: req.body.descripcionEmprendimiento,
       ubicacionEmprendimiento: {
-        departamento: req.body["ubicacionEmprendimiento.departamento"],
-        ciudad: req.body["ubicacionEmprendimiento.ciudad"],
+        departamento: departamento,
+        ciudad: ciudad
       }
     };
 
+    // Si se subió un archivo (multer lo deja en req.file), guardamos su URL/ruta
     if (req.file) {
       datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
     }
+
     const nuevoEmprendimiento = new modeloEmprendimiento(datosEmprendimiento);
     const emprendimientoGuardado = await nuevoEmprendimiento.save();
     res.status(201).json(emprendimientoGuardado);
@@ -79,13 +85,16 @@ const crearEmprendimiento = async (req, res) => {
 const actualizarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   try {
+    const ciudad = req.body['ubicacionEmprendimiento.ciudad'] || req.body['ubicacionEmprendimiento[ciudad]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.ciudad) || '';
+    const departamento = req.body['ubicacionEmprendimiento.departamento'] || req.body['ubicacionEmprendimiento[departamento]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.departamento) || '';
+
     let datosEmprendimiento = {
       usuario: req.body.usuario,
       nombreEmprendimiento: req.body.nombreEmprendimiento,
       descripcionEmprendimiento: req.body.descripcionEmprendimiento,
       ubicacionEmprendimiento: {
-        departamento: req.body["ubicacionEmprendimiento.departamento"],
-        ciudad: req.body["ubicacionEmprendimiento.ciudad"],
+        departamento: departamento,
+        ciudad: ciudad
       }
     };
 
@@ -119,7 +128,7 @@ const deshabilitarEmprendimiento = async (req, res) => {
     );
 
     if (emprendimiento) {
-      res.status(200).json({ mensaje: "Emprendimiento deshabilitado correctamente", emprendimiento }); 
+      res.status(200).json({ mensaje: "Emprendimiento deshabilitado correctamente", emprendimiento });
     } else {
       res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
