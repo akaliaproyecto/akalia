@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inputConfirmarContrasena) { inputConfirmarContrasena.value = ''; inputConfirmarContrasena.type = 'password'; if (paso === 2) inputConfirmarContrasena.focus(); }
   }
 
+  // Mostrar modal de eliminación
   if (botonEliminarCuenta && modalEliminarCuenta) {
     botonEliminarCuenta.addEventListener('click', () => {
       mostrarPasoEliminacion(1);
@@ -120,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Navegación entre pasos del modal
   if (btnContinuarEliminacion) btnContinuarEliminacion.addEventListener('click', () => mostrarPasoEliminacion(2));
   if (btnVolverPasoUno) btnVolverPasoUno.addEventListener('click', () => mostrarPasoEliminacion(1));
 
@@ -140,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Botón definitivo: valida contraseña y luego desactiva cuenta 
   if (btnEliminarDefinitivo) {
     btnEliminarDefinitivo.addEventListener('click', async () => {
-      const contrasena = (inputConfirmarContrasena?.value || '').trim();
+      const contrasena = (inputConfirmarContrasena?.value || '');
       const idUsuario = botonEliminarCuenta?.dataset?.id || botonEliminarCuenta?.getAttribute('data-id');
       if (!contrasena) { console.error('Contraseña requerida para eliminar cuenta'); return; }
       if (!idUsuario) { console.error('ID usuario no encontrado para eliminar'); return; }
