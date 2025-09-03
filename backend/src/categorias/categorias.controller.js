@@ -3,12 +3,13 @@ const modeloCategoria = require("./categorias.model");
 const uploadImage = require('../servicios/subirImagen')
 
 //Listar todas las categorías
+// Esta función responde con un arreglo JSON de todas las categorías almacenadas en MongoDB
 exports.obtenerCategorias = async (req, res) => {
   try {
     const categoriasEncontradas = await modeloCategoria.find();
 
     if (categoriasEncontradas && categoriasEncontradas.length > 0) {
-      res.status(200).json(categoriasEncontradas);
+      res.status(200).json(categoriasEncontradas); // <-- Respuesta en formato JSON
     } else {
       res.status(404).json({ mensaje: "No se encontraron categorías" });
     }

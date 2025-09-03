@@ -10,18 +10,22 @@ const {
   obtenerProductoPorNombre,
   crearProducto,
   actualizarProducto,
-  eliminarProducto
+  eliminarProducto,
+  obtenerProductosEmprendimiento
 } = require('./productos.controller');
 
 
 // obtener todos los productos
 router.get('/', obtenerProductos);
 
-// obtener un producto por ID
-router.get('/:id', obtenerProductoPorId);
+// obtener productos por emprendimiento 
+router.get('/emprendimiento/:idEmprendimiento', obtenerProductosEmprendimiento);
 
-// obtener un producto por nombre
+// obtener por nombre 
 router.get('/nombre/:nombre', obtenerProductoPorNombre);
+
+// obtener un producto por ID (genérica)
+router.get('/:id', obtenerProductoPorId);
 
 // crear un nuevo producto
 router.post('/', subirImagen.array('imagenes', 10), crearProducto);

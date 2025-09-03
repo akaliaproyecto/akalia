@@ -71,3 +71,51 @@ exports.agregarEmprendimiento = async (req, res) => {
     });
   }
 };
+
+/* Obtener detalle de un emprendimiento + productos (proxy) */
+exports.obtenerDetalleEmprendimiento = async (req, res) => {
+  const id = req.params?.id;
+  if (!id) return res.status(400).json({ error: 'Id requerido' });
+
+  // posibles rutas para detalle (intenta en orden)
+  const detalleCandidates = [
+    `${API_BASE_URL}/emprendimientos/${id}`,
+    `${API_BASE_URL}/api/emprendimientos/${id}`,
+    `${API_BASE_URL}/emprendimientos/detalle/${id}`
+  ];
+
+  let emprendimiento = null;
+  for (const url of detalleCandidates) {
+    try {
+      const resp = await axios.get(url, { headers: HEADERS, timeout: 5000 });
+      if (resp && resp.data) {
+        // adaptar formas de respuesta comunes
+        emprendimiento = Array.isArray(resp.data) ? resp.data[0] : (resp.data.emprendimiento || resp.data.data || resp.data);
+        if (emprendimiento) break;
+      }
+    } catch (err) {
+      // seguir probando siguiente ruta
+    }
+  }
+
+  // --- PETICIÓN DIRECTA al endpoint específico de productos por emprendimiento ---
+  let productos = [];
+  try {
+    // Llamar únicamente al endpoint que devuelve productos filtrados por emprendimiento.
+    // Esto evita usar endpoints genéricos que puedan devolver todos los productos.
+    const urlProductos = `${API_BASE_URL.replace(/\/$/, '')}/productos/emprendimiento/${id}`;
+    const respProd = await axios.get(urlProductos, { headers: HEADERS, timeout: 5000 });
+    if (respProd && respProd.data) {
+      // Esperamos que el backend devuelva un array de productos
+      if (Array.isArray(respProd.data)) productos = respProd.data;
+      else if (Array.isArray(respProd.data.productos)) productos = respProd.data.productos;
+      else if (Array.isArray(respProd.data.data)) productos = respProd.data.data;
+    }
+  } catch (err) {
+    // Si falla esta ruta específica, dejamos productos = [] (no mostramos productos de otros emprendimientos)
+    // y continuamos devolviendo el emprendimiento (si se obtuvo).
+  }
+
+  // Responder con lo que tengamos (aunque vacío)
+  return res.json({ emprendimiento: emprendimiento || {}, productos: productos || [] });
+};

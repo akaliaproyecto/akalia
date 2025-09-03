@@ -149,19 +149,24 @@
 
                             <!-- Estado del emprendimiento -->
                             <div class="d-flex align-items-center gap-2">
-                              <span
-                                class="badge <%= emprendimiento.emprendimientoActivo ? 'bg-success' : 'bg-secondary' %>">
-                                <%= emprendimiento.emprendimientoActivo ? 'Activo' : 'Inactivo' %>
-                              </span>
+                              <% if (emprendimiento.emprendimientoActivo) { %>
+                                <span class="badge bg-success">Activo</span>
+                                <% } else { %>
+                                  <!-- Si está inactivo, permitimos activar mediante modal de confirmación -->
+                                  <a href="#" class="text-decoration-none"
+                                    onclick="openActivarModal('<%= usuario.idPersona %>','<%= emprendimiento._id %>','<%= emprendimiento.nombreEmprendimiento %>')"
+                                    title="Activar emprendimento">
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                  </a>
+                                  <% } %>
                             </div>
                     </div>
 
                     <!-- Acciones -->
                     <div class="d-flex flex-md-column gap-2 justify-content-center my-auto align-items-center w-100">
                       <div class="d-flex col-5 col-md-12 justify-content-center w-md-100">
-                        <button
-                          onclick="showEmprendimientoDetail('<%= usuario.idPersona %>','<%= emprendimiento._id %>')"
-                          class="btn text-vinotinto" title="Ver">
+                        <button type="button" class="btn text-vinotinto btn-view-empr" title="Ver"
+                          data-empr-id="<%= emprendimiento._id %>" data-user-id="<%= usuario.idPersona %>">
                           <!-- ...existing SVG code... -->
                           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 20"
                             fill="none">
@@ -192,8 +197,8 @@
                           </svg>
                         </button>
 
-                        <button class="btn eliminar" data-id="<%= emprendimiento._id %>" title="Eliminar"
-                          onclick="deleteProducto('<%= usuario.idPersona %>','<%= emprendimiento._id %>')">
+                        <button class="btn eliminar" data-id="<%= emprendimiento._id %>" title="Inactivar"
+                          onclick="openInactivarModal('<%= usuario.idPersona %>','<%= emprendimiento._id %>','<%= emprendimiento.nombreEmprendimiento %>')">
                           <!-- ...existing SVG code... -->
                           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                             fill="none">
@@ -231,7 +236,226 @@
 
         </main>
     </div>
+
+    <!-- insertar modal de detalle (responsive, 75% ancho máximo) -->
+    <div class="modal fade" id="modalVerEmprendimiento" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:75vw;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ve-nombre">Detalle del emprendimiento</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <section class="usuario-perfil-card">
+              <article class="usuario-perfil-info d-flex flex-column gap-3 mb-3">
+                <div class="d-flex flex-column flex-md-row gap-4 align-items-center ">
+                  <div class="d-flex justify-content-center align-items-center">
+                    <img id="ve-logo" src="/images/default-logo.png" alt="Logo emprendimiento" class="rounded-circle"
+                      style="width:100px;height:100px;object-fit:cover;border:1px solid #b9b9b9;" />
+                  </div>
+                  <div class="d-flex flex-column justify-content-center align-items-start gap-3 col-md-8">
+                    <h4 class="mb-1" id="ve-nombre-h4">Nombre emprendimiento</h4>
+                    <p class="mb-2" id="ve-descripcion">Descripción</p>
+                  </div>
+                </div>
+
+                <div class="d-flex flex-column gap-2 mt-3">
+                  <div class="d-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-geo-alt text-muted" viewBox="0 0 16 16">
+                      <path d="M12.166 8.94..." />
+                    </svg>
+                    <span class="text-muted small" id="ve-ubicacion">Ciudad, Departamento</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-calendar3 text-muted" viewBox="0 0 16 16">
+                      <path d="M14 0H2..." />
+                    </svg>
+                    <span class="text-muted small" id="ve-fecha">Registrado: fecha</span>
+                  </div>
+                  <div class="d-flex align-items-center gap-2">
+                    <span id="ve-estado" class="badge bg-secondary">Estado</span>
+                  </div>
+                </div>
+              </article>
+
+              <section class="tabla-productos mt-3">
+                <header class="d-flex justify-content-between align-items-center mb-4">
+                  <h3 class="fw-bold m-0">Productos</h3>
+                </header>
+
+                <div class="table-responsive">
+                  <table class="table tabla-akalia align-middle text-start m-0">
+                    <thead>
+                      <tr>
+                        <th>Imagen</th>
+                        <th>Título</th>
+                        <th>Emprendimiento</th>
+                        <th>Precio</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="ve-productos-body"></tbody>
+                  </table>
+                </div>
+
+                <p class="mb-2 usuario-perfil-info d-none" id="ve-no-productos">Aún no hay productos para este
+                  emprendimiento</p>
+              </section>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-basic" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Editar Emprendimiento (versión modal de usuario-emprendimiento-editar.ejs) -->
+    <div class="modal fade" id="modalEditarEmprendimiento" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Emprendimiento</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Formulario de edición (se rellenará por JS) -->
+            <form id="form-editar-emprendimiento-modal" method="POST" enctype="multipart/form-data">
+              <!-- campos ocultos para usuario y emprendimiento -->
+              <input type="hidden" id="me-usuario-id" name="usuario" value="">
+              <input type="hidden" id="me-empr-id" name="idEmprendimiento" value="">
+
+              <div class="mb-3">
+                <label for="me-nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="me-nombre" name="nombreEmprendimiento" value="" required>
+              </div>
+
+              <div class="mb-3 d-flex justify-content-between flex-wrap">
+                <div class="col-10 col-md-3">
+                  <label class="form-label usuario-perfil-label">Logo actual</label>
+                  <ul id="me-thumbnails" class="thumbnails">
+                    <li class="thumbnail-img rounded-0">
+                      <img id="me-logo-preview" src="/images/default-logo.png" class="img-thumbnail" alt="logo">
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-10 col-md-7">
+                  <label for="me-logo-input" class="form-label usuario-perfil-label">Logo nuevo</label>
+                  <input class="form-control" type="file" id="me-logo-input" name="logoImagen" accept="image/*">
+                  <small class="text-muted">Si subes una imagen, reemplazará la anterior.</small>
+                </div>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="me-descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="me-descripcion" name="descripcionNegocio" rows="4"
+                  required></textarea>
+              </div>
+              <!-- Ubicación del emprendimiento -->
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="me-ubic-ciudad" class="form-label">Ciudad</label>
+                  <input type="text" class="form-control" id="me-ubic-ciudad" name="ubicacionEmprendimiento.ciudad"
+                    value="">
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="me-ubic-departamento" class="form-label">Departamento</label>
+                  <input type="text" class="form-control" id="me-ubic-departamento"
+                    name="ubicacionEmprendimiento.departamento" value="">
+                </div>
+              </div>
+              <div class="d-flex gap-2 justify-content-end">
+                <button type="button" class="btn btn-basic" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-terracota">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <%- include('../partials/footer.ejs'); %>
+      <!-- ====================== MODAL CONFIRMAR INACTIVACIÓN EMPRENDIMIENTO ====================== -->
+      <div class="modal fade" id="modalInactivarEmprendimiento" tabindex="-1" aria-labelledby="modalInactivarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content border-warning">
+            <div class="modal-header bg-warning text-dark">
+              <h5 class="modal-title" id="modalInactivarLabel"><i class="fas fa-exclamation-triangle me-2"></i>
+                Inactivar Emprendimiento</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Paso 1: Advertencia -->
+              <div id="pasoUnoEliminacion" class="text-center">
+                <div class="mb-4">
+                  <!-- Icono grande de advertencia -->
+                  <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+                </div>
+
+                <h4 class="text-danger mb-3">¡ADVERTENCIA!</h4>
+
+                <div class="alert alert-warning" role="alert">
+                  <strong>¿Estás seguro de que deseas desactivar este emprendimiento?</strong>
+                  <hr>
+                  <ul class="text-start mb-0">
+                    <li>Si tienes pedidos NO finalizados asociados a este emprendimiento, no será posible la
+                      inactivación</li>
+                    <li>Tu emprendimiento se desactivará, pero puedes activarlo en cualquier momento</li>
+                    <li>Los productos asociados a este emprendimiento, también se inactivarán y no serán visibles</li>
+                  </ul>
+                </div>
+                <p class="small text-muted">Emprendimiento: <strong id="modalInactivarNombre"></strong></p>
+              </div>
+              <div id="mensajeEstadoInactivar" class="alert d-none" role="alert"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-danger" id="btnConfirmInactivar">Inactivar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ====================== MODAL CONFIRMAR ACTIVACIÓN EMPRENDIMIENTO ====================== -->
+      <div class="modal fade" id="modalActivarEmprendimiento" tabindex="-1" aria-labelledby="modalActivarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content border-success">
+            <div class="modal-header bg-success text-white">
+              <h5 class="modal-title" id="modalActivarLabel"><i class="fas fa-check-circle me-2"></i> Activar
+                Emprendimiento</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                <div class="mb-4">
+                  <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="mb-3">¿Deseas activar este emprendimiento?</h4>
+                <div class="alert alert-success" role="alert">
+                  <strong>Al activarlo, los productos serán visibles y podrás recibir solicitudes de pedidos.</strong>
+                  <hr>
+                  <ul class="text-start mb-0">
+                    <li>Los productos asociados serán visibles para los usuarios.</li>
+                    <li>Puedes recibir solicitudes de pedidos y mensajes.</li>
+                    <li>Puedes inactivarlo otra vez cuando quieras.</li>
+                  </ul>
+                </div>
+                <p class="small text-muted">Emprendimiento: <strong id="modalActivarNombre"></strong></p>
+              </div>
+              <div id="mensajeEstadoActivar" class="alert d-none" role="alert"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-success" id="btnConfirmActivar">Activar</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
       <script>
         window.API_BASE_URL = '<%= apiBaseUrl %>';
@@ -245,6 +469,8 @@
       <script src="/js/login_signup.js"></script>
       <!-- Bootstrap + FontAwesome -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+
 </body>
 
 </html>

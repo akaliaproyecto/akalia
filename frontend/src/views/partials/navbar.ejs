@@ -80,7 +80,11 @@
           <li class="ps-3 fw-semibold user-name">`Hola ${data.nombre}`</li>
           <!-- Usar la misma ruta /mi-perfil para consistencia con sidebar -->
           <li><a class="dropdown-item user-profile" href="/mi-perfil">Mi perfil</a></li>
-          <li><a class="dropdown-item user-emprendimientos" href="">Mis emprendimientos</a></li>
+          <!-- Enlace simple a la vista de mis emprendimientos (puede cambiarse a la ruta real) -->
+          <li><a class="dropdown-item user-emprendimientos" href="/usuario-emprendimientos/<%= usuarioActual ? usuarioActual.idPersona : '' %>">Mis emprendimientos</a></li>
+          <!-- Enlace para ver "Mis productos" que usa la ruta creada en productos.front.routes.js -->
+          <!-- Si el usuario está autenticado usamos su idPersona, si no se deja vacío (la ruta acepta id opcional) -->
+          <li><a class="dropdown-item user-emprendimientos" href="/productos/usuario-productos/<%= usuarioActual ? usuarioActual.idPersona : '' %>">Mis productos</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>

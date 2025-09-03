@@ -5,7 +5,6 @@ const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
 
-
 const PORT = 3000;
 
 // Motor de vistas
@@ -28,21 +27,30 @@ app.use((req, res, next) => {
 
 // Middleware para obtener datos del usuario logueado desde cookies
 app.use((req, res, next) => {
-  // Verificar si existe cookie con datos del usuario autenticado
+  // Evitar logs para assets estáticos (css, js, imágenes, maps, etc.)
+  const staticExtRegex = /\.(css|js|map|png|jpg|jpeg|gif|svg|ico)$/i;
+  const wantsHtml = req.accepts && req.accepts('html');
+
   if (req.cookies && req.cookies.usuario) {
     try {
-      // Decodificar y parsear los datos del usuario desde la cookie
-      const datosUsuarioDecodificados = JSON.parse(req.cookies.usuario);
+      // la cookie puede venir ya como objeto o como string JSON
+      const datosUsuarioDecodificados = typeof req.cookies.usuario === 'string'
+        ? JSON.parse(req.cookies.usuario)
+        : req.cookies.usuario;
+
       req.usuarioAutenticado = datosUsuarioDecodificados;
       res.locals.usuarioActual = datosUsuarioDecodificados;
-      console.log('Usuario autenticado encontrado:', datosUsuarioDecodificados.nombreUsuario);
+
+      // Log sólo para peticiones que esperan HTML y no son assets estáticos
+      if (wantsHtml && !staticExtRegex.test(req.path)) {
+        console.log('Usuario autenticado encontrado:', datosUsuarioDecodificados.nombreUsuario || datosUsuarioDecodificados.idPersona || '<sin nombre>');
+      }
     } catch (errorParseoCookie) {
       console.error('Error al decodificar datos de usuario:', errorParseoCookie);
       req.usuarioAutenticado = null;
       res.locals.usuarioActual = null;
     }
   } else {
-    // No hay usuario logueado
     req.usuarioAutenticado = null;
     res.locals.usuarioActual = null;
   }
@@ -65,7 +73,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).render('pages/error', { error: err });
 });
-
 
 app.listen(3000, () => {
   console.log(`Servidor frontend en línea en el puerto 3000`)

@@ -2,7 +2,7 @@ const modeloEmprendimiento = require('./emprendimiento.model');
 const uploadImage = require('../servicios/subirImagen')
 const mongoose = require('mongoose');
 
-//listar emprendimientos
+/* listar emprendimientos */
 const obtenerEmprendimientos = async (req, res) => {
   try {
     const emprendimientos = await modeloEmprendimiento.find();
@@ -17,7 +17,7 @@ const obtenerEmprendimientos = async (req, res) => {
   }
 };
 
-// listar un emprendimiento por ID
+/* listar un emprendimiento por ID */
 const obtenerEmprendimientoPorId = async (req, res) => {
   const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
   try {
@@ -33,7 +33,7 @@ const obtenerEmprendimientoPorId = async (req, res) => {
   }
 };
 
-// listar emprendimientos por ID de usuario
+/* listar emprendimientos por ID de usuario */
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
   const idUsuario = req.params.id;
   console.log(idUsuario)
@@ -51,10 +51,9 @@ const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
   }
 };
 
-// crear un nuevo emprendimiento
+/* crear un nuevo emprendimiento */
 const crearEmprendimiento = async (req, res) => {
   try {
-    // obtenemos ciudad/departamento intentando los nombres más comunes que puede enviar el formulario
     const ciudad = req.body['ubicacionEmprendimiento.ciudad'] || req.body['ubicacionEmprendimiento[ciudad]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.ciudad) || '';
     const departamento = req.body['ubicacionEmprendimiento.departamento'] || req.body['ubicacionEmprendimiento[departamento]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.departamento) || '';
 
@@ -68,7 +67,7 @@ const crearEmprendimiento = async (req, res) => {
       }
     };
 
-    // Si se subió un archivo (multer lo deja en req.file), guardamos su URL/ruta
+    // Si se subió un archivo (multer lo deja en req.file)
     if (req.file) {
       datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
     }
@@ -81,7 +80,7 @@ const crearEmprendimiento = async (req, res) => {
   }
 };
 
-// actualizar un emprendimiento
+/* actualizar un emprendimiento */
 const actualizarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   try {
@@ -118,17 +117,26 @@ const actualizarEmprendimiento = async (req, res) => {
   }
 };
 
-// deshabilitar un emprendimiento
+/* deshabilitar un emprendimiento */
 const deshabilitarEmprendimiento = async (req, res) => {
   try {
+    // Permitimos recibir en el body { emprendimientoActivo: true|false }
+    // Si no viene, por compatibilidad se asume false (comportamiento previo)
+    let nuevoEstado = false;
+    if (typeof req.body.emprendimientoActivo !== 'undefined') {
+      // Aceptar booleano o string 'true'/'false'
+      const v = req.body.emprendimientoActivo;
+      nuevoEstado = (v === true || v === 'true' || v === '1' || v === 1);
+    }
+
     const emprendimiento = await modeloEmprendimiento.findByIdAndUpdate(
       req.params.id,
-      { emprendimientoActivo: false }, // Cambia el estado a false
+      { emprendimientoActivo: nuevoEstado },
       { new: true }
     );
 
     if (emprendimiento) {
-      res.status(200).json({ mensaje: "Emprendimiento deshabilitado correctamente", emprendimiento });
+      res.status(200).json({ mensaje: "Estado de emprendimiento actualizado correctamente", emprendimiento });
     } else {
       res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
