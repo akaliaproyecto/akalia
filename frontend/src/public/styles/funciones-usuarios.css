@@ -29,13 +29,6 @@
   display: block;
 }
 
-/* Botón eliminar en la tarjeta */
-.akalia-btn-delete {
-  background: #E6E3D7 !important;
-  color: #651313 !important;
-  border: 1px solid #b9b9b9;
-}
-
 @media (max-width: 768px) {
   .akalia-card {
     padding: 1rem 0.5rem;

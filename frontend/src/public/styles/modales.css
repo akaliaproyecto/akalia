@@ -1,11 +1,11 @@
 body.akalia-bg {
-  background-color: #FFFEFC;
+  background-color: var(--normal-lights-blanco-light);
   font-family: 'Montserrat', sans-serif;
-  color: #1C1C1C;
+  color: var(--normal-negro);
 }
 
 .akalia-modal {
-  background-color: #FFFEFC;
+  background-color: var(--normal-lights-blanco-light);
   border-radius: .5rem;
   padding: 1rem;
 }
@@ -18,9 +18,9 @@ body.akalia-bg {
   align-items: center;
   gap: 8px;
   border-radius: 6px;
-  border: 0.5px solid #798D8B;
-  background-color: #FFFFFF;
-  color: #798D8B;
+  border: 0.5px solid var(--normal-lights-verde-disable);
+  background-color: #fff;
+  color: var(--normal-lights-verde-disable);
   font-family: Montserrat, sans-serif;
   font-size: 13px;
   font-weight: 400;
@@ -34,7 +34,7 @@ body.akalia-bg {
   right: 16px;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #798D8B;
+  color: var(--normal-lights-verde-disable);
 }
 
 
@@ -42,17 +42,17 @@ body.akalia-bg {
 /* Links */
 .link-akalia {
   font-size: 0.85rem;
-  color: #305853;
+  color: var(--normal-verde);
   text-decoration: underline;
 }
 .link-akalia:hover {
-  color: #9E2C21;
+  color: var(--normal-terracota);
 }
 
 .form-check-input {
     width: 1.25rem;
     height: 1.25rem;
     border-radius: 0.25rem;
-    background-color: #FFFEFC;
+    background-color: var(--normal-lights-blanco-light);
     border: 1px solid #07312d;
 }

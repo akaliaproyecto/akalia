@@ -12,7 +12,7 @@
 }
 
 .akalia-banner-content {
-  background: #FFF9E4;
+  background: var(--normal-blanco);
   border-radius: 1rem;
   padding: clamp(1rem,2.5vw,2.5rem) clamp(1rem,2.5vw,3rem);
   max-width: 700px;
@@ -24,7 +24,7 @@
 .akalia-banner-subtitle {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
-  color: #1C1C1C;
+  color: var(--normal-negro);
   letter-spacing: 0.15em;
   margin-bottom: 1rem;
   display: block;
@@ -33,7 +33,7 @@
 .akalia-banner-desc {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.3rem;
-  color: #1C1C1C;
+  color: var(--normal-negro);
   margin-bottom: 2rem;
 }
 
@@ -57,7 +57,7 @@ line-height: var(--Number, 1.5rem); /* 96% */
 
 
 .categoria-container h1 {
-  color: Negro;
+  color: var(--normal-negro);
 
 /* Titulo grande */
 font-size: 2.4375rem;
