@@ -1,0 +1,37 @@
+<!-- ====================== MODAL CONFIRMAR ACTIVACIÓN EMPRENDIMIENTO ====================== -->
+      <div class="modal fade" id="modalActivarEmprendimiento" tabindex="-1" aria-labelledby="modalActivarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content border-success">
+            <div class="modal-header bg-success text-white">
+              <h5 class="modal-title" id="modalActivarLabel"><i class="fas fa-check-circle me-2"></i> Activar
+                Emprendimiento</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                <div class="mb-4">
+                  <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="mb-3">¿Deseas activar este emprendimiento?</h4>
+                <div class="alert alert-success" role="alert">
+                  <strong>Al activarlo, los productos serán visibles y podrás recibir solicitudes de pedidos.</strong>
+                  <hr>
+                  <ul class="text-start mb-0">
+                    <li>Los productos asociados serán visibles para los usuarios.</li>
+                    <li>Puedes recibir solicitudes de pedidos y mensajes.</li>
+                    <li>Puedes inactivarlo otra vez cuando quieras.</li>
+                  </ul>
+                </div>
+                <p class="small text-muted">Emprendimiento: <strong id="modalActivarNombre"></strong></p>
+              </div>
+              <div id="mensajeEstadoActivar" class="alert d-none" role="alert"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-success" id="btnConfirmActivar">Activar</button>
+            </div>
+          </div>
+        </div>
+      </div>

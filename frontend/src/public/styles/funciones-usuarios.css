@@ -1,8 +1,5 @@
-* {
-  font-family:  var( --texto-regular-font-family);
-}
-
-.usuario-perfil-card {
+/* Tarjeta principal de usuario/perfil */
+.akalia-card {
   max-width: 950px;
   width: 100%;
   background: #FFF9E4;
@@ -13,24 +10,17 @@
   border: 1px solid #e6e3d7;
 }
 
-.usuario-perfil-title {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: #1C1C1C;
-  margin-bottom: 2rem;
-}
-
-.usuario-perfil-info {
+/* Información interna de la tarjeta */
+.akalia-card-info {
   background: #fff;
   border-radius: 0.75rem;
   padding: 2rem 2rem 1.5rem 2rem;
   border: 1px solid var(--normal-lights-verde-light);
   box-shadow: 1px 4px 4px 0px rgba(0, 0, 0, 0.20);
- 
 }
 
-.usuario-perfil-label {
+/* Etiqueta de campo en la tarjeta */
+.akalia-label {
   font-family: 'Montserrat', sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
@@ -39,31 +29,31 @@
   display: block;
 }
 
-.usuario-perfil-eliminar {
+/* Botón eliminar en la tarjeta */
+.akalia-btn-delete {
   background: #E6E3D7 !important;
   color: #651313 !important;
   border: 1px solid #b9b9b9;
 }
 
 @media (max-width: 768px) {
-  .usuario-perfil-card {
+  .akalia-card {
     padding: 1rem 0.5rem;
   }
-  .usuario-perfil-info {
+  .akalia-card-info {
     padding: 1rem 0.5rem;
   }
-  .usuario-perfil-title {
+  .akalia-title--medium {
     font-size: 1.5rem;
   }
 }
 
 /* === Tabla de productos Akalia === */
-
-.tabla-productos {
+.akalia-table {
   padding: 2rem;
 }
 
-.filtros-productos .btn {
+.akalia-table-filters .btn {
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
@@ -72,49 +62,49 @@
   border: none;
 }
 
-.filtro-activo {
+.akalia-filter-active {
   background-color: var(--normal-verde);
   color: white;
 }
 
-.filtro-inactivo {
+.akalia-filter-inactive {
   background-color: var(--normal-lights-blanco-light);
   color: #1c1c1c;
   border: 1px solid var(--normal-lights-gray);
 }
 
-.tabla-akalia thead {
+.akalia-table thead {
   background-color: var(--normal-lights-blanco-light);
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
 }
 
-.tabla-akalia td,
-.tabla-akalia th {
+.akalia-table td,
+.akalia-table th {
   vertical-align: middle;
   padding: 0.75rem;
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
 }
 
-.tabla-akalia tbody tr {
+.akalia-table tbody tr {
   border-top: 1px solid #e6e3d7;
 }
 
-.img-producto {
+.akalia-img-product {
   width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: 10px;
 }
 
-.acciones-producto {
+.akalia-actions-product {
   display: flex;
   gap: 0.5rem;
   justify-content: center;
 }
 
-.btn-icon {
+.akalia-btn-icon {
   background-color: var(--normal-lights-blanco-light);
   border: none;
   padding: 0.5rem;
@@ -123,31 +113,27 @@
   font-size: 1rem;
 }
 
-.btn-icon.eliminar {
+.akalia-btn-icon.akalia-btn-delete {
   background-color: #E6E3D7;
   color: var(--dark-vinotinto);
   border: 1px solid #b9b9b9;
 }
 
 /* tagify */
-
-.tagify--outside {
-    border: 0;
-  }
-
-  .tagify--outside .tagify__input {
-    order: -1;
-    flex: 100%;
-    border: 1px solid var(--tags-border-color, #ccc);
-    margin-bottom: 1em;
-    transition: .1s;
-  }
-
-  .tagify--outside .tagify__input:hover {
-    border-color: var(--tags-hover-border-color, #999);
-  }
-
-  .tagify--outside.tagify--focus .tagify__input {
-    transition: 0s;
-    border-color: var(--tags-focus-border-color, #007bff);
-  }
+.akalia-tagify--outside {
+  border: 0;
+}
+.akalia-tagify--outside .akalia-tagify__input {
+  order: -1;
+  flex: 100%;
+  border: 1px solid var(--tags-border-color, #ccc);
+  margin-bottom: 1em;
+  transition: .1s;
+}
+.akalia-tagify--outside .akalia-tagify__input:hover {
+  border-color: var(--tags-hover-border-color, #999);
+}
+.akalia-tagify--outside.akalia-tagify--focus .akalia-tagify__input {
+  transition: 0s;
+  border-color: var(--tags-focus-border-color, #007bff);
+}

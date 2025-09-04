@@ -14,21 +14,21 @@
         <div class="d-flex flex-row h-100">
             <%- include('../partials/sidebar.ejs'); %>
                 <main class="flex-grow-1 d-flex flex-column justify-content-center align-items-center py-5">
-                    <section class="usuario-perfil-card overflow-scroll">
-                        <h2 class="usuario-perfil-title">Editar Producto</h2>
-                        <div class="usuario-perfil-info">
+                    <section class="akalia-card overflow-scroll">
+                        <h2 class="akalia-title akalia-title--medium">Editar Producto</h2>
+                        <div class="akalia-card-info">
                             <form
                                 action="http://localhost:3000/api/productos/usuario-productos/<%= usuario.idPersona %>/editar/<%= producto.idProducto %>"
                                 method="POST" enctype="multipart/form-data">
                                 <div class="mb-3">
-                                    <label for="titulo" class="form-label usuario-perfil-label">Título del
+                                    <label for="titulo" class="form-label akalia-label">Título del
                                         producto</label>
                                     <input type="text" name="tituloProducto" id="titulo" class="form-control"
                                         value="<%= producto.tituloProducto %>" required>
                                         
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label usuario-perfil-label">Imágenes actuales</label>
+                                    <label class="form-label akalia-label">Imágenes actuales</label>
                                     <ul id="thumbnails" class="thumbnails">
                                         <% imagenes.forEach(function(img) { %>
                                             <li class="thumbnail-img">
@@ -40,7 +40,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="imagenes" class="form-label usuario-perfil-label">Imágenes
+                                    <label for="imagenes" class="form-label akalia-label">Imágenes
                                         nuevas</label>
                                     <input type="file" name="imagenes" id="imagenes" class="form-control" multiple
                                         accept="image/*">
@@ -49,20 +49,19 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="descripcion" class="form-label usuario-perfil-label">Descripción</label>
+                                    <label for="descripcion" class="form-label akalia-label">Descripción</label>
                                     <textarea name="descripcionProducto" id="descripcion" class="form-control" rows="4"
                                         required><%= producto.descripcionProducto %></textarea>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="precio" class="form-label usuario-perfil-label">Precio</label>
+                                    <label for="precio" class="form-label akalia-label">Precio</label>
                                     <input type="number" name="precio" id="precio" class="form-control"
                                         value="<%= producto.precio %>" required step="0.01" min="0">
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="emprendimiento"
-                                        class="form-label usuario-perfil-label">Emprendimiento</label>
+                                    <label for="emprendimiento" class="form-label akalia-label">Emprendimiento</label>
                                     <select name="idEmprendimiento" id="emprendimiento" class="form-select" required>
                                         <% emprendimientos.forEach(emp=> { %>
                                             <option value="<%= emp.idEmprendimiento %>"
@@ -75,7 +74,7 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label usuario-perfil-label">Categorías</label>
+                                    <label class="form-label akalia-label">Categorías</label>
                                     <div class="d-flex flex-wrap gap-2">
                                         <% categorias.forEach(cat=> { %>
                                             <div class="form-check">
@@ -92,13 +91,13 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label usuario-perfil-label">Etiquetas</label>
+                                    <label class="form-label akalia-label">Etiquetas</label>
                                     <div class="d-flex flex-wrap gap-2">
 
                                         <div class="form-check">
 
                                             <!-- Etiquetas -->
-                                            <input name="tags-outside" class="tagify--outside" id="etiquetasTagify"
+                                            <input name="tags-outside" class="akalia-tagify--outside" id="etiquetasTagify"
                                                 placeholder="Escribe etiquetas..."
                                                 data-etiquetas='<%= JSON.stringify(etiquetas) %>'
                                                 data-etiquetas-seleccionadas='<%= JSON.stringify(etiquetasSeleccionadas) %>' />

@@ -1,8 +1,12 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 body {
   background-color: var(--normal-lights-blanco-light);
   width: 100%;
 }
-
+/* NAVBAR */
 .akalia-navbar {
   background-color: #FFF9E4;
   border-bottom: 1px solid #b9b9b9;
@@ -160,10 +164,9 @@ body {
   color: var(--normal-blanco);
 }
 .sidebar-label {
+  font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
 }
-
-
 
 @media (max-width: 768px) {
   .akalia-sidebar {
@@ -182,6 +185,7 @@ body {
   }
 }
 
+/* Productos */
 
 .product-card {
   cursor: pointer;

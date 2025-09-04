@@ -1,0 +1,64 @@
+<!-- Modal: Editar Emprendimiento (versión modal de usuario-emprendimiento-editar.ejs) -->
+    <div class="modal fade" id="modalEditarEmprendimiento" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="akalia-title akalia-title--medium m-0">Editar Emprendimiento</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Formulario de edición (se rellenará por JS) -->
+            <form id="form-editar-emprendimiento-modal" method="POST" enctype="multipart/form-data">
+              <!-- campos ocultos para usuario y emprendimiento -->
+              <input type="hidden" id="me-usuario-id" name="usuario" value="">
+              <input type="hidden" id="me-empr-id" name="idEmprendimiento" value="">
+
+              <div class="mb-3">
+                <label for="me-nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="me-nombre" name="nombreEmprendimiento" value="" required>
+              </div>
+
+              <div class="mb-3 d-flex justify-content-between flex-wrap">
+                <div class="col-10 col-md-3">
+                  <label class="form-label akalia-label">Logo actual</label>
+                  <ul id="me-thumbnails" class="thumbnails">
+                    <li class="thumbnail-img rounded-0">
+                      <img id="me-logo-preview" src="/images/default-logo.png" class="img-thumbnail" alt="logo">
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-10 col-md-7">
+                  <label for="me-logo-input" class="form-label akalia-label">Logo nuevo</label>
+                  <input class="form-control" type="file" id="me-logo-input" name="logoImagen" accept="image/*">
+                  <small class="text-muted">Si subes una imagen, reemplazará la anterior.</small>
+                </div>
+              </div>
+
+
+              <div class="mb-3">
+                <label for="me-descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="me-descripcion" name="descripcionNegocio" rows="4"
+                  required></textarea>
+              </div>
+              <!-- Ubicación del emprendimiento -->
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="me-ubic-ciudad" class="form-label">Ciudad</label>
+                  <input type="text" class="form-control" id="me-ubic-ciudad" name="ubicacionEmprendimiento.ciudad"
+                    value="">
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="me-ubic-departamento" class="form-label">Departamento</label>
+                  <input type="text" class="form-control" id="me-ubic-departamento"
+                    name="ubicacionEmprendimiento.departamento" value="">
+                </div>
+              </div>
+              <div class="d-flex gap-2 justify-content-end">
+                <button type="button" class="btn btn-basic" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-terracota">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>

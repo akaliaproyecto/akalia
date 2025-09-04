@@ -1,56 +1,6 @@
-/* Figma Styles of your File */:root {
-  /* Colors */
-  /* Fonts */
-  --titulo-grande-font-family: Montserrat-Bold, sans-serif;
-  --titulo-grande-font-size: 39px;
-  --titulo-grande-line-height: 32px;
-  --titulo-grande-font-weight: 700;
-  --titulo-grande-font-style: normal;
-  --titulo-font-family: Montserrat-SemiBold, sans-serif;
-  --titulo-font-size: 31px;
-  --titulo-line-height: 24px;
-  --titulo-font-weight: 600;
-  --titulo-font-style: normal;
-  --subtitulo-font-family: Montserrat-SemiBold, sans-serif;
-  --subtitulo-font-size: 25px;
-  --subtitulo-line-height: 24px;
-  --subtitulo-font-weight: 600;
-  --subtitulo-font-style: normal;
-  --texto-regular-font-family: Montserrat-Regular, sans-serif;
-  --texto-regular-font-size: 20px;
-  --texto-regular-line-height: 24px;
-  --texto-regular-font-weight: 400;
-  --texto-regular-font-style: normal;
-  --texto-descriptivo-font-family: Montserrat-Regular, sans-serif;
-  --texto-descriptivo-font-size: 16px;
-  --texto-descriptivo-line-height: 24px;
-  --texto-descriptivo-font-weight: 400;
-  --texto-descriptivo-font-style: normal;
-  --texto-referencias-1-font-family: Montserrat-Regular, sans-serif;
-  --texto-referencias-1-font-size: 13px;
-  --texto-referencias-1-line-height: 24px;
-  --texto-referencias-1-font-weight: 400;
-  --texto-referencias-1-font-style: normal;
-  --texto-referencias-2-font-family: Montserrat-Regular, sans-serif;
-  --texto-referencias-2-font-size: 10px;
-  --texto-referencias-2-line-height: 24px;
-  --texto-referencias-2-font-weight: 400;
-  --texto-referencias-2-font-style: normal;
-  --texto-regular-bold-font-family: Montserrat-SemiBold, sans-serif;
-  --texto-regular-bold-font-size: 20px;
-  --texto-regular-bold-line-height: 24px;
-  --texto-regular-bold-font-weight: 600;
-  --texto-regular-bold-font-style: normal;
-  --texto-descriptivo-bold-font-family: Montserrat-SemiBold, sans-serif;
-  --texto-descriptivo-bold-font-size: 16px;
-  --texto-descriptivo-bold-line-height: 24px;
-  --texto-descriptivo-bold-font-weight: 600;
-  --texto-descriptivo-bold-font-style: normal;
-
-  /* Effects */
-
-}
-/* Figma Color Variables of your File */:root, [data-akalia-mode=normal] {
+/* Figma Color Variables of your File */
+:root,
+[data-akalia-mode="normal"] {
   /* normal */
   --normal-vinotinto: #590d0d;
   --normal-terracota: #9e2c21;
@@ -82,68 +32,175 @@
 /* Clases de color fondo*/
 
 /* === Normal === */
-.bg-vinotinto { background-color: var(--normal-vinotinto); }
-.bg-terracota { background-color: var(--normal-terracota); }
-.bg-verde { background-color: var(--normal-verde); }
-.bg-blanco { background-color: var(--normal-blanco); }
-.bg-negro { background-color: var(--normal-negro); }
+.bg-vinotinto {
+  background-color: var(--normal-vinotinto);
+}
+.bg-terracota {
+  background-color: var(--normal-terracota);
+}
+.bg-verde {
+  background-color: var(--normal-verde);
+}
+.bg-blanco {
+  background-color: var(--normal-blanco);
+}
+.bg-negro {
+  background-color: var(--normal-negro);
+}
 
 /* === Hover === */
-.bg-hover-vinotinto:hover { background-color: var(--hover-vinotinto); }
-.bg-hover-terracota:hover { background-color: var(--hover-terracota); }
-.bg-hover-verde:hover { background-color: var(--hover-verde); }
-.bg-hover-blanco:hover { background-color: var(--hover-blanco); }
-.bg-hover-negro:hover { background-color: var(--hover-negro); }
+.bg-hover-vinotinto:hover {
+  background-color: var(--hover-vinotinto);
+}
+.bg-hover-terracota:hover {
+  background-color: var(--hover-terracota);
+}
+.bg-hover-verde:hover {
+  background-color: var(--hover-verde);
+}
+.bg-hover-blanco:hover {
+  background-color: var(--hover-blanco);
+}
+.bg-hover-negro:hover {
+  background-color: var(--hover-negro);
+}
 
 /* === Dark === */
-.bg-dark-vinotinto { background-color: var(--dark-vinotinto); }
-.bg-dark-terracota { background-color: var(--dark-terracota); }
-.bg-dark-verde { background-color: var(--dark-verde); }
-.bg-dark-blanco { background-color: var(--dark-blanco); }
-.bg-dark-negro { background-color: var(--dark-negro); }
+.bg-dark-vinotinto {
+  background-color: var(--dark-vinotinto);
+}
+.bg-dark-terracota {
+  background-color: var(--dark-terracota);
+}
+.bg-dark-verde {
+  background-color: var(--dark-verde);
+}
+.bg-dark-blanco {
+  background-color: var(--dark-blanco);
+}
+.bg-dark-negro {
+  background-color: var(--dark-negro);
+}
 
 /* === Lights === */
-.bg-blanco-light { background-color: var(--normal-lights-blanco-light); }
-.bg-terracota-light { background-color: var(--normal-lights-terracota-light); }
-.bg-verde-light { background-color: var(--normal-lights-verde-light); }
-.bg-gray-light { background-color: var(--normal-lights-gray); }
-.bg-verde-disable { background-color: var(--normal-lights-verde-disable); }
-.bg-terracota-disable { background-color: var(--normal-lights-terracota-disable); }
-.bg-vinotinto-disable { background-color: var(--normal-lights-vinotinto-disable); }
+.bg-blanco-light {
+  background-color: var(--normal-lights-blanco-light);
+}
+.bg-terracota-light {
+  background-color: var(--normal-lights-terracota-light);
+}
+.bg-verde-light {
+  background-color: var(--normal-lights-verde-light);
+}
+.bg-gray-light {
+  background-color: var(--normal-lights-gray);
+}
+.bg-verde-disable {
+  background-color: var(--normal-lights-verde-disable);
+}
+.bg-terracota-disable {
+  background-color: var(--normal-lights-terracota-disable);
+}
+.bg-vinotinto-disable {
+  background-color: var(--normal-lights-vinotinto-disable);
+}
 
 /* === Active === */
-.bg-active-verde:active { background-color: var(--active-verde); }
-.bg-active-blanco:active { background-color: var(--active-blanco); }
+.bg-active-verde:active {
+  background-color: var(--active-verde);
+}
+.bg-active-blanco:active {
+  background-color: var(--active-blanco);
+}
 
 /* === Extra Dark === */
-.bg-darkest-blanco { background-color: var(--dark-darkest-blanco); }
+.bg-darkest-blanco {
+  background-color: var(--dark-darkest-blanco);
+}
 
 /* Clases de color fuente */
-.text-vinotinto { color: var(--normal-vinotinto); }
-.text-terracota { color: var(--normal-terracota); }
-.text-verde { color: var(--normal-verde); }
-.text-blanco { color: var(--normal-blanco); }
-.text-negro { color: var(--normal-negro); }
+.text-vinotinto {
+  color: var(--normal-vinotinto);
+}
+.text-terracota {
+  color: var(--normal-terracota);
+}
+.text-verde {
+  color: var(--normal-verde);
+}
+.text-blanco {
+  color: var(--normal-blanco);
+}
+.text-negro {
+  color: var(--normal-negro);
+}
 
-.text-dark-vinotinto { color: var(--dark-vinotinto); }
-.text-dark-terracota { color: var(--dark-terracota); }
-.text-dark-verde { color: var(--dark-verde); }
-.text-dark-blanco { color: var(--dark-blanco); }
-.text-dark-negro { color: var(--dark-negro); }
+.text-dark-vinotinto {
+  color: var(--dark-vinotinto);
+}
+.text-dark-terracota {
+  color: var(--dark-terracota);
+}
+.text-dark-verde {
+  color: var(--dark-verde);
+}
+.text-dark-blanco {
+  color: var(--dark-blanco);
+}
+.text-dark-negro {
+  color: var(--dark-negro);
+}
 
-.text-blanco-light { color: var(--normal-lights-blanco-light); }
-.text-terracota-light { color: var(--normal-lights-terracota-light); }
-.text-verde-light { color: var(--normal-lights-verde-light); }
-.text-gray-light { color: var(--normal-lights-gray); }
-.text-verde-disable { color: var(--normal-lights-verde-disable); }
-.text-terracota-disable { color: var(--normal-lights-terracota-disable); }
-.text-vinotinto-disable { color: var(--normal-lights-vinotinto-disable); }
+.text-blanco-light {
+  color: var(--normal-lights-blanco-light);
+}
+.text-terracota-light {
+  color: var(--normal-lights-terracota-light);
+}
+.text-verde-light {
+  color: var(--normal-lights-verde-light);
+}
+.text-gray-light {
+  color: var(--normal-lights-gray);
+}
+.text-verde-disable {
+  color: var(--normal-lights-verde-disable);
+}
+.text-terracota-disable {
+  color: var(--normal-lights-terracota-disable);
+}
+.text-vinotinto-disable {
+  color: var(--normal-lights-vinotinto-disable);
+}
 
-.text-active-verde { color: var(--active-verde); }
-.text-active-blanco { color: var(--active-blanco); }
+.text-active-verde {
+  color: var(--active-verde);
+}
+.text-active-blanco {
+  color: var(--active-blanco);
+}
 
-.text-darkest-blanco { color: var(--dark-darkest-blanco); }
+.text-darkest-blanco {
+  color: var(--dark-darkest-blanco);
+}
 
+.akalia-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: var(--dark-negro);
+  
+}
+
+.akalia-title--large {
+  font-size: clamp(2rem,5vw,2.5rem);
+  margin-bottom: 1.5rem;
+  color: var(--normal-vinotinto);
+}
+
+.akalia-title--medium {
+  font-size: clamp(1.8rem,5vw,2.2rem);
+  margin-bottom: 2rem;
+}
 
 /* Botón estilo terracota */
 
@@ -157,49 +214,51 @@
   font-size: 1rem;
   border: none;
   font-weight: 600;
-  font-family: Montserrat;
+  font-family: "Montserrat", sans-serif;
 }
 
 .btn-basic {
   border: 0.5px solid var(--normal-vinotinto);
   background: var(--normal-blanco);
   color: var(--normal-vinotinto);
-  transition:  0.2s;
+  transition: 0.2s;
 }
 .btn-basic:hover {
-  background-color:var(--hover-blanco);
-    color: var(--normal-vinotinto);
-border: 0.5px solid var(--normal-vinotinto);
-
+  background-color: var(--hover-blanco);
+  color: var(--normal-vinotinto);
+  border: 0.5px solid var(--normal-vinotinto);
 }
-.btn-disable, .btn-disable:hover, .btn-disable:focus {
-border-radius: 0.5rem;
-background: var(--normal-lights-verde-light);
-color: var(--normal-lights-verde-disable);
-text-align: center;
-font-weight: 400;
+
+.btn-disable,
+.btn-disable:hover,
+.btn-disable:focus {
+  border-radius: 0.5rem;
+  background: var(--normal-lights-verde-light);
+  color: var(--normal-lights-verde-disable);
+  text-align: center;
+  font-weight: 400;
 }
 
 .btn-terracota {
-  background-color: #9E2C21;
-  color: #FFF9E4;
+  background-color: #9e2c21;
+  color: #fff9e4;
   border: none;
   font-weight: 600;
 }
+
 .btn-terracota:hover {
   background-color: var(--dark-terracota);
-  color: #FFF9E4;
+  color: #fff9e4;
 }
 
 .btn-explorar {
-  background: #E6E3D7;
-  color: #3C5C4B;
+  background: #e6e3d7;
+  color: #3c5c4b;
   font-weight: 600;
   border-radius: 0.5rem;
   padding: 0.75rem 2rem;
   font-size: 1.2rem;
   border: none;
-  
 }
 
 .btn-explorar:hover {

@@ -6,8 +6,8 @@
   <title>
     <%= titulo %> | Akalia
   </title>
-  <link rel="stylesheet" href="/styles/usuario-perfil.css">
   <%- include('../partials/head.ejs'); %>
+  <link rel="stylesheet" href="/styles/funciones-usuarios.css">
 
 </head>
 
@@ -16,9 +16,9 @@
     <div class="d-flex flex-row h-100">
       <%- include('../partials/sidebar.ejs'); %>
         <main class="flex-grow-1 d-flex flex-column justify-content-center align-content-center py-5">
-          <section class="usuario-perfil-card">
-            <h2 class="usuario-perfil-title m-0">Editar Emprendimiento</h2>
-            <div class="usuario-perfil-info">
+          <section class="akalia-card">
+            <h2 class="akalia-title akalia-title--medium m-0">Editar Emprendimiento</h2>
+            <div class="akalia-card-info">
               <form id="form-editar-emprendimiento"
                 action="http://localhost:3000/api/emprendimientos/usuario/<%= usuario.idPersona %>/editar/<%= emprendimiento.idEmprendimiento %>"
                 method="POST" enctype="multipart/form-data">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="mb-3  d-flex  justify-content-between flex-wrap">
                   <div class="col-10 col-md-3">
-                    <label class="form-label usuario-perfil-label">Logo actual</label>
+                    <label class="form-label akalia-label">Logo actual</label>
                     <ul id="thumbnails" class="thumbnails">
 
                       <li class="thumbnail-img rounded-0">
@@ -40,7 +40,7 @@
                     </ul>
                   </div>
                   <div class="col-10 col-md-7">
-                    <label for="logoImagen" class="form-label usuario-perfil-label">Logo nuevo</label>
+                    <label for="logoImagen" class="form-label akalia-label">Logo nuevo</label>
                     <input class="form-control" type="file" id="logoImagen" name="logoImagen" accept="image/*">
                     <small class="text-muted">Puedes seleccionar varias imágenes. Las anteriores se
                       reemplazarán.</small>
@@ -59,7 +59,7 @@
                   red.toLowerCase());
                   %>
                   <div class="mb-3">
-                    <label class="form-label usuario-perfil-label">
+                    <label class="form-label akalia-label">
                       <%= red %>
                     </label>
                     <input type="text" name="redes[<%= red.toLowerCase() %>]" class="form-control"
