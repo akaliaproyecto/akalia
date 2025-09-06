@@ -83,8 +83,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Obtener datos del formulario
       const correoIngresado = formularioInicioSesion.email.value;
       const contrasenaIngresada = formularioInicioSesion.contrasena.value;
+      const captchaIngresado = formularioInicioSesion.captcha.value;
+      
+      const captchaValidado = await validarCaptchaAntesDeEnviar()
 
-      console.log('Intentando iniciar sesión con correo:', correoIngresado);
+      if(!captchaValidado) {
+        return
+      }
 
       try {
         // Hacer petición POST al servidor para validar credenciales
@@ -93,11 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             email: correoIngresado,
-            contrasena: contrasenaIngresada
+            contrasena: contrasenaIngresada,
+            captcha: captchaIngresado
           })
         });
-
+        
         const datosDeRespuesta = await respuestaDelServidor.json();
+        console.log('El captcha ingresado es: ',datosDeRespuesta)
 
         if (respuestaDelServidor.ok) {
           // Si el inicio de sesión fue exitoso
@@ -105,7 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Crear cookie adicional para JavaScript (por si acaso)
           document.cookie = `usuario=${encodeURIComponent(JSON.stringify(datosDeRespuesta.usuario))}; path=/; max-age=${7 * 24 * 60 * 60}`;
-
+          
+          // Recargar la página para que se actualice la navbar automáticamente
+          window.location.reload();
+          
           // Cerrar modal de inicio de sesión
           const modalInicioSesion = document.getElementById('loginModal');
           if (modalInicioSesion) {
@@ -115,8 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          // Recargar la página para que se actualice la navbar automáticamente
-          window.location.reload();
 
         } else {
           // Si hay error en las credenciales

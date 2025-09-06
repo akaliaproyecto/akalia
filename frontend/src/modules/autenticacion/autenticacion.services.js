@@ -48,10 +48,10 @@ exports.registrarUsuario = async (req, res) => {
 
 /*Inicio de sesión*/
 exports.iniciarSesion = async (req, res) => {
-  const { email, contrasena } = req.body;
+  const { email, contrasena, captcha } = req.body;
 
   try {
-    const response = await axios.post(`${API_BASE_URL}/auth/login`, { correo: email, contrasena }, { headers: HEADERS });
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, { correo: email, contrasena, captcha }, { headers: HEADERS });
 
     // Extraer usuario de la respuesta
     const usuario = extraerUsuario(response);

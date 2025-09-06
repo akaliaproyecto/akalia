@@ -7,9 +7,14 @@
   box-shadow: 0 2px 8px #00000010;
   padding: 2.5rem 2rem;
   margin: auto;
+  margin-block: auto;
   border: 1px solid #e6e3d7;
 }
 
+main{
+    max-height: calc(100vh - 4rem);
+    padding-inline: 2rem;
+}
 /* Información interna de la tarjeta */
 .akalia-card-info {
   background: #fff;
