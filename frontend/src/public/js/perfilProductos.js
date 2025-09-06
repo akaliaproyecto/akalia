@@ -31,4 +31,3 @@ function addNewProduct(idPersona) {
   });
 }
 
-// Puedes agregar aquí más lógica relacionada con productos si lo necesitas

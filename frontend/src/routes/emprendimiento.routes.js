@@ -147,7 +147,6 @@ router.get('/usuario-emprendimientos/:idUsuario/editar/:idEmprendimiento', async
 
     const response = await axios.get(`${API_BASE_URL}/api/emprendimientos/${idEmprendimiento}`);
     const emprendimiento = response.data;
-    console.log(emprendimiento)
     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${idUsuario}`);
     const usuario = resU.data;
 

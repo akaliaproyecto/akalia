@@ -3,6 +3,7 @@ const cors = require('cors');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
+const path = require('path');
 const app = express();
 const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
 
@@ -39,7 +40,11 @@ app.use(session({
 //Method Override
 app.use(methodOverride('_method'));
 
-//Manejo de errores 
+// Servir archivos estáticos del frontend (imágenes, js, css) si se necesita
+app.use('/images', express.static(path.join(__dirname, '../../frontend/src/public/img')));
+// También exponemos el resto de assets públicos si se usa directamente
+app.use('/public', express.static(path.join(__dirname, '../../frontend/src/public')));
+
 //Manejo de errores 
 app.use((err, req, res, next) => {
   console.error(err);

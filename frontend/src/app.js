@@ -42,9 +42,9 @@ app.use((req, res, next) => {
       res.locals.usuarioActual = datosUsuarioDecodificados;
 
       // Log sólo para peticiones que esperan HTML y no son assets estáticos
-      if (wantsHtml && !staticExtRegex.test(req.path)) {
-        console.log('Usuario autenticado encontrado:', datosUsuarioDecodificados.nombreUsuario || datosUsuarioDecodificados.idPersona || '<sin nombre>');
-      }
+      // if (wantsHtml && !staticExtRegex.test(req.path)) {
+      //   console.log('Usuario autenticado encontrado:', datosUsuarioDecodificados.nombreUsuario || datosUsuarioDecodificados.idPersona || '<sin nombre>');
+      // }
     } catch (errorParseoCookie) {
       console.error('Error al decodificar datos de usuario:', errorParseoCookie);
       req.usuarioAutenticado = null;
