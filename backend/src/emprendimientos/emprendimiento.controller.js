@@ -1,6 +1,7 @@
 const modeloEmprendimiento = require('./emprendimiento.model');
 const uploadImage = require('../servicios/subirImagen')
 const mongoose = require('mongoose');
+const { json } = require('express');
 
 /* listar emprendimientos */
 const obtenerEmprendimientos = async (req, res) => {
@@ -54,19 +55,15 @@ const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
 /* crear un nuevo emprendimiento */
 const crearEmprendimiento = async (req, res) => {
   try {
-    const ciudad = req.body['ubicacionEmprendimiento.ciudad'] || req.body['ubicacionEmprendimiento[ciudad]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.ciudad) || '';
-    const departamento = req.body['ubicacionEmprendimiento.departamento'] || req.body['ubicacionEmprendimiento[departamento]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.departamento) || '';
+    payload = JSON.parse(req.body.payload)
 
     let datosEmprendimiento = {
-      usuario: req.body.usuario,
-      nombreEmprendimiento: req.body.nombreEmprendimiento,
-      descripcionEmprendimiento: req.body.descripcionEmprendimiento,
-      ubicacionEmprendimiento: {
-        departamento: departamento,
-        ciudad: ciudad
-      }
+      usuario: payload.usuario,
+      nombreEmprendimiento: payload.nombreEmprendimiento,
+      descripcionEmprendimiento: payload.descripcionEmprendimiento,
+      ubicacionEmprendimiento: payload.ubicacionEmprendimiento
     };
-
+    
     // Si se subió un archivo (multer lo deja en req.file)
     if (req.file) {
       datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");

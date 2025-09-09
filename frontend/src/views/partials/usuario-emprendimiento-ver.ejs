@@ -11,12 +11,37 @@
           <article class="akalia-card-info d-flex flex-column gap-3 mb-3">
             <div class="d-flex flex-column flex-md-row gap-4 align-items-center ">
               <div class="d-flex justify-content-center align-items-center">
-                <img id="ve-logo" src="" alt="Logo emprendimiento" class="rounded-circle"
-                  style="width:100px;height:100px;object-fit:cover;border:1px solid #b9b9b9;" />
+                 <% if (emprendimiento.logo && emprendimiento.logo.trim() !=='' ) { %>
+                        <img src="<%= emprendimiento.logo %>" alt="Logo de <%= emprendimiento.nombreEmprendimiento %>"
+                          class="rounded-circle"
+                          style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #b9b9b9;"
+                          onerror="this.src=''" />
+                        <% } else { %>
+                          <!-- Placeholder para logo sin imagen -->
+                          <div class="rounded-circle d-flex justify-content-center align-items-center bg-light"
+                            style="width: 100px; height: 100px; border: 1px solid #b9b9b9;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                              class="bi bi-building text-muted" viewBox="0 0 16 16">
+                              <path
+                                d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
+                              <path
+                                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z" />
+                            </svg>
+                          </div>
+                          <% } %>
               </div>
               <div class="d-flex flex-column justify-content-center align-items-start gap-3 col-md-8">
-                <h4 class="mb-1" id="ve-nombre-h4">Nombre emprendimiento</h4>
-                <p class="mb-2" id="ve-descripcion">Descripción</p>
+                <h4 class="mb-1" id="ve-nombre-h4"><%= emprendimiento.nombreEmprendimiento %></h4>
+                <% if (emprendimiento.descripcionEmprendimiento && emprendimiento.descripcionEmprendimiento.trim()
+                        !=='' ) { %>
+                        <p class="mb-2">
+                          <%= emprendimiento.descripcionEmprendimiento %>
+                        </p>
+                        <% } else { %>
+                          <p class="mb-2 text-muted fst-italic">
+                            Sin descripción disponible
+                          </p>
+                          <% } %>
               </div>
             </div>
 
@@ -26,18 +51,33 @@
                   class="bi bi-geo-alt text-muted" viewBox="0 0 16 16">
                   <path d="M12.166 8.94..." />
                 </svg>
-                <span class="text-muted small" id="ve-ubicacion">Ciudad, Departamento</span>
+                <span class="text-muted small">
+                                <%= emprendimiento.ubicacionEmprendimiento.ciudad %>, <%=
+                                    emprendimiento.ubicacionEmprendimiento.departamento %>
+                              </span>
               </div>
               <div class="d-flex align-items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-calendar3 text-muted" viewBox="0 0 16 16">
                   <path d="M14 0H2..." />
                 </svg>
-                <span class="text-muted small" id="ve-fecha">Registrado: fecha</span>
-              </div>
+<span class="text-muted small">
+                                Registrado: <%= new Date(emprendimiento.fechaRegistro).toLocaleDateString('es-ES', {
+                                  year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                              </span>              </div>
               <div class="d-flex align-items-center gap-2">
-                <span id="ve-estado" class="badge bg-secondary">Estado</span>
-              </div>
+<div class="d-flex align-items-center gap-2">
+                              <% if (emprendimiento.emprendimientoActivo) { %>
+                                <span class="badge bg-success">Activo</span>
+                                <% } else { %>
+                                  <!-- Si está inactivo, permitimos activar mediante modal de confirmación -->
+                                  <button class="text-decoration-none btn"
+                                    onclick="openActivarModal('<%= usuario.idPersona %>','<%= emprendimiento._id %>','<%= emprendimiento.nombreEmprendimiento %>')"
+                                    title="Activar emprendimento">
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                  </button>
+                                  <% } %>
+                            </div>              </div>
             </div>
           </article>
         </section>

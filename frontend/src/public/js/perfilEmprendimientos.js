@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-
   /* ------------------------- Modal Crear Emprendimiento ------------------------- */
   // Se obtiene el id del modal "Crear Emprendimiento" desde el EJS y se crea una instancia de ese modal para poder abrirlo y cerrarlo
   const modalCrearEl = get('modalCrearEmprendimiento');
@@ -64,115 +63,24 @@ document.addEventListener('DOMContentLoaded', () => {
     instanciaModalCrear?.show();
   });
 
-  // Se obtiene el formulario que está dentro del modal de "Crear Emprendimiento"
-  const formCrear = get('form-crear-emprendimiento');
-
-  // Se agrega un evento al formulario para cuando se intente enviar
-  formCrear?.addEventListener('submit', async (ev) => {
-
-    // Se guardan todos los datos del formulario en un objeto especial "FormData"
-    const datos = new FormData(formCrear);
-
-    // Validar que usuario no esté vacío antes de enviar
-    if (!datos.get('usuario')) {
-      console.error('No se puede crear el emprendimiento: usuario no definido');
-      return;
-    }
-
-    // Se arma la dirección de la API donde se van a enviar los datos
-    const url = `${window.API_BASE_URL}/emprendimientos`;
-    try {
-      // Se envían los datos a la API con el método POST
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'akalia-api-key': window.API_KEY },
-        body: datos
-      });
-      if (!res.ok) throw new Error(await res.text());
-      // Si todo salió bien, se cierra el modal
-      instanciaModalCrear?.hide();
-      // Opcional: recargar lista o limpiar formulario
-    } catch (err) {
-      console.error('Error al guardar: ' + (err.message || err));
-    }
-  });
-
-
   /* ------------------------- Modal Ver Detalle ------------------------- */
   // Se crea la instancia del modal "Ver Emprendimiento". Esto permite abrirlo y cerrarlo cuando se necesite.
-  const modalVer = crearModal(get('modalVerEmprendimiento'));
+  document.getElementsByClassName('btn-view-empr').forEach(button => {
+    button.addEventListener('click', async () => {
+      const id = button.dataset.emprId;
 
-  // Función que recibe un emprendimiento y llena los campos del modal con su información
-  const rellenarCamposDetalle = (empr) => {
-    // Se guardan en un objeto los elementos del DOM que muestran los datos
-    const campos = {
-      nombre: get('ve-nombre-h4'),
-      descripcion: get('ve-descripcion'),
-      logo: get('ve-logo'),
-      ubicacion: get('ve-ubicacion'),
-      fecha: get('ve-fecha'),
-      estado: get('ve-estado')
-    };
+      // Traemos el HTML parcial desde el backend
+      const html = await fetch(`/emprendimiento-detalle/${id}`).then(r => r.text());
+      
+      // Inyectamos HTML en el modal contenedor
+      const modalContainer = document.getElementById('modalVerEmprendimiento');
 
-    // Se asigna datos del emprendimiento al campo correspondiente
-    if (campos.nombre) campos.nombre.textContent = empr.nombreEmprendimiento;
-    if (campos.descripcion) campos.descripcion.textContent = empr.descripcionEmprendimiento || '';
-    if (campos.logo) campos.logo.src = empr.logo || '';
-    if (campos.ubicacion) campos.ubicacion.textContent = construirUbicacion(empr);
 
-    if (campos.fecha) {
-      // Si el emprendimiento tiene una fecha de registro, se convierte a objeto Date
-      let fechaObj = null;
-      if (empr.fechaRegistro) {
-        fechaObj = new Date(empr.fechaRegistro);
-      }
-
-      // Validar si la fecha es válida
-      if (fechaObj && !isNaN(fechaObj)) {
-        campos.fecha.textContent = `Registrado: ${fechaObj.toLocaleDateString('es-ES', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })}`;
-      } else {
-        campos.fecha.textContent = '';
-      }
-    }
-
-    // Validar si el campo "estado" existe en el DOM
-    if (campos.estado) {
-      // Se obtiene el valor del estado. Si es null o undefined, por defecto será true (activo).
-      const activo = (empr.emprendimientoActivo !== undefined && empr.emprendimientoActivo !== null)
-        ? empr.emprendimientoActivo
-        : true;
-
-      // asignar el texto y la clase
-      if (activo) {
-        campos.estado.textContent = 'Activo';
-        campos.estado.className = 'badge bg-success';
-      } else {
-        campos.estado.textContent = 'Inactivo';
-        campos.estado.className = 'badge bg-secondary';
-      }
-    }
-  };
-
-  // Abrir modal detalle
-  document.body.addEventListener('click', async (ev) => {
-    const btn = ev.target.closest('.btn-view-empr');
-    if (!btn?.dataset.emprId) return;
-    ev.preventDefault();
-    try {
-      const data = await fetchJSON(`/emprendimiento-detalle/${encodeURIComponent(btn.dataset.emprId)}`, {
-        headers: { 'Accept': 'application/json' }
-      });
-      rellenarCamposDetalle(data.emprendimiento || data);
-      modalVer?.show();
-    } catch {
-      console.error('No fue posible cargar el detalle.');
-    }
+      // Inicializamos y mostramos el modal de Bootstrap
+      const modal = new bootstrap.Modal(modalContainer);
+      modal.show();
+    });
   });
-
 
   /* ------------------------- Modal Editar ------------------------- */
   // Este objeto centraliza todas las referencias(refs) a elementos del DOM relacionados con el modal de edición.
@@ -259,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!refsEditar.bsModal) return console.error('Modal de edición no encontrado en el DOM');
     try {
       // Pedir los datos del emprendimiento a la API usando su id
-      const data = await fetchJSON(`/emprendimiento-detalle/${encodeURIComponent(idEmpr)}`, { headers: { 'Accept': 'application/json' } });
+      const data = await fetch(`/emprendimiento-detalle/${encodeURIComponent(idEmpr)}`, { headers: { 'Accept': 'application/json' } });
       // Rellenar los campos del modal con la información recibida
       rellenarCamposEditar(refsEditar, data.emprendimiento || data, idUsuario, idEmpr);
       // Configurar el formulario de edición para que guarde cambios al enviarse

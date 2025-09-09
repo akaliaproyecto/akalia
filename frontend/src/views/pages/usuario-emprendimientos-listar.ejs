@@ -116,8 +116,8 @@
                     <!-- Acciones -->
                     <div
                       class="d-flex flex-md-column flex-lg-row gap-2 justify-content-center my-auto align-items-center w-100 ">
-                      <button type="button" class="btn text-vinotinto btn-view-empr" title="Ver"
-                        data-empr-id="<%= emprendimiento._id %>" data-user-id="<%= usuario.idPersona %>">
+                      <button type="button" class="btn text-vinotinto btn-view-empr" title="Ver" id="botonDetalleEmpr"
+                        data-empr-id="<%= emprendimiento._id %>" data-user-id="<%= usuario.idPersona %>" >
                         <!-- ...existing SVG code... -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 20" fill="none">
                           <path
@@ -158,6 +158,7 @@
 
                     </div>
                 </article>
+                
                 <% }); %>
                   <% } else { %>
                     <!-- Mensaje cuando no hay emprendimientos -->
@@ -194,10 +195,7 @@
 
 
       <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
-      <script>
-        window.API_BASE_URL = '<%= apiBaseUrl %>';
-        window.API_KEY = '<%= apiKey %>';
-      </script>
+
       <script src="/js/perfilUsuario.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
@@ -209,12 +207,10 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
       <%- include('../partials/usuario-emprendimiento-editar.ejs'); %>
-        <%- include('../partials/usuario-emprendimiento-crear.ejs'); %>
-          <%- include('../partials/usuario-emprendimiento-eliminar.ejs'); %>
-            <%- include('../partials/usuario-emprendimiento-activar.ejs'); %>
-              <%- include('../partials/usuario-emprendimiento-ver.ejs'); %>
-
-
+      <%- include('../partials/usuario-emprendimiento-crear.ejs'); %>
+      <%- include('../partials/usuario-emprendimiento-eliminar.ejs'); %>
+      <%- include('../partials/usuario-emprendimiento-activar.ejs'); %>
+     
 
 
 </body>
