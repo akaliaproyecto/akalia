@@ -40,9 +40,10 @@ exports.listarEmprendimientosUsuario = async (req, res) => {
 /* Agregar un nuevo emprendimiento */
 exports.agregarEmprendimiento = async (req, res) => {
   try {
+    console.log(req.body)
     const { usuario, nombreEmprendimiento, descripcionEmprendimiento } = req.body;
-    const ciudad = req.body['ubicacionEmprendimiento.ciudad']
-    const departamento = req.body['ubicacionEmprendimiento.departamento']
+    const ciudad = req.body['ubicacionEmprendimiento.ciudad'];
+    const departamento = req.body['ubicacionEmprendimiento.departamento'];
 
     const formN = new formData();
 
@@ -70,13 +71,14 @@ exports.agregarEmprendimiento = async (req, res) => {
     };
 
     // Enviar al backend real (puerto 4000)
-    await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
+    const resp = await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
+    console.log('Respuesta backend:', resp.data);
 
     // Redirigir al listado de emprendimientos del usuario
     res.redirect(`/usuario-emprendimientos/${usuario}`);
   } catch (error) {
-    console.error('Error al crear emprendimiento:', error.message);
-    res.status(500).render('error', {
+    console.error('Error al crear emprendimiento:', error.message, error.response?.data);
+    res.status(500).render('pages/error', {
       error: 'Error al crear emprendimiento',
       message: 'No se pudo guardar el emprendimiento. Verifica los datos o intenta más tarde.'
     });
@@ -110,7 +112,7 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
     }
   } catch (error) {
     console.error('Error al mostrar emprendimiento:', error.message);
-    res.status(500).render('error', {
+    res.status(500).render('pages/error', {
       error: 'Error al mostrar emprendimiento',
       message: 'No se pudo mostrar el emprendimiento. Intenta más tarde.'
     });
@@ -157,7 +159,7 @@ exports.editarEmprendimiento = async (req, res) => {
     res.redirect(req.get('referer'));
   } catch (error) {
     console.error('Error al editar emprendimiento:', error.message);
-    res.status(500).render('pages/error', {
+  res.status(500).render('pages/error', {
       error: 'Error al editar emprendimiento',
       message: 'No se pudo editar el emprendimiento. Verifica los datos o intenta más tarde.'
     });
@@ -177,7 +179,7 @@ exports.eliminarEmprendimiento = async (req, res) => {
       res.redirect(req.get(`/usuario-emprendimientos/${usuario}`));
     } catch (error) {
       console.error('Error al eliminar emprendimiento:', error.message);
-      res.status(500).render('pages/error', {
+  res.status(500).render('pages/error', {
         error: 'Error al eliminar emprendimiento',
         message: 'No se pudo eliminar el emprendimiento. Verifica los datos o intenta más tarde.'
       });
