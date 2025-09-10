@@ -28,6 +28,11 @@ const EmprendimientoSchema = new mongoose.Schema({
     default: true,
     required: true
   },
+  emprendimientoEliminado: { 
+    type: Boolean, 
+    default: false,
+    required: true
+  },
   ubicacionEmprendimiento: {
     departamento: {
       type: String,

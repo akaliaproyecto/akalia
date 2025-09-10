@@ -27,239 +27,46 @@ document.addEventListener('DOMContentLoaded', () => {
     return respuesta.json();
   }
 
-  // Construir ubicación legible: "Ciudad, Departamento"
-  function construirUbicacion(empr) {
-    if (empr && empr.ubicacionEmprendimiento) {
-      return empr.ubicacionEmprendimiento.ciudad + ', ' + empr.ubicacionEmprendimiento.departamento;
-    } else {
-      return '';
-    }
-  }
-
-  /* ------------------------- Modal Crear Emprendimiento ------------------------- */
-  // Se obtiene el id del modal "Crear Emprendimiento" desde el EJS y se crea una instancia de ese modal para poder abrirlo y cerrarlo
-  const modalCrearEl = get('modalCrearEmprendimiento');
-  const instanciaModalCrear = crearModal(modalCrearEl);
-
-  // Se agrega un evento al "body" para detectar cuando se hace clic en la página.
-  document.body.addEventListener('click', (ev) => {
-    // Busca si el clic fue en un botón con la clase "open-create-modal"
-    const boton = ev.target.closest('.open-create-modal');
-    if (!boton) return;
-
-    // Obtiene el input oculto dentro del modal que guardará el id del usuario
-    const inputUsuario = get('modal-usuario-id');
-
-    if (!boton.dataset.userId) {
-      console.error('El botón no tiene data-user-id válido');
-      return;
-    }
-
-    // Si el input existe, le asigna el id de usuario que venía en el botón
-    if (inputUsuario) {
-      inputUsuario.value = boton.dataset.userId;
-    }
-    // Finalmente, muestra el modal en pantalla
-    instanciaModalCrear?.show();
-  });
-
-  /* ------------------------- Modal Ver Detalle ------------------------- */
-  // Se crea la instancia del modal "Ver Emprendimiento". Esto permite abrirlo y cerrarlo cuando se necesite.
-  document.getElementsByClassName('btn-view-empr').forEach(button => {
-    button.addEventListener('click', async () => {
-      const id = button.dataset.emprId;
-
-      // Traemos el HTML parcial desde el backend
-      const html = await fetch(`/emprendimiento-detalle/${id}`).then(r => r.text());
-      
-      // Inyectamos HTML en el modal contenedor
-      const modalContainer = document.getElementById('modalVerEmprendimiento');
-
-
-      // Inicializamos y mostramos el modal de Bootstrap
-      const modal = new bootstrap.Modal(modalContainer);
-      modal.show();
-    });
-  });
-
-  /* ------------------------- Modal Editar ------------------------- */
-  // Este objeto centraliza todas las referencias(refs) a elementos del DOM relacionados con el modal de edición.
-  const refsEditar = {
-    modal: document.getElementById('modalEditarEmprendimiento'),
-    bsModal: null,
-    inputUsuario: document.getElementById('me-usuario-id'),
-    inputEmprId: document.getElementById('me-empr-id'),
-    campoNombre: document.getElementById('me-nombre'),
-    campoDescripcion: document.getElementById('me-descripcion'),
-    logoPreview: document.getElementById('me-logo-preview'),
-    campoCiudad: document.getElementById('me-ubic-ciudad'),
-    campoDepartamento: document.getElementById('me-ubic-departamento'),
-    form: document.getElementById('form-editar-emprendimiento-modal')
-  };
-
-  // Inicializar modal Bootstrap si existe
-  if (refsEditar.modal) {
-    refsEditar.bsModal = new bootstrap.Modal(refsEditar.modal);
-  }
-
-  // Esta función recibe las referencias del modal y los datos de un emprendimiento, y se encarga de rellenar los inputs con esos datos.
-  const rellenarCamposEditar = (refs, empr, idUsuario, idEmpr) => {
-    refs.inputUsuario && (refs.inputUsuario.value = idUsuario || '');
-    refs.inputEmprId && (refs.inputEmprId.value = idEmpr || '');
-    refs.campoNombre && (refs.campoNombre.value = empr.nombreEmprendimiento || '');
-    refs.campoDescripcion && (refs.campoDescripcion.value = empr.descripcionEmprendimiento || '');
-    refs.logoPreview && (refs.logoPreview.src = empr.logo || '');
-    refs.campoCiudad && (refs.campoCiudad.value = empr.ubicacionEmprendimiento?.ciudad || '');
-    refs.campoDepartamento && (refs.campoDepartamento.value = empr.ubicacionEmprendimiento?.departamento || '');
-  };
-
-  // Construir URL para actualizar
-  const construirRutaActualizar = (id) => `${apiBase()}/emprendimientos/${encodeURIComponent(id)}`;
-
-  // Configurar formulario de edición
-  const configurarFormularioEditar = (form, url, bsModal, id) => {
-    // Escuchar el evento de envío del formulario
-    form.addEventListener('submit', async (ev) => {
-      ev.preventDefault();
-      try {
-        // Enviar los datos del formulario a la API con método PUT
-        const res = await fetch(url, {
-          method: 'PUT',
-          headers: { 'akalia-api-key': window.API_KEY },
-          body: new FormData(form)
-        });
-        // Si la respuesta no es exitosa, lanzar un error con el texto recibido
-        if (!res.ok) throw new Error(await res.text().catch(() => 'Error al guardar'));
-        // Actualizar la interfaz con los nuevos datos
-        actualizarInterfaz(await res.json(), id);
-        // Cerrar el modal de edición
-        bsModal.hide();
-      } catch (err) {
-        console.error('No se pudo guardar: ' + err.message);
-      }
-    });
-    // Marcar el formulario como ya configurado para no repetir el listener
-    form.__handler = true;
-  };
-
-  // Actualizar interfaz tras guardar
-  const actualizarInterfaz = (empr, id) => {
-    // Buscar el artículo del DOM que tenga el mismo id del emprendimiento
-    const art = document.querySelector(`[data-empr-id="${id}"]`)?.closest('article');
-    if (!art) return;
-
-    // Actualizar el título con el nombre del emprendimiento
-    const h4 = art.querySelector('h4'); if (h4) h4.textContent = empr.nombreEmprendimiento;
-
-    // Actualizar la descripción o poner un texto por defecto
-    const p = art.querySelector('p.mb-2'); if (p) p.textContent = empr.descripcionEmprendimiento || 'Sin descripción';
-
-    // Actualizar la ubicación usando la función construirUbicacion
-    const span = art.querySelector('span.text-muted.small'); if (span) span.textContent = construirUbicacion(empr);
-
-    // Actualizar la imagen con el logo nuevo o el que ya tenía
-    const img = art.querySelector('img'); if (img) img.src = empr.imagenLogo || empr.logo || '';
-  };
-
-  // Función principal para abrir modal
-  window.editEmprendimiento = async (idUsuario, idEmpr) => {
-    // Validar que el modal de edición exista en el DOM
-    if (!refsEditar.bsModal) return console.error('Modal de edición no encontrado en el DOM');
-    try {
-      // Pedir los datos del emprendimiento a la API usando su id
-      const data = await fetch(`/emprendimiento-detalle/${encodeURIComponent(idEmpr)}`, { headers: { 'Accept': 'application/json' } });
-      // Rellenar los campos del modal con la información recibida
-      rellenarCamposEditar(refsEditar, data.emprendimiento || data, idUsuario, idEmpr);
-      // Configurar el formulario de edición para que guarde cambios al enviarse
-      configurarFormularioEditar(refsEditar.form, construirRutaActualizar(idEmpr), refsEditar.bsModal, idEmpr);
-      // Mostrar el modal de edición al usuario
-      refsEditar.bsModal.show();
-    } catch (err) {
-      console.error('Error al abrir modal de edición:', err);
-    }
-  };
-
-  // hace que el onclick existente funcione
-  window.editUserProductDetail = window.editEmprendimiento;
-
-
-  /* ------------------------- Activar/Inactivar ------------------------- */
-  const abrirModalEstado = (modalId, nombreId, idUsuario, idEmpr, nombreEmpr) => {
-    // Busca el modal en el DOM
-    const modal = get(modalId);
-
-    // Se guardan en el dataset del modal los datos necesarios para la acción (id del emprendimiento y del usuario)
-    modal.dataset.emprId = idEmpr || '';
-    modal.dataset.userId = idUsuario || '';
-
-    // Se actualiza el texto del span para mostrar el nombre del emprendimiento en el modal
-    const spanNombre = get(nombreId);
-    if (spanNombre) spanNombre.textContent = nombreEmpr || '';
-
-    // Se crea y abre el modal (Bootstrap Modal)
-    crearModal(modal)?.show();
-  };
-
-  // Función que asocia un botón a la acción de confirmar el cambio de estado
+  // Función que asocia un botón a la acción de eliminacion logica
   function confirmarCambioEstado(btnId, modalId, mensajeId, estado) {
     // Obtiene el botón por su id
     const btn = get(btnId);
     if (!btn) return;
-
     // Evento click al botón
     btn.addEventListener('click', async function () {
-      // Busca el modal correspondiente
-      const modal = get(modalId);
-      if (!modal) return;
-
-      // Obtiene el ID del emprendimiento desde el modal
-      const emprId = modal.dataset.emprId;
-      if (!emprId) return console.error(`No se encontró el emprendimiento a ${estado ? 'activar' : 'inactivar'}`);
-
-      btn.disabled = true; // Desactivar botón mientras procesa
-
-      try {
-        // Petición PATCH para cambiar estado en el servidor
-        await fetchJSON(`${apiBase()}/emprendimientos/${encodeURIComponent(emprId)}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'akalia-api-key': window.API_KEY
-          },
-          body: JSON.stringify({ emprendimientoActivo: estado })
-        });
-
-        // Busca el artículo relacionado en la interfaz
-        const art = document.querySelector(`[data-empr-id="${emprId}"]`)?.closest('article');
-        if (art) {
-          // Actualiza el estado (Activo/Inactivo)
-          const badge = art.querySelector('span.badge');
-          if (badge) {
-            if (estado) {
-              // Si el estado es verdadero → se activa el emprendimiento
-              badge.textContent = 'Activo';
-              badge.className = 'badge bg-success';
-            } else {
-              // Si el estado es falso → se inactiva el emprendimiento
-              badge.textContent = 'Inactivo';
-              badge.className = 'badge bg-secondary';
-            }
-          }
-        } else {
-          // Si no encuentra el artículo, recarga la página
-          setTimeout(() => location.reload(), 300);
-        }
-
+  // ...existing code...
+  const modal = get(modalId);
+  const emprId = modal.dataset.emprId;
+  try {
+    // Enviar POST al SSR (no PATCH directo al backend)
+    await fetch(`/emprendimiento/eliminar/${emprId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        idEmprendimiento: emprId,
+        usuario: modal.dataset.userId, // si necesitas el usuario
+        emprendimientoEliminado: estado
+      })
+    });
         // Mostrar mensaje de confirmación
         const mensaje = get(mensajeId);
         if (mensaje) {
           mensaje.className = 'alert alert-success';
-          mensaje.textContent = `Emprendimiento ${estado ? 'activado' : 'inactivado'} correctamente`;
+          mensaje.textContent = `Emprendimiento eliminado correctamente`;
           mensaje.classList.remove('d-none');
         }
 
         // Cerrar modal después de 800 ms
-        setTimeout(() => bootstrap.Modal.getInstance(modal)?.hide(), 800);
+          setTimeout(() => {
+            bootstrap.Modal.getInstance(modal)?.hide();
+            // Redirigir a la página de listado de emprendimientos después de cerrar el modal
+            const userId = modal.dataset.userId;
+            if (userId) {
+              window.location.href = `/usuario-emprendimientos/${userId}`;
+            } else {
+              window.location.reload();
+            }
+          }, 800);
 
       } catch (err) {
         // Captura errores en la petición
@@ -273,11 +80,85 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  /* ELIMINACION LOGICA */
+  const abrirModalEliminar = (modalId, nombreId, idUsuario, idEmpr, nombreEmpr) => {
+    // Busca el modal en el DOM
+    const modal = get(modalId);
+    console.log(idEmpr)
+    // Se guardan en el dataset del modal los datos necesarios para la acción (id del emprendimiento y del usuario)
+    modal.dataset.emprId = idEmpr || '';
+    modal.dataset.userId = idUsuario || '';
+
+    // Se actualiza el texto del span para mostrar el nombre del emprendimiento en el modal
+    const spanNombre = get(nombreId);
+    if (spanNombre) spanNombre.textContent = nombreEmpr || '';
+
+    // Se crea y abre el modal (Bootstrap Modal)
+    crearModal(modal)?.show();
+  };
+
   // Abrir modales de confirmación
-  window.openInactivarModal = (idUsuario, idEmpr, nombreEmpr) => abrirModalEstado('modalInactivarEmprendimiento', 'modalInactivarNombre', idUsuario, idEmpr, nombreEmpr);
-  window.openActivarModal = (idUsuario, idEmpr, nombreEmpr) => abrirModalEstado('modalActivarEmprendimiento', 'modalActivarNombre', idUsuario, idEmpr, nombreEmpr);
+  window.eliminarEmprendimiento = (idUsuario, idEmpr, nombreEmpr) => abrirModalEliminar('modalEliminarEmprendimiento', 'modalInactivarNombre', idUsuario, idEmpr, nombreEmpr);
 
   // Configurar botones
-  confirmarCambioEstado('btnConfirmInactivar', 'modalInactivarEmprendimiento', 'mensajeEstadoInactivar', false);
-  confirmarCambioEstado('btnConfirmActivar', 'modalActivarEmprendimiento', 'mensajeEstadoActivar', true);
+  confirmarCambioEstado('btnConfirmEliminar', 'modalEliminarEmprendimiento', 'mensajeEstadoEliminar', false);
+
+
+  
 });
+
+ /* ------------------------- Pagina mostrar Emprendimiento ------------------------- */
+ function showEmprendimientoDetail(idEmprendimiento) {
+  window.location.href = `/emprendimiento-detalle/${idEmprendimiento}`;
+}
+
+  /* ------------------------- Modal Crear Emprendimiento ------------------------- */
+
+  async function crearEmprendimiento(idUsuario) {
+  try {
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById('modalCrearEmprendimiento'));
+    modal.show();
+  } catch (err) {
+    console.error("Error cargando modal:", err);
+  }
+}
+ /* ------------------------- Modal EDITAR Emprendimiento ------------------------- */
+async function editEmprendimiento(idUsuario, idEmprendimiento) {
+  try {
+    const usuario = idUsuario;
+    
+    const response = await fetch(`/emprendimiento-detalle/${encodeURIComponent(idEmprendimiento)}`, { headers: { 'Accept': 'application/json' } });
+    const data = await response.json();
+    
+    document.getElementById('me-usuario-id').value = idUsuario;
+    document.getElementById('me-empr-id').value = idEmprendimiento;
+    document.getElementById('me-nombre').value = data.emprendimiento.nombreEmprendimiento || '';
+    document.getElementById('me-descripcion').value = data.emprendimiento.descripcionEmprendimiento || '';
+    document.getElementById('me-ubic-ciudad').value = data.emprendimiento.ubicacionEmprendimiento?.ciudad || '';
+    document.getElementById('me-ubic-departamento').value = data.emprendimiento.ubicacionEmprendimiento?.departamento || '';
+
+    // Estado actual
+    const selectActivo = document.getElementById('me-activo');
+    if (typeof data.emprendimiento.emprendimientoActivo === 'boolean') {
+      selectActivo.value = data.emprendimiento.emprendimientoActivo ? "true" : "false";
+    } else {
+      selectActivo.value = "";
+    }
+
+    // Logo actual
+    const logoPreview = document.getElementById('me-logo-preview');
+    logoPreview.src = data.emprendimiento.logo || '';
+    logoPreview.style.display = data.emprendimiento.logo ? 'block' : 'none';
+
+    // Action del form
+    const form = document.getElementById('form-editar-emprendimiento-modal');
+    form.action = `http://localhost:3000/emprendimiento-editar/${idEmprendimiento}`;
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));
+    modal.show();
+
+  } catch (err) {
+    console.error("Error cargando datos:", err);
+  }
+}

@@ -6,7 +6,9 @@ const upload = multer();
 const {
   listarEmprendimientosUsuario,
   agregarEmprendimiento,
-  obtenerDetalleEmprendimiento
+  obtenerDetalleEmprendimiento,
+  editarEmprendimiento,
+  eliminarEmprendimiento
 } = require('./emprendimientos.services');
 
 /* Ruta GET para obtener los emprendimientos del usuario */
@@ -17,5 +19,12 @@ router.post('/usuario-agregar-emprendimiento', upload.single('logo'), agregarEmp
 
 /* Nueva ruta: detalle (proxy) para la modal */
 router.get('/emprendimiento-detalle/:id', obtenerDetalleEmprendimiento);
+
+router.post('/emprendimiento-editar/:id', upload.single('logo'),editarEmprendimiento);
+
+router.post('/emprendimiento/eliminar/:id',eliminarEmprendimiento);
+
+
+
 
 module.exports = router;

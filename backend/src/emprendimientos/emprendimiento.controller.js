@@ -37,17 +37,11 @@ const obtenerEmprendimientoPorId = async (req, res) => {
 /* listar emprendimientos por ID de usuario */
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
   const idUsuario = req.params.id;
-  console.log(idUsuario)
   try {
-    const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario) });
-
-    if (emprendimientos && emprendimientos.length > 0) {
+    const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false });
       res.status(200).json(emprendimientos);
-    } else {
-      res.status(404).json({ mensaje: "No se encontraron emprendimientos para este usuario" });
-    }
   } catch (error) {
-    console.log("Error al consultar emprendimientos por usuario:", error);
+    console.error("Error al consultar emprendimientos por usuario:", error);
     res.status(500).json({ mensaje: "Error en la base de datos", detalle: error.message });
   }
 };
@@ -81,29 +75,23 @@ const crearEmprendimiento = async (req, res) => {
 const actualizarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   try {
-    const ciudad = req.body['ubicacionEmprendimiento.ciudad'] || req.body['ubicacionEmprendimiento[ciudad]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.ciudad) || '';
-    const departamento = req.body['ubicacionEmprendimiento.departamento'] || req.body['ubicacionEmprendimiento[departamento]'] || (req.body.ubicacionEmprendimiento && req.body.ubicacionEmprendimiento.departamento) || '';
-
+    payload = JSON.parse(req.body.payload)
     let datosEmprendimiento = {
-      usuario: req.body.usuario,
-      nombreEmprendimiento: req.body.nombreEmprendimiento,
-      descripcionEmprendimiento: req.body.descripcionEmprendimiento,
-      ubicacionEmprendimiento: {
-        departamento: departamento,
-        ciudad: ciudad
+      nombreEmprendimiento: payload.nombreEmprendimiento,
+      descripcionEmprendimiento: payload.descripcionEmprendimiento,
+      emprendimientoActivo: payload.emprendimientoActivo,
+      ubicacionEmprendimiento: payload.ubicacionEmprendimiento
       }
-    };
-
+    
     if (req.file) {
       datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
     }
-
+    
     const emprendimientoActualizado = await modeloEmprendimiento.findByIdAndUpdate(
       idEmprendimiento,
       datosEmprendimiento,
       { new: true }
     );
-
     if (!emprendimientoActualizado) {
       return res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
@@ -116,19 +104,21 @@ const actualizarEmprendimiento = async (req, res) => {
 
 /* deshabilitar un emprendimiento */
 const deshabilitarEmprendimiento = async (req, res) => {
+  const idEmprendimiento = req.params.id;
+  console.log(idEmprendimiento)
   try {
-    // Permitimos recibir en el body { emprendimientoActivo: true|false }
+    // Permitimos recibir en el body { emprendimientoEliminado: true|false }
     // Si no viene, por compatibilidad se asume false (comportamiento previo)
-    let nuevoEstado = false;
-    if (typeof req.body.emprendimientoActivo !== 'undefined') {
+    let nuevoEstado = true;
+    if (typeof req.body?.emprendimientoEliminado !== 'undefined') {
       // Aceptar booleano o string 'true'/'false'
-      const v = req.body.emprendimientoActivo;
+      const v = req.body.emprendimientoEliminado;
       nuevoEstado = (v === true || v === 'true' || v === '1' || v === 1);
     }
-
+    
     const emprendimiento = await modeloEmprendimiento.findByIdAndUpdate(
-      req.params.id,
-      { emprendimientoActivo: nuevoEstado },
+      idEmprendimiento,
+      { emprendimientoEliminado: true },
       { new: true }
     );
 
