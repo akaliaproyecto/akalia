@@ -14,19 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  //apiBase() - Devuelve la URL base de la API, usando una variable global ... window es un objeto global que representa la ventana del navegador donde se ejecuta el código.
-  const apiBase = () => window.API_BASE_URL
-
-  // Función genérica para hacer fetch (solicitud HTTP a 'url') y devolver JSON
-  async function fetchJSON(url, opciones = {}) {
-    const respuesta = await fetch(url, opciones);
-    if (!respuesta.ok) {
-      const mensaje = await respuesta.text().catch(() => 'Error');
-      throw new Error(mensaje);
-    }
-    return respuesta.json();
-  }
-
   // Función que asocia un botón a la acción de eliminacion logica
   function confirmarCambioEstado(btnId, modalId, mensajeId, estado) {
     // Obtiene el botón por su id
