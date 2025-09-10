@@ -105,7 +105,6 @@ const actualizarEmprendimiento = async (req, res) => {
 /* deshabilitar un emprendimiento */
 const deshabilitarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
-  console.log(idEmprendimiento)
   try {
     // Permitimos recibir en el body { emprendimientoEliminado: true|false }
     // Si no viene, por compatibilidad se asume false (comportamiento previo)

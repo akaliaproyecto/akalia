@@ -1,106 +1,95 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-  /* Este conjunto de funciones auxiliares (helpers) simplifica tareas comunes en la aplicación, evitando código repetitivo y facilitando la interacción con el DOM, modales, y la API. */
-  /* ------------------------- Helpers ------------------------- */
-  //get(id) - Devuelve el elemento del DOM que tiene el id especificado
-  const get = (id) => document.getElementById(id);
-
-  //crearModal(el) - Crea y devuelve un modal de Bootstrap si el elemento existe, si no, devuelve null
-  const crearModal = (el) => {
-    if (el) {
-      return new bootstrap.Modal(el);
-    } else {
-      return null;
-    }
-  };
-
-  // Función que asocia un botón a la acción de eliminacion logica
-  function confirmarCambioEstado(btnId, modalId, mensajeId, estado) {
-    // Obtiene el botón por su id
-    const btn = get(btnId);
-    if (!btn) return;
-    // Evento click al botón
-    btn.addEventListener('click', async function () {
-  // ...existing code...
-  const modal = get(modalId);
-  const emprId = modal.dataset.emprId;
-  try {
-    // Enviar POST al SSR (no PATCH directo al backend)
-    await fetch(`/emprendimiento/eliminar/${emprId}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        idEmprendimiento: emprId,
-        usuario: modal.dataset.userId, // si necesitas el usuario
-        emprendimientoEliminado: estado
-      })
-    });
-        // Mostrar mensaje de confirmación
-        const mensaje = get(mensajeId);
-        if (mensaje) {
-          mensaje.className = 'alert alert-success';
-          mensaje.textContent = `Emprendimiento eliminado correctamente`;
-          mensaje.classList.remove('d-none');
-        }
-
-        // Cerrar modal después de 800 ms
-          setTimeout(() => {
-            bootstrap.Modal.getInstance(modal)?.hide();
-            // Redirigir a la página de listado de emprendimientos después de cerrar el modal
-            const userId = modal.dataset.userId;
-            if (userId) {
-              window.location.href = `/usuario-emprendimientos/${userId}`;
-            } else {
-              window.location.reload();
-            }
-          }, 800);
-
-      } catch (err) {
-        // Captura errores en la petición
-        console.error(`Error al ${estado ? 'activar' : 'inactivar'}:`, err);
-        console.error(`No fue posible ${estado ? 'activar' : 'inactivar'}: ${err.message || err}`);
-      } finally {
-        // Reactivar botón
-        btn.disabled = false;
-      }
-    });
-  }
-
-
-  /* ELIMINACION LOGICA */
-  const abrirModalEliminar = (modalId, nombreId, idUsuario, idEmpr, nombreEmpr) => {
-    // Busca el modal en el DOM
-    const modal = get(modalId);
-    console.log(idEmpr)
-    // Se guardan en el dataset del modal los datos necesarios para la acción (id del emprendimiento y del usuario)
-    modal.dataset.emprId = idEmpr || '';
-    modal.dataset.userId = idUsuario || '';
-
-    // Se actualiza el texto del span para mostrar el nombre del emprendimiento en el modal
-    const spanNombre = get(nombreId);
-    if (spanNombre) spanNombre.textContent = nombreEmpr || '';
-
-    // Se crea y abre el modal (Bootstrap Modal)
-    crearModal(modal)?.show();
-  };
-
-  // Abrir modales de confirmación
-  window.eliminarEmprendimiento = (idUsuario, idEmpr, nombreEmpr) => abrirModalEliminar('modalEliminarEmprendimiento', 'modalInactivarNombre', idUsuario, idEmpr, nombreEmpr);
-
-  // Configurar botones
-  confirmarCambioEstado('btnConfirmEliminar', 'modalEliminarEmprendimiento', 'mensajeEstadoEliminar', false);
-
-
-  
-});
-
- /* ------------------------- Pagina mostrar Emprendimiento ------------------------- */
- function showEmprendimientoDetail(idEmprendimiento) {
-  window.location.href = `/emprendimiento-detalle/${idEmprendimiento}`;
+// Helpers globales
+function get(id) {
+  return document.getElementById(id);
 }
 
-  /* ------------------------- Modal Crear Emprendimiento ------------------------- */
+// Configurar modal de confirmación
+function abrirModalEliminar(modalId, nombreId, { usuario, id, nombre }) {
 
+  const modal = get(modalId);
+  if (!modal) return;
+  
+  modal.dataset.emprId = id || '';
+  modal.dataset.userId = usuario || '';
+  
+  const spanNombre = get(nombreId);
+  if (spanNombre) spanNombre.textContent = nombre || '';
+
+  bootstrap.Modal.getOrCreateInstance(modal).show();
+}
+
+// Confirmar cambio de estado (genérico para eliminar o activar)
+function configurarBotonConfirmacion({
+  btnId, modalId, mensajeId, estado
+}) {
+  const btn = get(btnId);
+  if (!btn) return;
+
+  // Asegurar que el botón tenga solo un listener
+  btn.replaceWith(btn.cloneNode(true));
+  const newBtn = get(btnId);
+
+  newBtn.addEventListener('click', async () => {
+    const modal = get(modalId);
+    if (!modal) return;
+
+    const emprId = modal.dataset.emprId;
+    const userId = modal.dataset.userId;
+
+    newBtn.disabled = true;
+
+    try {
+      await fetch(`/emprendimiento/eliminar/${emprId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          idEmprendimiento: emprId,
+          usuario: userId,
+          emprendimientoEliminado: estado
+        })
+      });
+
+      const mensaje = get(mensajeId);
+      if (mensaje) {
+        mensaje.className = 'alert alert-success';
+        mensaje.textContent = `Emprendimiento ${estado ? 'eliminado' : 'activado'} correctamente`;
+        mensaje.classList.remove('d-none');
+      }
+
+      setTimeout(() => {
+        bootstrap.Modal.getInstance(modal)?.hide();
+        window.location.href = userId
+          ? `/usuario-emprendimientos/${userId}`
+          : window.location.href;
+      }, 800);
+
+    } catch (err) {
+      console.error(`Error al ${estado ? 'eliminar' : 'activar'}:`, err);
+      alert(`No se pudo ${estado ? 'eliminar' : 'activar'} el emprendimiento.`);
+    } finally {
+      newBtn.disabled = false;
+    }
+  });
+}
+
+// API global para abrir modal desde íconos
+window.eliminarEmprendimiento = (usuario, id, nombre) => {
+  abrirModalEliminar('modalEliminarEmprendimiento', 'nombreEmprendimientoBorrando', {
+    usuario, id, nombre
+  });
+};
+
+// Inicializar listeners cuando el DOM cargue
+document.addEventListener('DOMContentLoaded', () => {
+  configurarBotonConfirmacion({
+    btnId: 'btnConfirmEliminar',
+    modalId: 'modalEliminarEmprendimiento',
+    mensajeId: 'mensajeEstadoEliminar',
+    estado: true // true = eliminar
+  });
+});
+
+  /* ------------------------- Modal Crear Emprendimiento ------------------------- */
   async function crearEmprendimiento(idUsuario) {
   try {
     // Mostrar modal
@@ -110,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error("Error cargando modal:", err);
   }
 }
+
  /* ------------------------- Modal EDITAR Emprendimiento ------------------------- */
 async function editEmprendimiento(idUsuario, idEmprendimiento) {
   try {

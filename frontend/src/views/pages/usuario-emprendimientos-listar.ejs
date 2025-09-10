@@ -84,7 +84,7 @@
                       </div>
                       <div
                         class="d-flex flex-md-column flex-lg-row gap-2 justify-content-center my-auto align-items-center">
-                        <button onclick="showEmprendimientoDetail('<%= emprendimiento._id %>')"
+                        <a href="/emprendimiento-detalle/<%= emprendimiento._id %>"
                           class="btn text-vinotinto" title="Ver">
                           <!-- ...existing SVG code... -->
                           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 20"
@@ -96,7 +96,7 @@
                               d="M14 5.625C12.8397 5.625 11.7269 6.08594 10.9064 6.90641C10.0859 7.72688 9.625 8.83968 9.625 10C9.625 11.1603 10.0859 12.2731 10.9064 13.0936C11.7269 13.9141 12.8397 14.375 14 14.375C15.1603 14.375 16.2731 13.9141 17.0936 13.0936C17.9141 12.2731 18.375 11.1603 18.375 10C18.375 8.83968 17.9141 7.72688 17.0936 6.90641C16.2731 6.08594 15.1603 5.625 14 5.625ZM7.875 10C7.875 8.37555 8.52031 6.81763 9.66897 5.66897C10.8176 4.52031 12.3755 3.875 14 3.875C15.6245 3.875 17.1824 4.52031 18.331 5.66897C19.4797 6.81763 20.125 8.37555 20.125 10C20.125 11.6245 19.4797 13.1824 18.331 14.331C17.1824 15.4797 15.6245 16.125 14 16.125C12.3755 16.125 10.8176 15.4797 9.66897 14.331C8.52031 13.1824 7.875 11.6245 7.875 10Z"
                               fill="currentColor" />
                           </svg>
-                        </button>
+                        </a>
 
                         <button class="btn text-vinotinto" title="Editar"
                           onclick="editEmprendimiento('<%= usuario.idPersona %>','<%= emprendimiento._id %>')">

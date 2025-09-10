@@ -40,7 +40,6 @@ exports.listarEmprendimientosUsuario = async (req, res) => {
 /* Agregar un nuevo emprendimiento */
 exports.agregarEmprendimiento = async (req, res) => {
   try {
-    console.log(req.body)
     const { usuario, nombreEmprendimiento, descripcionEmprendimiento } = req.body;
     const ciudad = req.body['ubicacionEmprendimiento.ciudad'];
     const departamento = req.body['ubicacionEmprendimiento.departamento'];
