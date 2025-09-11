@@ -7,11 +7,16 @@ const path = require('path');
 const app = express();
 const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
 
+const bodyParser = require('body-parser')
+
 dotenv.config();
 
 
 /*CONFIGURACIÓN DE MIDDLEWARES*/
 // Parsers
+
+app.use(bodyParser.json());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //CORS (Frontend y backend en orígenes distintos)
@@ -24,16 +29,18 @@ app.use(cors({
 
 //Sesiones
 app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
+
+
 app.use(session({
-  name: 'session',
+  name: 'session-1',
   secret: process.env.SESSION_SECRET || 'mi_super_secreto_seguro',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    secure: false,
+    sameSite: 'none',
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    httpOnly: true // para que JS en frontend no acceda a la cookie
+    httpOnly: true, // para que JS en frontend no acceda a la cookie
   }
 }));
 
@@ -58,8 +65,8 @@ app.use((err, req, res, next) => {
 /*MONTAJE DE RUTAS*/
 
 //AUTENTICACIÓN
-const authRoutes = require('./autenticacion/authRoutes.js');
-app.use("/auth", authRoutes);
+const authRoutes = require('./autenticacion/auth.routes.js');
+app.use("/auth", validateApiKey, authRoutes);
 
 //PRODUCTOS
 const productosRouter = require("./productos/productos.routes.js");
@@ -88,5 +95,9 @@ app.use('/emprendimientos', validateApiKey, emprendimientosRoutes);
 // COMISIONES
 const comisionesRoutes = require('./comisiones/comision.routes.js');
 app.use('/comisiones', validateApiKey, comisionesRoutes);
+
+// CAPTCHA
+const captchaRoutes = require('./captcha/captcha.routes.js')
+app.use('/captcha', validateApiKey, captchaRoutes)
 
 module.exports = app;
