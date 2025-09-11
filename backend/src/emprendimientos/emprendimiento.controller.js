@@ -2,7 +2,7 @@ const modeloEmprendimiento = require('./emprendimiento.model');
 const uploadImage = require('../servicios/subirImagen')
 const mongoose = require('mongoose');
 const { json } = require('express');
-
+const Log = require('../middlewares/logs')
 /* listar emprendimientos */
 const obtenerEmprendimientos = async (req, res) => {
   try {
@@ -65,6 +65,9 @@ const crearEmprendimiento = async (req, res) => {
 
     const nuevoEmprendimiento = new modeloEmprendimiento(datosEmprendimiento);
     const emprendimientoGuardado = await nuevoEmprendimiento.save();
+        //Registrar log
+    Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido creado por el usuario ${datosEmprendimiento.usuario}, emprendimiento: ${emprendimientoGuardado}, fecha: ${new Date()}`);
+
     res.status(201).json(emprendimientoGuardado);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al crear emprendimiento", detalle: error.message });
@@ -95,6 +98,8 @@ const actualizarEmprendimiento = async (req, res) => {
     if (!emprendimientoActualizado) {
       return res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
+    //Registrar log
+    Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido editado: ${emprendimientoActualizado}, fecha: ${new Date()}`);
 
     res.status(200).json(emprendimientoActualizado);
   } catch (error) {
@@ -120,6 +125,9 @@ const deshabilitarEmprendimiento = async (req, res) => {
       { emprendimientoEliminado: true },
       { new: true }
     );
+    
+    //Registrar log
+    Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido eliminado: ${idEmprendimiento}, fecha: ${new Date()}`);
 
     if (emprendimiento) {
       res.status(200).json({ mensaje: "Estado de emprendimiento actualizado correctamente", emprendimiento });

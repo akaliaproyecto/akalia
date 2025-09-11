@@ -1,6 +1,7 @@
 // Se importa el modelo de usuarios
 const modeloUsuario = require("./usuarios.model");
 const bcrypt = require('bcrypt');
+const Log = require('../middlewares/logs')
 
 /*Listar todos los usuarios*/
 exports.obtenerUsuarios = async (req, res) => {
@@ -133,10 +134,13 @@ exports.crearUsuario = async (req, res, next) => {
 
     // Remover la contraseña antes de responder
     const { contrasena: _, ...usuarioSinContrasena } = usuarioGuardado.toObject();
-
+    const usuario = usuarioSinContrasena
+    //Registrar log
+    Log.generateLog('usuario.log', `Un usuario se ha registrado: ${usuario}, fecha: ${new Date()}`);
+        
     return res.status(201).json({
       message: 'Usuario registrado exitosamente',
-      usuario: usuarioSinContrasena
+      usuario
     });
   } catch (err) {
     console.error("Error al registrar usuario:", err);
@@ -209,6 +213,9 @@ exports.actualizarUsuario = async (req, res) => {
       }) : null
     };
 
+    //Registrar log
+    Log.generateLog('usuario.log', `Un usuario ha editado su información personal: ${usuarioFormateado.email}, información nueva: ${usuarioFormateado}  fecha: ${new Date()}`);
+
     // Actualizar cookie pública 'usuario' si se desea exponerla al frontend
     const cookieUsuario = {
       idPersona: usuarioFormateado.idPersona,
@@ -250,6 +257,9 @@ exports.eliminarUsuario = async (req, res) => {
     if (!usuario) {
       return res.status(404).json({ mensaje: 'Usuario no encontrado' });
     }
+    //Registrar log
+    Log.generateLog('usuario.log', `Un usuario ha eliminado su cuenta: ${email}, fecha: ${new Date()}`);
+
     res.json({ mensaje: 'Usuario deshabilitado correctamente', usuario });
   } catch (error) {
     res.status(500).json({ mensaje: error.message });

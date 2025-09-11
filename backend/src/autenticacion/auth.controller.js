@@ -2,6 +2,7 @@ const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const User = require('../usuarios/usuarios.model.js');
 const bcrypt = require('bcrypt');
+const Log = require('../middlewares/logs.js')
 
 /* Iniciar sesión */
 exports.iniciarSesion = async (req, res) => {
@@ -53,6 +54,9 @@ exports.iniciarSesion = async (req, res) => {
       rolUsuario: usuarioEncontrado.rolUsuario
     };
 
+      //Registrar log
+    Log.generateLog('usuario.log', `Un usuario inició sesión: ${correo}, fecha: ${new Date()}`);
+    
     // Responder con datos del usuario
     return res.status(200).json({
       mensaje: 'Inicio de sesión exitoso',

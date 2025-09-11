@@ -2,7 +2,7 @@
 const modeloProducto = require("./productos.model");
 const uploadImage = require('../servicios/subirImagen');
 const mongoose = require('mongoose'); // Para validar/convertir ObjectId
-
+const Log = require('../middlewares/logs')
 
 /*Consultar todos los productos*/
 exports.obtenerProductos = async (req, res) => {
@@ -89,6 +89,9 @@ exports.crearProducto = async (req, res) => {
     const nuevoProducto = new modeloProducto({ ...datosProducto, imagenes });
     const productoGuardado = await nuevoProducto.save();
 
+    //Registrar log
+    Log.generateLog('producto.log', `Un producto ha sido creado: ${productoGuardado._id}, información: ${productoGuardado}  fecha: ${new Date()}`);
+
     return res.status(201).json(productoGuardado);
   } catch (error) {
     return res.status(500).json({ mensaje: "Error al crear producto", detalle: error.message });
@@ -115,6 +118,9 @@ exports.actualizarProducto = async (req, res) => {
     // actualizar y devolver el documento actualizado (new:true)
     const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
 
+    //Registrar log
+    Log.generateLog('producto.log', `Un producto ha sido actualizado: ${productoActualizado}, fecha: ${new Date()}`);
+
     if (productoActualizado) {
       res.status(200).json(productoActualizado);
     } else {
@@ -135,6 +141,9 @@ exports.eliminarProducto = async (req, res) => {
       { estadoProducto: 'eliminado' },
       { new: true }
     );
+
+    //Registrar log
+    Log.generateLog('producto.log', `Un producto ha sido eliminado: ${productoActualizado._id}, fecha: ${new Date()}`);
 
     if (productoActualizado) {
       res.status(200).json({

@@ -1,4 +1,5 @@
 const modeloComision = require('./comision.model');
+const Log = require('../middlewares/logs')
 
 // Obtener todas las comisiones activas
 const obtenerComisiones = async (req, res) => {
@@ -32,12 +33,15 @@ const insertarComision = async (req, res) => {
   try {
     const nuevaComision = new modeloComision(req.body);
     const comisionGuardada = await nuevaComision.save();
+
+    //Registrar log
+    Log.generateLog('comision.log', `Una comisión ha sido creada: ${comisionGuardada}, fecha: ${new Date()}`);
+
     res.status(200).json(comisionGuardada);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al crear la comisión', error: error.message });
   }
 };
-
 
 const actualizarComision = async (req, res) => {
   try {
@@ -46,6 +50,9 @@ const actualizarComision = async (req, res) => {
       req.body,
       { new: true }
     );
+
+    //Registrar log
+    Log.generateLog('categoria.log', `Una categoría ha sido actualizada: ${comision}, fecha: ${new Date()}`);
 
     if (!comision) {
       return res.status(404).json({ mensaje: 'Comisión no encontrada para actualizar' });
@@ -63,6 +70,9 @@ const deshabilitarComision = async (req, res) => {
       { activo: false }, // Cambiar el campo activo a false
       { new: true } // Retorna el documento actualizado
     );
+
+    //Registrar log
+    Log.generateLog('comision.log', `Una comision ha sido creada: ${comision}, fecha: ${new Date()}`);
 
     if (!comision) {
       return res.status(404).json({ mensaje: 'Comisión no encontrada para deshabilitar' });
