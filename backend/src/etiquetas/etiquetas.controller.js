@@ -1,5 +1,6 @@
 // Se importa el modelo de etiquetas
 const modeloEtiquetas = require("./etiquetas.model");
+const Log = require('../middlewares/logs')
 
 //Listar todas las etiquetas
 exports.obtenerEtiquetas = async (req, res) => {
@@ -39,6 +40,10 @@ exports.crearEtiqueta = async (req, res) => {
   try {
     const nuevaEtiqueta = new modeloEtiquetas(datosEtiqueta);
     const etiquetaGuardada = await nuevaEtiqueta.save();
+
+    //Registrar log
+    Log.generateLog('etiqueta.log', `Una etiqueta ha sido creada: ${etiquetaGuardada}, fecha: ${new Date()}`);
+
     res.status(201).json(etiquetaGuardada);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al crear etiqueta", detalle: error.message });
@@ -58,6 +63,9 @@ exports.actualizarEtiqueta = async (req, res) => {
       { new: true }
     );
 
+    //Registrar log
+    Log.generateLog('etiqueta.log', `Una etiqueta ha sido actualizada: ${etiquetasActualizada}, fecha: ${new Date()}`);
+
     if (!etiquetasActualizada) {
       return res.status(404).json({ mensaje: "Etiqueta no encontrada" });
     }
@@ -76,6 +84,10 @@ exports.eliminarEtiqueta = async (req, res) => {
       { etiquetaActiva: false },
       { new: true }
     );
+
+    //Registrar log
+    Log.generateLog('etiqueta.log', `Una etiqueta ha sido eliminada: ${etiquetasEliminada}, fecha: ${new Date()}`);
+
     if (!etiquetasEliminada) {
       return res.status(404).json({ mensaje: 'Etiqueta no encontrada' });
     }
