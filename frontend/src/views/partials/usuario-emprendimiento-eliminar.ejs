@@ -1,11 +1,11 @@
 <!-- ====================== MODAL CONFIRMAR INACTIVACIÓN EMPRENDIMIENTO ====================== -->
-      <div class="modal fade" id="modalInactivarEmprendimiento" tabindex="-1" aria-labelledby="modalInactivarLabel"
+      <div class="modal fade" id="modalEliminarEmprendimiento" tabindex="-1" aria-labelledby="modalEliminarLabel"
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content border-warning">
             <div class="modal-header bg-warning text-dark">
-              <h5 class="modal-title" id="modalInactivarLabel"><i class="fas fa-exclamation-triangle me-2"></i>
-                Inactivar Emprendimiento</h5>
+              <h5 class="modal-title" id="modalEliminarLabel"><i class="fas fa-exclamation-triangle me-2"></i>
+                Eliminar Emprendimiento</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
@@ -19,22 +19,21 @@
                 <h4 class="text-danger mb-3">¡ADVERTENCIA!</h4>
 
                 <div class="alert alert-warning" role="alert">
-                  <strong>¿Estás seguro de que deseas desactivar este emprendimiento?</strong>
+                  <strong>¿Estás seguro de que deseas eliminar este emprendimiento?</strong>
                   <hr>
                   <ul class="text-start mb-0">
                     <li>Si tienes pedidos NO finalizados asociados a este emprendimiento, no será posible la
                       inactivación</li>
-                    <li>Tu emprendimiento se desactivará, pero puedes activarlo en cualquier momento</li>
-                    <li>Los productos asociados a este emprendimiento, también se inactivarán y no serán visibles</li>
+                    <li>Los productos asociados a este emprendimiento, también se eliminarán y no serán visibles</li>
                   </ul>
                 </div>
-                <p class="small text-muted">Emprendimiento: <strong id="modalInactivarNombre"></strong></p>
+                <p class="small text-muted">Emprendimiento: <strong id="nombreEmprendimientoBorrando"></strong></p>
               </div>
-              <div id="mensajeEstadoInactivar" class="alert d-none" role="alert"></div>
+              <div id="mensajeEstadoEliminar" class="alert d-none" role="alert"></div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-danger" id="btnConfirmInactivar">Inactivar</button>
+              <button type="button" class="btn btn-danger" id="btnConfirmEliminar">Eliminar</button>
             </div>
           </div>
         </div>

@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Ejecutar lógica principal
   const usuarioActual = obtenerDatosUsuarioDesdeCookie();
   if (usuarioActual) {
-    console.log('Usuario encontrado:', usuarioActual.nombreUsuario);
     actualizarNavbar(true, usuarioActual);
   } else {
     console.log('No hay usuario logueado');

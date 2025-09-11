@@ -7,8 +7,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <form id="form-crear-emprendimiento" enctype="multipart/form-data">
-                    <input type="hidden" id="modal-usuario-id" name="usuario">
+                <form id="form-crear-emprendimiento" method="POST" enctype="multipart/form-data" action="/usuario-agregar-emprendimiento">
+                    
+                        <input type="hidden" id="modal-usuario-id" name="usuario" value="<%= usuario.id || usuario.idPersona %>">
                     <div class="mb-3">
                         <label for="nombreEmprendimiento" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="nombreEmprendimiento" name="nombreEmprendimiento"

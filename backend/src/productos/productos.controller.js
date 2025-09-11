@@ -152,23 +152,9 @@ exports.eliminarProducto = async (req, res) => {
 /* obtener Productos por Emprendimiento */
 exports.obtenerProductosEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.idEmprendimiento || req.params.id;
-  if (!idEmprendimiento) return res.status(400).json({ mensaje: 'Se requiere idEmprendimiento' });
-
   try {
-    const isOid = mongoose.Types.ObjectId.isValid(idEmprendimiento);
-    const oid = isOid ? new mongoose.Types.ObjectId(idEmprendimiento) : null;
-    const filtro = isOid
-      ? { estadoProducto: 'activo', $or: [{ idEmprendimiento: oid }, { idEmprendimiento: idEmprendimiento }] }
-      : { estadoProducto: 'activo', idEmprendimiento: idEmprendimiento };
-
-    const native = modeloProducto.collection;
-    const [totalDocs, resultadosPorString, resultadosPorObjectId, productosDelEmprendimiento] =
-      await Promise.all([
-        modeloProducto.countDocuments(),
-        native.find({ idEmprendimiento: idEmprendimiento }).toArray(),
-        isOid ? native.find({ idEmprendimiento: oid }).toArray() : Promise.resolve([]),
-        native.find(filtro).toArray()
-      ]);
+    const productosDelEmprendimiento = await modeloProducto.find({ 
+      idEmprendimiento: new mongoose.Types.ObjectId(idEmprendimiento)});
 
     return res.status(200).json(productosDelEmprendimiento);
   } catch (error) {
