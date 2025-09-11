@@ -16,8 +16,6 @@ exports.generarCaptcha = async (req, res) => {
                 withCredentials: true,
                 credentials: "include"
             });
-        console.log(req.sessionID)
-        console.log(response.headers)
         //Si el backend manda Set-Cookie, la guarda en el navegador
         if (response.headers["set-cookie"]) {
             const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));

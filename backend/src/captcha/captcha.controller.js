@@ -6,9 +6,6 @@ exports.generarCaptcha = (req, res) => {
 
         // Guardar el captcha en la sesión como objeto con expiración
         req.session.captcha = captcha.text
-        console.log("Generar")
-        console.log(req.sessionID)
-        console.log(req.session)
         //Configurar headers para SVG
         res.setHeader('Content-Type', 'image/svg+xml');
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -30,9 +27,6 @@ exports.validarCaptcha = (req, res) => {
     try {
         const { captcha } = req.body;
         const sessionCaptcha = req.session.captcha;
-        console.log("Validar")
-        console.log(req.sessionID)
-        console.log(req.session)
 
         if(!captcha || !sessionCaptcha ) {
             return res.status(400).json({
