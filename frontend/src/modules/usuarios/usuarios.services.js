@@ -17,9 +17,9 @@ exports.obtenerUsuario = async (req, res) => {
   if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
 
   try {
-    // Llamamos a la ruta correcta del backend (/usuarios/:id).
-    const respuesta = await require('axios').get(`${API_BASE_URL}/usuarios/${id}`, { headers: HEADERS });
-    const usuarioPerfil = (respuesta.data && (respuesta.data.usuario || respuesta.data)) || req.usuarioAutenticado;
+    // Obtener usando helper centralizado
+    const usuarioDesdeApi = await fetchUsuarioPorId(id).catch(() => null);
+    const usuarioPerfil = usuarioDesdeApi || req.usuarioAutenticado;
 
     return res.render('pages/usuario-perfil-ver', {
       usuario: usuarioPerfil,
@@ -47,11 +47,11 @@ exports.actualizarPerfilUsuario = async (req, res) => {
     return res.status(400).json({ error: 'Falta id de usuario' });
   }
 
-  // Construir objeto que se enviará al backend 
+  // Construir objeto que se enviará al backend (enviar 'email' y normalizar en backend)
   const datosParaApi = {
     nombreUsuario,
     apellidoUsuario,
-    correo: email,
+    email,
     telefono
   };
 
@@ -60,7 +60,31 @@ exports.actualizarPerfilUsuario = async (req, res) => {
 
   try {
     const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS });
-    // Reenviamos al cliente SSR la respuesta tal cual viene del backend
+
+    // Extraer usuario de la respuesta del backend (puede venir en respuesta.data.usuario o directamente)
+    const usuarioActualizado = respuesta.data.usuario || respuesta.data;
+
+    // Reenviar cookies que el backend haya establecido (Set-Cookie) al navegador
+    try {
+      const setCookieHeader = respuesta.headers && (respuesta.headers['set-cookie'] || respuesta.headers['Set-Cookie']);
+      if (setCookieHeader) {
+        // Pasar las cookies tal cual al cliente
+        res.setHeader('Set-Cookie', setCookieHeader);
+      }
+    } catch (e) {
+      console.warn('No se pudieron reenviar cookies del backend al navegador:', e.message || e);
+    }
+
+    // NOTA: El backend (actualizarUsuario) es el responsable de escribir la cookie pública 'usuario'.
+    // Aquí no volvemos a escribir la cookie desde el frontend para evitar inconsistencia.
+
+    // Si la petición viene de un submit SSR (HTML form) redirigimos
+    const acceptHtml = req.headers.accept && req.headers.accept.includes('text/html');
+    if (acceptHtml) {
+      return res.redirect('/mi-perfil?exito=1');
+    }
+
+    // Reenviamos al cliente la respuesta que devolvió el backend
     return res.status(respuesta.status).json(respuesta.data);
   } catch (err) {
     console.error('frontend actualizarPerfilUsuario:', err.message || err);
@@ -73,32 +97,41 @@ exports.actualizarPerfilUsuario = async (req, res) => {
 
 /* Validar contraseña del usuario */
 exports.validarContrasenaUsuario = async (req, res) => {
-  // Se obtiene el id del usuario desde la URL y la contraseña enviada en el cuerpo de la petición
   const { id: idUsuario } = req.params;
   const { contrasenaIngresada } = req.body;
 
-  // Verifica que se envíe la contraseña.
-  if (!contrasenaIngresada) {
-    return res.status(400).json({ error: 'Debes ingresar tu contraseña actual' });
-  }
+  if (!idUsuario) return res.status(400).json({ error: 'Falta id de usuario' });
+  if (!contrasenaIngresada) return res.status(400).json({ error: 'Debes ingresar tu contraseña actual' });
 
-  // Verifica que la contraseña no esté vacía
   try {
-    // Obtener datos del usuario
-    const { data: datosUsuario } = await axios.get(`${API_BASE_URL}/usuarios/${idUsuario}`, { headers: HEADERS });
+    // Usar helper centralizado para obtener usuario
+    const usuarioFromApi = await fetchUsuarioPorId(idUsuario);
+    const posibleCorreo = usuarioFromApi?.correo || usuarioFromApi?.email;
 
-    // Intentar login con la contraseña ingresada
-    await axios.post(`${API_BASE_URL}/usuarios/login`, {
-      correo: datosUsuario.correo || datosUsuario.email,
-      contrasena: contrasenaIngresada
-    }, { headers: HEADERS });
-
-    return res.status(200).json({ mensaje: 'Contraseña validada correctamente', validacionExitosa: true });
-  } catch (error) {
-    if (error.response?.status === 401) {
-      return res.status(401).json({ error: 'La contraseña ingresada es incorrecta' });
+    if (!posibleCorreo) {
+      console.error('validarContrasenaUsuario: no se encontró correo en la respuesta del API', { usuarioFromApi });
+      return res.status(500).json({ error: 'No se pudo obtener el correo del usuario' });
     }
 
+    // Llamar al endpoint de autenticación correcto (/auth/login)
+    try {
+      await axios.post(`${API_BASE_URL}/auth/login`, {
+        correo: posibleCorreo,
+        contrasena: contrasenaIngresada
+      }, { headers: HEADERS });
+
+      return res.status(200).json({ mensaje: 'Contraseña validada correctamente', validacionExitosa: true });
+    } catch (errLogin) {
+      if (errLogin.response?.status === 401) {
+        return res.status(401).json({ error: 'La contraseña ingresada es incorrecta' });
+      }
+      console.error('validarContrasenaUsuario - error login:', errLogin.response?.data || errLogin.message || errLogin);
+      return res.status(500).json({ error: 'Error del servidor al validar la contraseña', mensaje: errLogin.response?.data?.error || 'Inténtalo de nuevo más tarde.' });
+    }
+
+  } catch (error) {
+    console.error('validarContrasenaUsuario (general):', error?.response?.data || error?.message || error);
+    if (error.response?.status === 404) return res.status(404).json({ error: 'Usuario no encontrado' });
     return res.status(500).json({ error: 'Error del servidor al validar la contraseña', mensaje: 'Inténtalo de nuevo más tarde.' });
   }
 };
@@ -111,12 +144,39 @@ exports.desactivarCuentaUsuario = async (req, res) => {
 
   // Verifica que el usuario exista
   try {
-    // Realiza una petición para actualizar el estado del usuario
-    await axios.put(`${API_BASE_URL}/usuarios/${id}`, { estadoUsuario: 'inactivo' }, { headers: HEADERS });
+    // Usar PATCH para invocar el endpoint de eliminación parcial del backend
+    await axios.patch(`${API_BASE_URL}/usuarios/${id}`, { estadoUsuario: 'inactivo' }, { headers: HEADERS });
     return res.status(200).json({ mensaje: 'Cuenta desactivada exitosamente', estadoNuevo: 'inactivo' });
 
   } catch (errorDesactivacion) {
     const codigo = errorDesactivacion.response?.status || 500;
     return res.status(codigo).json({ error: 'Error al desactivar la cuenta' });
+  }
+};
+
+// Helper interno para obtener usuario desde el backend y normalizar la respuesta
+async function fetchUsuarioPorId(id) {
+  if (!id) throw new Error('Falta id de usuario');
+  const { data } = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: HEADERS });
+  const usuario = data.usuario || data;
+  // Normalizar campos: garantizar 'email' y 'correo' disponibles
+  if (usuario) {
+    usuario.email = usuario.email || usuario.correo || usuario.correoUsuario || '';
+    usuario.correo = usuario.correo || usuario.email || '';
+  }
+  return usuario;
+}
+
+// Endpoint que devuelve detalle de usuario en formato JSON (proxy al backend)
+exports.obtenerDetalleUsuario = async (req, res) => {
+  const { id } = req.params;
+  if (!id) return res.status(400).json({ error: 'Falta id de usuario' });
+  try {
+    const usuario = await fetchUsuarioPorId(id);
+    return res.status(200).json({ usuario });
+  } catch (err) {
+    console.error('obtenerDetalleUsuario error:', err.response?.data || err.message || err);
+    const status = err.response?.status || 500;
+    return res.status(status).json({ error: err.response?.data || 'Error al obtener usuario' });
   }
 };

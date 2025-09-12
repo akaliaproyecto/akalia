@@ -137,7 +137,7 @@ exports.crearUsuario = async (req, res, next) => {
     const usuario = usuarioSinContrasena
     //Registrar log
     Log.generateLog('usuario.log', `Un usuario se ha registrado: ${usuario}, fecha: ${new Date()}`);
-        
+
     return res.status(201).json({
       message: 'Usuario registrado exitosamente',
       usuario
@@ -249,19 +249,26 @@ exports.actualizarUsuario = async (req, res) => {
 /* eliminar un usuario por su id */
 exports.eliminarUsuario = async (req, res) => {
   try {
+    const id = req.params.id;
+    if (!id) return res.status(400).json({ mensaje: 'Falta id de usuario' });
+
     const usuario = await modeloUsuario.findByIdAndUpdate(
-      req.params.id,
+      id,
       { estadoUsuario: 'inactivo' },
       { new: true }
     );
+
     if (!usuario) {
       return res.status(404).json({ mensaje: 'Usuario no encontrado' });
     }
-    //Registrar log
-    Log.generateLog('usuario.log', `Un usuario ha eliminado su cuenta: ${email}, fecha: ${new Date()}`);
 
-    res.json({ mensaje: 'Usuario deshabilitado correctamente', usuario });
+    // Registrar log con el correo disponible en el documento
+    const correoParaLog = usuario.correo || usuario.email || 'correo no disponible';
+    Log.generateLog('usuario.log', `Un usuario ha eliminado su cuenta: ${correoParaLog}, fecha: ${new Date()}`);
+
+    return res.status(200).json({ mensaje: 'Usuario deshabilitado correctamente', usuario });
   } catch (error) {
-    res.status(500).json({ mensaje: error.message });
+    console.error('eliminarUsuario error:', error);
+    return res.status(500).json({ mensaje: 'Error al deshabilitar usuario', detalle: error.message });
   }
 };

@@ -6,10 +6,12 @@ const Log = require('../middlewares/logs.js')
 
 /* Iniciar sesión */
 exports.iniciarSesion = async (req, res) => {
-  const { correo, contrasena } = req.body;
+  // Aceptar 'correo' o 'email' en el cuerpo
+  const correoUsuario = (req.body.correo || req.body.email || '').toLowerCase();
+  const contrasena = req.body.contrasena;
 
   // Validar que lleguen los datos requeridos
-  if (!correo || !contrasena) {
+  if (!correoUsuario || !contrasena) {
     return res.status(400).json({
       error: 'Correo y contraseña son requeridos'
     });
@@ -18,33 +20,24 @@ exports.iniciarSesion = async (req, res) => {
   try {
     // Buscar usuario activo por correo en la base de datos
     const usuarioEncontrado = await User.findOne({
-      correo: correo.toLowerCase(),
+      correo: correoUsuario,
       estadoUsuario: 'activo'
     });
 
     if (!usuarioEncontrado) {
-      return res.status(401).json({
-        error: 'Credenciales incorrectas'
-      });
+      return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
 
-    // Verificar que el usuario tenga contraseña válida
     if (!usuarioEncontrado.contrasena) {
-      return res.status(401).json({
-        error: 'Error en la cuenta del usuario'
-      });
+      return res.status(401).json({ error: 'Error en la cuenta del usuario' });
     }
 
-    // Comparar contraseña ingresada con contraseña encriptada en BD
     const contrasenaValida = await bcrypt.compare(contrasena, usuarioEncontrado.contrasena);
 
     if (!contrasenaValida) {
-      return res.status(401).json({
-        error: 'Credenciales incorrectas'
-      });
+      return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
 
-    // Preparar datos del usuario para respuesta (sin contraseña)
     const datosUsuarioParaSesion = {
       idPersona: usuarioEncontrado._id,
       nombreUsuario: usuarioEncontrado.nombreUsuario,
@@ -54,21 +47,18 @@ exports.iniciarSesion = async (req, res) => {
       rolUsuario: usuarioEncontrado.rolUsuario
     };
 
-      //Registrar log
-    Log.generateLog('usuario.log', `Un usuario inició sesión: ${correo}, fecha: ${new Date()}`);
-    
-    // Responder con datos del usuario
-    return res.status(200).json({
-      mensaje: 'Inicio de sesión exitoso',
-      usuario: datosUsuarioParaSesion
-    });
+    // Registrar log de forma segura
+    try {
+      Log.generateLog('usuario.log', `Un usuario inició sesión: ${correoUsuario}, fecha: ${new Date()}`);
+    } catch (logErr) {
+      console.error('Error generando log de login:', logErr);
+    }
+
+    return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaSesion });
 
   } catch (error) {
     console.error('Error en función iniciar sesión:', error);
-    return res.status(500).json({
-      error: 'Error interno del servidor',
-      detalle: error.message
-    });
+    return res.status(500).json({ error: 'Error interno del servidor', detalle: error.message });
   }
 };
 
