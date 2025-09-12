@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (enlacePerfil) enlacePerfil.href = `/mi-perfil`;
 
     const enlaceEmpr = document.querySelector(".user-emprendimientos");
-    if (enlaceEmpr && idPersona) enlaceEmpr.href = `/usuario-emprendimientos/${idPersona}`;
+    if (enlaceEmpr) enlaceEmpr.href = `/usuario-emprendimientos`;
   }
 
   // Ejecutar lógica principal
@@ -83,10 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const correoIngresado = formularioInicioSesion.email.value;
       const contrasenaIngresada = formularioInicioSesion.contrasena.value;
       const captchaIngresado = formularioInicioSesion.captcha.value;
-      
+
       const captchaValidado = await validarCaptchaAntesDeEnviar()
 
-      if(!captchaValidado) {
+      if (!captchaValidado) {
         return
       }
 
@@ -101,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
             captcha: captchaIngresado
           })
         });
-        
+
         const datosDeRespuesta = await respuestaDelServidor.json();
-        console.log('El captcha ingresado es: ',datosDeRespuesta)
+        console.log('El captcha ingresado es: ', datosDeRespuesta)
 
         if (respuestaDelServidor.ok) {
           // Si el inicio de sesión fue exitoso
@@ -111,10 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Crear cookie adicional para JavaScript (por si acaso)
           document.cookie = `usuario=${encodeURIComponent(JSON.stringify(datosDeRespuesta.usuario))}; path=/; max-age=${7 * 24 * 60 * 60}`;
-          
+
           // Recargar la página para que se actualice la navbar automáticamente
           window.location.reload();
-          
+
           // Cerrar modal de inicio de sesión
           const modalInicioSesion = document.getElementById('loginModal');
           if (modalInicioSesion) {
