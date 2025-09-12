@@ -7,7 +7,8 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 
 /* Listar emprendimientos de un usuario y renderizar la vista */
 exports.listarEmprendimientosUsuario = async (req, res) => {
-  const id = req.params?.id || req.usuarioAutenticado?.idPersona;
+  // Preferir id desde sesión/autenticación. Si se pasa en params, lo usamos solo para mostrar
+  const id = req.usuarioAutenticado?.idPersona || req.params?.id;
   if (!id) {
     // Si no hay id conocido, redirigir al login o a una página segura
     return res.redirect('/?error=Debes+iniciar+sesion');
@@ -20,13 +21,11 @@ exports.listarEmprendimientosUsuario = async (req, res) => {
     if (Array.isArray(data)) emprendimientos = data;
 
     // Renderiza la vista con las variables que ya espera el template
+    // NOTA: no exponemos la apiKey al cliente para evitar filtración de credenciales.
     return res.render('pages/usuario-emprendimientos-listar', {
       usuario,
       emprendimientos,
-      // Pasamos la URL base de la API a la plantilla para que el frontend pueda llamar al backend correcto
-      apiBaseUrl: API_BASE_URL,
-      // Pasamos la API key para que el cliente la use al hacer POST con fetch (solución simple)
-      apiKey: HEADERS['akalia-api-key'] || ''
+      apiBaseUrl: API_BASE_URL
     });
 
   } catch (error) {
@@ -73,8 +72,9 @@ exports.agregarEmprendimiento = async (req, res) => {
     const resp = await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
     console.log('Respuesta backend:', resp.data);
 
-    // Redirigir al listado de emprendimientos del usuario
-    res.redirect(`/usuario-emprendimientos/${usuario}`);
+    // Redirigir al listado de emprendimientos del usuario sin exponer el id en la URL.
+    // La vista tomará el id desde la sesión (req.usuarioAutenticado) cuando sea necesario.
+    res.redirect('/usuario-emprendimientos');
   } catch (error) {
     console.error('Error al crear emprendimiento:', error.message, error.response?.data);
     res.status(500).render('pages/error', {
@@ -154,11 +154,13 @@ exports.editarEmprendimiento = async (req, res) => {
     // Enviar al backend real (puerto 4000)
     await axios.put(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`, formN, { headers });
 
-    // Redirigir al listado de emprendimientos del usuario
-    res.redirect(req.get('referer'));
+    // Redirigir al listado anterior o al listado principal si no hay referer
+    const referer = req.get('referer');
+    if (referer) return res.redirect(referer);
+    return res.redirect('/usuario-emprendimientos');
   } catch (error) {
     console.error('Error al editar emprendimiento:', error.message);
-  res.status(500).render('pages/error', {
+    res.status(500).render('pages/error', {
       error: 'Error al editar emprendimiento',
       message: 'No se pudo editar el emprendimiento. Verifica los datos o intenta más tarde.'
     });
@@ -167,20 +169,21 @@ exports.editarEmprendimiento = async (req, res) => {
 
 /* Eliminar un nuevo emprendimiento */
 exports.eliminarEmprendimiento = async (req, res) => {
-    const idEmprendimiento = req.params.id;
-    const { usuario, emprendimientoEliminado } = req.body;
-    try {
-      // Petición PATCH para cambiar estado en el servidor a eliminado:true
-      await axios.patch(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`, 
-        { emprendimientoEliminado },
-        { headers: HEADERS }
-      );
-      res.redirect(req.get(`/usuario-emprendimientos/${usuario}`));
-    } catch (error) {
-      console.error('Error al eliminar emprendimiento:', error.message);
-  res.status(500).render('pages/error', {
-        error: 'Error al eliminar emprendimiento',
-        message: 'No se pudo eliminar el emprendimiento. Verifica los datos o intenta más tarde.'
-      });
-    }
+  const idEmprendimiento = req.params.id;
+  const { usuario, emprendimientoEliminado } = req.body;
+  try {
+    // Petición PATCH para cambiar estado en el servidor a eliminado:true
+    await axios.patch(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`,
+      { emprendimientoEliminado },
+      { headers: HEADERS }
+    );
+    // Redirigir al listado sin exponer id de usuario
+    res.redirect('/usuario-emprendimientos');
+  } catch (error) {
+    console.error('Error al eliminar emprendimiento:', error.message);
+    res.status(500).render('pages/error', {
+      error: 'Error al eliminar emprendimiento',
+      message: 'No se pudo eliminar el emprendimiento. Verifica los datos o intenta más tarde.'
+    });
+  }
 }

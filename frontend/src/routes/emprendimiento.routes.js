@@ -12,15 +12,20 @@ require('dotenv').config();
 const API_BASE_URL = process.env.URL_BASE || 'http://localhost:3000';
 
 // Obtener emprendimientos del usuario
-router.get('/usuario-emprendimientos/:id', async (req, res) => {
+// Ruta sin id (preferida) usa id desde sesión. Se mantiene la ruta con :id por compatibilidad.
+router.get('/usuario-emprendimientos', async (req, res) => {
   try {
-    const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${req.params.id}`);
+    // Preferir id desde sesión (si el sistema de autenticación expone req.usuario)
+    const id = (req.usuario && req.usuario.idPersona) || req.query.id || null;
+    if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
+
+    const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${id}`);
     const usuario = resU.data;
 
     const responseCategorias = await axios.get(`${API_BASE_URL}/categorias`);
     const categorias = responseCategorias.data;
 
-    const responseEmprendimiento = await axios.get(`${API_BASE_URL}/api/emprendimientos/redes/${req.params.id}`);
+    const responseEmprendimiento = await axios.get(`${API_BASE_URL}/api/emprendimientos/redes/${id}`);
     const emprendimiento = responseEmprendimiento.data;
 
     res.render('pages/usuario-emprendimientos.ejs', {

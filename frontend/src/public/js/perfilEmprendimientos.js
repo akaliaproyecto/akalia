@@ -8,10 +8,10 @@ function abrirModalEliminar(modalId, nombreId, { usuario, id, nombre }) {
 
   const modal = get(modalId);
   if (!modal) return;
-  
+
   modal.dataset.emprId = id || '';
   modal.dataset.userId = usuario || '';
-  
+
   const spanNombre = get(nombreId);
   if (spanNombre) spanNombre.textContent = nombre || '';
 
@@ -58,9 +58,8 @@ function configurarBotonConfirmacion({
 
       setTimeout(() => {
         bootstrap.Modal.getInstance(modal)?.hide();
-        window.location.href = userId
-          ? `/usuario-emprendimientos/${userId}`
-          : window.location.href;
+        // Redirigir al listado sin exponer el id del usuario
+        window.location.href = '/usuario-emprendimientos';
       }, 800);
 
     } catch (err) {
@@ -89,8 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-  /* ------------------------- Modal Crear Emprendimiento ------------------------- */
-  async function crearEmprendimiento(idUsuario) {
+/* ------------------------- Modal Crear Emprendimiento ------------------------- */
+async function crearEmprendimiento(idUsuario) {
   try {
     // Mostrar modal
     const modal = new bootstrap.Modal(document.getElementById('modalCrearEmprendimiento'));
@@ -100,14 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 }
 
- /* ------------------------- Modal EDITAR Emprendimiento ------------------------- */
+/* ------------------------- Modal EDITAR Emprendimiento ------------------------- */
 async function editEmprendimiento(idUsuario, idEmprendimiento) {
   try {
     const usuario = idUsuario;
-    
+
     const response = await fetch(`/emprendimiento-detalle/${encodeURIComponent(idEmprendimiento)}`, { headers: { 'Accept': 'application/json' } });
     const data = await response.json();
-    
+
     document.getElementById('me-usuario-id').value = idUsuario;
     document.getElementById('me-empr-id').value = idEmprendimiento;
     document.getElementById('me-nombre').value = data.emprendimiento.nombreEmprendimiento || '';

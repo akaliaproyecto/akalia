@@ -11,8 +11,12 @@ const {
   eliminarEmprendimiento
 } = require('./emprendimientos.services');
 
-/* Ruta GET para obtener los emprendimientos del usuario */
-router.get('/usuario-emprendimientos/:id',  listarEmprendimientosUsuario);
+/* Rutas GET para obtener los emprendimientos del usuario
+  - /usuario-emprendimientos -> usa id desde sesión (req.usuarioAutenticado)
+  - /usuario-emprendimientos/:id -> compatibilidad (no recomendado exponer id en URL)
+*/
+router.get('/usuario-emprendimientos', listarEmprendimientosUsuario);
+//router.get('/usuario-emprendimientos/:id',  listarEmprendimientosUsuario);
 
 /* Ruta POST para agregar un nuevo emprendimiento */
 router.post('/usuario-agregar-emprendimiento', upload.single('logo'), agregarEmprendimiento);
@@ -20,9 +24,9 @@ router.post('/usuario-agregar-emprendimiento', upload.single('logo'), agregarEmp
 /* Nueva ruta: detalle (proxy) para la modal */
 router.get('/emprendimiento-detalle/:id', obtenerDetalleEmprendimiento);
 
-router.post('/emprendimiento-editar/:id', upload.single('logo'),editarEmprendimiento);
+router.post('/emprendimiento-editar/:id', upload.single('logo'), editarEmprendimiento);
 
-router.post('/emprendimiento/eliminar/:id',eliminarEmprendimiento);
+router.post('/emprendimiento/eliminar/:id', eliminarEmprendimiento);
 
 
 

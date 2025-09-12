@@ -1,5 +1,7 @@
 // Helpers globales
-function get(id) { return document.getElementById(id); }
+function get(id) {
+  return document.getElementById(id);
+}
 
 // Abrir modal (editar/eliminar) - elimina/editar usan IDs de los partials
 function abrirModalEliminar(modalId, nombreId, { id, nombre }) {
