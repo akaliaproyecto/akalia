@@ -1,0 +1,185 @@
+/* Estilos generales  */
+.admin-container {
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+  overflow-x: hidden;
+}
+
+/* Contenedor fluido */
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 100%;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.row > * {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Contenido principal del administrador */
+.admin-content {
+  margin-left: 280px;
+  padding: 20px;
+  min-height: calc(100vh - 70px);
+  max-width: calc(100vw - 300px);
+  overflow-x: hidden;
+}
+
+/* Tarjetas de estadísticas */
+.stat-card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+/* Contenido principal */
+.admin-main {
+  margin-left: 280px;
+  background-color: var(--normal-blanco);
+  min-height: calc(100vh - 70px);
+  width: calc(100% - 280px);
+}
+
+/* Encabezado admin*/
+.admin-header {
+  background-color: var(--normal-blanco-light);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--normal-lights-gray);
+  text-align: center;
+}
+
+.admin-title {
+  font-family: var(--titulo-font-family);
+  font-size: var(--titulo-font-size);
+  font-weight: var(--titulo-font-weight);
+  margin-bottom: 0.5rem;
+}
+
+/* Tarjetas de estadísticas */
+.stat-card {
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  text-align: center;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.stat-number {
+  font-family: var(--titulo-grande-font-family);
+  font-size: 2rem;
+  font-weight: var(--titulo-grande-font-weight);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-family: var(--texto-descriptivo-font-family);
+  font-size: var(--texto-descriptivo-font-size);
+  font-weight: var(--texto-descriptivo-font-weight);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+.stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.stat-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos a las tablas tablas base (DataTables) */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  background-color: var(--normal-lights-blanco-light);
+  color: var(--normal-vinotinto);
+  font-family: var(--texto-descriptivo-bold-font-family);
+  font-size: var(--texto-descriptivo-bold-font-size);
+  font-weight: var(--texto-descriptivo-bold-font-weight);
+  border-bottom: 2px solid var(--normal-lights-gray);
+  padding: 1rem 0.75rem;
+}
+
+.table td {
+  font-family: var(--texto-descriptivo-font-family);
+  font-size: var(--texto-descriptivo-font-size);
+  font-weight: var(--texto-descriptivo-font-weight);
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--normal-lights-terracota-light);
+}
+
+.admin-container .akalia-sidebar {
+  position: fixed;
+  left: 0;
+  top: 70px;
+  z-index: 999;
+  min-height: calc(100vh - 70px);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}

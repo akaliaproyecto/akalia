@@ -7,6 +7,7 @@ const usuarioRoutes = require('../modules/usuarios/usuarios.front.routes');
 const authRoutes = require('../modules/autenticacion/autenticacion.front.routes');
 const emprendimientoRoutes = require('../modules/emprendimientos/emprendimientos.front.routes');
 const productoRoutes = require('../modules/productos/productos.front.routes');
+const adminRoutes = require('../routes/admin.routes');
 
 //const productoRoutes = require('./productos/producto.front.routes');
 //const contactanosRoutes = require('./contacto.routes');
@@ -16,6 +17,7 @@ router.use('/', usuarioRoutes);
 router.use('/', authRoutes);
 router.use('/', emprendimientoRoutes);
 router.use('/', productoRoutes);
+router.use('/', adminRoutes);
 //router.use('/contactanos', contactanosRoutes);
 
 
