@@ -7,7 +7,7 @@ const PORT = process.env.PORT_BACKEND || 4006;
 
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {
-    app.listen(PORT, () => console.log(`API en http://localhost:${PORT}`));
+    app.listen(PORT, () => console.log(`API en http://localhost:${PORT_BACKEND}`));
   })
   .catch(err => console.error('Error conectando a Mongo:', err));
 
