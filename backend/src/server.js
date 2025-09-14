@@ -3,11 +3,11 @@ const app = require('./app');
 const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-const PORT = process.env.PORT || 3666;
+const PORT = process.env.PORT_BACKEND || 3666;
 
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {
-    app.listen(PORT, () => console.log(`API en http://localhost:${PORT}`));
+    app.listen(PORT, () => console.log(`API en http://localhost:${PORT_BACKEND}`));
   })
   .catch(err => console.error('Error conectando a Mongo:', err));
 

@@ -76,6 +76,6 @@ app.use((err, req, res, next) => {
   res.status(500).render('pages/error', { error: err });
 });
 
-app.listen(4666, () => {
-  console.log(`Servidor frontend en línea en el puerto 4666`)
+app.listen(PORT_FRONTEND, () => {
+  console.log(`Servidor frontend en línea en el puerto ${PORT_FRONTEND}`);
 });
