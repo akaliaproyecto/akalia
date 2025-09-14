@@ -2,7 +2,7 @@ const axios = require('axios');
 require('dotenv').config();
 const cookie = require('cookie');
 
-const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4000';
+const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
 /* Generar el captcha */

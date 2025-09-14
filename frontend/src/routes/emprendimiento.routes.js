@@ -9,7 +9,7 @@ require('dotenv').config();
 // /*****************************************
 //  *      DEFINIR URL BASE DE LA API       *
 //  *****************************************/
-const API_BASE_URL = process.env.URL_BASE || 'http://localhost:3000';
+const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4666';
 
 // Obtener emprendimientos del usuario
 // Ruta sin id (preferida) usa id desde sesión. Se mantiene la ruta con :id por compatibilidad.

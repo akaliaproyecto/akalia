@@ -13,7 +13,7 @@ const {
   obtenerDetalleUsuario
 } = require('./usuarios.services')
 
-const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4000';
+const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
 /* Ruta GET para obtener el perfil del usuario */

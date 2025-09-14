@@ -5,7 +5,7 @@ const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
 
-const PORT = 3000;
+const PORT = 4666;
 
 
 
@@ -76,6 +76,6 @@ app.use((err, req, res, next) => {
   res.status(500).render('pages/error', { error: err });
 });
 
-app.listen(3000, () => {
-  console.log(`Servidor frontend en línea en el puerto 3000`)
+app.listen(4666, () => {
+  console.log(`Servidor frontend en línea en el puerto 4666`)
 });
