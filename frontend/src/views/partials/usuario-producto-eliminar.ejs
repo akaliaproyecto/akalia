@@ -1,0 +1,39 @@
+<!-- ====================== MODAL CONFIRMAR ELIMINACIÓN PRODUCTO ====================== -->
+<div class="modal fade" id="modalEliminarProducto" tabindex="-1" aria-labelledby="modalEliminarProductoLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-warning">
+      <div class="modal-header bg-warning text-dark">
+        <h5 class="modal-title" id="modalEliminarProductoLabel"><i class="fas fa-exclamation-triangle me-2"></i>
+          Eliminar Producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Paso 1: Advertencia -->
+        <div id="pasoUnoEliminacion" class="text-center">
+          <div class="mb-4">
+            <!-- Icono grande de advertencia -->
+            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+          </div>
+
+          <h4 class="text-danger mb-3">¡ADVERTENCIA!</h4>
+
+          <div class="alert alert-warning" role="alert">
+            <strong>¿Estás seguro de que deseas eliminar este producto?</strong>
+            <hr>
+            <ul class="text-start mb-0">
+              <li>Si tienes pedidos NO finalizados asociados a este producto, no será posible eliminarlo</li>
+              <li>La eliminación es permanente y el producto dejará de ser visible</li>
+            </ul>
+          </div>
+          <p class="small text-muted">Producto: <strong id="nombreProductoBorrando"></strong></p>
+        </div>
+        <div id="mensajeEstadoEliminarProducto" class="alert d-none" role="alert"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmEliminarProducto">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

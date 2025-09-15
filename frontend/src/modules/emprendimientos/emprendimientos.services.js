@@ -187,3 +187,8 @@ exports.eliminarEmprendimiento = async (req, res) => {
     });
   }
 }
+
+/* redirigir a listado de emprendimientos si no hay id en la URL */
+exports.redirigirSiNoHayIdEnUrl = async (req, res) => {
+  return res.redirect('/usuario-emprendimientos');
+};

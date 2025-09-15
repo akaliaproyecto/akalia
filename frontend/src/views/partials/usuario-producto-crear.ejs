@@ -1,0 +1,80 @@
+<!-- Partial: Modal para crear producto -->
+<div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-labelledby="modalCrearProductoLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="akalia-title akalia-title--medium m-0" id="modalCrearProductoLabel">Crear Producto</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <section class="akalia-card m-0 p-0 border-0 shadow-none">
+          <div class="akalia-card-info">
+            <form action="http://localhost:3000/api/productos/usuario-productos/<%= usuario.idPersona %>/crear"
+              method="POST" enctype="multipart/form-data">
+              <!-- Título -->
+              <div class="mb-3">
+                <label for="titulo" class="form-label akalia-label">Título del producto</label>
+                <input type="text" name="tituloProducto" id="titulo" class="form-control" required>
+              </div>
+              <!-- Imágenes nuevas -->
+              <div class="mb-3">
+                <label for="imagenes" class="form-label akalia-label">Imágenes</label>
+                <input type="file" name="imagenes" id="imagenes" class="form-control" multiple accept="image/*">
+                <small class="text-muted">Puedes seleccionar varias imágenes.</small>
+              </div>
+              <!-- Descripción -->
+              <div class="mb-3">
+                <label for="descripcion" class="form-label akalia-label">Descripción</label>
+                <textarea name="descripcionProducto" id="descripcion" class="form-control" rows="4" required></textarea>
+              </div>
+              <!-- Precio -->
+              <div class="mb-3">
+                <label for="precio" class="form-label akalia-label">Precio</label>
+                <input type="number" name="precio" id="precio" class="form-control" required step="0.01" min="0">
+              </div>
+              <!-- Emprendimiento -->
+              <div class="mb-3">
+                <label for="emprendimiento" class="form-label akalia-label">Emprendimiento</label>
+                <select name="idEmprendimiento" id="emprendimiento" class="form-select" required>
+                  <% emprendimientos.forEach(emp=> { %>
+                    <option value="<%= emp.idEmprendimiento %>">
+                      <%= emp.nombreEmprendimiento %>
+                    </option>
+                    <% }) %>
+                </select>
+              </div>
+              <!-- Categoría (desplegable dinámico) -->
+              <div class="mb-3">
+                <label for="categoria" class="form-label akalia-label">Categoría</label>
+                <!-- El select se llenará dinámicamente con JS -->
+                <select name="categoria" id="categoria" class="form-select" required>
+                  <option value="">Cargando categorías...</option>
+                </select>
+              </div>
+              <!-- Etiquetas (Tagify) -->
+              <div class="mb-3">
+                <label class="form-label akalia-label">Etiquetas</label>
+                <div class="d-flex flex-wrap gap-2">
+                  <div class="form-check">
+                    <input name="tags-outside" class="akalia-tagify--outside" id="etiquetasTagify"
+                      placeholder="Escribe etiquetas..." data-etiquetas='<%= JSON.stringify(etiquetas) %>'
+                      data-etiquetas-seleccionadas='[]' />
+                    <input type="hidden" name="etiquetas" id="etiquetasHidden">
+                    <small class="text-danger d-none" id="etiquetas-alerta">Máximo 10 etiquetas permitidas</small>
+                  </div>
+                </div>
+              </div>
+              <!-- Botón -->
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-terracota d-flex align-items-center gap-2 px-4 mb-2" type="submit">
+                  Crear Producto
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
