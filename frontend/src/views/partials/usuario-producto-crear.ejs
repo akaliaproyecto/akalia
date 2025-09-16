@@ -10,8 +10,7 @@
       <div class="modal-body">
         <section class="akalia-card m-0 p-0 border-0 shadow-none">
           <div class="akalia-card-info">
-            <form action="http://localhost:3000/api/productos/usuario-productos/<%= usuario.idPersona %>/crear"
-              method="POST" enctype="multipart/form-data">
+            <form action="/productos/usuario-productos/crear" method="POST" enctype="multipart/form-data">
               <!-- Título -->
               <div class="mb-3">
                 <label for="titulo" class="form-label akalia-label">Título del producto</label>
@@ -38,7 +37,8 @@
                 <label for="emprendimiento" class="form-label akalia-label">Emprendimiento</label>
                 <select name="idEmprendimiento" id="emprendimiento" class="form-select" required>
                   <% emprendimientos.forEach(emp=> { %>
-                    <option value="<%= emp.idEmprendimiento %>">
+                    <!-- El backend devuelve el id en _id; usar _id aquí para que el campo se envíe correctamente -->
+                    <option value="<%= emp._id %>">
                       <%= emp.nombreEmprendimiento %>
                     </option>
                     <% }) %>
