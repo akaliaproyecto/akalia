@@ -6,26 +6,27 @@ const router = express.Router();
 const {
   obtenerEtiquetas,
   obtenerEtiquetaPorId,
-  obtenerEtiquetaPorNombre,
   crearEtiqueta,
   actualizarEtiqueta,
   eliminarEtiqueta
 } = require('./etiquetas.controller.js');
 
 
-// obtener todos los etiquetas
-router.get('/etiquetas', obtenerEtiquetas);
+// Rutas relativas: el router se monta en '/etiquetas' desde app.js
+// Por eso aquí usamos '/' y '/:id' para evitar duplicar el segmento
+// obtener todas las etiquetas -> GET /etiquetas
+router.get('/', obtenerEtiquetas);
 
-// obtener un etiqueta por ID
-router.get('/etiquetas/:id', obtenerEtiquetaPorId);
+// obtener una etiqueta por ID -> GET /etiquetas/:id
+router.get('/:id', obtenerEtiquetaPorId);
 
-// crear una nueva etiqueta
-router.post('/etiquetas', crearEtiqueta);
+// crear una nueva etiqueta -> POST /etiquetas
+router.post('/', crearEtiqueta);
 
-// editar un etiqueta existente
-router.put('/etiquetas/:id', actualizarEtiqueta);
+// editar una etiqueta existente -> PUT /etiquetas/:id
+router.put('/:id', actualizarEtiqueta);
 
-// eliminar un etiqueta por ID
-router.patch('/etiquetas/:id', eliminarEtiqueta);
+// eliminar una etiqueta por ID (patch) -> PATCH /etiquetas/:id
+router.patch('/:id', eliminarEtiqueta);
 
 module.exports = router;

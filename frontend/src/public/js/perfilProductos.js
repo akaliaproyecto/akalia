@@ -3,14 +3,7 @@ function get(id) {
   return document.getElementById(id);
 }
 
-/* --------------------------------------------
-  Modal eliminar Producto
-  - abrirModalEliminarProducto: abre el modal y pone data attributes con ids
-  - configurarBotonConfirmacionProducto: configura el botón de confirmación para
-    llamar al endpoint que elimina/inhabilita el producto
-  Notas: este archivo sigue el estilo y comentarios de perfilEmprendimientos.js
--------------------------------------------- */
-
+/* Modal eliminar Producto */
 function abrirModalEliminarProducto(modalId, nombreId, { usuario, id, nombre }) {
   const modal = get(modalId);
   if (!modal) return;
@@ -101,6 +94,78 @@ async function crearProducto(idUsuario) {
     console.error('Error cargando modal crear producto:', err);
   }
 }
+
+/* Autocompletado de etiquetas. */
+function inicializarAutocompletadoEtiquetas() {
+  // carga etiquetas desde data-atributo, etiquetasBuscador es el id del input de las etiquetas.
+  const buscador = get('etiquetasBuscador');
+
+  const etiquetas = JSON.parse(buscador.dataset.etiquetas);
+  const sugerencias = get('etiquetasSugerencias'); //etiquetasSugerencias es el id del contenedor de sugerencias en el archivo perfilProductos.ejs
+  const seleccionadasCont = get('etiquetasSeleccionadas'); //etiquetasSeleccionadas contenedor donde se muestran las etiquetas seleccionadas
+  const hidden = get('etiquetasHidden'); //etiquetasHidden input hidden donde se guardan las etiquetas seleccionadas en formato JSON
+
+  const seleccionadas = [];
+
+  // Función para renderizar las etiquetas seleccionadas en el contenedor
+  function dibujarSeleccionadas() {
+    seleccionadasCont.innerHTML = '';
+
+    //Por cada elemento de la lista seleccionadas se crea un span con clases de Bootstrap (badge bg-secondary). textContent se usa porque se quiere poner solo texto(no HTML crudo). Se toma el nombre de la etiqueta en orden de prioridad: et.nombreEtiqueta
+    seleccionadas.forEach((et, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'badge bg-secondary me-1';
+      chip.textContent = et.nombreEtiqueta;
+
+      //Se crea un botón X para quitar la etiqueta. Cuando se hace click, elimina esa etiqueta del array con splice y vuelve a llamar dibujarSeleccionadas() para refrescar la vista.
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'btn-close btn-close-white btn-sm ms-2';
+      btn.addEventListener('click', () => { seleccionadas.splice(i, 1); dibujarSeleccionadas(); });
+
+      // El botón se agrega dentro del span(chip). Finalmente, ese chip se mete en el contenedor principal.
+      chip.appendChild(btn);
+      seleccionadasCont.appendChild(chip);
+    });
+    //sincroniza en un campo oculto (hidden) los valores de las etiquetas seleccionadas para que luego puedan enviarse
+    hidden.value = JSON.stringify(seleccionadas.map(e => e.nombreEtiqueta));
+  }
+
+  //mostrar sugerencias de etiquetas filtradas a partir de lo que se escribe en un buscador y permitir seleccionarlas con un clic
+  function buscar(texto) {
+    sugerencias.innerHTML = '';
+    const t = texto.toLowerCase();
+
+    //etiquetas es el listado completo de posibles etiquetas. Toma e.nombreEtiqueta, convierte a minúsculas y revisa si contiene el texto buscado(includes(t)) así se obtienen solo las coincidencias. Limita el número de sugerencias a un máximo de 6 resultados.
+    etiquetas.filter(e => (e.nombreEtiqueta).toLowerCase().includes(t)).slice(0, 6).forEach(e => {
+      // Por cada etiqueta coincidente crea un botón con clase boostrap list-group-item con el nombre de la etiqueta
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'list-group-item list-group-item-action';
+      btn.textContent = e.nombreEtiqueta;
+
+      //Cuando se hace clic en una sugerencia: 1. Comprueba que el usuario no tenga ya 3 etiquetas seleccionadas. 2. También verifica que esa etiqueta no esté repetida(some(...)). 3. Si pasa ambas condiciones, agrega la etiqueta al array seleccionadas y llama a dibujarSeleccionadas() para actualizar la vista. 4. Luego limpia el input del buscador(buscador.value = '') y borra las sugerencias.
+      btn.addEventListener('click', () => {
+        if (seleccionadas.length < 3 && !seleccionadas.some(s => s._id === e._id)) {
+          seleccionadas.push(e); dibujarSeleccionadas();
+        }
+        buscador.value = ''; sugerencias.innerHTML = '';
+      });
+      //cada botón se agrega al contenedor de sugerencias para que se muestre en pantalla.
+      sugerencias.appendChild(btn);
+    });
+  }
+
+  //cuando el usuario escribe algo en el campo de texto (<input>), se dispara el evento input y se van mostrando las sugerencias en tiempo real mientras  escribe.
+  buscador.addEventListener('input', e => buscar(e.target.value));
+  // Cuando el campo de texto pierde el foco, se ocultan las sugerencias después de 150ms.
+  buscador.addEventListener('blur', () => setTimeout(() => sugerencias.innerHTML = '', 150));
+  // Inicializar visual si ya hay valores
+  try { const inicial = JSON.parse(hidden.value || '[]'); inicial.forEach(v => { const f = etiquetas.find(e => e._id === v || e.nombreEtiqueta === v || e.nombre === v); if (f) seleccionadas.push(f); }); dibujarSeleccionadas(); } catch (e) { }
+}
+
+// Inicializar autocompletado cuando el DOM esté listo 
+document.addEventListener('DOMContentLoaded', () => {
+  inicializarAutocompletadoEtiquetas();
+});
 
 /* ------------------------- Modal EDITAR Producto ------------------------- */
 async function editProducto(idUsuario, idProducto) {

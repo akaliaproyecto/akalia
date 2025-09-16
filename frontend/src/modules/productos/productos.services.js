@@ -45,6 +45,14 @@ exports.listarProductosUsuario = async (req, res) => {
     // Obtener emprendimientos y productos del usuario
     listaEmprendimientos = await obtenerArray(`${API_BASE_URL}/emprendimientos/usuario/${id}`);
     listaProductos = await obtenerArray(`${API_BASE_URL}/productos/usuarios/${id}`);
+    // Obtener categorias desde la API del backend
+    const categoriasRespuesta = await obtenerArray(`${API_BASE_URL}/categorias`);
+    // Si la respuesta es un array lo usamos, si no dejamos la lista vacía
+    listaCategorias = Array.isArray(categoriasRespuesta) ? categoriasRespuesta : [];
+    // Obtener etiquetas desde la API del backend (colección 'etiquetas')
+    const etiquetasRespuesta = await obtenerArray(`${API_BASE_URL}/etiquetas`);
+    // Si la respuesta es un array lo usamos, si no dejamos la lista vacía
+    listaEtiquetas = Array.isArray(etiquetasRespuesta) ? etiquetasRespuesta : [];
 
     // Objeto donde key = idEmprendimiento, value = nombre
     const mapaNombres = {};

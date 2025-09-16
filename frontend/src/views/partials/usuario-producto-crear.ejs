@@ -49,7 +49,15 @@
                 <label for="categoria" class="form-label akalia-label">Categoría</label>
                 <!-- El select se llenará dinámicamente con JS -->
                 <select name="categoria" id="categoria" class="form-select" required>
-                  <option value="">Cargando categorías...</option>
+                  <% if (typeof categorias !=='undefined' && categorias.length) { %>
+                    <% categorias.forEach(function(cat) { %>
+                      <option value="<%= cat._id %>">
+                        <%= cat.nombreCategoria %>
+                      </option>
+                      <% }); %>
+                        <% } else { %>
+                          <option value="">No hay categorías disponibles</option>
+                          <% } %>
                 </select>
               </div>
               <!-- Etiquetas (Tagify) -->
@@ -57,11 +65,30 @@
                 <label class="form-label akalia-label">Etiquetas</label>
                 <div class="d-flex flex-wrap gap-2">
                   <div class="form-check">
-                    <input name="tags-outside" class="akalia-tagify--outside" id="etiquetasTagify"
-                      placeholder="Escribe etiquetas..." data-etiquetas='<%= JSON.stringify(etiquetas) %>'
-                      data-etiquetas-seleccionadas='[]' />
-                    <input type="hidden" name="etiquetas" id="etiquetasHidden">
-                    <small class="text-danger d-none" id="etiquetas-alerta">Máximo 10 etiquetas permitidas</small>
+                    <!--
+                      Implementación simple de autocompletado con SSR:
+                      - El servidor (SSR) pasa un array `etiquetas` con los objetos desde MongoDB.
+                      - Aquí renderizamos ese array en un atributo `data-etiquetas` en formato JSON
+                        para que el JS del frontend (perfilProductos.js) lo lea y muestre sugerencias.
+                      - El usuario puede buscar y seleccionar hasta 3 etiquetas. Las seleccionadas
+                        se ponen en el input oculto `#etiquetasHidden` como JSON para enviar al servidor.
+                    -->
+                    <!-- Input visible para buscar etiquetas -->
+                    <input type="text" id="etiquetasBuscador" class="form-control"
+                      placeholder="Escribe para buscar una etiqueta..." autocomplete="off"
+                      data-etiquetas='<%= JSON.stringify(etiquetas || []) %>' />
+                    <!-- Contenedor donde aparecerán las sugerencias mientras escribe -->
+                    <div id="etiquetasSugerencias" class="list-group position-relative"></div>
+
+                    <!-- Contenedor donde se muestran las etiquetas seleccionadas -->
+                    <div id="etiquetasSeleccionadas" class="d-flex flex-wrap gap-2 mt-2"></div>
+
+                    <!-- Valor real que se enviará al servidor: array JSON de ids o nombres -->
+                    <input type="hidden" name="etiquetas" id="etiquetasHidden" value="[]">
+
+                    <!-- Mensajes de ayuda/validación -->
+                    <small class="text-muted">Seleccione hasta 3 etiquetas (opcional).</small>
+                    <small class="text-danger d-none">Máximo 3 etiquetas permitidas</small>
                   </div>
                 </div>
               </div>
