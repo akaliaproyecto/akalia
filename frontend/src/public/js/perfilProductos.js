@@ -95,6 +95,79 @@ async function crearProducto(idUsuario) {
   }
 }
 
+/* Validación del formulario de creación de producto dentro del modal */
+function inicializarValidacionCrearProducto() {
+  try {
+    const formCrear = document.getElementById('form-crear-producto');
+
+    // Al enviar el formulario, validamos campos y detenemos el envío si hay errores
+    formCrear.addEventListener('submit', function (ev) {
+      // Limpiar alertas anteriores
+      const contAlertas = document.getElementById('alertasCrearProducto');
+      contAlertas.innerHTML = '';
+
+      // Recoger valores
+      const titulo = document.getElementById('titulo').value;
+      const descripcion = document.getElementById('descripcion').value;
+      const precio = document.getElementById('precio').value;
+      const emprendimiento = document.getElementById('emprendimiento').value;
+      const categoria = document.getElementById('categoria').value;
+      const inputImagenes = document.getElementById('imagenes');
+      const archivos = inputImagenes && inputImagenes.files ? inputImagenes.files : [];
+      const etiquetasHidden = document.getElementById('etiquetasHidden').value;
+
+      const errores = [];
+
+      // Validaciones sencillas y explicativas
+      if (!titulo || titulo.trim().length < 3) {
+        errores.push('Debe ingresar un título de al menos 3 caracteres.');
+      }
+      if (!descripcion || descripcion.trim().length < 3) {
+        errores.push('Debe ingresar una descripción válida.');
+      }
+      if (!precio || Number(precio) < 0) {
+        errores.push('Debe ingresar un precio válido (número mayor o igual a 0).');
+      }
+      if (!emprendimiento) {
+        errores.push('Debe seleccionar un emprendimiento.');
+      }
+      if (!categoria) {
+        errores.push('Debe seleccionar una categoría.');
+      }
+
+      // Validar al menos una imagen
+      if (!archivos || archivos.length === 0) errores.push('Debes ingresar al menos una imagen.');
+
+      // Validar etiquetas
+      try {
+        const parsed = JSON.parse(etiquetasHidden);
+        if (!Array.isArray(parsed) || parsed.length === 0) {
+          errores.push('Debes seleccionar al menos una etiqueta.');
+        }
+      } catch (e) {
+        errores.push('Formato de etiquetas inválido.');
+      }
+
+      // Si hay errores prevenimos el envío y los mostramos en el modal
+      if (errores.length > 0) {
+        ev.preventDefault(); //Evita que el formulario se envíe automáticamente
+        ev.stopPropagation(); // Detiene que el evento se propague a otros elementos
+
+        // Crear una alerta simple (Bootstrap) con la lista de errores
+        const alerta = document.createElement('div');
+        alerta.className = 'alert alert-danger';
+        alerta.role = 'alert';
+        alerta.innerHTML = '<strong>Error de validación:</strong> <ul> ' + errores.map(e => ' <li> ' + e + '</li>').join('') + '</ul> ';
+
+        //gregar dinámicamente el div de alerta dentro del contenedor contAlertas
+        contAlertas.appendChild(alerta);
+      }
+    });
+  } catch (err) {
+    console.error('Error inicializando validación crear producto:', err);
+  }
+}
+
 /* Autocompletado de etiquetas. */
 function inicializarAutocompletadoEtiquetas() {
   // carga etiquetas desde data-atributo, etiquetasBuscador es el id del input de las etiquetas.
@@ -165,6 +238,7 @@ function inicializarAutocompletadoEtiquetas() {
 // Inicializar autocompletado cuando el DOM esté listo 
 document.addEventListener('DOMContentLoaded', () => {
   inicializarAutocompletadoEtiquetas();
+  inicializarValidacionCrearProducto(); // Inicializar validación del formulario
 });
 
 /* ------------------------- Modal EDITAR Producto ------------------------- */

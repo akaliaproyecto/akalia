@@ -10,7 +10,11 @@
       <div class="modal-body">
         <section class="akalia-card m-0 p-0 border-0 shadow-none">
           <div class="akalia-card-info">
-            <form action="/productos/usuario-productos/crear" method="POST" enctype="multipart/form-data">
+            <!-- Añadimos id al form para poder validarlo desde JS y un contenedor de alertas -->
+            <form id="form-crear-producto" action="/productos/usuario-productos/crear" method="POST"
+              enctype="multipart/form-data">
+              <!-- Contenedor de alertas para mostrar errores de validación dentro del modal -->
+              <div id="alertasCrearProducto" class="mt-2"></div>
               <!-- Título -->
               <div class="mb-3">
                 <label for="titulo" class="form-label akalia-label">Título del producto</label>
@@ -62,7 +66,7 @@
               </div>
               <!-- Etiquetas (Tagify) -->
               <div class="mb-3">
-                <label class="form-label akalia-label">Etiquetas</label>
+                <label class="form-label akalia-label" required>Etiquetas</label>
                 <div class="d-flex flex-wrap gap-2">
                   <div class="form-check">
                     <!--
