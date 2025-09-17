@@ -13,7 +13,7 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 
 /* Verificar usuario logueado */
 exports.obtenerUsuario = async (req, res) => {
-  const id = req.usuarioAutenticado?.idPersona;
+  const id = req.usuarioAutenticado?.idUsuario;
   if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
 
   try {

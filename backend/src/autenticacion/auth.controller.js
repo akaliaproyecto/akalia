@@ -39,7 +39,7 @@ exports.iniciarSesion = async (req, res) => {
     }
 
     const datosUsuarioParaSesion = {
-      idPersona: usuarioEncontrado._id,
+      idUsuario: usuarioEncontrado._id,
       nombreUsuario: usuarioEncontrado.nombreUsuario,
       apellidoUsuario: usuarioEncontrado.apellidoUsuario,
       correo: usuarioEncontrado.correo,

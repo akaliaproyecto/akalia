@@ -10,7 +10,7 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 /* Listar productos de un usuario */
 exports.listarProductosUsuario = async (req, res) => {
   // Obtener id del usuario 
-  const id = req.usuarioAutenticado.idPersona;
+  const id = req.usuarioAutenticado.idUsuario;
   const usuario = req.usuarioAutenticado;
 
   // Valores por defecto para la vista (nombres locales explicitos)
@@ -149,7 +149,7 @@ exports.mostrarEditarProducto = async (req, res) => {
     const producto = respuesta.data;  // datos del producto recibido
 
     // Pedir listas relacionadas
-    const listaEmprendimientos = await pedirLista(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idPersona}`);
+    const listaEmprendimientos = await pedirLista(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`);
     const listaCategorias = await pedirLista(`${API_BASE_URL}/categorias`);
     const listaEtiquetas = await pedirLista(`${API_BASE_URL}/etiquetas`);
 
