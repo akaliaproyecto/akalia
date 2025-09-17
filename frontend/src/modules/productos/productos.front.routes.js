@@ -17,10 +17,10 @@ router.get('/productos/usuario-productos', productosServices.listarProductosUsua
 // Ruta CON id (muestra los productos para el id provisto en la URL)
 router.get('/productos/usuario-productos/:id', productosServices.listarProductosUsuario);
 
-// Nueva ruta POST que procesa el formulario multipart enviado desde el modal de creación
-// Recibe hasta 10 archivos en el campo 'imagenes' (coincide con el backend)
-// La función `procesarCrearProducto` en productos.services se encargará de reenviar
-// la información al backend y devolver la respuesta adecuada.
+// Ruta GET para mostrar detalle de un producto
+router.get('/productos/usuario-productos/ver/:id', productosServices.mostrarDetalleProducto);
+
+// Ruta POST para crear un nuevo producto (con subida de imágenes)
 router.post('/productos/usuario-productos/crear', uploadMemory.array('imagenes', 10), productosServices.procesarCrearProducto);
 
 module.exports = router;

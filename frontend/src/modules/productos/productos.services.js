@@ -86,6 +86,50 @@ exports.listarProductosUsuario = async (req, res) => {
   }
 };
 
+/* mostrarDetalleProducto */
+exports.mostrarDetalleProducto = async (req, res) => {
+  try {
+    // Obtener id del producto desde la URL y usuario autenticado
+    const idProducto = req.params.id;
+    const usuario = req.usuarioAutenticado;
+
+    // Petición al backend para obtener detalle del producto
+    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
+
+    // Si se obtiene el producto se renderiza la vista      
+    if (respuesta && respuesta.status === 200 && respuesta.data) {
+      const producto = respuesta.data;
+
+      // obtener nombre de la categoría
+      try {
+        if (producto && producto.categoria) {
+          // Se hace la petición a la API para obtener el nombre de la categoría
+          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${producto.categoria}`, { headers: HEADERS });
+          if (respCategoria && respCategoria.status === 200 && respCategoria.data) {
+            // Guarda el nombre en una propiedad nueva `categoriaNombre` para usarla en la vista.
+            producto.categoriaNombre = respCategoria.data.nombreCategoria
+          }
+        } else {
+          // Si no hay categoría, dejamos un texto vacío
+          producto.categoriaNombre = '';
+        }
+      } catch (errCat) {
+        if (producto.categoria) {
+          producto.categoriaNombre = String(producto.categoria);
+        } else {
+          producto.categoriaNombre = '';
+        }
+      }
+      // muestra la página “usuario-producto-ver” y le pasa los datos del producto y del usuario para que la plantilla los muestre dinámicamente.
+      return res.render('pages/usuario-producto-ver', { producto, usuario });
+    } else {
+      return res.status(404).render('pages/error', { error: 'Producto no encontrado' });
+    }
+  } catch (error) {
+    return res.status(500).render('pages/error', { error: 'Error al obtener detalle de producto', message: error.message || String(error) });
+  }
+};
+
 /* Crear un nuevo producto */
 exports.procesarCrearProducto = async (req, res) => {
   try {

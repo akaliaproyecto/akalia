@@ -72,6 +72,13 @@ window.eliminarProducto = (usuario, id, nombre) => {
   abrirModalEliminarProducto('modalEliminarProducto', 'nombreProductoBorrando', { usuario, id, nombre });
 };
 
+// Función para navegar a la vista del detalle de producto
+window.showUserProductDetail = (usuario, idProducto) => {
+  // construimos la ruta que definimos en productos.front.routes.js
+  const rutaDetalle = `/productos/usuario-productos/ver/${idProducto}`;
+  window.location.href = rutaDetalle;
+};
+
 // Inicializar listeners cuando el DOM cargue
 document.addEventListener('DOMContentLoaded', () => {
   configurarBotonConfirmacionProducto({
