@@ -29,4 +29,7 @@ router.get('/productos/usuario-productos/editar/:id', productosServices.mostrarE
 // Ruta POST para procesar la edición del producto (proxya al backend vía PUT)
 router.post('/productos/usuario-productos/editar/:id', uploadMemory.array('imagenes', 10), productosServices.procesarEditarProducto);
 
+// Ruta POST para procesar la eliminación de un producto
+router.post('/productos/usuario-productos/eliminar/:id', productosServices.procesarEliminarProducto);
+
 module.exports = router;

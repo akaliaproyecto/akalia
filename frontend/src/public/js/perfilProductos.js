@@ -37,11 +37,11 @@ function configurarBotonConfirmacionProducto({ btnId, modalId, mensajeId, estado
     newBtn.disabled = true;
 
     try {
-      // Llamada al endpoint que inactiva/elimina el producto en el servidor
-      await fetch(`/api/productos/usuario-productos/${userId}/eliminar/${productoId}`, {
+      // Llamada al endpoint SSR que procesa la eliminación. Usamos POST a la ruta SSR que luego hace proxy al backend.
+      await fetch(`/productos/usuario-productos/eliminar/${productoId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idProducto: productoId, usuario: userId, productoEliminado: estado })
+        body: JSON.stringify({ usuario: userId, productoEliminado: estado })
       });
 
       const mensaje = get(mensajeId);
@@ -345,6 +345,6 @@ function ocultarIdProductoEnUrl() {
   }
 }
 
-// Exportar funciones para uso en templates (si se necesitan desde atributos onclick)
+// Exportar funciones para uso en templates 
 window.crearProducto = crearProducto;
 window.editProducto = editProducto;

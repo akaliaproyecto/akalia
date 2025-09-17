@@ -307,3 +307,30 @@ exports.procesarCrearProducto = async (req, res) => {
     return res.status(500).render('pages/error', { error: 'Fallo al crear producto', message: (error.response && error.response.data && (error.response.data.mensaje || JSON.stringify(error.response.data))) || error.message || String(error) });
   }
 };
+
+/* Eliminar un producto */
+exports.procesarEliminarProducto = async (req, res) => {
+  try {
+    const idProducto = req.params.id; // id del producto a eliminar
+    // Campos enviados desde el formulario
+    const { usuario, productoEliminado } = req.body;
+
+    // Construimos la ruta al backend real
+    const rutaBackend = `${API_BASE_URL}/productos/${idProducto}/eliminar`;
+
+    // Preparar payload simple: { productoEliminado: true }
+    const payload = { productoEliminado: productoEliminado === true };
+
+    // Cabeceras: incluimos API_KEY si está disponible en el entorno del servidor frontend
+    const cabeceras = { ...HEADERS };
+
+    // Hacemos la petición PATCH al backend
+    await axios.patch(rutaBackend, payload, { headers: cabeceras });
+
+    // Redirigimos al listado del usuario (SSR)
+    return res.redirect('/productos/usuario-productos');
+  } catch (error) {
+    console.error('Error al procesar eliminación de producto (frontend):', error.message || error);
+    return res.status(500).render('pages/error', { error: 'Error al eliminar producto', message: error.message || String(error) });
+  }
+};

@@ -106,7 +106,7 @@
                               </svg>
                             </button>
                             <button class="btn text-vinotinto eliminar" title="Eliminar"
-                              onclick="deleteProducto('<%= usuario.idPersona %>','<%= producto._id %>','8')">
+                              onclick="eliminarProducto('<%= usuario.idPersona %>','<%= producto._id %>','<%= producto.tituloProducto %>')">
                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                                 fill="none">
                                 <path
@@ -142,6 +142,8 @@
 
       <!-- Include partial que contiene el modal para crear producto -->
       <%- include('../partials/usuario-producto-crear.ejs'); %>
+        <!-- Include partial que contiene el modal para eliminar producto -->
+        <%- include('../partials/usuario-producto-eliminar.ejs'); %>
 </body>
 
 </html>
