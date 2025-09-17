@@ -23,4 +23,10 @@ router.get('/productos/usuario-productos/ver/:id', productosServices.mostrarDeta
 // Ruta POST para crear un nuevo producto (con subida de imágenes)
 router.post('/productos/usuario-productos/crear', uploadMemory.array('imagenes', 10), productosServices.procesarCrearProducto);
 
+// Ruta GET para cargar el formulario de edición (se renderiza como modal en el cliente)
+router.get('/productos/usuario-productos/editar/:id', productosServices.mostrarEditarProducto);
+
+// Ruta POST para procesar la edición del producto (proxya al backend vía PUT)
+router.post('/productos/usuario-productos/editar/:id', uploadMemory.array('imagenes', 10), productosServices.procesarEditarProducto);
+
 module.exports = router;

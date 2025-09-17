@@ -130,6 +130,105 @@ exports.mostrarDetalleProducto = async (req, res) => {
   }
 };
 
+/* Cargar datos de producto desde el backend para mostrarlos en la vista de edición */
+exports.mostrarEditarProducto = async (req, res) => {
+  try {
+    const idProducto = req.params.id; // id del producto a editar
+    const usuario = req.usuarioAutenticado; // usuario que está autenticado
+
+    // Pide datos al backend usando axios
+    const pedirLista = async (url) => {
+      const r = await axios.get(url, { headers: HEADERS });
+      return r.data;
+    };
+
+    // Pedir producto al backend
+    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
+    if (respuesta.status !== 200 || !respuesta.data) return res.status(404).send('Producto no encontrado');
+
+    const producto = respuesta.data;  // datos del producto recibido
+
+    // Pedir listas relacionadas
+    const listaEmprendimientos = await pedirLista(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idPersona}`);
+    const listaCategorias = await pedirLista(`${API_BASE_URL}/categorias`);
+    const listaEtiquetas = await pedirLista(`${API_BASE_URL}/etiquetas`);
+
+    // Renderizar el partial que se insertará en el modal
+    return res.render('partials/usuario-producto-editar', {
+      usuario,
+      producto,
+      imagenes: producto.imagenes || [],
+      emprendimientos: listaEmprendimientos,
+      categorias: listaCategorias,
+      etiquetas: listaEtiquetas || []
+    });
+
+  } catch (error) {
+    // Error inesperado
+    return res.status(500).send('Error al obtener datos del producto');
+  }
+};
+
+/* Editar producto: valida datos, arma FormData y actualiza en backend */
+exports.procesarEditarProducto = async (req, res) => {
+  try {
+    const idProducto = req.params.id; // id del producto a editar
+    const datos = req.body; // datos enviados desde el formulario
+    const formData = new FormData(); // objeto para enviar datos al backend
+
+    // Campos de texto principales
+    const camposTexto = {
+      tituloProducto: datos.tituloProducto,
+      descripcionProducto: datos.descripcionProducto,
+      precio: datos.precio,
+      idEmprendimiento: datos.idEmprendimiento,
+      categoria: datos.categoria
+    };
+    // Agregar al FormData los campos que existan (clave : valor)
+    for (const [clave, valor] of Object.entries(camposTexto)) {
+      if (valor) formData.append(clave, valor);
+    }
+
+    // Manejo de etiquetas (el backend espera array)
+    let etiquetas = [];
+    try {
+      etiquetas = JSON.parse(datos.etiquetas || '[]');
+    } catch { }
+    // Agregar cada etiqueta individual al FormData
+    etiquetas.forEach(et => formData.append('etiquetas', et));
+
+    // Manejo de imágenes (si el usuario subió nuevas)
+    if (req.files?.length) {
+      req.files.forEach(archivo => {
+        formData.append('imagenes', archivo.buffer, {
+          filename: archivo.originalname,
+          contentType: archivo.mimetype,
+          knownLength: archivo.size
+        });
+      });
+    }
+
+    // Cabeceras HTTP necesarias para enviar FormData
+    const cabeceras = formData.getHeaders();
+    if (process.env.API_KEY) cabeceras['akalia-api-key'] = process.env.API_KEY;
+
+    // Petición PUT al backend para actualizar producto
+    const ruta = `${API_BASE_URL}/productos/${idProducto}`;
+    const respuesta = await axios.put(ruta, formData, { headers: cabeceras, maxBodyLength: Infinity });
+
+    // Validar respuesta
+    if (respuesta?.status === 200 || respuesta?.status === 201) {
+      return res.redirect('/productos/usuario-productos'); // redirige al listado
+    }
+    return res.status(500).send('Respuesta inesperada del backend al actualizar producto');
+
+  } catch (error) {
+    // Captura de errores y log en consola
+    console.error('Error en procesarEditarProducto:', error.response?.data || error.message || error);
+    return res.status(500).send('Error procesando la edición del producto');
+  }
+};
+
 /* Crear un nuevo producto */
 exports.procesarCrearProducto = async (req, res) => {
   try {

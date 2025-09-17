@@ -16,9 +16,9 @@
           <section class="akalia-card akalia-table overflow-auto">
             <header class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
               <h2 class="akalia-title akalia-title--medium m-0">Mis Productos</h2>
-              <button ('<%=usuario.idPersona %>')" class="btn btn-terracota"
-                data-bs-toggle="modal" data-bs-target="#modalCrearProducto">+ Nuevo
-                Producto</button>
+              <!-- Botón para abrir el modal de creación. Usamos una llamada a la función crearProducto -->
+              <button onclick="crearProducto('<%= usuario.idPersona %>')" class="btn btn-terracota"
+                data-bs-toggle="modal" data-bs-target="#modalCrearProducto">+ Nuevo Producto</button>
             </header>
 
             <nav class="akalia-table-filters d-flex gap-3 mb-3 flex-wrap d-none">
@@ -43,7 +43,25 @@
                     <% productos.forEach(producto=> { %>
                       <tr>
                         <td>
-                          <img src="<%= producto.urlImagen %>" alt="Imagen del producto" class="akalia-img-product" />
+                          <!--
+                            Mostrar la primera imagen disponible del producto.
+                            - Si el backend envía un arreglo `imagenes`, usamos la primera URL.
+                            - Si no existe `imagenes`, intentamos `producto.urlImagen` (compatibilidad).
+                            - Si no hay ninguna, usamos un placeholder local.
+                            Además se añade `onerror` para sustituir la imagen si la URL falla.
+                          -->
+                          <% var primeraImagen='' ; if (producto.imagenes && Array.isArray(producto.imagenes) &&
+                            producto.imagenes.length> 0) {
+                            primeraImagen = producto.imagenes[0];
+                            } else if (producto.urlImagen) {
+                            primeraImagen = producto.urlImagen;
+                            } else {
+                            // Ruta sencilla a un placeholder; ajusta si tu proyecto tiene otro path
+                            primeraImagen = '/img/placeholder-producto.png';
+                            }
+                            %>
+                            <img src="<%= primeraImagen %>" alt="Imagen del producto" class="akalia-img-product"
+                              onerror="this.onerror=null;this.src='/img/placeholder-producto.png'" />
                         </td>
                         <td>
                           <%= producto.tituloProducto %>
@@ -72,7 +90,7 @@
                               </svg>
                             </button>
                             <button class="btn text-vinotinto" title="Editar"
-                              onclick="editUserProductDetail('<%= usuario.idPersona %>','<%= producto.idProducto %>')">
+                              onclick="editUserProductDetail('<%= usuario.idPersona %>','<%= producto._id %>')">
                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                                 fill="none">
                                 <g clip-path="url(#clip0_168_47)">
@@ -88,7 +106,7 @@
                               </svg>
                             </button>
                             <button class="btn text-vinotinto eliminar" title="Eliminar"
-                              onclick="deleteProducto('<%= usuario.idPersona %>','<%= producto.idProducto %>','8')">
+                              onclick="deleteProducto('<%= usuario.idPersona %>','<%= producto._id %>','8')">
                               <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                                 fill="none">
                                 <path
