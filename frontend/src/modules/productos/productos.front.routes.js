@@ -8,28 +8,37 @@ const multer = require('multer');
 const almacenamientoEnMemoria = multer.memoryStorage();
 const uploadMemory = multer({ storage: almacenamientoEnMemoria });
 
-const productosServices = require('./productos.services');
+//const productosServices = require('./productos.services');
+
+const {
+  listarProductosUsuario,
+  mostrarDetalleProducto,
+  procesarCrearProducto,
+  mostrarEditarProducto,
+  procesarEditarProducto,
+  procesarEliminarProducto
+} = require('./productos.services');
 
 
 // Ruta SIN id (muestra los productos para el usuario autenticado o lista vacía)
-router.get('/productos/usuario-productos', productosServices.listarProductosUsuario);
+router.get('/productos/usuario-productos', listarProductosUsuario);
 
 // Ruta CON id (muestra los productos para el id provisto en la URL)
-router.get('/productos/usuario-productos/:id', productosServices.listarProductosUsuario);
+router.get('/productos/usuario-productos/:id', listarProductosUsuario);
 
 // Ruta GET para mostrar detalle de un producto
-router.get('/productos/usuario-productos/ver/:id', productosServices.mostrarDetalleProducto);
+router.get('/productos/usuario-productos/ver/:id', mostrarDetalleProducto);
 
 // Ruta POST para crear un nuevo producto (con subida de imágenes)
-router.post('/productos/usuario-productos/crear', uploadMemory.array('imagenes', 10), productosServices.procesarCrearProducto);
+router.post('/productos/usuario-productos/crear', uploadMemory.array('imagenes', 10), procesarCrearProducto);
 
 // Ruta GET para cargar el formulario de edición (se renderiza como modal en el cliente)
-router.get('/productos/usuario-productos/editar/:id', productosServices.mostrarEditarProducto);
+router.get('/productos/usuario-productos/editar/:id', mostrarEditarProducto);
 
 // Ruta POST para procesar la edición del producto (proxya al backend vía PUT)
-router.post('/productos/usuario-productos/editar/:id', uploadMemory.array('imagenes', 10), productosServices.procesarEditarProducto);
+router.post('/productos/usuario-productos/editar/:id', uploadMemory.array('imagenes', 10), procesarEditarProducto);
 
 // Ruta POST para procesar la eliminación de un producto
-router.post('/productos/usuario-productos/eliminar/:id', productosServices.procesarEliminarProducto);
+router.post('/productos/usuario-productos/eliminar/:id', procesarEliminarProducto);
 
 module.exports = router;
