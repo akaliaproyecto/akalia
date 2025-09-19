@@ -59,3 +59,31 @@ exports.categoriasProductosLanding = async (req, res) => {
     });
   }
 };
+
+// Controlador SSR para listar productos (ruta /productos)
+// - Obtiene productos desde el API y construye el arreglo 'imagenes' similar al landing
+// - Renderiza la vista 'pages/productos.ejs' con los datos necesarios
+exports.mostrarProductos = async (req, res) => {
+  try {
+    // Obtener productos desde el API
+    const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
+    const productos = Array.isArray(respProductos.data) ? respProductos.data : [];
+
+    // Construir arreglo de imágenes para la vista de productos
+    const imagenes = productos.map(prod => {
+      if (prod && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
+        return { idProducto: prod._id, urlImagen: prod.imagenes[0] };
+      }
+      if (prod && prod.urlImagen && prod._id) {
+        return { idProducto: prod._id, urlImagen: prod.urlImagen };
+      }
+      return { idProducto: prod._id, urlImagen: '/img/placeholder-producto.png' };
+    });
+
+    // Renderizar la vista de productos
+    return res.render('pages/productos.ejs', { productos, imagenes, titulo: 'Productos' });
+  } catch (error) {
+    console.error('Error al obtener productos para /productos:', error && error.message ? error.message : error);
+    return res.status(500).render('pages/error', { error: 'Error del servidor', message: 'No se pudieron cargar los productos.' });
+  }
+};
