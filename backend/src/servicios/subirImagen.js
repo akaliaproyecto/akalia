@@ -29,8 +29,20 @@ async function uploadImage(file, folder = "general") {
     // devolver URL pública
     return `${process.env.SUPABASE_URL}/storage/v1/object/public/${process.env.SUPABASE_BUCKET}/${data.path}`;
   } catch (err) {
-    console.error("Error al subir imagen:", err.message);
-    throw new Error("No se pudo subir la imagen");
+    // Sanitizamos el error para evitar que se vuelque HTML grande en la consola
+    try {
+      const maybeHtml = String(err && err.message ? err.message : err);
+      const isHtml = maybeHtml.trim().toLowerCase().startsWith('<!doctype') || maybeHtml.trim().toLowerCase().startsWith('<html');
+      const safeMessage = isHtml ? (maybeHtml.slice(0, 200) + '... [HTML truncated]') : maybeHtml;
+      console.error('Error al subir imagen:', safeMessage);
+      if (err && err.stack) console.error(err.stack.split('\n').slice(0, 5).join('\n'));
+    } catch (logErr) {
+      // En caso de fallo al loguear, mostrar al menos el message original
+      console.error('Error al subir imagen (falló sanitizar log):', err && err.message ? err.message : err);
+    }
+
+    // Lanzamos un error genérico para que el controlador devuelva un JSON consistente.
+    throw new Error('No se pudo subir la imagen');
   }
 }
 

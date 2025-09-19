@@ -1,12 +1,15 @@
 // IMPORTAR MÓDULOS 
 const express = require('express');
 const router = express.Router();
-const multer = require('multer')
-const upload = multer();
 
+// Importamos el controlador que prepara los datos para la landing (SSR)
 const { categoriasProductosLanding } = require('./landing.services');
 
-/*Cargar categorias y productos en landing*/
+/*
+  Ruta GET /
+  - Renderiza la landing con categorías, productos e imágenes.
+  - Usamos SSR en el controlador `categoriasProductosLanding`.
+*/
 router.get('/', categoriasProductosLanding);
 
 module.exports = router;

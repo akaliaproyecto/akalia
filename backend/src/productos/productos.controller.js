@@ -110,6 +110,17 @@ exports.crearProducto = async (req, res) => {
 
     return res.status(201).json(productoGuardado);
   } catch (error) {
+    // Sanitizar y loggear el error completo (truncando HTML si apareciera)
+    try {
+      const raw = String(error && error.message ? error.message : error);
+      const isHtml = raw.trim().toLowerCase().startsWith('<!doctype') || raw.trim().toLowerCase().startsWith('<html');
+      const safe = isHtml ? (raw.slice(0, 200) + '... [HTML truncated]') : raw;
+      console.error('Error en crearProducto:', safe);
+      if (error && error.stack) console.error(error.stack.split('\n').slice(0, 5).join('\n'));
+    } catch (logErr) {
+      console.error('Error al loggear el error en crearProducto:', error && error.message ? error.message : error);
+    }
+
     return res.status(500).json({ mensaje: "Error al crear producto", detalle: error.message });
   }
 };
@@ -147,6 +158,16 @@ exports.actualizarProducto = async (req, res) => {
       res.status(404).json({ mensaje: "Producto no encontrado" });
     }
   } catch (error) {
+    try {
+      const raw = String(error && error.message ? error.message : error);
+      const isHtml = raw.trim().toLowerCase().startsWith('<!doctype') || raw.trim().toLowerCase().startsWith('<html');
+      const safe = isHtml ? (raw.slice(0, 200) + '... [HTML truncated]') : raw;
+      console.error('Error en actualizarProducto:', safe);
+      if (error && error.stack) console.error(error.stack.split('\n').slice(0, 5).join('\n'));
+    } catch (logErr) {
+      console.error('Error al loggear el error en actualizarProducto:', error && error.message ? error.message : error);
+    }
+
     res.status(500).json({ mensaje: "Error al actualizar producto", detalle: error.message });
   }
 };
