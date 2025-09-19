@@ -74,9 +74,23 @@
               <div class=" col-10 col-sm-6  col-lg-3 mb-4 px-3 d-flex justify-content-center">
                 <article onclick="showProductDetail('<%= producto.idProducto %>')"
                   class="product-card card rounded-0 border-0 w-100">
-                  <% const img=imagenes.find(img=> img.idProducto === producto.idProducto) %>
-                    <img class="card-img-top img-fluid  object-fit-cover rounded-0"
-                      src="<%= img ? img.urlImagen : 'https://img.freepik.com/vector-premium/icono-marco-fotos-foto-vacia-blanco-vector-sobre-fondo-transparente-aislado-eps-10_399089-1290.jpg' %>" />
+                  <% var urlPrincipal='' ; if (producto && Array.isArray(producto.imagenes) && producto.imagenes.length>
+                    0) {
+                    urlPrincipal = producto.imagenes[0];
+                    } else {
+                    var encontrado = null;
+                    if (typeof imagenes !== 'undefined' && Array.isArray(imagenes)) {
+                    encontrado = imagenes.find(function(i) {
+                    var idProd = String(producto._id || producto.idProducto || producto.id || '');
+                    return String(i.idProducto) === idProd;
+                    });
+                    }
+                    urlPrincipal = (encontrado && encontrado.urlImagen) ? encontrado.urlImagen :
+                    '/img/placeholder-producto.png';
+                    }
+                    %>
+                    <img class="card-img-top img-fluid  object-fit-cover rounded-0" src="<%= urlPrincipal %>"
+                      alt="Imagen del producto" />
                     <!-- <%=producto.imagenProducto %> -->
                     <div class="card-body bg-light">
                       <h5 class="card-title mb-1 text-truncate w-100">
@@ -110,6 +124,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"></script>
+    <script src="/js/landing.js"></script>
     <script src="/js/productos.js"> </script>
     <script src="/js/login_signup.js"></script>
     <script src="/js/captcha.js"></script>
