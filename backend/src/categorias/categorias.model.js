@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const CategoriaSchema = new mongoose.Schema({
-  nombreCategoria: { 
-    type: String, 
+  nombreCategoria: {
+    type: String,
     required: [true, 'El nombre de la categoría es obligatorio'],
     trim: true,
     unique: [true, 'El nombre de la categoría no debe repetirse'],
@@ -13,7 +13,8 @@ const CategoriaSchema = new mongoose.Schema({
   imagen: {
     type: String,
     trim: true,
-    match: [/^https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/, 'La URL de la imagen no es válida']
+    // Aceptar varias extensiones comunes (jpg, jpeg, jfif, png, gif, webp, avif, svg, heic, heif)
+    match: [/^https?:\/\/.+\.(jpg|jpeg|jfif|png|gif|webp|avif|svg|heic|heif)$/i, 'La URL de la imagen no es válida']
   },
   categoriaActiva: {
     type: Boolean,

@@ -1,50 +1,49 @@
 <!-- Modal: Crear Emprendimiento  -->
 <div class="modal fade" id="modalCrearEmprendimiento" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Agregar Emprendimiento</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <form id="form-crear-emprendimiento" method="POST" enctype="multipart/form-data" action="/usuario-agregar-emprendimiento">
-                    
-                        <input type="hidden" id="modal-usuario-id" name="usuario" value="<%= usuario.id || usuario.idPersona %>">
-                    <div class="mb-3">
-                        <label for="nombreEmprendimiento" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombreEmprendimiento" name="nombreEmprendimiento"
-                            required>
-                    </div>
-                    <div class="mb-3">
-                        <!-- Cambiado a 'logo' porque el backend usa subirImagen.single('logo') -->
-                        <label for="logo" class="form-label akalia-label">Logo (opcional)</label>
-                        <input class="form-control" type="file" id="logo" name="logo" accept="image/*">
-                    </div>
-                    <div class="mb-3">
-                        <label for="descripcionEmprendimiento" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descripcionEmprendimiento" name="descripcionEmprendimiento"
-                            rows="4"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-6">
-                            <label for="ubicacionCiudad" class="form-label">Ciudad</label>
-                            <!-- Usamos notación con punto para que el controlador la encuentre como 'ubicacionEmprendimiento.ciudad' -->
-                            <input type="text" class="form-control" id="ubicacionCiudad"
-                                name="ubicacionEmprendimiento.ciudad" required>
-                        </div>
-                        <div class="mb-3 col-md-6">
-                            <label for="ubicacionDepartamento" class="form-label">Departamento</label>
-                            <input type="text" class="form-control" id="ubicacionDepartamento"
-                                name="ubicacionEmprendimiento.departamento" required>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2 justify-content-end">
-                        <button type="button" class="btn btn-basic" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-terracota">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Emprendimiento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form-crear-emprendimiento" method="POST" enctype="multipart/form-data"
+          action="/usuario-agregar-emprendimiento">
 
+          <input type="hidden" id="modal-usuario-id" name="usuario" value="<%= usuario.id || usuario.idUsuario %>">
+          <div class="mb-3">
+            <label for="nombreEmprendimiento" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreEmprendimiento" name="nombreEmprendimiento" required>
+          </div>
+          <div class="mb-3">
+            <!-- Cambiado a 'logo' porque el backend usa subirImagen.single('logo') -->
+            <label for="logo" class="form-label akalia-label">Logo (opcional)</label>
+            <input class="form-control" type="file" id="logo" name="logo" accept="image/*">
+          </div>
+          <div class="mb-3">
+            <label for="descripcionEmprendimiento" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcionEmprendimiento" name="descripcionEmprendimiento"
+              rows="4"></textarea>
+          </div>
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="ubicacionCiudad" class="form-label">Ciudad</label>
+              <!-- Usamos notación con punto para que el controlador la encuentre como 'ubicacionEmprendimiento.ciudad' -->
+              <input type="text" class="form-control" id="ubicacionCiudad" name="ubicacionEmprendimiento.ciudad"
+                required>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="ubicacionDepartamento" class="form-label">Departamento</label>
+              <input type="text" class="form-control" id="ubicacionDepartamento"
+                name="ubicacionEmprendimiento.departamento" required>
+            </div>
+          </div>
+          <div class="d-flex gap-2 justify-content-end">
+            <button type="button" class="btn btn-basic" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-terracota">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,7 +22,7 @@ function extraerUsuario(response) {
 /*Construye los datos que se guardarán en la cookie*/
 function construirDatosUsuarioCookie(usuario) {
   return {
-    idPersona: usuario._id || usuario.idPersona || '',
+    idUsuario: usuario._id || usuario.idUsuario || '',
     nombreUsuario: usuario.nombreUsuario || '',
     apellidoUsuario: usuario.apellidoUsuario || '',
     correo: usuario.correo || usuario.email || '',

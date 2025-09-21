@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>
-    <%= emprendimiento.nombreEmprendimiento %> | Akalia
+    <%= producto.tituloProducto %> | Akalia
   </title>
   <%- include('../partials/head.ejs'); %>
     <link rel="stylesheet" href="/styles/funciones-usuarios.css">
@@ -17,74 +17,88 @@
         <main class="flex-grow-1 d-flex flex-column justify-content-center align-content-center py-5">
           <section class="akalia-card overflow-auto">
             <div class="d-flex flex-md-row flex-column justify-content-between align-items-start pb-4 gap-3">
-              <h2 class="akalia-title akalia-title--medium m-0">Detalle </h2>
+              <h2 class="akalia-title akalia-title--medium m-0">Detalle del producto </h2>
 
             </div>
 
             <article class="akalia-card-info d-flex flex-column gap-3 mb-3">
 
               <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
-                <!-- Logo del emprendimiento -->
+                <!-- Imagen principal del producto (o placeholder si no existe) -->
                 <div class="d-flex justify-content-center align-items-center">
-                  <img src="<%= emprendimiento.logo %>" alt="Logo emprendimiento" class="rounded-circle"
-                    style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #b9b9b9;" />
+                  <img
+                    src="<%= (producto.imagenes && producto.imagenes[0]) ? producto.imagenes[0] : '/img/placeholder.png' %>"
+                    alt="Imagen del producto" class="rounded-circle"
+                    style="width: 120px; height: 120px; object-fit: cover; border: 1px solid #b9b9b9;" />
                 </div>
-                <!-- Información general -->
-                <div class="d-flex flex-column justify-content-center align-items-start gap-3 col-md-8">
-                  <h4 class=" mb-1">
-                    <%= emprendimiento.nombreEmprendimiento %>
+
+                <!-- Información general del producto -->
+                <div class="d-flex flex-column justify-content-center align-items-start gap-3 col-md-6">
+                  <!-- Título del producto -->
+                  <h4 class="mb-1">
+                    <%= producto.tituloProducto %>
                   </h4>
+
+                  <!-- Descripción corta -->
                   <p class="mb-2">
-                    <%= emprendimiento.descripcionEmprendimiento %>
+                    <%= producto.descripcionProducto %>
                   </p>
-                  <!-- Ubicacion -->
+
+                  <!-- Precio -->
                   <div class="d-flex align-items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                      class="bi bi-geo-alt text-muted" viewBox="0 0 16 16">
-                      <path
-                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
-                      <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                    </svg>
-                    <span class="text-muted small">
-                      <%= emprendimiento.ubicacionEmprendimiento.ciudad %>, <%=
-                          emprendimiento.ubicacionEmprendimiento.departamento %>
-                    </span>
+                    <strong>Precio:</strong>
+                    <span class="text-muted small">$<%= producto.precio %></span>
                   </div>
 
-                  <!-- Fecha de registro -->
+                  <!-- Categoría y etiquetas -->
+                  <div class="d-flex gap-2 align-items-center">
+                    <!--
+                      En el modelo `Producto` el campo `categoria` guarda el _id de la categoría.
+                      Para mostrar un texto legible (el nombre de la categoría) el handler
+                      `mostrarDetalleProducto` en el frontend obtiene el documento de la
+                      categoría y agrega `producto.categoriaNombre`.
+                      Aquí mostramos `categoriaNombre` si existe, sino usamos un fallback
+                      que muestra el id o una cadena vacía.
+                    -->
+                    <small class="text-muted">Categoría: <strong>
+                        <%= (producto.categoriaNombre && producto.categoriaNombre.length>0) ? producto.categoriaNombre :
+                          (producto.categoria ? producto.categoria : 'Sin categoría') %>
+                      </strong></small>
+                  </div>
+                  <div>
+                    <% if (Array.isArray(producto.etiquetas) && producto.etiquetas.length>0) { %>
+                      <% producto.etiquetas.forEach(function(et){ %>
+                        <span class="badge bg-secondary me-1">
+                          <%= et %>
+                        </span>
+                        <% }) %>
+                          <% } %>
+                  </div>
+
+                  <!-- Fecha de creación (formato legible) -->
                   <div class="d-flex align-items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                      class="bi bi-calendar3 text-muted" viewBox="0 0 16 16">
-                      <path
-                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                      <path
-                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                    </svg>
-                    <span class="text-muted small">
-                      Registrado: <%= new Date(emprendimiento.fechaRegistro).toLocaleDateString('es-ES', {
-                        year: 'numeric' , month: 'long' , day: 'numeric' }) %>
-                    </span>
+                    <small class="text-muted">Creado: <%= new Date(producto.createdAt).toLocaleDateString('es-ES', {
+                        year: 'numeric' , month: 'long' , day: 'numeric' }) %></small>
                   </div>
                 </div>
 
 
-                <!-- Acciones -->
-                <div
-                  class="d-flex flex-column flex-lg-column gap-2 justify-content-center my-auto align-items-center w-100 ">
+                <!-- Estado del producto y acciones -->
+                <div class="d-flex flex-column gap-2 justify-content-center my-auto align-items-center w-100">
                   <div class="d-flex align-items-center gap-2">
-                    <% if (emprendimiento.emprendimientoActivo==true) { %>
-                      <span class="badge bg-success">Activo</span>
+                    <% if (producto.productoActivo) { %>
+                      <span class="badge bg-success">Publicado</span>
                       <% } else { %>
-                        <!-- Si está inactivo, permitimos activar mediante modal de confirmación -->
                         <span class="badge bg-secondary">Inactivo</span>
                         <% } %>
                   </div>
                   <div
                     class="d-flex flex-md-column flex-lg-row gap-2 justify-content-center my-auto align-items-center">
 
+                    <!-- Botón editar producto -->
                     <button class="btn text-vinotinto" title="Editar"
-                      onclick="editEmprendimiento('<%= usuario %>','<%= emprendimiento._id %>')">
-                      <!-- ...existing SVG code... -->
+                      onclick="editUserProductDetail('<%= usuario %>','<%= producto._id %>')">
+                      <!-- icono editar -->
                       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                         <g clip-path="url(#clip0_168_47)">
                           <path
@@ -99,8 +113,9 @@
                       </svg>
                     </button>
 
-                    <button class="btn eliminar" data-id="<%= emprendimiento._id %>" title="Inactivar"
-                      onclick="eliminarEmprendimiento('<%= usuario %>','<%= emprendimiento._id %>','<%= emprendimiento.nombreEmprendimiento %>');">
+                    <!-- Botón eliminar/inactivar producto -->
+                    <button class="btn eliminar" data-id="<%= producto._id %>" title="Inactivar"
+                      onclick="eliminarProducto('<%= usuario %>','<%= producto._id %>','<%= producto.tituloProducto %>');">
                       <!-- ...existing SVG code... -->
                       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                         <path
@@ -112,62 +127,7 @@
                 </div>
               </div>
             </article>
-            <!-- PRODUCTOS  DEL EMPRENDIMIENTO -->
-            <article class=" akalia-card-info d-flex flex-column gap-3 mb-3 tabla-productos">
-              <header class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <h3 class="fw-bold m-0">Productos</h3>
-                <button class="btn btn-terracota">+
-                  Nuevo Producto</button>
-              </header>
-
-              <nav class="filtros-productos d-flex gap-3 mb-3 flex-wrap d-none">
-                <button class="btn filtro-activo">Publicado</button>
-                <button class="btn filtro-inactivo">Inactivo</button>
-              </nav>
-
-              <% if (productos.length> 0) { %>
-                <div class="table-responsive">
-                  <table class="table tabla-akalia align-middle text-start m-0">
-                    <thead>
-                      <tr>
-                        <th>Imagen</th>
-                        <th>Título</th>
-
-                        <th>Precio</th>
-                        <th class="d-none">Estado</th>
-                        <th>Acción</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% productos.forEach(producto=> { %>
-                        <tr>
-                          <td>
-                            <img src="<%= producto.imagenes[0] %>" alt="Imagen del producto"
-                              class="akalia-img-product" />
-                          </td>
-                          <td>
-                            <%= producto.tituloProducto %>
-                          </td>
-
-                          <td>$<%= producto.precio %>
-                          </td>
-                          <td class="d-none">
-                            <%= producto.estadoProducto %>
-                          </td>
-                          <td>
-
-                          </td>
-                        </tr>
-                        <% }); %>
-                    </tbody>
-                  </table>
-                </div>
-                <% } else { %>
-                  <p class="mb-2 usuario-perfil-info">
-                    No hay productos registrados en este emprendimiento
-                  </p>
-                  <% } %>
-            </article>
+            <!-- Detalle adicional: galería de imágenes pequeñas (si hay varias imágenes) -->
           </section>
 
 

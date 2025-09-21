@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     mensajeId: 'mensajeEstadoEliminar',
     estado: true // true = eliminar
   });
+  // Ocultar el id del emprendimiento en la barra de direcciones si estamos
+  // en la ruta /emprendimiento-detalle/:id
+  ocultarIdEmprendimientoEnUrl();
 });
 
 /* ------------------------- Modal Crear Emprendimiento ------------------------- */
@@ -136,5 +139,21 @@ async function editEmprendimiento(idUsuario, idEmprendimiento) {
 
   } catch (err) {
     console.error("Error cargando datos:", err);
+  }
+}
+
+/* Ocultar el id en la URL al mostrar detalle de emprendimiento */
+function ocultarIdEmprendimientoEnUrl() {
+  try {
+    const rutaActual = window.location.pathname || '';
+    const prefijoRutaDetalle = '/emprendimiento-detalle/';
+
+    if (rutaActual.startsWith(prefijoRutaDetalle) && rutaActual.length > prefijoRutaDetalle.length) {
+      const rutaLimpia = '/emprendimiento-detalle';
+      const urlNueva = rutaLimpia + window.location.search + window.location.hash;
+      window.history.replaceState(null, '', urlNueva);
+    }
+  } catch (error) {
+    console.error('No se pudo ocultar el id en la URL:', error);
   }
 }

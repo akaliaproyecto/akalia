@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const EmprendimientoSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usuario', 
+    ref: 'Usuario',
     required: true
   },
-  nombreEmprendimiento: { 
-    type: String, 
-    required: [true, 'El nombre del emprendimiento es obligatorio'], 
+  nombreEmprendimiento: {
+    type: String,
+    required: [true, 'El nombre del emprendimiento es obligatorio'],
     trim: true,
     minlength: [3, 'El nombre debe tener al menos 3 caracteres'],
     maxlength: [100, 'El nombre no puede superar los 100 caracteres']
@@ -18,18 +18,18 @@ const EmprendimientoSchema = new mongoose.Schema({
     trim: true,
     maxlength: [500, 'La descripción no puede superar los 500 caracteres']
   },
-  fechaRegistro: { 
-    type: Date, 
-    default: Date.now, 
+  fechaRegistro: {
+    type: Date,
+    default: Date.now,
     required: true
   },
-  emprendimientoActivo: { 
-    type: Boolean, 
+  emprendimientoActivo: {
+    type: Boolean,
     default: true,
     required: true
   },
-  emprendimientoEliminado: { 
-    type: Boolean, 
+  emprendimientoEliminado: {
+    type: Boolean,
     default: false,
     required: true
   },
@@ -46,7 +46,8 @@ const EmprendimientoSchema = new mongoose.Schema({
   logo: {
     type: String,
     trim: true,
-    match: [/^https?:\/\/.+\.(jpg|jpeg|png|gif|svg)$/, 'La URL del logo no es válida']
+    // Aceptar varias extensiones comunes (jpg, jpeg, jfif, png, gif, webp, avif, svg, heic, heif)
+    match: [/^https?:\/\/.+\.(jpg|jpeg|jfif|png|gif|webp|avif|svg|heic|heif)$/i, 'La URL del logo no es válida']
   },
 }, { timestamps: true }); // Agrega createdAt y updatedAt automáticamente
 

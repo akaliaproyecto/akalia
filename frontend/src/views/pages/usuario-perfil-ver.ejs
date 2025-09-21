@@ -112,7 +112,7 @@
 
                         <button id="btnEditarPerfil"
                           class="w-100 btn btn-terracota d-flex align-items-center gap-2 px-4 mb-2" type="button"
-                          data-id="<%= usuario.idPersona || usuario.id %>">
+                          data-id="<%= usuario.idUsuario || usuario.id %>">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 28 28"
                             fill="none">
                             <g clip-path="url(#clip0_168_47)">
@@ -130,7 +130,7 @@
 
                         <button id="btnEliminarCuenta"
                           class=" w-100 btn btn-basic d-flex align-items-center gap-2 px-4 akalia-btn-delete"
-                          type="button" data-id="<%= usuario.idPersona || usuario.id %>">
+                          type="button" data-id="<%= usuario.idUsuario || usuario.id %>">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 28 28"
                             fill="none">
                             <path
@@ -164,7 +164,7 @@
       <!-- DATOS DEL USUARIO COMO ATRIBUTOS DATA -->
       <!-- Los datos se pasan como atributos data- en un elemento HTML oculto -->
       <% if (typeof usuario !=='undefined' && usuario) { %>
-        <div id="datosUsuarioParaJS" data-id-persona="<%= usuario.idPersona || '' %>"
+        <div id="datosUsuarioParaJS" data-id-persona="<%= usuario.idUsuario || '' %>"
           data-nombre-usuario="<%= usuario.nombreUsuario || '' %>"
           data-apellido-usuario="<%= usuario.apellidoUsuario || '' %>" data-email="<%= usuario.email || '' %>"
           data-telefono="<%= usuario.telefono || '' %>" data-estado-usuario="<%= usuario.estadoUsuario || '' %>"

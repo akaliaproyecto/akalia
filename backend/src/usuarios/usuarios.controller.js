@@ -71,7 +71,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
 
     // Formateo simple y eliminación de datos sensibles
     const usuarioFormateado = {
-      idPersona: usuarioEncontrado._id,
+      idUsuario: usuarioEncontrado._id,
       nombreUsuario: usuarioEncontrado.nombreUsuario || 'No disponible',
       apellidoUsuario: usuarioEncontrado.apellidoUsuario || 'No disponible',
       email: usuarioEncontrado.correo || usuarioEncontrado.email || 'No disponible',
@@ -199,7 +199,7 @@ exports.actualizarUsuario = async (req, res) => {
 
     // Formatear respuesta (eliminar campos sensibles)
     const usuarioFormateado = {
-      idPersona: usuarioActualizado._id,
+      idUsuario: usuarioActualizado._id,
       nombreUsuario: usuarioActualizado.nombreUsuario || 'No disponible',
       apellidoUsuario: usuarioActualizado.apellidoUsuario || 'No disponible',
       email: usuarioActualizado.correo || usuarioActualizado.email || 'No disponible',
@@ -218,7 +218,7 @@ exports.actualizarUsuario = async (req, res) => {
 
     // Actualizar cookie pública 'usuario' si se desea exponerla al frontend
     const cookieUsuario = {
-      idPersona: usuarioFormateado.idPersona,
+      idUsuario: usuarioFormateado.idUsuario,
       nombreUsuario: usuarioFormateado.nombreUsuario,
       apellidoUsuario: usuarioFormateado.apellidoUsuario,
       correo: usuarioFormateado.email,

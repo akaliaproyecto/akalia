@@ -1,15 +1,20 @@
+/* IMPORTANTE: AL HABER CAMBIADO EL SCHEMA, estadoProducto NO ES VÁLIDO, POR ENDE, DEBE SER ELIMINADO EN UNA ETAPA MAS ADELANTADA DE DESARROLLO */
+
 // Importar el modelo de productos
 const modeloProducto = require("./productos.model");
 const uploadImage = require('../servicios/subirImagen');
-const mongoose = require('mongoose'); // Para validar/convertir ObjectId
+const mongoose = require('mongoose');
 const Log = require('../middlewares/logs')
 
 /*Consultar todos los productos*/
 exports.obtenerProductos = async (req, res) => {
   try {
-    // Solo mostramos productos que NO están eliminados lógicamente
-    // (aquí se filtra por estadoProducto: 'activo' tal y como estaba)
-    const productosEncontrados = await modeloProducto.find({ estadoProducto: 'activo' });
+    const productosEncontrados = await modeloProducto.find({
+      $or: [
+        { estadoProducto: 'activo' },
+        { productoActivo: true, productoEliminado: false }
+      ]
+    });
 
     if (productosEncontrados && productosEncontrados.length > 0) {
       return res.status(200).json(productosEncontrados);
@@ -23,13 +28,21 @@ exports.obtenerProductos = async (req, res) => {
 
 /*Consultar un producto por su id*/
 exports.obtenerProductoPorId = async (req, res) => {
-  const idProducto = req.params.id;
+  let idProducto = req.params.id;
 
   try {
-    // Solo buscamos productos que NO están eliminados lógicamente
+    // Validar formato de id antes de consultar
+    if (!mongoose.isValidObjectId(idProducto)) {
+      return res.status(400).json({ mensaje: 'Id de producto inválido' });
+    }
+
+    // Buscamos el producto por id y aceptamos ambos esquemas de estado
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
-      estadoProducto: 'activo'
+      $or: [
+        { estadoProducto: 'activo' },
+        { productoActivo: true, productoEliminado: false }
+      ]
     });
 
     if (productoEncontrado) {
@@ -56,7 +69,10 @@ exports.obtenerProductoPorNombre = async (req, res) => {
     // Usamos find para devolver todos los productos que contengan la palabra
     const productosEncontrados = await modeloProducto.find({
       tituloProducto: { $regex: regex },
-      estadoProducto: 'activo'
+      $or: [
+        { estadoProducto: 'activo' },
+        { productoActivo: true, productoEliminado: false }
+      ]
     });
 
     if (productosEncontrados && productosEncontrados.length > 0) {
@@ -100,8 +116,7 @@ exports.crearProducto = async (req, res) => {
 
 /*editar un producto por su id*/
 exports.actualizarProducto = async (req, res) => {
-
-  const idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
+  let idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
   const datosProducto = req.body; // datos que llegan con el request
 
   try {
@@ -115,6 +130,11 @@ exports.actualizarProducto = async (req, res) => {
       }
       datosProducto.imagenes = imagenes; // reemplazar completamente
     }
+    // Validar id antes de actualizar
+    if (!mongoose.isValidObjectId(idProducto)) {
+      return res.status(400).json({ mensaje: 'Id de producto inválido' });
+    }
+
     // actualizar y devolver el documento actualizado (new:true)
     const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
 
@@ -133,19 +153,28 @@ exports.actualizarProducto = async (req, res) => {
 
 /*Borrado lógico de un producto por su id*/
 exports.eliminarProducto = async (req, res) => {
-  const idProducto = req.params.id;
+  let idProducto = req.params.id;
   try {
-    // En lugar de eliminar físicamente, marcamos el producto como 'eliminado'
+    if (!mongoose.isValidObjectId(idProducto)) {
+      return res.status(400).json({ mensaje: 'Id de producto inválido' });
+    }
+    // En lugar de eliminar físicamente, marcamos el producto como 'eliminado'.
+    // Actualizamos ambos formatos: añadimos/actualizamos `estadoProducto` y
+    // también `productoActivo`/`productoEliminado` para contemplar ambos esquemas.
     const productoActualizado = await modeloProducto.findByIdAndUpdate(
       idProducto,
-      { estadoProducto: 'eliminado' },
+      {
+        estadoProducto: 'eliminado',
+        productoActivo: false,
+        productoEliminado: true
+      },
       { new: true }
     );
 
-    //Registrar log
-    Log.generateLog('producto.log', `Un producto ha sido eliminado: ${productoActualizado._id}, fecha: ${new Date()}`);
-
     if (productoActualizado) {
+      //Registrar log solo si existe el producto actualizado
+      Log.generateLog('producto.log', `Un producto ha sido eliminado: ${productoActualizado._id}, fecha: ${new Date()}`);
+
       res.status(200).json({
         mensaje: "Producto eliminado lógicamente y desactivado",
         producto: productoActualizado
@@ -162,8 +191,17 @@ exports.eliminarProducto = async (req, res) => {
 exports.obtenerProductosEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.idEmprendimiento || req.params.id;
   try {
-    const productosDelEmprendimiento = await modeloProducto.find({ 
-      idEmprendimiento: new mongoose.Types.ObjectId(idEmprendimiento)});
+    if (!idEmprendimiento || !mongoose.isValidObjectId(idEmprendimiento)) {
+      return res.status(400).json({ mensaje: 'Id de emprendimiento inválido' });
+    }
+
+    const productosDelEmprendimiento = await modeloProducto.find({
+      idEmprendimiento: idEmprendimiento,
+      $or: [
+        { estadoProducto: 'activo' },
+        { productoActivo: true, productoEliminado: false }
+      ]
+    });
 
     return res.status(200).json(productosDelEmprendimiento);
   } catch (error) {
@@ -171,3 +209,37 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
     return res.status(500).json({ mensaje: 'Error al obtener productos del emprendimiento', detalle: error.message });
   }
 };
+
+/* Obtener productos por usuario (todos los productos de los emprendimientos del usuario) */
+exports.obtenerProductosPorUsuario = async (req, res) => {
+  const idUsuario = req.params.id;
+  try {
+    // Validar idUsuario si es necesario
+    // Importamos modelo de emprendimiento dinámicamente para evitar ciclos
+    const ModeloEmpr = require('../emprendimientos/emprendimiento.model');
+    const mongoose = require('mongoose');
+
+    // Obtener emprendimientos del usuario
+    const emprendimientosUsuario = await ModeloEmpr.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false });
+    const listaIdsEmpr = emprendimientosUsuario.map(e => e._id ? String(e._id) : null).filter(Boolean);
+
+    if (listaIdsEmpr.length === 0) {
+      return res.status(200).json([]); // el usuario no tiene emprendimientos
+    }
+
+    // Buscar productos cuyos idEmprendimiento estén en la lista
+    const productosUsuario = await modeloProducto.find({
+      idEmprendimiento: { $in: listaIdsEmpr },
+      $or: [
+        { estadoProducto: 'activo' },
+        { productoActivo: true, productoEliminado: false }
+      ]
+    });
+
+    return res.status(200).json(productosUsuario);
+  } catch (error) {
+    console.error('Error al obtener productos por usuario:', error);
+    return res.status(500).json({ mensaje: 'Error al obtener productos por usuario', detalle: error.message });
+  }
+};
+

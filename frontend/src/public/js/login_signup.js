@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Personalizar saludo y enlaces (si existen)
     const nombre = datosUsuario?.nombreUsuario;
-    const idPersona = datosUsuario?.idPersona;
+    const idUsuario = datosUsuario?.idUsuario;
     const elementoSaludo = document.querySelector(".user-name");
     if (elementoSaludo && nombre) elementoSaludo.innerText = `Hola ${nombre}`;
 

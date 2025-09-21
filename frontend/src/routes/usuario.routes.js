@@ -30,7 +30,7 @@
 
 //     // Crear cookie con datos del usuario para mantener la sesión
 //     const datosUsuarioParaCookie = {
-//       idPersona: response.data.usuario._id,
+//       idUsuario: response.data.usuario._id,
 //       nombreUsuario: response.data.usuario.nombreUsuario,
 //       apellidoUsuario: response.data.usuario.apellidoUsuario,
 //       correo: response.data.usuario.correo
@@ -79,7 +79,7 @@
 
 //     // Crear cookie con datos del usuario para mantener la sesión
 //     const datosUsuarioParaCookie = {
-//       idPersona: response.data.usuario.idPersona,
+//       idUsuario: response.data.usuario.idUsuario,
 //       nombreUsuario: response.data.usuario.nombreUsuario,
 //       apellidoUsuario: response.data.usuario.apellidoUsuario,
 //       correo: response.data.usuario.correo,
@@ -127,7 +127,7 @@
 
 // /* Ruta para mostrar la página del perfil del usuario autenticado */
 // router.get('/mi-perfil', verificarUsuarioLogueado, async (req, res) => {
-//   const id = req.usuarioAutenticado.idPersona;
+//   const id = req.usuarioAutenticado.idUsuario;
 //   let datos = req.usuarioAutenticado; // fallback por defecto
 
 //   try {
@@ -150,7 +150,7 @@
 
 //   // Mapear datos para vista
 //   const usuario = {
-//     idPersona: datos._id || datos.idPersona || id,
+//     idUsuario: datos._id || datos.idUsuario || id,
 //     nombreUsuario: datos.nombreUsuario || 'No disponible',
 //     apellidoUsuario: datos.apellidoUsuario || 'No disponible',
 //     email: datos.correo || datos.email || 'No disponible',
@@ -207,7 +207,7 @@
 
 //     // Preparar cookie con datos básicos actualizados
 //     const cookieUsuario = {
-//       idPersona: id,
+//       idUsuario: id,
 //       nombreUsuario: datosParaApi.nombreUsuario,
 //       apellidoUsuario: datosParaApi.apellidoUsuario,
 //       correo: datosParaApi.correo,

@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 
       // Log sólo para peticiones que esperan HTML y no son assets estáticos
       // if (wantsHtml && !staticExtRegex.test(req.path)) {
-      //   console.log('Usuario autenticado encontrado:', datosUsuarioDecodificados.nombreUsuario || datosUsuarioDecodificados.idPersona || '<sin nombre>');
+      //   console.log('Usuario autenticado encontrado:', datosUsuarioDecodificados.nombreUsuario || datosUsuarioDecodificados.idUsuario || '<sin nombre>');
       // }
     } catch (errorParseoCookie) {
       console.error('Error al decodificar datos de usuario:', errorParseoCookie);

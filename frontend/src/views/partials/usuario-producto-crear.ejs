@@ -1,0 +1,113 @@
+<!-- Partial: Modal para crear producto -->
+<div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-labelledby="modalCrearProductoLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="akalia-title akalia-title--medium m-0" id="modalCrearProductoLabel">Crear Producto</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <section class="akalia-card m-0 p-0 border-0 shadow-none">
+          <div class="akalia-card-info">
+            <!-- Añadimos id al form para poder validarlo desde JS y un contenedor de alertas -->
+            <form id="form-crear-producto" action="/productos/usuario-productos/crear" method="POST"
+              enctype="multipart/form-data">
+              <!-- Contenedor de alertas para mostrar errores de validación dentro del modal -->
+              <div id="alertasCrearProducto" class="mt-2"></div>
+              <!-- Título -->
+              <div class="mb-3">
+                <label for="titulo" class="form-label akalia-label">Título del producto</label>
+                <input type="text" name="tituloProducto" id="titulo" class="form-control" required>
+              </div>
+              <!-- Imágenes nuevas -->
+              <div class="mb-3">
+                <label for="imagenes" class="form-label akalia-label">Imágenes</label>
+                <input type="file" name="imagenes" id="imagenes" class="form-control" multiple accept="image/*">
+                <small class="text-muted">Puedes seleccionar varias imágenes.</small>
+              </div>
+              <!-- Descripción -->
+              <div class="mb-3">
+                <label for="descripcion" class="form-label akalia-label">Descripción</label>
+                <textarea name="descripcionProducto" id="descripcion" class="form-control" rows="4" required></textarea>
+              </div>
+              <!-- Precio -->
+              <div class="mb-3">
+                <label for="precio" class="form-label akalia-label">Precio</label>
+                <input type="number" name="precio" id="precio" class="form-control" required step="0.01" min="0">
+              </div>
+              <!-- Emprendimiento -->
+              <div class="mb-3">
+                <label for="emprendimiento" class="form-label akalia-label">Emprendimiento</label>
+                <select name="idEmprendimiento" id="emprendimiento" class="form-select" required>
+                  <% emprendimientos.forEach(emp=> { %>
+                    <!-- El backend devuelve el id en _id; usar _id aquí para que el campo se envíe correctamente -->
+                    <option value="<%= emp._id %>">
+                      <%= emp.nombreEmprendimiento %>
+                    </option>
+                    <% }) %>
+                </select>
+              </div>
+              <!-- Categoría (desplegable dinámico) -->
+              <div class="mb-3">
+                <label for="categoria" class="form-label akalia-label">Categoría</label>
+                <!-- El select se llenará dinámicamente con JS -->
+                <select name="categoria" id="categoria" class="form-select" required>
+                  <% if (typeof categorias !=='undefined' && categorias.length) { %>
+                    <% categorias.forEach(function(cat) { %>
+                      <option value="<%= cat._id %>">
+                        <%= cat.nombreCategoria %>
+                      </option>
+                      <% }); %>
+                        <% } else { %>
+                          <option value="">No hay categorías disponibles</option>
+                          <% } %>
+                </select>
+              </div>
+              <!-- Etiquetas (Tagify) -->
+              <div class="mb-3">
+                <label class="form-label akalia-label" required>Etiquetas</label>
+                <div class="d-flex flex-wrap gap-2">
+                  <div class="form-check">
+                    <!--
+                      Implementación simple de autocompletado con SSR:
+                      - El servidor (SSR) pasa un array `etiquetas` con los objetos desde MongoDB.
+                      - Aquí renderizamos ese array en un atributo `data-etiquetas` en formato JSON
+                        para que el JS del frontend (perfilProductos.js) lo lea y muestre sugerencias.
+                      - El usuario puede buscar y seleccionar hasta 3 etiquetas. Las seleccionadas
+                        se ponen en el input oculto `#etiquetasHidden` como JSON para enviar al servidor.
+                    -->
+                    <!-- Input visible para buscar etiquetas -->
+                    <input type="text" id="etiquetasBuscador" class="form-control"
+                      placeholder="Escribe para buscar una etiqueta..." autocomplete="off"
+                      data-etiquetas='<%= JSON.stringify(etiquetas || []) %>' />
+                    <!-- Contenedor donde aparecerán las sugerencias mientras escribe -->
+                    <div id="etiquetasSugerencias" class="list-group position-relative"></div>
+
+                    <!-- Contenedor donde se muestran las etiquetas seleccionadas -->
+                    <div id="etiquetasSeleccionadas" class="d-flex flex-wrap gap-2 mt-2"></div>
+
+                    <!-- Valor real que se enviará al servidor: array JSON de ids o nombres -->
+                    <input type="hidden" name="etiquetas" id="etiquetasHidden" value="[]">
+
+                    <!-- Mensajes de ayuda/validación -->
+                    <strong class="text-muted">Para eliminar una etiqueta, haz click sobre ella</strong>
+                    <br>
+                    <small class="text-muted">Seleccione hasta 3 etiquetas (opcional).</small>
+                    <small class="text-danger d-none">Máximo 3 etiquetas permitidas</small>
+                  </div>
+                </div>
+              </div>
+              <!-- Botón -->
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-terracota d-flex align-items-center gap-2 px-4 mb-2" type="submit">
+                  Crear Producto
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>

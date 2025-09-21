@@ -26,7 +26,7 @@
     </a>
 
     <!-- Enlace a la vista de productos del usuario. Si no hay usuario autenticado el id queda vacío. -->
-    <a href="/productos/usuario-productos/<%= usuarioActual ? usuarioActual.idPersona : '' %>" class="btn-option">
+    <a href="/productos/usuario-productos/<%= usuarioActual ? usuarioActual.idUsuario : '' %>" class="btn-option">
       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
         <path
           d="M10.5 7.875C10.5 8.57119 10.2234 9.23887 9.73116 9.73116C9.23887 10.2234 8.57119 10.5 7.875 10.5C7.17881 10.5 6.51113 10.2234 6.01884 9.73116C5.52656 9.23887 5.25 8.57119 5.25 7.875C5.25 7.17881 5.52656 6.51113 6.01884 6.01884C6.51113 5.52656 7.17881 5.25 7.875 5.25C8.57119 5.25 9.23887 5.52656 9.73116 6.01884C10.2234 6.51113 10.5 7.17881 10.5 7.875ZM8.75 7.875C8.75 7.64294 8.65781 7.42038 8.49372 7.25628C8.32962 7.09219 8.10706 7 7.875 7C7.64294 7 7.42038 7.09219 7.25628 7.25628C7.09219 7.42038 7 7.64294 7 7.875C7 8.10706 7.09219 8.32962 7.25628 8.49372C7.42038 8.65781 7.64294 8.75 7.875 8.75C8.10706 8.75 8.32962 8.65781 8.49372 8.49372C8.65781 8.32962 8.75 8.10706 8.75 7.875Z"

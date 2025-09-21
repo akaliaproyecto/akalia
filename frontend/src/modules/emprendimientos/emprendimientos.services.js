@@ -8,12 +8,12 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 /* Listar emprendimientos de un usuario y renderizar la vista */
 exports.listarEmprendimientosUsuario = async (req, res) => {
   // Preferir id desde sesión/autenticación. Si se pasa en params, lo usamos solo para mostrar
-  const id = req.usuarioAutenticado?.idPersona || req.params?.id;
+  const id = req.usuarioAutenticado?.idUsuario || req.params?.id;
   if (!id) {
     // Si no hay id conocido, redirigir al login o a una página segura
     return res.redirect('/?error=Debes+iniciar+sesion');
   }
-  const usuario = req.usuarioAutenticado || { idPersona: id };
+  const usuario = req.usuarioAutenticado || { idUsuario: id };
   let emprendimientos = [];
 
   try {
@@ -187,3 +187,8 @@ exports.eliminarEmprendimiento = async (req, res) => {
     });
   }
 }
+
+/* redirigir a listado de emprendimientos si no hay id en la URL */
+exports.redirigirSiNoHayIdEnUrl = async (req, res) => {
+  return res.redirect('/usuario-emprendimientos');
+};

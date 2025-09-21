@@ -16,7 +16,7 @@ const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4666';
 router.get('/usuario-emprendimientos', async (req, res) => {
   try {
     // Preferir id desde sesión (si el sistema de autenticación expone req.usuario)
-    const id = (req.usuario && req.usuario.idPersona) || req.query.id || null;
+    const id = (req.usuario && req.usuario.idUsuario) || req.query.id || null;
     if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
 
     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${id}`);
@@ -103,7 +103,7 @@ router.get('/usuario-agregar-emprendimiento/:id', async (req, res) => {
     const redesDisponibles = ['whatsapp', 'instagram', 'facebook'];
 
     res.render('pages/usuario-agregar-emprendimiento.ejs', {
-      idPersona: usuario.idPersona,
+      idUsuario: usuario.idUsuario,
       usuario: usuario,
       redesDisponibles,
       titulo: 'Agregar nuevo emprendimiento',
@@ -120,10 +120,10 @@ router.get('/usuario-agregar-emprendimiento/:id', async (req, res) => {
 // Ruta POST para recibir el formulario y reenviar al backend
 // router.post('/usuario-agregar-emprendimiento', async (req, res) => {
 //   try {
-//     const { idPersona, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
+//     const { idUsuario, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
 
 //     const payload = {
-//       idPersona,
+//       idUsuario,
 //       nombreEmprendimiento,
 //       imagenLogo,
 //       descripcionNegocio,
@@ -134,7 +134,7 @@ router.get('/usuario-agregar-emprendimiento/:id', async (req, res) => {
 //     await axios.post(`${API_BASE_URL}/api/emprendimientos`, payload);
 
 //     // Redirigir al listado de emprendimientos del usuario
-//     res.redirect(`/usuario-emprendimientos/${idPersona}`);
+//     res.redirect(`/usuario-emprendimientos/${idUsuario}`);
 //   } catch (error) {
 //     console.error('Error al crear emprendimiento:', error.message);
 //     res.status(500).render('error', {
