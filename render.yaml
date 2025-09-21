@@ -1,0 +1,44 @@
+services:
+  # Servicio único que maneja tanto backend como frontend
+  - type: web
+    name: akalia-app
+    env: node
+    plan: free
+    region: ohio
+    buildCommand: cd backend && chmod +x build.sh && ./build.sh
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          type: web
+          name: akalia-app
+          property: port
+      - key: CLIENT_URL
+        fromService:
+          type: web
+          name: akalia-app
+          property: url
+      - key: SESSION_SECRET
+        generateValue: true
+      # Variables que necesitas agregar manualmente en Render Dashboard
+      - key: MONGO_URI
+        sync: false
+      - key: SUPABASE_URL
+        sync: false  
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: PORT_BACKEND
+        fromService:
+          type: web
+          name: akalia-app
+          property: port
+    healthCheckPath: /
+    
+# Si usas una base de datos PostgreSQL hospedada en Render
+# databases:
+#   - name: akalia-database
+#     databaseName: akalia
+#     user: akalia_user
+#     plan: free
