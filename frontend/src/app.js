@@ -5,9 +5,7 @@ const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
 
-const PORT = 4666;
-
-
+const PORT_FRONTEND = process.env.PORT_FRONTEND;
 
 // Motor de vistas
 app.set('view engine', 'ejs');
