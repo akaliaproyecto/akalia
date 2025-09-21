@@ -1,11 +1,12 @@
 {
   "name": "frontend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "pm2 start src/app.js",  
+    "dev": "nodemon src/app.js"
+
   },
   "keywords": [],
   "author": "",
@@ -13,11 +14,16 @@
   "description": "",
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
+    "bcrypt": "^6.0.0",
+    "cookie": "^1.0.2",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.0.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "form-data": "^4.0.4",
+    "http-proxy-middleware": "^2.0.7",
+    "multer": "^2.0.2",
     "nodemon": "^3.1.10"
   }
 }

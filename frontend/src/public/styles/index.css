@@ -1,0 +1,74 @@
+/* Banner principal */
+.akalia-banner {
+  position: relative;
+  width: 100%;
+  
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.akalia-banner-content {
+  background: var(--normal-blanco);
+  border-radius: 1rem;
+  padding: clamp(1rem,2.5vw,2.5rem) clamp(1rem,2.5vw,3rem);
+  max-width: 700px;
+  margin: 8.5rem auto;
+  text-align: center;
+  box-shadow: 0 2px 12px #00000010;
+}
+
+.akalia-banner-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  color: var(--normal-negro);
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.akalia-banner-desc {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  color: var(--normal-negro);
+  margin-bottom: 2rem;
+}
+
+.akalia-banner-register {
+  background: #FFF9E4CC;
+  box-shadow: 0 2px 8px #00000010;
+} 
+
+
+.categoria-container {
+  color: var(--Font-Color1, #666);
+  text-align: center;
+  
+/* Subtitulo */
+font-family: Montserrat;
+font-size: 1.5625rem;
+font-style: normal;
+font-weight: 600;
+line-height: var(--Number, 1.5rem); /* 96% */
+}
+
+
+.categoria-container h1 {
+  color: var(--normal-negro);
+
+/* Titulo grande */
+font-size: 2.4375rem;
+font-weight: 700;
+line-height: 2rem; /* 82.051% */
+}
+
+.categoria-container .card {
+  height: clamp(19rem,35vw,33.25rem);
+}
+
+.categoria-container .card-container {
+  padding-inline: clamp(0.25rem,2vw,0.75rem)
+}

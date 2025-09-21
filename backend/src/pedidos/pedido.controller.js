@@ -1,6 +1,6 @@
 //Importar el modelo de pedido
 const modeloPedido = require("./pedidos.model");
-
+const Log = require('../middlewares/logs')
 
 //Consultar todos los pedidos (panel admin)
 exports.obtenerPedidos = async (req, res) => {
@@ -43,6 +43,10 @@ exports.crearPedido = async (req, res) => {
   try {
     const nuevoPedido = new modeloPedido(datosPedido);
     const pedidoGuardado = await nuevoPedido.save();
+
+    //Registrar log
+    Log.generateLog('pedido.log', `Un pedido ha sido creado: ${pedidoGuardado}, fecha: ${new Date()}`);
+
     res.status(201).json(pedidoGuardado);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al crear pedido", detalle: error.message })
@@ -73,6 +77,9 @@ exports.editarPedido = async (req, res) => {
       datosPedido,
       { new: true, runValidators: true }
     );
+
+    //Registrar log
+    Log.generateLog('pedido.log', `Un pedido ha sido actualizado: ${pedidoActualizado}, fecha: ${new Date()}`);
 
     res.json(pedidoActualizado);
   } catch (error) {
@@ -109,6 +116,9 @@ exports.eliminarPedido = async (req, res) => {
       { estadoEliminacion: 'eliminado' },
       { new: true }
     );
+
+    //Registrar log
+    Log.generateLog('pedido.log', `Un pedido ha sido eliminado: ${pedidoEliminado}, fecha: ${new Date()}`);
 
     res.json({
       mensaje: 'Pedido eliminado correctamente',

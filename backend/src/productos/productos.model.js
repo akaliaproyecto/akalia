@@ -14,10 +14,15 @@ const ProductoSchema = new mongoose.Schema({
     { type: Number, required: true, min: 0, default: 0 },
 
   // Campo para manejar el borrado lógico
-  estadoProducto: {
-    type: String,
-    enum: ['activo', 'inactivo', 'eliminado'],
-    default: 'activo'
+  productoActivo: { 
+    type: Boolean, 
+    default: true,
+    required: true
+  },
+  productoEliminado: { 
+    type: Boolean, 
+    default: false,
+    required: true
   },
 
   imagenes: {

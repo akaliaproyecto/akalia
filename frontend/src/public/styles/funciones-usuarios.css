@@ -1,0 +1,137 @@
+/* Tarjeta principal de usuario/perfil */
+.akalia-card {
+  max-width: 950px;
+  width: 100%;
+  background: #FFF9E4;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #00000010;
+  padding: 2.5rem 2rem;
+  margin: auto;
+  margin-block: auto;
+  border: 1px solid #e6e3d7;
+}
+
+main{
+    max-height: calc(100vh - 4rem);
+    padding-inline: 2rem;
+}
+/* Información interna de la tarjeta */
+.akalia-card-info {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 2rem 2rem 1.5rem 2rem;
+  border: 1px solid var(--normal-lights-verde-light);
+  box-shadow: 1px 4px 4px 0px rgba(0, 0, 0, 0.20);
+}
+
+/* Etiqueta de campo en la tarjeta */
+.akalia-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1C1C1C;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .akalia-card {
+    padding: 1rem 0.5rem;
+  }
+  .akalia-card-info {
+    padding: 1rem 0.5rem;
+  }
+  .akalia-title--medium {
+    font-size: 1.5rem;
+  }
+}
+
+/* === Tabla de productos Akalia === */
+.akalia-table {
+  padding: 2rem;
+}
+
+.akalia-table-filters .btn {
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border: none;
+}
+
+.akalia-filter-active {
+  background-color: var(--normal-verde);
+  color: white;
+}
+
+.akalia-filter-inactive {
+  background-color: var(--normal-lights-blanco-light);
+  color: #1c1c1c;
+  border: 1px solid var(--normal-lights-gray);
+}
+
+.akalia-table thead {
+  background-color: var(--normal-lights-blanco-light);
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.akalia-table td,
+.akalia-table th {
+  vertical-align: middle;
+  padding: 0.75rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+}
+
+.akalia-table tbody tr {
+  border-top: 1px solid #e6e3d7;
+}
+
+.akalia-img-product {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.akalia-actions-product {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.akalia-btn-icon {
+  background-color: var(--normal-lights-blanco-light);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  color: var(--normal-negro);
+  font-size: 1rem;
+}
+
+.akalia-btn-icon.akalia-btn-delete {
+  background-color: #E6E3D7;
+  color: var(--dark-vinotinto);
+  border: 1px solid #b9b9b9;
+}
+
+/* tagify */
+.akalia-tagify--outside {
+  border: 0;
+}
+.akalia-tagify--outside .akalia-tagify__input {
+  order: -1;
+  flex: 100%;
+  border: 1px solid var(--tags-border-color, #ccc);
+  margin-bottom: 1em;
+  transition: .1s;
+}
+.akalia-tagify--outside .akalia-tagify__input:hover {
+  border-color: var(--tags-hover-border-color, #999);
+}
+.akalia-tagify--outside.akalia-tagify--focus .akalia-tagify__input {
+  transition: 0s;
+  border-color: var(--tags-focus-border-color, #007bff);
+}

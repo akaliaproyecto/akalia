@@ -1,0 +1,265 @@
+/* Figma Color Variables of your File */
+:root,
+[data-akalia-mode="normal"] {
+  /* normal */
+  --normal-vinotinto: #590d0d;
+  --normal-terracota: #9e2c21;
+  --normal-verde: #305853;
+  --normal-blanco: #fff9e4;
+  --normal-negro: #1c1c1c;
+  --hover-vinotinto: #500c0c;
+  --hover-terracota: #8e281e;
+  --hover-verde: #2b4f4b;
+  --hover-blanco: #e6e0cd;
+  --hover-negro: #191919;
+  --dark-vinotinto: #470a0a;
+  --dark-terracota: #7e231a;
+  --dark-verde: #162825;
+  --dark-blanco: #ccc7b6;
+  --dark-negro: #161616;
+  --normal-lights-blanco-light: #fffefc;
+  --normal-lights-terracota-light: #ffdad7;
+  --active-verde: #316467;
+  --active-blanco: #f4e9d9;
+  --normal-lights-verde-light: #bfcbca;
+  --normal-lights-gray: #b9b9b9;
+  --dark-darkest-blanco: #999589;
+  --normal-lights-verde-disable: #798d8b;
+  --normal-lights-terracota-disable: #877676;
+  --normal-lights-vinotinto-disable: #b99996;
+}
+
+/* Clases de color fondo*/
+
+/* === Normal === */
+.bg-vinotinto {
+  background-color: var(--normal-vinotinto);
+}
+.bg-terracota {
+  background-color: var(--normal-terracota);
+}
+.bg-verde {
+  background-color: var(--normal-verde);
+}
+.bg-blanco {
+  background-color: var(--normal-blanco);
+}
+.bg-negro {
+  background-color: var(--normal-negro);
+}
+
+/* === Hover === */
+.bg-hover-vinotinto:hover {
+  background-color: var(--hover-vinotinto);
+}
+.bg-hover-terracota:hover {
+  background-color: var(--hover-terracota);
+}
+.bg-hover-verde:hover {
+  background-color: var(--hover-verde);
+}
+.bg-hover-blanco:hover {
+  background-color: var(--hover-blanco);
+}
+.bg-hover-negro:hover {
+  background-color: var(--hover-negro);
+}
+
+/* === Dark === */
+.bg-dark-vinotinto {
+  background-color: var(--dark-vinotinto);
+}
+.bg-dark-terracota {
+  background-color: var(--dark-terracota);
+}
+.bg-dark-verde {
+  background-color: var(--dark-verde);
+}
+.bg-dark-blanco {
+  background-color: var(--dark-blanco);
+}
+.bg-dark-negro {
+  background-color: var(--dark-negro);
+}
+
+/* === Lights === */
+.bg-blanco-light {
+  background-color: var(--normal-lights-blanco-light);
+}
+.bg-terracota-light {
+  background-color: var(--normal-lights-terracota-light);
+}
+.bg-verde-light {
+  background-color: var(--normal-lights-verde-light);
+}
+.bg-gray-light {
+  background-color: var(--normal-lights-gray);
+}
+.bg-verde-disable {
+  background-color: var(--normal-lights-verde-disable);
+}
+.bg-terracota-disable {
+  background-color: var(--normal-lights-terracota-disable);
+}
+.bg-vinotinto-disable {
+  background-color: var(--normal-lights-vinotinto-disable);
+}
+
+/* === Active === */
+.bg-active-verde:active {
+  background-color: var(--active-verde);
+}
+.bg-active-blanco:active {
+  background-color: var(--active-blanco);
+}
+
+/* === Extra Dark === */
+.bg-darkest-blanco {
+  background-color: var(--dark-darkest-blanco);
+}
+
+/* Clases de color fuente */
+.text-vinotinto {
+  color: var(--normal-vinotinto);
+}
+.text-terracota {
+  color: var(--normal-terracota);
+}
+.text-verde {
+  color: var(--normal-verde);
+}
+.text-blanco {
+  color: var(--normal-blanco);
+}
+.text-negro {
+  color: var(--normal-negro);
+}
+
+.text-dark-vinotinto {
+  color: var(--dark-vinotinto);
+}
+.text-dark-terracota {
+  color: var(--dark-terracota);
+}
+.text-dark-verde {
+  color: var(--dark-verde);
+}
+.text-dark-blanco {
+  color: var(--dark-blanco);
+}
+.text-dark-negro {
+  color: var(--dark-negro);
+}
+
+.text-blanco-light {
+  color: var(--normal-lights-blanco-light);
+}
+.text-terracota-light {
+  color: var(--normal-lights-terracota-light);
+}
+.text-verde-light {
+  color: var(--normal-lights-verde-light);
+}
+.text-gray-light {
+  color: var(--normal-lights-gray);
+}
+.text-verde-disable {
+  color: var(--normal-lights-verde-disable);
+}
+.text-terracota-disable {
+  color: var(--normal-lights-terracota-disable);
+}
+.text-vinotinto-disable {
+  color: var(--normal-lights-vinotinto-disable);
+}
+
+.text-active-verde {
+  color: var(--active-verde);
+}
+.text-active-blanco {
+  color: var(--active-blanco);
+}
+
+.text-darkest-blanco {
+  color: var(--dark-darkest-blanco);
+}
+
+.akalia-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: var(--dark-negro);
+  
+}
+
+.akalia-title--large {
+  font-size: clamp(2rem,5vw,2.5rem);
+  margin-bottom: 1.5rem;
+  color: var(--normal-vinotinto);
+}
+
+.akalia-title--medium {
+  font-size: clamp(1.8rem,5vw,2.2rem);
+  margin-bottom: 2rem;
+}
+
+/* Botón estilo terracota */
+
+.btn {
+  display: inline-flex;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: none;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+}
+
+.btn-basic {
+  border: 0.5px solid var(--normal-lights-gray);;
+  background: var(--active-blanco);
+  color: var(--normal-vinotinto);
+  transition: 0.2s;
+}
+.btn-basic:hover, .btn-basic:focus {
+  background-color: var(--hover-blanco) !important; 
+  color: var(--normal-vinotinto) !important;
+  border: 0.5px solid var(--normal-vinotinto) !important;
+}
+
+.btn:disabled {
+  border-radius: 0.5rem;
+  background: var(--normal-lights-verde-light);
+  color: var(--normal-lights-verde-disable);
+  text-align: center;
+  font-weight: 400;
+}
+
+.btn-terracota {
+  background-color: var(--normal-terracota);
+  color:var(--normal-blanco);
+  border: none;
+  font-weight: 600;
+}
+
+.btn-terracota:hover, .btn-terracota:active, .btn-terracota:focus {
+  background-color: var(--dark-terracota) !important;
+  color:var(--normal-blanco) !important;
+}
+
+.btn-explorar {
+  background: var(--hover-blanco);
+  color: var(--active-verde);
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1.2rem;
+  border: none;
+}
+
+.btn-explorar:hover, .btn-explorar:focus {
+  background: var(--dark-blanco) !important;
+  color: var(--dark-verde) !important;
+}

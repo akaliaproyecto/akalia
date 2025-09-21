@@ -1,0 +1,34 @@
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content akalia-modal">
+      <div class="modal-header border-0">
+        <h5 class="modal-title">Iniciar Sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario de inicio de sesión -->
+        <form id="loginForm">
+          <div class="mb-3 text-start">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" class="akalia-input" name="email" required>
+          </div>
+
+          <div class="mb-3 text-start position-relative">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="akalia-input" name="contrasena" required>
+          </div>
+          <%- include('./captcha') %>
+          <button type="submit" class="btn btn-terracota w-100 mb-3">Iniciar Sesión</button>
+        </form>
+
+        <div class="text-center">
+          <p class="mb-0">¿No tienes cuenta?
+            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">
+              Regístrate aquí
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

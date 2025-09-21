@@ -10,26 +10,30 @@ const {
   obtenerProductoPorNombre,
   crearProducto,
   actualizarProducto,
-  eliminarProducto
+  eliminarProducto,
+  obtenerProductosEmprendimiento
 } = require('./productos.controller');
 
 
 // obtener todos los productos
-router.get('/productos', obtenerProductos);
+router.get('/', obtenerProductos);
 
-// obtener un producto por ID
-router.get('/productos/:id', obtenerProductoPorId);
+// obtener productos por emprendimiento 
+router.get('/emprendimiento/:idEmprendimiento', obtenerProductosEmprendimiento);
 
-// obtener un producto por nombre
-router.get('/productos/nombre/:nombre', obtenerProductoPorNombre);
+// obtener por nombre 
+router.get('/nombre/:nombre', obtenerProductoPorNombre);
+
+// obtener un producto por ID (genérica)
+router.get('/:id', obtenerProductoPorId);
 
 // crear un nuevo producto
-router.post('/productos', subirImagen.array('imagenes', 10), crearProducto);
+router.post('/', subirImagen.array('imagenes', 10), crearProducto);
 
 // editar un producto existente
-router.put('/productos/:id', subirImagen.array('imagenes', 10), actualizarProducto);
+router.put('/:id', subirImagen.array('imagenes', 10), actualizarProducto);
 
 // borrado lógico de un producto por ID 
-router.patch('/productos/:id/eliminar', eliminarProducto);
+router.patch('/:id/eliminar', eliminarProducto);
 
 module.exports = router;

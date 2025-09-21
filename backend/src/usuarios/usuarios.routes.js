@@ -9,26 +9,25 @@ const {
   obtenerUsuarioPorNombre,
   crearUsuario,
   actualizarUsuario,
-  eliminarUsuario
+  eliminarUsuario,
 } = require('./usuarios.controller');
 
+// Ruta para crear un nuevo usuario (registro)
+router.post('/', crearUsuario);
 
-// obtener todos los usuarios
-router.get('/usuarios', obtenerUsuarios);
+// Ruta para obtener todos los usuarios
+router.get('/', obtenerUsuarios);
 
-// obtener un usuario por ID
-router.get('/usuarios/:id', obtenerUsuarioPorId);
+// Ruta para obtener un usuario por ID
+router.get('/:id', obtenerUsuarioPorId);
 
 // obtener un usuario por nombre
-router.get('/usuarios/nombre/:nombre', obtenerUsuarioPorNombre);
-
-// crear un nuevo usuario
-router.post('/usuarios', crearUsuario);
+router.get('/nombre/:nombre', obtenerUsuarioPorNombre);
 
 // editar un usuario existente
-router.put('/usuarios/:id', actualizarUsuario);
+router.put('/:id', actualizarUsuario);
 
 // eliminar un usuario por ID
-router.patch('/usuarios/:id', eliminarUsuario);
+router.patch('/:id', eliminarUsuario);
 
 module.exports = router;

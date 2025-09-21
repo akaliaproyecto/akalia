@@ -1,14 +1,16 @@
 // Se importa el modelo de categorías
 const modeloCategoria = require("./categorias.model");
 const uploadImage = require('../servicios/subirImagen')
+const Log = require('../middlewares/logs')
 
 //Listar todas las categorías
+// Esta función responde con un arreglo JSON de todas las categorías almacenadas en MongoDB
 exports.obtenerCategorias = async (req, res) => {
   try {
     const categoriasEncontradas = await modeloCategoria.find();
 
     if (categoriasEncontradas && categoriasEncontradas.length > 0) {
-      res.status(200).json(categoriasEncontradas);
+      res.status(200).json(categoriasEncontradas); // <-- Respuesta en formato JSON
     } else {
       res.status(404).json({ mensaje: "No se encontraron categorías" });
     }
@@ -44,6 +46,10 @@ exports.crearCategoria = async (req, res) => {
 
     const nuevaCategoria = new modeloCategoria(datosCategoria);
     const categoriaGuardada = await nuevaCategoria.save();
+
+    //Registrar log
+    Log.generateLog('categoria.log', `Una categoría ha sido creada: ${categoriaGuardada}, fecha: ${new Date()}`);
+
     res.status(201).json(categoriaGuardada);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al crear categoría", detalle: error.message });
@@ -66,6 +72,9 @@ exports.actualizarCategoria = async (req, res) => {
       { new: true }
     );
 
+    //Registrar log
+    Log.generateLog('categoria.log', `Una categoría ha sido actualizada: ${categoriaActualizada}, fecha: ${new Date()}`);
+
     if (!categoriaActualizada) {
       return res.status(404).json({ mensaje: "Categoría no encontrada" });
     }
@@ -84,6 +93,10 @@ exports.eliminarCategoria = async (req, res) => {
       { categoriaActiva: false },
       { new: true }
     );
+
+    //Registrar log
+    Log.generateLog('categoria.log', `Una categoría ha sido eliminada: ${categoriaEliminada}, fecha: ${new Date()}`);
+
     if (!categoriaEliminada) {
       return res.status(404).json({ mensaje: 'Categoría no encontrada' });
     }

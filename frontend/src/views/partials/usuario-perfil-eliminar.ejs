@@ -1,0 +1,120 @@
+<!-- ======================== MODAL PARA ELIMINAR CUENTA ======================== -->
+    <!-- Este modal se abrirá cuando el usuario haga clic en el botón "Eliminar cuenta" -->
+    <div class="modal fade" id="modalEliminarCuenta" tabindex="-1" aria-labelledby="modalEliminarCuentaLabel"
+      aria-hidden="true">
+      <div class="modal-dialog"> <!-- Tamaño normal para esta modal más pequeña -->
+        <div class="modal-content border-danger"> <!-- Borde rojo para indicar peligro -->
+
+          <!-- ENCABEZADO DEL MODAL CON ESTILO DE PELIGRO -->
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="modalEliminarCuentaLabel">
+              <i class="fas fa-exclamation-triangle me-2"></i> ¡Eliminar Cuenta!
+            </h5>
+            <!-- Botón X para cerrar el modal -->
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+              aria-label="Cerrar"></button>
+          </div>
+
+          <!-- CUERPO DEL MODAL CON INFORMACIÓN DE ADVERTENCIA -->
+          <div class="modal-body">
+
+            <!-- PASO 1: Primera advertencia general -->
+            <div id="pasoUnoEliminacion" class="text-center">
+              <div class="mb-4">
+                <!-- Icono grande de advertencia -->
+                <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+              </div>
+
+              <h4 class="text-danger mb-3">¡ADVERTENCIA!</h4>
+
+              <div class="alert alert-warning" role="alert">
+                <strong>¿Estás seguro de que deseas eliminar tu cuenta?</strong>
+                <hr>
+                <ul class="text-start mb-0">
+                  <li>Tu cuenta será desactivada permanentemente</li>
+                  <li>No podrás acceder a tu perfil ni tus datos</li>
+                  <li>Perderás acceso a todos tus emprendimientos</li>
+                  <li>Esta acción NO se puede deshacer fácilmente</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- PASO 2: Confirmación final -->
+            <div id="pasoDosEliminacion" class="text-center d-none">
+              <div class="mb-4">
+                <!-- Icono grande de peligro -->
+                <i class="fas fa-user-xmark text-danger" style="font-size: 4rem;"></i>
+              </div>
+
+              <h4 class="text-danger mb-3">CONFIRMACIÓN</h4>
+
+              <div class="alert alert-danger" role="alert">
+                <strong>ELIMINACIÓN CUENTA</strong>
+                <hr>
+                <p class="mb-0">
+                  Tu cuenta "<strong>
+                    <%= usuario.nombreUsuario %>
+                      <%= usuario.apellidoUsuario %>
+                  </strong>" será eliminada de forma permanente.
+                </p>
+              </div>
+
+              <!-- CAMPO PARA INGRESAR CONTRASEÑA COMO CONFIRMACIÓN -->
+              <div class="mb-3">
+                <label for="confirmarContrasenaEliminacion" class="form-label">
+                  <strong>Para confirmar la eliminación, ingresa tu <span class="text-danger">contraseña
+                      actual</span></strong>
+                </label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="confirmarContrasenaEliminacion"
+                    placeholder="Ingresa tu contraseña actual" autocomplete="current-password" required>
+                  <!-- Botón para mostrar/ocultar contraseña -->
+                  <button class="btn btn-outline-secondary" type="button" id="mostrarContrasenaEliminacion"
+                    title="Mostrar/Ocultar contraseña">
+                    <i class="fas fa-eye" id="iconoOjoContrasena"></i>
+                  </button>
+                </div>
+                <small class="text-muted">
+                  <i class="fas fa-shield-alt me-1"></i>
+                  Por seguridad, necesitamos verificar que eres el propietario de la cuenta
+                </small>
+              </div>
+            </div>
+
+            <!-- MENSAJE DE ESTADO DE LA ELIMINACIÓN -->
+            <div id="mensajeEstadoEliminacion" class="alert d-none" role="alert"></div>
+
+          </div>
+
+          <!-- PIE DEL MODAL - BOTONES DINÁMICOS SEGÚN EL PASO -->
+          <div class="modal-footer">
+
+            <!-- BOTONES PARA EL PASO 1 -->
+            <div id="botonesPasoUno">
+              <!-- Botón para cancelar (siempre disponible) -->
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <i class="fas fa-times me-1"></i> Cancelar
+              </button>
+              <!-- Botón para continuar al paso 2 -->
+              <button type="button" class="btn btn-warning" id="btnContinuarEliminacion">
+                <i class="fas fa-arrow-right me-1"></i> Continuar
+              </button>
+            </div>
+
+            <!-- BOTONES PARA EL PASO 2 (inicialmente ocultos) -->
+            <div id="botonesPasoDos" class="d-none">
+              <!-- Botón para volver al paso 1 -->
+              <button type="button" class="btn btn-secondary" id="btnVolverPasoUno">
+                <i class="fas fa-arrow-left me-1"></i> Volver
+              </button>
+              <!-- Botón final para eliminar cuenta -->
+              <button type="button" class="btn btn-danger" id="btnEliminarDefinitivo">
+                <i class="fas fa-trash-alt me-1"></i> Eliminar Cuenta
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>

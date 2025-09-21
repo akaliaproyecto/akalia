@@ -1,0 +1,90 @@
+<!-- ========================== MODAL PARA EDITAR PERFIL ========================== -->
+<!-- Este modal se abrirá cuando el usuario haga clic en el botón "Editar" -->
+<div class="modal fade" id="modalEditarPerfil" tabindex="-1" aria-labelledby="modalEditarPerfilLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg"> <!-- modal-lg = tamaño grande para más espacio -->
+    <div class="modal-content">
+
+      <!-- ENCABEZADO DEL MODAL -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarPerfilLabel">
+          <i class="fas fa-edit me-2"></i> Editar Mi Perfil
+        </h5>
+        <!-- Botón X para cerrar el modal -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+
+      <!-- CUERPO DEL MODAL - AQUÍ VA EL FORMULARIO -->
+      <div class="modal-body">
+        <!-- Formulario para editar los datos del usuario -->
+        <form id="formEditarPerfil" method="POST"
+          action="/actualizar-perfil-usuario/<%= usuario.idPersona || usuario.id %>">
+
+          <!-- FILA 1: Nombre y Apellido -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editarNombre" class="form-label">
+                <strong>Nombres</strong>
+              </label>
+              <input type="text" class="form-control" id="editarNombre" name="nombreUsuario"
+                placeholder="Ingresa tu nombre" required>
+            </div>
+            <div class="col-md-6">
+              <label for="editarApellido" class="form-label">
+                <strong>Apellido</strong>
+              </label>
+              <input type="text" class="form-control" id="editarApellido" name="apellidoUsuario"
+                placeholder="Ingresa tu apellido" required>
+            </div>
+          </div>
+
+          <!-- FILA 2: Email y Teléfono -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="editarEmail" class="form-label">
+                <strong>Correo Electrónico</strong>
+              </label>
+              <input type="email" class="form-control" id="editarEmail" name="email" placeholder="ejemplo@correo.com"
+                required>
+            </div>
+            <div class="col-md-6">
+              <label for="editarTelefono" class="form-label">
+                <strong>Celular</strong>
+              </label>
+              <input type="tel" class="form-control" id="editarTelefono" name="telefono" placeholder="300 123 4567">
+            </div>
+          </div>
+
+          <!-- FILA 3: Contraseña (opcional) -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <label for="editarContrasena" class="form-label">
+                <strong>Nueva Contraseña</strong>
+                <small class="text-muted">(Déjala vacía si no quieres cambiarla)</small>
+              </label>
+              <input type="password" class="form-control" id="editarContrasena" name="contrasena"
+                placeholder="Ingresa una nueva contraseña (opcional)">
+            </div>
+          </div>
+
+          <!-- MENSAJE DE ESTADO (se mostrará cuando haya errores o éxito) -->
+          <div id="mensajeEstadoModal" class="alert d-none" role="alert"></div>
+
+        </form>
+      </div>
+
+      <!-- PIE DEL MODAL - BOTONES DE ACCIÓN -->
+      <div class="modal-footer">
+        <!-- Botón para cancelar y cerrar el modal -->
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-1"></i> Cancelar
+        </button>
+        <!-- Botón para guardar los cambios -->
+        <button type="submit" class="btn btn-terracota" id="btnGuardarCambios" form="formEditarPerfil">
+          <i class="fas fa-save me-1"></i> Guardar Cambios
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
