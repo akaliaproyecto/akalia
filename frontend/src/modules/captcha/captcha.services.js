@@ -40,7 +40,7 @@ exports.validarCaptcha = async (req, res) => {
         const response = await axios.post(`${API_BASE_URL}/captcha/validar`, req.body, {
             headers: HEADERS, withCredentials: true, credentials: "include"
         });
-        console.log(req.sessionID)
+        console.log(`SessionID ${req.sessionID}`)
         if (response.headers["set-cookie"]) {
             const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));
             cookies.forEach((c) => {
