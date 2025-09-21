@@ -6,7 +6,7 @@ require('dotenv').config();
 const headers = { 'akalia-api-key': process.env.API_KEY };
 
 // DEFINIR URL BASE DE LA API 
-const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4000';
+const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 
 //OBIENE CATEGORIAS Y PRODUCTOS PARA LA PAGINA DE INICIO
 router.get('/', async (req, res) => {

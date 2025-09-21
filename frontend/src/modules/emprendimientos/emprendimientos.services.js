@@ -2,7 +2,7 @@ const axios = require('axios');
 require('dotenv').config();
 const formData = require('form-data');
 
-const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4000';
+const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
 /* Listar emprendimientos de un usuario y renderizar la vista */
@@ -68,7 +68,7 @@ exports.agregarEmprendimiento = async (req, res) => {
       ...formN.getHeaders()
     };
 
-    // Enviar al backend real (puerto 4000)
+    // Enviar al backend real 
     const resp = await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
     console.log('Respuesta backend:', resp.data);
 
@@ -151,7 +151,7 @@ exports.editarEmprendimiento = async (req, res) => {
       ...formN.getHeaders()
     };
 
-    // Enviar al backend real (puerto 4000)
+    // Enviar al backend real 
     await axios.put(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`, formN, { headers });
 
     // Redirigir al listado anterior o al listado principal si no hay referer
