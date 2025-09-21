@@ -1,7 +1,12 @@
 #!/bin/bash
 
-npm i &
+# Instalar dependencias del backend
+echo "Instalando dependencias del backend..."
+npm i
+
+# Cambiar al directorio del frontend e instalar dependencias
+echo "Instalando dependencias del frontend..."
 cd ../frontend/
-npm i  &
-cd ../backend/
-npm start
+npm i
+
+echo "Instalación completada."
