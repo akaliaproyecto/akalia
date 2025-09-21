@@ -4,8 +4,7 @@ const app = express();
 const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
-
-const PORT = 4666;
+const PORT = process.env.PORT_FRONTEND || 4666;
 
 
 
@@ -76,6 +75,6 @@ app.use((err, req, res, next) => {
   res.status(500).render('pages/error', { error: err });
 });
 
-app.listen(PORT_FRONTEND, () => {
-  console.log(`Servidor frontend en línea en el puerto ${PORT_FRONTEND}`);
+app.listen(PORT, () => {
+  console.log(`Servidor frontend en línea en el puerto ${PORT}`);
 });
