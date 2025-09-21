@@ -1,7 +1,7 @@
 #!/bin/bash
 
-npm i
-npm run dev &
+npm i &
 cd ../frontend/
-npm i
-npm run dev
+npm i  &
+cd ../backend/
+npm start

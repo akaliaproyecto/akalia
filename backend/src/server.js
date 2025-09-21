@@ -3,7 +3,7 @@ const app = require('./app');
 const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-const PORT = process.env.PORT_BACKEND || 3666;
+const PORT = process.env.PORT_BACKEND || 4006;
 
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {
