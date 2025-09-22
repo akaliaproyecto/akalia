@@ -72,24 +72,16 @@
           <% if (typeof productos !=='undefined' && productos.length) { %>
             <% productos.slice(0,8).forEach(producto=> { %>
               <div class=" col-10 col-sm-6  col-lg-3 mb-4 px-3 d-flex justify-content-center">
-                <article onclick="showProductDetail('<%= producto.idProducto %>')"
+                <article onclick="showProductDetail('<%= producto._id %>')"
                   class="product-card card rounded-0 border-0 w-100">
-                  <% var urlPrincipal='' ; if (producto && Array.isArray(producto.imagenes) && producto.imagenes.length>
-                    0) {
-                    urlPrincipal = producto.imagenes[0];
-                    } else {
-                    var encontrado = null;
-                    if (typeof imagenes !== 'undefined' && Array.isArray(imagenes)) {
-                    encontrado = imagenes.find(function(i) {
-                    var idProd = String(producto._id || producto.idProducto || producto.id || '');
-                    return String(i.idProducto) === idProd;
+                  <% 
+                    // Buscar la imagen del producto en el arreglo imagenes
+                    var imagenProducto = imagenes.find(function(img) {
+                      return String(img.idProducto) === String(producto._id);
                     });
-                    }
-                    urlPrincipal = (encontrado && encontrado.urlImagen) ? encontrado.urlImagen :
-                    '/img/placeholder-producto.png';
-                    }
-                    %>
-                    <img class="card-img-top img-fluid  object-fit-cover rounded-0" src="<%= urlPrincipal %>"
+                    var urlImagen = imagenProducto ? imagenProducto.urlImagen : '/img/placeholder-producto.png';
+                  %>
+                    <img class="card-img-top img-fluid  object-fit-cover rounded-0" src="<%= urlImagen %>"
                       alt="Imagen del producto" />
                     <!-- <%=producto.imagenProducto %> -->
                     <div class="card-body bg-light">
