@@ -60,9 +60,6 @@ router.get('/usuario-emprendimientos/:idU/detalle/:idE', async (req, res) => {
     const response = await axios.get(`${API_BASE_URL}/api/emprendimientos/${idEmprendimiento}`);
     const emprendimiento = response.data;
 
-    const responseRedSocial = await axios.get(`${API_BASE_URL}/api/redSocial/${emprendimiento.idEmprendimiento}`);
-    const redSocial = responseRedSocial.data;
-
     console.log(emprendimiento)
 
     const responseProductos = await axios.get(`${API_BASE_URL}/api/productos/usuarios/${req.params.idU}`).catch(err => {
@@ -75,7 +72,6 @@ router.get('/usuario-emprendimientos/:idU/detalle/:idE', async (req, res) => {
       usuario: usuario,
       categorias: categorias,
       emprendimiento: emprendimiento,
-      redSocial: redSocial,
       productos: productos,
 
       titulo: 'Emprendimientos del Usuario',
@@ -155,14 +151,10 @@ router.get('/usuario-emprendimientos/:idUsuario/editar/:idEmprendimiento', async
     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${idUsuario}`);
     const usuario = resU.data;
 
-    const responseRedSocial = await axios.get(`${API_BASE_URL}/api/redSocial/${emprendimiento.idEmprendimiento}`);
-    const redSocial = responseRedSocial.data;
-
     const redesDisponibles = ['whatsapp', 'instagram', 'facebook'];
     res.render('pages/usuario-editar-emprendimiento.ejs', {
       emprendimiento,
       usuario,
-      redSocial,
       redesDisponibles,
       titulo: 'Editar Emprendimiento'
     });

@@ -5,46 +5,42 @@ require('dotenv').config();
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4000';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
-/*
-  Cargar categorías y productos para la página landing (SSR).
-  - Construimos un arreglo `imagenes` con objetos { idProducto, urlImagen }
-    donde `urlImagen` es la primera imagen disponible en `producto.imagenes`
-    o un placeholder si no existe.
-  - Esto hace la vista `index.ejs` consistente con otras vistas del proyecto
-    que esperan `imagenes` como una lista de objetos con `idProducto` y `urlImagen`.
-*/
+/* Cargar categorías y productos para la página landing */
 exports.categoriasProductosLanding = async (req, res) => {
   try {
     // Obtener categorías desde el API
     const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
-    const categorias = Array.isArray(respCategorias.data) ? respCategorias.data : [];
+    let categorias = [];
+    if (Array.isArray(respCategorias.data)) {
+      categorias = respCategorias.data;
+    } else {
+      // Si falla la llamada, deja el arreglo vacío
+      categorias = [];
+    }
 
-    // Obtener productos desde el API (si falla, dejamos arreglo vacío)
+    // Obtener productos desde el API 
     let productos = [];
     try {
       const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
-      productos = Array.isArray(respProductos.data) ? respProductos.data : [];
+        if (Array.isArray(respProductos.data)) {
+        productos = respProductos.data;
+      } else {
+        productos = [];
+      }
     } catch (errProd) {
-      console.log('No se pudieron obtener productos para el landing:', errProd.message || errProd);
+      // Si falla la llamada, deja el arreglo vacío
       productos = [];
     }
 
-    // Construir arreglo de imágenes para la vista. Cada elemento tiene:
-    // { idProducto: <id>, urlImagen: <url de la primera imagen o placeholder> }
+    // Construir arreglo de imágenes para la vista
     const imagenes = productos.map(prod => {
-      // Si el backend guarda `imagenes` como arreglo de URLs (ej: producto.imagenes = ['url1','url2'])
+      // Si el producto tiene imágenes, usar la primera
       if (prod && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
-        return { idProducto: prod._id || prod.idProducto || prod.id || null, urlImagen: prod.imagenes[0] };
+        return { idProducto: prod._id, urlImagen: prod.imagenes[0] };
       }
-      // Si el backend devuelve objetos con { idProducto, urlImagen } ya formateados
-      if (prod && prod.urlImagen && (prod.idProducto || prod._id || prod.id)) {
-        return { idProducto: prod.idProducto || prod._id || prod.id, urlImagen: prod.urlImagen };
-      }
-      // Fallback: placeholder
-      return { idProducto: prod._id || prod.idProducto || prod.id || null, urlImagen: '/img/placeholder-producto.png' };
     });
 
-    // Render SSR de la vista landing con datos preparados
+    // Render de la vista landing con datos preparados
     return res.render('pages/index.ejs', {
       categorias,
       productos,
@@ -55,35 +51,94 @@ exports.categoriasProductosLanding = async (req, res) => {
     console.error('Error al obtener datos para landing:', error && error.message ? error.message : error);
     return res.status(500).render('pages/error', {
       error: 'Error del servidor',
-      message: 'No se pudieron cargar los datos para el landing. Verifica que el backend esté funcionando.'
+      message: 'No se pudieron cargar los datos para el landing.'
     });
   }
 };
 
-// Controlador SSR para listar productos (ruta /productos)
-// - Obtiene productos desde el API y construye el arreglo 'imagenes' similar al landing
-// - Renderiza la vista 'pages/productos.ejs' con los datos necesarios
+/* listar productos en la ruta /productos */
 exports.mostrarProductos = async (req, res) => {
   try {
     // Obtener productos desde el API
     const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
-    const productos = Array.isArray(respProductos.data) ? respProductos.data : [];
+    let productos = [];
+    if (Array.isArray(respProductos.data)) {
+      productos = respProductos.data;
+    } else {
+      productos = [];
+    }
 
-    // Construir arreglo de imágenes para la vista de productos
+    //Construir arreglo de imágenes para la vista de productos
     const imagenes = productos.map(prod => {
+      //Si el producto tiene imágenes, usar la primera
       if (prod && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
         return { idProducto: prod._id, urlImagen: prod.imagenes[0] };
       }
-      if (prod && prod.urlImagen && prod._id) {
-        return { idProducto: prod._id, urlImagen: prod.urlImagen };
-      }
-      return { idProducto: prod._id, urlImagen: '/img/placeholder-producto.png' };
     });
 
     // Renderizar la vista de productos
     return res.render('pages/productos.ejs', { productos, imagenes, titulo: 'Productos' });
   } catch (error) {
-    console.error('Error al obtener productos para /productos:', error && error.message ? error.message : error);
     return res.status(500).render('pages/error', { error: 'Error del servidor', message: 'No se pudieron cargar los productos.' });
+  }
+};
+
+/* mostrar un producto específico producto/:id */
+exports.mostrarProductoPorId = async (req, res) => {
+  try {
+    // Obtener el ID del producto desde los parámetros de la URL
+    const idProducto = req.params.id;
+
+    // Obtener el producto específico desde el API
+    const respProducto = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
+    const producto = respProducto.data;
+
+    // Preparar el arreglo de imágenes para la vista del producto
+    const imagenes = [];
+    if (producto && Array.isArray(producto.imagenes) && producto.imagenes.length > 0) {
+      // Si el producto tiene imágenes, las convertimos al formato esperado
+      producto.imagenes.forEach(url => {
+        imagenes.push({ idProducto: producto._id, urlImagen: url });
+      });
+    }
+
+    // Obtener datos del emprendimiento usando el ID del emprendimiento del producto
+    let emprendimiento = {};
+    try {
+      if (producto.idEmprendimiento) {
+        const respEmprendimiento = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS });
+        emprendimiento = respEmprendimiento.data || {};
+      }
+    } catch (errEmprendimiento) {
+      emprendimiento = { nombreEmprendimiento: 'Emprendimiento no disponible' };
+    }
+
+    // Obtener categorías del producto si tiene idCategoria
+    let categoriaP = [];
+    try {
+      if (producto.idCategoria) {
+        const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${producto.idCategoria}`, { headers: HEADERS });
+        categoriaP = [respCategoria.data] || [];
+      }
+    } catch (errCategoria) {
+      console.log('No se pudo obtener categoría:', errCategoria.message);
+      categoriaP = [{ nombreCategoria: 'Sin categoría' }];
+    }
+
+    // Renderizar la vista del producto con todos los datos
+    return res.render('pages/producto.ejs', {
+      producto,
+      imagenes,
+      emprendimiento,
+      categoriaP,
+      titulo: producto.tituloProducto || 'Producto'
+    });
+
+  } catch (error) {
+     if (error && error.message) {
+      console.error('Error al obtener producto:', error.message);
+    } else {
+      console.error('Error al obtener producto:', error);
+    }
   }
 };

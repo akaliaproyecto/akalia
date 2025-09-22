@@ -5,12 +5,16 @@ const router = express.Router();
 // Importamos los controladores que preparan los datos para la landing y productos (SSR)
 const {
   categoriasProductosLanding,
-  mostrarProductos } = require('./landing.services');
+  mostrarProductos,
+  mostrarProductoPorId } = require('./landing.services');
 
 /* Ruta que renderiza la landing con categorías, productos e imágenes.*/
 router.get('/', categoriasProductosLanding);
 
 /* Ruta que renderiza la vista productos.ejs */
 router.get('/productos', mostrarProductos);
+
+/* Ruta que renderiza la vista de un producto específico por ID */
+router.get('/producto/:id', mostrarProductoPorId);
 
 module.exports = router;
