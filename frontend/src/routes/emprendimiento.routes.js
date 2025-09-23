@@ -1,183 +1,184 @@
-/*****************************************
- *           IMPORTAR MÓDULOS            *
- *****************************************/
-const express = require('express');
-const axios = require('axios');
-const router = express.Router();
-require('dotenv').config();
-
 // /*****************************************
-//  *      DEFINIR URL BASE DE LA API       *
+//  *           IMPORTAR MÓDULOS            *
 //  *****************************************/
 const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4666';
+// const express = require('express');
+// const axios = require('axios');
+// const router = express.Router();
+// require('dotenv').config();
 
-// Obtener emprendimientos del usuario
-// Ruta sin id (preferida) usa id desde sesión. Se mantiene la ruta con :id por compatibilidad.
-router.get('/usuario-emprendimientos', async (req, res) => {
-  try {
-    // Preferir id desde sesión (si el sistema de autenticación expone req.usuario)
-    const id = (req.usuario && req.usuario.idUsuario) || req.query.id || null;
-    if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
+// // /*****************************************
+// //  *      DEFINIR URL BASE DE LA API       *
+// //  *****************************************/
+// const API_BASE_URL = process.env.URL_BASE || 'http://localhost:3000';
 
-    const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${id}`);
-    const usuario = resU.data;
-
-    const responseCategorias = await axios.get(`${API_BASE_URL}/categorias`);
-    const categorias = responseCategorias.data;
-
-    const responseEmprendimiento = await axios.get(`${API_BASE_URL}/api/emprendimientos/redes/${id}`);
-    const emprendimiento = responseEmprendimiento.data;
-
-    res.render('pages/usuario-emprendimientos.ejs', {
-      usuario: usuario,
-      categorias: categorias,
-      emprendimiento: emprendimiento,
-
-      titulo: 'Emprendimientos del Usuario',
-    });
-  } catch (error) {
-    console.error('Error al obtener los productos:', error.message);
-
-    //Renderizar pagina de error
-    res.status(500).render('error', {
-      error: 'Error del servidor',
-      message: 'No se pudieron cargar los productos. Verifica que el backend esté funcionando.',
-    });
-  }
-});
-
-// Obtener un emprendimiento del usuario
-router.get('/usuario-emprendimientos/:idU/detalle/:idE', async (req, res) => {
-  try {
-
-    const idEmprendimiento = req.params.idE
-    const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${req.params.idU}`);
-    const usuario = resU.data;
-
-    const responseCategorias = await axios.get(`${API_BASE_URL}/categorias`);
-    const categorias = responseCategorias.data;
-
-    const response = await axios.get(`${API_BASE_URL}/api/emprendimientos/${idEmprendimiento}`);
-    const emprendimiento = response.data;
-
-    console.log(emprendimiento)
-
-    const responseProductos = await axios.get(`${API_BASE_URL}/api/productos/usuarios/${req.params.idU}`).catch(err => {
-      console.warn('No se cargaron los productos', err.message);
-      return { data: [] };
-    });
-    const productos = responseP.data;
-
-    res.render('pages/usuario-emprendimiento.ejs', {
-      usuario: usuario,
-      categorias: categorias,
-      emprendimiento: emprendimiento,
-      productos: productos,
-
-      titulo: 'Emprendimientos del Usuario',
-    });
-  } catch (error) {
-    console.error('Error al obtener los productos:', error.message);
-
-    //Renderizar pagina de error
-    res.status(500).render('error', {
-      error: 'Error del servidor',
-      message: 'No se pudieron cargar los productos. Verifica que el backend esté funcionando.',
-    });
-  }
-});
-
-//Crear ruta get que renderice el formulario de creacion
-router.get('/usuario-agregar-emprendimiento/:id', async (req, res) => {
-  try {
-    const idUsuario = req.params.id;
-
-    // Obtener datos del usuario para pasarlos a la vista
-    const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${idUsuario}`);
-    const usuario = resU.data;
-
-    const redesDisponibles = ['whatsapp', 'instagram', 'facebook'];
-
-    res.render('pages/usuario-agregar-emprendimiento.ejs', {
-      idUsuario: usuario.idUsuario,
-      usuario: usuario,
-      redesDisponibles,
-      titulo: 'Agregar nuevo emprendimiento',
-    });
-  } catch (error) {
-    console.error('Error al cargar el formulario:', error.message);
-    res.status(500).render('error', {
-      error: 'Error del servidor',
-      message: 'No se pudo cargar el formulario de nuevo emprendimiento.'
-    });
-  }
-});
-
-// Ruta POST para recibir el formulario y reenviar al backend
-// router.post('/usuario-agregar-emprendimiento', async (req, res) => {
+// // Obtener emprendimientos del usuario
+// // Ruta sin id (preferida) usa id desde sesión. Se mantiene la ruta con :id por compatibilidad.
+// router.get('/usuario-emprendimientos', async (req, res) => {
 //   try {
-//     const { idUsuario, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
+//     // Preferir id desde sesión (si el sistema de autenticación expone req.usuario)
+//     const id = (req.usuario && req.usuario.idUsuario) || req.query.id || null;
+//     if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
 
-//     const payload = {
-//       idUsuario,
-//       nombreEmprendimiento,
-//       imagenLogo,
-//       descripcionNegocio,
-//       fechaRegistro: new Date().toISOString().split('T')[0]
-//     };
+//     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${id}`);
+//     const usuario = resU.data;
 
-//     // Enviar al backend real (puerto 3000)
-//     await axios.post(`${API_BASE_URL}/api/emprendimientos`, payload);
+//     const responseCategorias = await axios.get(`${API_BASE_URL}/categorias`);
+//     const categorias = responseCategorias.data;
 
-//     // Redirigir al listado de emprendimientos del usuario
-//     res.redirect(`/usuario-emprendimientos/${idUsuario}`);
+//     const responseEmprendimiento = await axios.get(`${API_BASE_URL}/api/emprendimientos/redes/${id}`);
+//     const emprendimiento = responseEmprendimiento.data;
+
+//     res.render('pages/usuario-emprendimientos.ejs', {
+//       usuario: usuario,
+//       categorias: categorias,
+//       emprendimiento: emprendimiento,
+
+//       titulo: 'Emprendimientos del Usuario',
+//     });
 //   } catch (error) {
-//     console.error('Error al crear emprendimiento:', error.message);
+//     console.error('Error al obtener los productos:', error.message);
+
+//     //Renderizar pagina de error
 //     res.status(500).render('error', {
-//       error: 'Error al crear emprendimiento',
-//       message: 'No se pudo guardar el emprendimiento. Verifica los datos o intenta más tarde.'
+//       error: 'Error del servidor',
+//       message: 'No se pudieron cargar los productos. Verifica que el backend esté funcionando.',
 //     });
 //   }
 // });
 
-//renderizar el formulario de edición de emprendimientos
-router.get('/usuario-emprendimientos/:idUsuario/editar/:idEmprendimiento', async (req, res) => {
-  try {
-    const idUsuario = req.params.idUsuario;
-    const idEmprendimiento = req.params.idEmprendimiento;
+// // Obtener un emprendimiento del usuario
+// router.get('/usuario-emprendimientos/:idU/detalle/:idE', async (req, res) => {
+//   try {
 
-    const response = await axios.get(`${API_BASE_URL}/api/emprendimientos/${idEmprendimiento}`);
-    const emprendimiento = response.data;
-    const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${idUsuario}`);
-    const usuario = resU.data;
+//     const idEmprendimiento = req.params.idE
+//     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${req.params.idU}`);
+//     const usuario = resU.data;
 
-    const redesDisponibles = ['whatsapp', 'instagram', 'facebook'];
-    res.render('pages/usuario-editar-emprendimiento.ejs', {
-      emprendimiento,
-      usuario,
-      redesDisponibles,
-      titulo: 'Editar Emprendimiento'
-    });
-  } catch (error) {
-    console.error('Error al cargar emprendimiento para edición:', error.message);
-    res.status(500).render('error', {
-      error: 'Error del servidor',
-      message: 'No se pudo cargar el emprendimiento para editar.'
-    });
-  }
-});
+//     const responseCategorias = await axios.get(`${API_BASE_URL}/categorias`);
+//     const categorias = responseCategorias.data;
 
-router.delete('/usuario-eliminar-emprendimiento/:id', async (req, res) => {
-  const { id } = req.params;
+//     const response = await axios.get(`${API_BASE_URL}/api/emprendimientos/${idEmprendimiento}`);
+//     const emprendimiento = response.data;
 
-  try {
-    await axios.delete(`${API_BASE_URL}/api/emprendimientos/${id}`);
-    res.status(200).send("Emprendimiento eliminado");
-  } catch (error) {
-    console.error("Error al eliminar:", error.message);
-    res.status(500).send("Error al eliminar emprendimiento");
-  }
-});
+//     console.log(emprendimiento)
+
+//     const responseProductos = await axios.get(`${API_BASE_URL}/api/productos/usuarios/${req.params.idU}`).catch(err => {
+//       console.warn('No se cargaron los productos', err.message);
+//       return { data: [] };
+//     });
+//     const productos = responseP.data;
+
+//     res.render('pages/usuario-emprendimiento.ejs', {
+//       usuario: usuario,
+//       categorias: categorias,
+//       emprendimiento: emprendimiento,
+//       productos: productos,
+
+//       titulo: 'Emprendimientos del Usuario',
+//     });
+//   } catch (error) {
+//     console.error('Error al obtener los productos:', error.message);
+
+//     //Renderizar pagina de error
+//     res.status(500).render('error', {
+//       error: 'Error del servidor',
+//       message: 'No se pudieron cargar los productos. Verifica que el backend esté funcionando.',
+//     });
+//   }
+// });
+
+// //Crear ruta get que renderice el formulario de creacion
+// router.get('/usuario-agregar-emprendimiento/:id', async (req, res) => {
+//   try {
+//     const idUsuario = req.params.id;
+
+//     // Obtener datos del usuario para pasarlos a la vista
+//     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${idUsuario}`);
+//     const usuario = resU.data;
+
+//     const redesDisponibles = ['whatsapp', 'instagram', 'facebook'];
+
+//     res.render('pages/usuario-agregar-emprendimiento.ejs', {
+//       idUsuario: usuario.idUsuario,
+//       usuario: usuario,
+//       redesDisponibles,
+//       titulo: 'Agregar nuevo emprendimiento',
+//     });
+//   } catch (error) {
+//     console.error('Error al cargar el formulario:', error.message);
+//     res.status(500).render('error', {
+//       error: 'Error del servidor',
+//       message: 'No se pudo cargar el formulario de nuevo emprendimiento.'
+//     });
+//   }
+// });
+
+// // Ruta POST para recibir el formulario y reenviar al backend
+// // router.post('/usuario-agregar-emprendimiento', async (req, res) => {
+// //   try {
+// //     const { idUsuario, nombreEmprendimiento, imagenLogo, descripcionNegocio } = req.body;
+
+// //     const payload = {
+// //       idUsuario,
+// //       nombreEmprendimiento,
+// //       imagenLogo,
+// //       descripcionNegocio,
+// //       fechaRegistro: new Date().toISOString().split('T')[0]
+// //     };
+
+// //     // Enviar al backend real (puerto 3000)
+// //     await axios.post(`${API_BASE_URL}/api/emprendimientos`, payload);
+
+// //     // Redirigir al listado de emprendimientos del usuario
+// //     res.redirect(`/usuario-emprendimientos/${idUsuario}`);
+// //   } catch (error) {
+// //     console.error('Error al crear emprendimiento:', error.message);
+// //     res.status(500).render('error', {
+// //       error: 'Error al crear emprendimiento',
+// //       message: 'No se pudo guardar el emprendimiento. Verifica los datos o intenta más tarde.'
+// //     });
+// //   }
+// // });
+
+// //renderizar el formulario de edición de emprendimientos
+// router.get('/usuario-emprendimientos/:idUsuario/editar/:idEmprendimiento', async (req, res) => {
+//   try {
+//     const idUsuario = req.params.idUsuario;
+//     const idEmprendimiento = req.params.idEmprendimiento;
+
+//     const response = await axios.get(`${API_BASE_URL}/api/emprendimientos/${idEmprendimiento}`);
+//     const emprendimiento = response.data;
+//     const resU = await axios.get(`${API_BASE_URL}/api/usuarios/${idUsuario}`);
+//     const usuario = resU.data;
+
+//     const redesDisponibles = ['whatsapp', 'instagram', 'facebook'];
+//     res.render('pages/usuario-editar-emprendimiento.ejs', {
+//       emprendimiento,
+//       usuario,
+//       redesDisponibles,
+//       titulo: 'Editar Emprendimiento'
+//     });
+//   } catch (error) {
+//     console.error('Error al cargar emprendimiento para edición:', error.message);
+//     res.status(500).render('error', {
+//       error: 'Error del servidor',
+//       message: 'No se pudo cargar el emprendimiento para editar.'
+//     });
+//   }
+// });
+
+// router.delete('/usuario-eliminar-emprendimiento/:id', async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     await axios.delete(`${API_BASE_URL}/api/emprendimientos/${id}`);
+//     res.status(200).send("Emprendimiento eliminado");
+//   } catch (error) {
+//     console.error("Error al eliminar:", error.message);
+//     res.status(500).send("Error al eliminar emprendimiento");
+//   }
+// });
 
 
-module.exports = router;
+// module.exports = router;
