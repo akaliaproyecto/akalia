@@ -47,11 +47,13 @@ function iniciarSplideProducto() {
       pagination: true,   // mostrar paginación
       arrows: true,       // mostrar flechas
       gap: '1rem',        // espacio entre slides
-      heightRatio: 0.7,   // controlar altura relativa al ancho
-      cover: false,       // no recortar por defecto
+      // Usar autoHeight para permitir que cada slide ajuste su altura al contenido
+      autoHeight: true,
+      cover: false,       // no recortar por defecto (importante)
       breakpoints: {      // comportamiento responsivo sencillo
-        768: { heightRatio: 0.8 },
-        480: { heightRatio: 1 }
+        992: { gap: '1rem' },
+        768: { gap: '0.75rem' },
+        480: { gap: '0.5rem' }
       }
     };
 
