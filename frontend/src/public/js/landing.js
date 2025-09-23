@@ -25,3 +25,69 @@ function showProductDetail(idProducto) {
 // Exponer funciones en el objeto global para que puedan llamarse desde los
 window.showListProducts = showListProducts;
 window.showProductDetail = showProductDetail;
+
+/* Inicializar Splide para la vista de producto */
+function iniciarSplideProducto() {
+  try {
+    // Buscar el contenedor principal del carrusel
+    let splideEl = document.getElementById('main-carousel');
+    if (!splideEl) return;
+
+    // Asegurar que la librería Splide esté cargada
+    if (typeof Splide !== 'function') {
+      console.warn('Splide no está disponible en esta página.');
+      return;
+    }
+
+    // Opciones de splide para manejo de imágenes y miniaturas
+    let opciones = {
+      type: 'loop',       // que el carrusel sea circular
+      perPage: 1,         // una imagen visible a la vez
+      perMove: 1,         // desplazamiento de uno en uno
+      pagination: true,   // mostrar paginación
+      arrows: true,       // mostrar flechas
+      gap: '1rem',        // espacio entre slides
+      heightRatio: 0.7,   // controlar altura relativa al ancho
+      cover: false,       // no recortar por defecto
+      breakpoints: {      // comportamiento responsivo sencillo
+        768: { heightRatio: 0.8 },
+        480: { heightRatio: 1 }
+      }
+    };
+
+    // Inicializar Splide
+    let splide = new Splide(splideEl, opciones);
+
+    // Hacer que las miniaturas controlen el carrusel
+    let thumbs = document.getElementById('thumbnails');
+    if (thumbs) {
+      // Convertir lista de miniaturas en array y asignar click
+      let items = Array.prototype.slice.call(thumbs.querySelectorAll('.thumbnail'));
+      items.forEach(function (el, index) {
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', function () {
+          splide.go(index);
+        });
+      });
+
+      // Sincronizar clases de miniatura cuando cambie el slide
+      splide.on('move', function (newIndex) {
+        items.forEach(function (el, i) {
+          if (i === newIndex) {
+            el.classList.add('is-active-thumb');
+          } else {
+            el.classList.remove('is-active-thumb');
+          }
+        });
+      });
+    }
+
+    // Activar Splide
+    splide.mount();
+
+  } catch (err) {
+    // Mensaje corto y comprensible
+    console.error('Error inicializando Splide:', err && err.message ? err.message : err);
+  }
+}
+iniciarSplideProducto();
