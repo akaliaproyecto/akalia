@@ -8,7 +8,7 @@ const ProductoSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: 'Emprendimiento', required: true },
 
   descripcionProducto:
-    { type: String, required: true, trim: true, minLength: 3, maxLength: 1000 },
+    { type: String, required: true, trim: true, minLength: 3, maxLength: 800 },
 
   precio:
     { type: Number, required: true, min: 0, default: 0 },

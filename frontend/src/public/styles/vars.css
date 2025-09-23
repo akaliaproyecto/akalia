@@ -249,6 +249,16 @@
   color:var(--normal-blanco) !important;
 }
 
+.btn-verde {
+  background-color: var(--hover-blanco);
+  color:var(--active-verde);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+}
+
 .btn-explorar {
   background: var(--hover-blanco);
   color: var(--active-verde);

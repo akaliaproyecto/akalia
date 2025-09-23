@@ -119,16 +119,39 @@ exports.mostrarProductoPorId = async (req, res) => {
       emprendimiento = { nombreEmprendimiento: 'Emprendimiento no disponible' };
     }
 
-    // Obtener categorías del producto si tiene idCategoria
+    // Obtener categorías del producto
     let categoriaP = [];
     try {
-      if (producto.idCategoria) {
-        const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${producto.idCategoria}`, { headers: HEADERS });
-        categoriaP = [respCategoria.data] || [];
+      // Valor posible de la categoría: puede venir en producto.idCategoria, producto.categoria
+      const valorId = producto.idCategoria;
+      const valorCategoria = producto.categoria;
+
+      // Detectar si 'categoria' ya es un objeto con nombreCategoria
+      if (valorCategoria && typeof valorCategoria === 'object' && valorCategoria.nombreCategoria) {
+        producto.categoriaNombre = valorCategoria.nombreCategoria;
+      } else {
+        // Función simple para detectar ObjectId (24 hex characters)
+        const esObjectId = (val) => typeof val === 'string' && /^[a-fA-F0-9]{24}$/.test(val);
+
+        // Si existe id en idCategoria usamos ese id, si no y categoria es id usamos ese.
+        const posibleId = valorId || (typeof valorCategoria === 'string' && esObjectId(valorCategoria) ? valorCategoria : null);
+
+        if (posibleId) {
+          // obtener la categoría por id
+          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${posibleId}`, { headers: HEADERS });
+          categoriaP = [respCategoria.data] || [];
+          producto.categoriaNombre = respCategoria.data && respCategoria.data.nombreCategoria ? respCategoria.data.nombreCategoria : '';
+        } else if (typeof valorCategoria === 'string') {
+          // si categoria es string y no es id, asumimos que ya es el nombre
+          producto.categoriaNombre = valorCategoria;
+        } else {
+          producto.categoriaNombre = producto.categoriaNombre || 'Sin categoría';
+        }
       }
     } catch (errCategoria) {
       console.log('No se pudo obtener categoría:', errCategoria.message);
       categoriaP = [{ nombreCategoria: 'Sin categoría' }];
+      producto.categoriaNombre = producto.categoriaNombre || 'Sin categoría';
     }
 
     // Renderizar la vista del producto con todos los datos
