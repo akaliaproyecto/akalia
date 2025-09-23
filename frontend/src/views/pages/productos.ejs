@@ -18,29 +18,33 @@
         <div class="row col-10 col-md-12 d-flex align-items-center justify-content-center mx-md-5">
           <% if (typeof productos !=='undefined' && productos.length) { %>
             <% productos.forEach(producto=> { %>
-              <div onclick="showProductDetail('<%= producto.idProducto %>')"
-                class="cursor-pointer col-10 col-sm-6 col-md-3 col-lg-3 mb-4  d-flex justify-content-center"
-                style=" height: 350px">
-                <article class="card rounded-0 border-0 ">
-                  <% const img=imagenes.find(img=> img.idProducto === producto.idProducto) %>
+              <% /* idParaRuta: usar _id o idProducto o id según exista en el objeto */ %>
+              <% const idParaRuta = producto._id || producto.idProducto || producto.id || ''; %>
+              <div onclick="showProductDetail('<%= idParaRuta %>')"
+                class="cursor-pointer col-12 col-sm-6 col-md-4 col-lg-3 mb-4 d-flex align-items-stretch">
+                <article class="card rounded-0 border-0 w-100 h-100">
+                  <% /* Buscar imagen por id del producto (normalizar a string para comparar) */ %>
+                  <% const img = imagenes.find(img => String(img.idProducto) === String(producto._id || producto.idProducto || producto.id)); %>
                     <% if(img) { %>
-                      <img src="<%= img.urlImagen %>" class="card-img-top img-fluid h-100 object-fit-cover rounded-0"
-                        alt="<%= producto.nombreProducto %>" />
+                      <!-- Mostrar la imagen encontrada, recortada con object-fit para mantener proporción -->
+                      <img src="<%= img.urlImagen %>" class="card-img-top img-fluid rounded-0"
+                        style="height:200px; object-fit:cover;" alt="<%= producto.nombreProducto %>" />
                       <% } else { %>
+                        <!-- Si no hay imagen asociada, mostrar placeholder -->
                         <img
                           src="https://img.freepik.com/vector-premium/icono-marco-fotos-foto-vacia-blanco-vector-sobre-fondo-transparente-aislado-eps-10_399089-1290.jpg"
-                          class="card-img-top img-fluid h-100 object-fit-cover rounded-0"
-                          alt="<%= producto.nombreProducto %>" />
+                          class="card-img-top img-fluid rounded-0"
+                          style="height:200px; object-fit:cover;" alt="<%= producto.nombreProducto %>" />
                         <% } %>
                           <!-- <%= producto.imagenProducto %> -->
-                          <div class="card-body bg-light">
+                          <div class="card-body bg-light d-flex flex-column">
                             <h5 class="card-title  mb-1 text-truncate w-100">
                               <%= producto.tituloProducto %>
                             </h5>
                             <p class="card-text text-muted mb-2 text-truncate w-100">
                               <%= producto.descripcionProducto %>
                             </p>
-                            <p class="fw-semibold text-dark mb-0">
+                            <p class="fw-semibold text-dark mb-0 mt-auto">
                               <%= producto.precio %>
                             </p>
                           </div>
