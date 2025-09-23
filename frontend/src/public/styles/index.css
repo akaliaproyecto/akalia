@@ -86,3 +86,9 @@ line-height: 2rem; /* 82.051% */
     width: 64px;
     height: 64px;
 }
+
+/* Texto de la descripción del producto: tamaño base ~16px, con adaptabilidad */
+.producto-descripcion{
+  /* clamp(min, preferred, max) — aquí elegimos un mínimo de 0.9rem (~14.4px), preferido fluido y máximo 1.0625rem (~17px) */
+  font-size: clamp(0.9rem, 1rem + 0.2vw, 1.0625rem);
+}
