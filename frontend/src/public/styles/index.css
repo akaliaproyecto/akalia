@@ -72,3 +72,17 @@ line-height: 2rem; /* 82.051% */
 .categoria-container .card-container {
   padding-inline: clamp(0.25rem,2vw,0.75rem)
 }
+
+/* Reglas para la vista de producto: evitar recorte de imágenes en carrusel y miniaturas */
+.splide-image{
+    max-height: 70vh; /* limitar altura máxima para pantallas grandes */
+    object-position: center center;
+    display: block;
+    object-fit: contain !important;
+}
+
+#thumbnails .thumbnail img{
+    object-fit: cover;
+    width: 64px;
+    height: 64px;
+}

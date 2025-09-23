@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="/lib/splide/css/splide.min.css">
     <link rel="stylesheet" href="/lib/splide/css/splide-core.min.css">
+    <link rel="stylesheet" href="/styles/index.css">
 </head>
 
 <body class="h-100 m-0 d-flex flex-column vh-100">
@@ -25,15 +26,16 @@
                             <ul class="splide__list">
                                 <% imagenes.forEach(function(img) { %>
                                     <li class="splide__slide">
-                                        <img src="<%= img.urlImagen %>" alt="">
-                                    </li>
+                                            <div class="splide-image-wrap d-flex align-items-center justify-content-center overflow-hidden bg-white p-2 rounded w-100 h-100">
+                                                <img src="<%= img.urlImagen %>" alt="Imagen del producto" class="img-fluid splide-image object-fit-contain w-100 h-100" />
+                                            </div>
+                                        </li>
                                     <% }) %>
                             </ul>
                         </div>
                     </section>
 
                     <!-- Miniaturas -->
-
                     <ul id="thumbnails" class="thumbnails">
                         <% imagenes.forEach(function(img) { %>
                             <li class="thumbnail">
@@ -48,14 +50,11 @@
                     <h2 class="fw-bold mb-2">
                         <%= producto.tituloProducto %>
                     </h2>
-                    <h3 class="text-vinotinto mb-3">$ <%= producto.precio %>
-                    </h3>
-                        <!-- Redes sociales eliminadas: sólo botón compartir -->
-                        <div class="mb-3 text-start">
-                            <button class="btn" onclick="navigator.clipboard.writeText(window.location.href)">Compartir publicación</button>
-                        </div>
+                    <h3 class="text-vinotinto mb-3">$ <%= producto.precio %></h3>
+                    <p class="lead text-muted lh-sm mb-3 text-break" aria-label="Descripción del producto"><%= producto.descripcionProducto %></p>
+                        <!-- botón compartir-->
                         <div class="d-flex justify-content-start align-items-center">
-                            <button class="btn" onclick="navigator.clipboard.writeText(window.location.href)">Compartir publicación</button>
+                            <button class="btn btn-outline-primary btn-sm" type="button" title="Compartir publicación" onclick="navigator.clipboard.writeText(window.location.href)">Compartir publicación</button>
                         </div>
                     </div>
                 </div>
