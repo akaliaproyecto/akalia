@@ -33,12 +33,15 @@ exports.categoriasProductosLanding = async (req, res) => {
     }
 
     // Construir arreglo de imágenes para la vista
+    // Normalizamos el id del producto usando _id, idProducto o id según exista
     const imagenes = productos.map(prod => {
-      // Si el producto tiene imágenes, usar la primera
-      if (prod && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
-        return { idProducto: prod._id, urlImagen: prod.imagenes[0] };
+      if (!prod) return null;
+      const idProducto = prod._id;
+      if (idProducto && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
+        return { idProducto, urlImagen: prod.imagenes[0] };
       }
-    });
+      return null;
+    }).filter(Boolean); // quitar entradas nulas
 
     // Render de la vista landing con datos preparados
     return res.render('pages/index.ejs', {
@@ -68,13 +71,16 @@ exports.mostrarProductos = async (req, res) => {
       productos = [];
     }
 
-    //Construir arreglo de imágenes para la vista de productos
+    // Construir arreglo de imágenes para la vista de productos
+    // Usar fallback de id para garantizar que la relación funcione
     const imagenes = productos.map(prod => {
-      //Si el producto tiene imágenes, usar la primera
-      if (prod && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
-        return { idProducto: prod._id, urlImagen: prod.imagenes[0] };
+      if (!prod) return null;
+      const idProducto = prod._id;
+      if (idProducto && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
+        return { idProducto, urlImagen: prod.imagenes[0] };
       }
-    });
+      return null;
+    }).filter(Boolean);
 
     // Renderizar la vista de productos
     return res.render('pages/productos.ejs', { productos, imagenes, titulo: 'Productos' });
