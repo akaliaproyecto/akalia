@@ -108,6 +108,16 @@ async function editUsuario(idUsuario) {
 
     const form = get('formEditarPerfil'); if (form) { form.action = `/actualizar-perfil-usuario/${encodeURIComponent(idUsuario)}`; form.method = 'POST'; }
 
+    // Inicializar validaciones dinámicamente después de cargar los datos
+    setTimeout(() => {
+      if (typeof window.inicializarValidacionesEditarPerfil === 'function') {
+        console.log('✅ Inicializando validaciones para editar perfil...');
+        window.inicializarValidacionesEditarPerfil();
+      } else {
+        console.warn('❌ Función inicializarValidacionesEditarPerfil no disponible');
+      }
+    }, 100);
+
     const modalEl = get('modalEditarPerfil');
     if (modalEl) new bootstrap.Modal(modalEl).show();
 

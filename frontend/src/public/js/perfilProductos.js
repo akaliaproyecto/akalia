@@ -99,6 +99,16 @@ window.editUserProductDetail = async (usuario, idProducto) => {
     // Inicializo autocompletado de etiquetas
     inicializarAutocompletadoEtiquetasConPrefijo('Editar');
 
+    // Usar setTimeout para asegurar que el DOM esté completamente renderizado antes de inicializar validaciones
+    setTimeout(() => {      
+      // Inicializar validaciones del formulario de editar producto
+      if (typeof window.inicializarValidacionesEditar === 'function') {
+        window.inicializarValidacionesEditar();
+      } else {
+        console.error('❌ Función inicializarValidacionesEditar no disponible');
+      }
+    }, 200);
+
     // Mostrar modal con Bootstrap y asegurar limpieza al ocultarse
     const modalEl = document.getElementById('modalEditarProducto');
     const instancia = bootstrap.Modal.getOrCreateInstance(modalEl);
@@ -317,11 +327,6 @@ async function editProducto(idUsuario, idProducto) {
       logoPreview.src = data.producto?.urlImagen || '';
       logoPreview.style.display = data.producto?.urlImagen ? 'block' : 'none';
     }
-
-    // Action del form (mantener localhost:3000 como proxy en desarrollo)
-    const form = document.getElementById('form-editar-producto-modal');
-    if (form) form.action = `http://localhost:3000/api/productos/usuario-productos/${idUsuario}/editar/${idProducto}`;
-
     const modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
     modal.show();
 
