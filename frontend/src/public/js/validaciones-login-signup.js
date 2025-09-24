@@ -1,0 +1,495 @@
+/* Validaciones de formularios - Registro, Login y Editar Perfil */
+
+// ===============================
+// FUNCIONES UTILITARIAS GLOBALES
+// ===============================
+
+// Funciones de validación compartidas (disponibles globalmente)
+function mostrarError(campo, elementoError, mensaje) {
+  console.log('Mostrando error:', mensaje, 'Campo:', campo?.id, 'Error element:', elementoError?.id);
+  if (campo) {
+    campo.classList.add('is-invalid');
+    campo.classList.remove('is-valid');
+  }
+  if (elementoError) {
+    elementoError.textContent = mensaje;
+    elementoError.style.display = 'block';
+    elementoError.classList.add('d-block');
+    elementoError.classList.remove('d-none');
+    console.log('Error mostrado, contenido:', elementoError.textContent, 'Display:', elementoError.style.display);
+  }
+}
+
+function mostrarExito(campo, elementoError) {
+  console.log('Mostrando éxito para campo:', campo?.id);
+  if (campo) {
+    campo.classList.add('is-valid');
+    campo.classList.remove('is-invalid');
+  }
+  if (elementoError) {
+    elementoError.textContent = '';
+    elementoError.style.display = 'none';
+    elementoError.classList.add('d-none');
+    elementoError.classList.remove('d-block');
+  }
+}
+
+// Validación de formato de email (reutilizable)
+function validarFormatoEmail(email) {
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regexEmail.test(email);
+}
+
+// Validación de nombre/apellido (reutilizable)
+function validarFormatoNombreApellido(valor) {
+  const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
+  return valor.length >= 2 && regexNombre.test(valor);
+}
+
+// Validación de teléfono (reutilizable)
+function validarFormatoTelefono(telefono) {
+  const regexTelefono = /^\d{10}$/;
+  return regexTelefono.test(telefono);
+}
+
+// ===============================
+// FUNCIONES DE VALIDACIÓN REUTILIZABLES
+// ===============================
+
+// Función de validación de nombre/apellido reutilizable
+function validarNombreApellido(campo, elementoError, tipoCampo) {
+  console.log('Validando', tipoCampo, ':', campo?.value, 'Elemento error:', elementoError?.id);
+  const valor = campo.value.trim();
+
+  if (!valor) {
+    mostrarError(campo, elementoError, `El ${tipoCampo} es requerido`);
+    return false;
+  }
+
+  if (!validarFormatoNombreApellido(valor)) {
+    if (valor.length < 2) {
+      mostrarError(campo, elementoError, `El ${tipoCampo} debe tener al menos 2 caracteres`);
+    } else {
+      mostrarError(campo, elementoError, `El ${tipoCampo} solo puede contener letras y espacios`);
+    }
+    return false;
+  }
+
+  mostrarExito(campo, elementoError);
+  return true;
+}
+
+// Función de validación de email reutilizable
+function validarEmailUsuario(campo, elementoError, verificarExistencia = false) {
+  return new Promise(async (resolve) => {
+    const email = campo.value.trim();
+
+    if (!email) {
+      mostrarError(campo, elementoError, 'El email es requerido');
+      resolve(false);
+      return;
+    }
+
+    if (!validarFormatoEmail(email)) {
+      mostrarError(campo, elementoError, 'Formato de email inválido');
+      resolve(false);
+      return;
+    }
+
+    if (verificarExistencia) {
+      try {
+        // Verificar si el email ya existe
+        const respuesta = await fetch(`${API_BASE}/api/usuarios/verificar-email/${encodeURIComponent(email)}`);
+        const datos = await respuesta.json();
+        
+        if (datos.existe) {
+          mostrarError(campo, elementoError, 'Este correo ya está registrado');
+          resolve(false);
+          return;
+        }
+      } catch (error) {
+        console.error('Error al verificar email:', error);
+        mostrarError(campo, elementoError, 'Error verificando email, pruebe nuevamente');
+        resolve(false);
+        return;
+      }
+    }
+
+    mostrarExito(campo, elementoError);
+    resolve(true);
+  });
+}
+
+// Función de validación de teléfono reutilizable
+function validarTelefonoUsuario(campo, elementoError, esRequerido = false) {
+  const telefono = campo.value.trim();
+
+  if (!telefono) {
+    if (esRequerido) {
+      mostrarError(campo, elementoError, 'El teléfono es requerido');
+      return false;
+    } else {
+      mostrarExito(campo, elementoError);
+      return true; // Es opcional
+    }
+  }
+
+  if (!validarFormatoTelefono(telefono)) {
+    mostrarError(campo, elementoError, 'El teléfono debe contener exactamente 10 números');
+    return false;
+  }
+
+  mostrarExito(campo, elementoError);
+  return true;
+}
+
+// Función de validación de contraseña reutilizable
+function validarContrasenaUsuario(campo, elementoError, esRequerida = true) {
+  const contrasena = campo.value;
+
+  if (!contrasena) {
+    if (esRequerida) {
+      mostrarError(campo, elementoError, 'La contraseña es requerida');
+      return false;
+    } else {
+      mostrarExito(campo, elementoError);
+      return true; // Es opcional (para editar perfil)
+    }
+  }
+
+  if (contrasena.length < 8) {
+    mostrarError(campo, elementoError, 'La contraseña debe tener al menos 8 caracteres');
+    return false;
+  }
+
+  const tieneMayuscula = /[A-Z]/.test(contrasena);
+  const tieneNumero = /\d/.test(contrasena);
+  const tieneSimbolo = /[!@#$%^&*(),.?":{}|<>]/.test(contrasena);
+
+  if (!tieneMayuscula) {
+    mostrarError(campo, elementoError, 'La contraseña debe incluir al menos una letra mayúscula');
+    return false;
+  }
+
+  if (!tieneNumero) {
+    mostrarError(campo, elementoError, 'La contraseña debe incluir al menos un número');
+    return false;
+  }
+
+  if (!tieneSimbolo) {
+    mostrarError(campo, elementoError, 'La contraseña debe incluir al menos un símbolo');
+    return false;
+  }
+
+  mostrarExito(campo, elementoError);
+  return true;
+}
+
+// Función de validación de confirmación de contraseña reutilizable
+function validarConfirmacionContrasena(campoContrasena, campoConfirmacion, elementoError) {
+  const contrasena = campoContrasena.value;
+  const confirmarContrasena = campoConfirmacion.value;
+
+  if (!confirmarContrasena) {
+    mostrarError(campoConfirmacion, elementoError, 'Debe confirmar la contraseña');
+    return false;
+  }
+
+  if (contrasena !== confirmarContrasena) {
+    mostrarError(campoConfirmacion, elementoError, 'Las contraseñas no coinciden');
+    return false;
+  }
+
+  mostrarExito(campoConfirmacion, elementoError);
+  return true;
+}
+
+// ===============================
+// FUNCIÓN PARA INICIALIZAR VALIDACIONES DE EDITAR PERFIL (DINÁMICAMENTE)
+// ===============================
+
+function inicializarValidacionesEditarPerfil() {
+  console.log('=== INICIANDO VALIDACIONES EDITAR PERFIL ===');
+  
+  const formularioEditarPerfil = document.getElementById('formEditarPerfil');
+  
+  if (!formularioEditarPerfil) {
+    console.error('❌ Formulario de editar perfil no encontrado');
+    return;
+  }
+  
+  console.log('✅ Formulario de editar perfil encontrado:', formularioEditarPerfil);
+  
+  // Elementos del formulario de editar perfil
+  const campoNombrePerfil = document.getElementById('editarNombre');
+  const campoApellidoPerfil = document.getElementById('editarApellido');
+  const campoEmailPerfil = document.getElementById('editarEmail');
+  const campoTelefonoPerfil = document.getElementById('editarTelefono');
+  const campoContrasenaEdit = document.getElementById('editarContrasena');
+  
+  // Elementos de error
+  const errorNombrePerfil = document.getElementById('editarNombreError');
+  const errorApellidoPerfil = document.getElementById('editarApellidoError');
+  const errorEmailPerfil = document.getElementById('editarEmailError');
+  const errorTelefonoPerfil = document.getElementById('editarTelefonoError');
+  const errorContrasenaEdit = document.getElementById('editarContrasenaError');
+  
+  console.log('Campos de editar perfil encontrados:', {
+    nombre: !!campoNombrePerfil,
+    apellido: !!campoApellidoPerfil,
+    email: !!campoEmailPerfil,
+    telefono: !!campoTelefonoPerfil,
+    contrasena: !!campoContrasenaEdit
+  });
+  
+  // Funciones de validación locales que llaman a las reutilizables
+  const validarNombrePerfilFunc = () => validarNombreApellido(campoNombrePerfil, errorNombrePerfil, 'nombre');
+  const validarApellidoPerfilFunc = () => validarNombreApellido(campoApellidoPerfil, errorApellidoPerfil, 'apellido');
+  const validarEmailPerfilFunc = () => validarEmailUsuario(campoEmailPerfil, errorEmailPerfil, false);
+  const validarTelefonoPerfilFunc = () => validarTelefonoUsuario(campoTelefonoPerfil, errorTelefonoPerfil, false);
+  const validarContrasenaEditFunc = () => validarContrasenaUsuario(campoContrasenaEdit, errorContrasenaEdit, false);
+  
+  // Event listeners para validación en tiempo real - Editar Perfil
+  if (campoNombrePerfil) {
+    campoNombrePerfil.addEventListener('blur', validarNombrePerfilFunc);
+  }
+  if (campoApellidoPerfil) {
+    campoApellidoPerfil.addEventListener('blur', validarApellidoPerfilFunc);
+  }
+  if (campoEmailPerfil) {
+    campoEmailPerfil.addEventListener('blur', validarEmailPerfilFunc);
+  }
+  if (campoTelefonoPerfil) {
+    campoTelefonoPerfil.addEventListener('blur', validarTelefonoPerfilFunc);
+  }
+  if (campoContrasenaEdit) {
+    campoContrasenaEdit.addEventListener('blur', validarContrasenaEditFunc);
+  }
+  
+  // Validación al enviar el formulario de editar perfil
+  formularioEditarPerfil.addEventListener('submit', async (evento) => {
+    evento.preventDefault();
+    
+    // Ejecutar todas las validaciones
+    const validaciones = await Promise.all([
+      validarNombrePerfilFunc(),
+      validarApellidoPerfilFunc(),
+      validarEmailPerfilFunc(),
+      validarTelefonoPerfilFunc(),
+      validarContrasenaEditFunc()
+    ]);
+    
+    // Verificar si todas las validaciones pasaron
+    const todasValidas = validaciones.every(valida => valida === true);
+    
+    if (!todasValidas) {
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+      } else {
+        alert('Por favor, corrige los errores en el formulario');
+      }
+      return;
+    }
+    
+    // Si todas las validaciones pasaron
+    if (typeof mostrarToast === 'function') {
+      mostrarToast('Actualizando perfil...', 'info');
+    }
+    
+    // Cerrar modal después de un breve delay
+    setTimeout(() => {
+      const modalEditar = document.getElementById('modalEditarPerfil');
+      if (modalEditar) {
+        const instanciaModal = bootstrap.Modal.getInstance(modalEditar);
+        if (instanciaModal) {
+          instanciaModal.hide();
+        }
+      }
+    }, 500);
+    
+    // Enviar formulario
+    formularioEditarPerfil.submit();
+  });
+  
+  console.log('Validaciones de editar perfil inicializadas correctamente');
+}
+
+// Hacer la función disponible globalmente
+window.inicializarValidacionesEditarPerfil = inicializarValidacionesEditarPerfil;
+
+// ===============================
+// INICIALIZACIÓN AL CARGAR EL DOM
+// ===============================
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ===============================
+  // VALIDACIONES DEL FORMULARIO DE REGISTRO
+  // ===============================
+  const formularioRegistro = document.getElementById('registerForm');
+  
+  if (formularioRegistro) {
+    // Elementos del formulario
+    const campoEmail = document.getElementById('email');
+    const campoNombre = document.getElementById('nombreUsuario');
+    const campoApellido = document.getElementById('apellidoUsuario');
+    const campoTelefono = document.getElementById('telefono');
+    const campoContrasena = document.getElementById('contrasena');
+    const campoConfirmarContrasena = document.getElementById('confirmarContrasena');
+
+    // Elementos de error
+    const errorEmail = document.getElementById('emailError');
+    const errorNombre = document.getElementById('nombreError');
+    const errorApellido = document.getElementById('apellidoError');
+    const errorTelefono = document.getElementById('telefonoError');
+    const errorContrasena = document.getElementById('contrasenaError');
+    const errorConfirmarContrasena = document.getElementById('confirmarContrasenaError');
+
+    // Funciones de validación locales usando las reutilizables
+    const validarEmailRegistro = () => validarEmailUsuario(campoEmail, errorEmail, true);
+    const validarNombreRegistro = () => validarNombreApellido(campoNombre, errorNombre, 'nombre');
+    const validarApellidoRegistro = () => validarNombreApellido(campoApellido, errorApellido, 'apellido');
+    const validarTelefonoRegistro = () => validarTelefonoUsuario(campoTelefono, errorTelefono, false);
+    const validarContrasenaRegistro = () => validarContrasenaUsuario(campoContrasena, errorContrasena, true);
+    const validarConfirmacionRegistro = () => validarConfirmacionContrasena(campoContrasena, campoConfirmarContrasena, errorConfirmarContrasena);
+
+    // Event listeners para validación en tiempo real
+    campoEmail.addEventListener('blur', validarEmailRegistro);
+    campoNombre.addEventListener('blur', validarNombreRegistro);
+    campoApellido.addEventListener('blur', validarApellidoRegistro);
+    campoTelefono.addEventListener('blur', validarTelefonoRegistro);
+    campoContrasena.addEventListener('blur', validarContrasenaRegistro);
+    campoConfirmarContrasena.addEventListener('blur', validarConfirmacionRegistro);
+
+    // También validar confirmación cuando cambie la contraseña principal
+    campoContrasena.addEventListener('input', () => {
+      if (campoConfirmarContrasena.value) {
+        validarConfirmacionRegistro();
+      }
+    });
+
+    // Validación al enviar el formulario
+    formularioRegistro.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+
+      // Ejecutar todas las validaciones
+      const validaciones = await Promise.all([
+        validarEmailRegistro(),
+        validarNombreRegistro(),
+        validarApellidoRegistro(),
+        validarTelefonoRegistro(),
+        validarContrasenaRegistro(),
+        validarConfirmacionRegistro()
+      ]);
+
+      // Verificar si todas las validaciones pasaron
+      const todasValidas = validaciones.every(valida => valida === true);
+
+      if (!todasValidas) {
+        if (typeof mostrarToast === 'function') {
+          mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+        } else {
+          alert('Por favor, corrige los errores en el formulario');
+        }
+        console.log('Formulario contiene errores, no se puede enviar');
+        return;
+      }
+
+      // Si todas las validaciones pasaron, mostrar mensaje de procesamiento y enviar el formulario
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('Creando cuenta... Por favor espera', 'info');
+      }
+      console.log('Formulario válido, enviando...');
+      
+      // Cerrar modal de registro
+      const modalRegistro = document.getElementById('registerModal');
+      if (modalRegistro) {
+        const instanciaModal = bootstrap.Modal.getInstance(modalRegistro);
+        if (instanciaModal) {
+          instanciaModal.hide();
+        }
+      }
+      
+      // Enviar formulario
+      formularioRegistro.submit();
+    });
+  }
+
+  // ===============================
+  // VALIDACIONES DEL FORMULARIO DE LOGIN
+  // ===============================
+  const formularioLogin = document.getElementById('loginForm');
+  
+  if (formularioLogin) {
+    // Elementos del formulario de login
+    const campoEmailLogin = document.getElementById('correoLogin');
+    const campoContrasenaLogin = document.getElementById('contrasenaLogin');
+    
+    // Elementos de error
+    const errorEmailLogin = document.getElementById('emailLoginError');
+    const errorContrasenaLogin = document.getElementById('contrasenaLoginError');
+    
+    // Funciones de validación locales usando las reutilizables
+    const validarEmailLoginFunc = () => validarEmailUsuario(campoEmailLogin, errorEmailLogin, false);
+    const validarContrasenaLoginFunc = () => {
+      const contrasena = campoContrasenaLogin.value.trim();
+      
+      if (!contrasena) {
+        mostrarError(campoContrasenaLogin, errorContrasenaLogin, 'La contraseña es requerida');
+        return false;
+      }
+      
+      mostrarExito(campoContrasenaLogin, errorContrasenaLogin);
+      return true;
+    };
+    
+    // Event listeners para validación en tiempo real
+    if (campoEmailLogin) {
+      campoEmailLogin.addEventListener('blur', validarEmailLoginFunc);
+    }
+    if (campoContrasenaLogin) {
+      campoContrasenaLogin.addEventListener('blur', validarContrasenaLoginFunc);
+    }
+    
+    // Validación al enviar el formulario de login
+    formularioLogin.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+      
+      // Ejecutar todas las validaciones
+      const validaciones = await Promise.all([
+        validarEmailLoginFunc(),
+        validarContrasenaLoginFunc()
+      ]);
+      
+      // Verificar si todas las validaciones pasaron
+      const todasValidas = validaciones.every(valida => valida === true);
+      
+      if (!todasValidas) {
+        if (typeof mostrarToast === 'function') {
+          mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+        } else {
+          alert('Por favor, corrige los errores en el formulario');
+        }
+        return;
+      }
+      
+      // Si todas las validaciones pasaron, mostrar mensaje de procesamiento
+      if (typeof mostrarToast === 'function') {
+        mostrarToast('Iniciando sesión...', 'info');
+      }
+      
+      // Enviar formulario
+      formularioLogin.submit();
+    });
+  }
+
+  // ===============================
+  // VALIDACIONES DEL FORMULARIO DE EDITAR PERFIL (ESTÁTICO)
+  // ===============================
+  const formularioEditarPerfil = document.getElementById('formEditarPerfil');
+  
+  if (formularioEditarPerfil) {
+    console.log('Formulario editar perfil encontrado en DOM, inicializando validaciones...');
+    inicializarValidacionesEditarPerfil();
+  }
+});
