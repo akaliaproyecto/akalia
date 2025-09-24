@@ -170,3 +170,8 @@ async obtenerMunicipios() {
 
 // Crear instancia global del servicio
 window.ubicacionesService = new UbicacionesService();
+
+// Función global para facilitar la inicialización
+window.inicializarSelectorUbicaciones = function(selectDepartamentoId, selectMunicipioId, valoresIniciales = {}) {
+  return window.ubicacionesService.inicializarSelects(selectDepartamentoId, selectMunicipioId, valoresIniciales);
+};

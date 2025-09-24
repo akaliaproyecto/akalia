@@ -76,9 +76,9 @@ function iniciarSplideProducto() {
       splide.on('move', function (newIndex) {
         items.forEach(function (el, i) {
           if (i === newIndex) {
-            el.classList.add('is-active-thumb');
+            el.classList.add('is-active');
           } else {
-            el.classList.remove('is-active-thumb');
+            el.classList.remove('is-active');
           }
         });
       });

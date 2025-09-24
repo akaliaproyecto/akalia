@@ -30,61 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  /**
-   * Inicializa los selects de ubicación para el formulario de editar emprendimiento
-   * @param {Object} emprendimiento - Datos del emprendimiento a editar
-   */
-  function inicializarUbicacionesEditar(emprendimiento = {}) {
-    const modalEditar = document.getElementById('modalEditarEmprendimiento');
-    
-    if (modalEditar) {
-      modalEditar.addEventListener('shown.bs.modal', async function() {
-        console.log('Modal editar emprendimiento abierto, inicializando ubicaciones...');
-        
-        if (window.ubicacionesService) {
-          // Obtener valores actuales del emprendimiento
-          const valoresIniciales = {};
-          
-          if (emprendimiento.ubicacionEmprendimiento) {
-            valoresIniciales.departamento = emprendimiento.ubicacionEmprendimiento.departamento;
-            valoresIniciales.municipio = emprendimiento.ubicacionEmprendimiento.ciudad;
-          }
-          
-          await window.ubicacionesService.inicializarSelects(
-            'me-ubic-departamento',
-            'me-ubic-ciudad',
-            valoresIniciales
-          );
-        } else {
-          console.error('Servicio de ubicaciones no disponible');
-        }
-      });
-    }
-  }
-
   // ===============================
   // FUNCIONES GLOBALES PARA REUTILIZAR
   // ===============================
   
-  /**
-   * Función global para precargar ubicaciones en el modal de editar
-   * Se llama desde otros archivos cuando se abre el modal de editar
-   * @param {Object} emprendimiento - Datos del emprendimiento
-   */
-  window.precargarUbicacionesEditar = async function(emprendimiento) {
-    if (window.ubicacionesService && emprendimiento.ubicacionEmprendimiento) {
-      const valoresIniciales = {
-        departamento: emprendimiento.ubicacionEmprendimiento.departamento,
-        municipio: emprendimiento.ubicacionEmprendimiento.ciudad
-      };
-      
-      await window.ubicacionesService.inicializarSelects(
-        'me-ubic-departamento',
-        'me-ubic-ciudad',
-        valoresIniciales
-      );
-    }
-  };
+  // NOTA: Las ubicaciones para editar se manejan directamente desde perfilEmprendimientos.js
 
   /**
    * Función para resetear los selects de ubicación
@@ -139,9 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.ubicacionesService) {
       clearInterval(esperarServicioUbicaciones);
       
-      // Inicializar ubicaciones para ambos formularios
+      // Solo inicializar ubicaciones para crear (editar se maneja desde perfilEmprendimientos.js)
       inicializarUbicacionesCrear();
-      inicializarUbicacionesEditar();
       
       console.log('Utilidades de emprendimientos inicializadas correctamente');
     }
@@ -159,59 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // EVENT LISTENERS PARA FORMULARIOS
   // ===============================
 
-  // Formulario de crear emprendimiento
-  const formCrear = document.getElementById('form-crear-emprendimiento');
-  if (formCrear) {
-    formCrear.addEventListener('submit', function(event) {
-      const validacion = window.validarUbicaciones('ubicacionDepartamento', 'ubicacionCiudad');
-      
-      if (validacion !== true) {
-        event.preventDefault();
-        
-        // Mostrar errores de validación
-        if (validacion.departamento) {
-          console.error('Error departamento:', validacion.departamento);
-          // Aquí podrías agregar lógica para mostrar el error en la UI
-        }
-        
-        if (validacion.ciudad) {
-          console.error('Error ciudad:', validacion.ciudad);
-          // Aquí podrías agregar lógica para mostrar el error en la UI
-        }
-        
-        // Mostrar mensaje general de error
-        if (window.mostrarToast) {
-          window.mostrarToast('Por favor, selecciona departamento y ciudad', 'error');
-        }
-      }
-    });
-  }
-
-  // Formulario de editar emprendimiento
-  const formEditar = document.getElementById('form-editar-emprendimiento-modal');
-  if (formEditar) {
-    formEditar.addEventListener('submit', function(event) {
-      const validacion = window.validarUbicaciones('me-ubic-departamento', 'me-ubic-ciudad');
-      
-      if (validacion !== true) {
-        event.preventDefault();
-        
-        // Mostrar errores de validación
-        if (validacion.departamento) {
-          console.error('Error departamento:', validacion.departamento);
-        }
-        
-        if (validacion.ciudad) {
-          console.error('Error ciudad:', validacion.ciudad);
-        }
-        
-        // Mostrar mensaje general de error
-        if (window.mostrarToast) {
-          window.mostrarToast('Por favor, selecciona departamento y ciudad', 'error');
-        }
-      }
-    });
-  }
+  // NOTA: Las validaciones de formularios se manejan en validaciones-emprendimientos.js
 
   // ===============================
   // RESET DE FORMULARIOS AL CERRAR MODALES

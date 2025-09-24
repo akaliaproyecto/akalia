@@ -95,7 +95,9 @@ exports.obtenerUsuarioPorId = async (req, res) => {
       // Fecha formateada para mostrar en frontend
       fechaRegistroFormateada: usuarioEncontrado.fechaRegistro ? new Date(usuarioEncontrado.fechaRegistro).toLocaleDateString('es-ES', {
         year: 'numeric', month: 'long', day: 'numeric'
-      }) : null
+      }) : null,
+      // Direcciones del usuario
+      direcciones: usuarioEncontrado.direcciones || []
       // NOTA: no incluimos contrasena, totpSecret ni campos sensibles
     };
 
@@ -214,6 +216,38 @@ exports.actualizarUsuario = async (req, res) => {
       }
     }
 
+    // Manejar direcciones múltiples si llegan en la petición
+    if (datosRecibidos.direcciones && Array.isArray(datosRecibidos.direcciones)) {
+      // Procesar array de direcciones
+      const direccionesValidas = [];
+      
+      for (const direccionData of datosRecibidos.direcciones) {
+        if (direccionData.direccion && direccionData.departamento && direccionData.ciudad) {
+          direccionesValidas.push({
+            direccion: direccionData.direccion.trim(),
+            departamento: direccionData.departamento.trim(),
+            ciudad: direccionData.ciudad.trim(),
+            fechaCreacion: new Date()
+          });
+        }
+      }
+      
+      datosParaActualizar.direcciones = direccionesValidas;
+    } else if (datosRecibidos.direccion || datosRecibidos.departamento || datosRecibidos.ciudad) {
+      // Mantener compatibilidad con el formato anterior (una sola dirección)
+      const nuevaDireccion = {
+        direccion: datosRecibidos.direccion,
+        departamento: datosRecibidos.departamento,
+        ciudad: datosRecibidos.ciudad,
+        fechaCreacion: new Date()
+      };
+
+      // Verificar que todos los campos de dirección estén presentes
+      if (nuevaDireccion.direccion && nuevaDireccion.departamento && nuevaDireccion.ciudad) {
+        datosParaActualizar.direcciones = [nuevaDireccion];
+      }
+    }
+
     // Normalizar correo si viene
     if (datosParaActualizar.correo) {
       datosParaActualizar.correo = datosParaActualizar.correo.toLowerCase();
@@ -246,7 +280,9 @@ exports.actualizarUsuario = async (req, res) => {
       fechaRegistro: usuarioActualizado.fechaRegistro || usuarioActualizado.createdAt || null,
       fechaRegistroFormateada: usuarioActualizado.fechaRegistro ? new Date(usuarioActualizado.fechaRegistro).toLocaleDateString('es-ES', {
         year: 'numeric', month: 'long', day: 'numeric'
-      }) : null
+      }) : null,
+      // Direcciones del usuario
+      direcciones: usuarioActualizado.direcciones || []
     };
 
     //Registrar log

@@ -123,29 +123,6 @@ window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
       selectActivo.value = "";
     }
 
-    // Inicializar ubicaciones con valores actuales
-    if (window.ubicacionesService && data.emprendimiento.ubicacionEmprendimiento) {
-      
-      const valoresUbicacion = {
-        departamento: data.emprendimiento.ubicacionEmprendimiento.departamento || '',
-        municipio: data.emprendimiento.ubicacionEmprendimiento.ciudad || ''
-      };
-      
-      // Esperar un poco para que el modal termine de abrirse
-      setTimeout(async () => {
-        try {
-          await window.ubicacionesService.inicializarSelects(
-            'me-ubic-departamento',
-            'me-ubic-ciudad',
-            valoresUbicacion
-          );
-          console.log('Ubicaciones inicializadas correctamente');
-        } catch (error) {
-          console.error('Error al inicializar ubicaciones:', error);
-        }
-      }, 500);
-    }
-
     // Logo actual
     const logoPreview = document.getElementById('me-logo-preview');
     logoPreview.src = data.emprendimiento.logo || '';
@@ -155,19 +132,39 @@ window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
     const form = document.getElementById('form-editar-emprendimiento-modal');
     form.action = `http://localhost:4666/emprendimiento-editar/${idEmprendimiento}`;
     
-    // Inicializar validaciones después de cargar los datos
-    setTimeout(() => {
+    // Mostrar modal primero
+    const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));
+    modalEditar.show();
+
+    // Inicializar ubicaciones y validaciones después de mostrar el modal
+    setTimeout(async () => {
+      // Inicializar ubicaciones
+      if (window.ubicacionesService && data.emprendimiento.ubicacionEmprendimiento) {
+        const valoresUbicacion = {
+          departamento: data.emprendimiento.ubicacionEmprendimiento.departamento || '',
+          municipio: data.emprendimiento.ubicacionEmprendimiento.ciudad || ''
+        };
+        
+        try {
+          await window.ubicacionesService.inicializarSelects(
+            'me-ubic-departamento',
+            'me-ubic-ciudad',
+            valoresUbicacion
+          );
+          console.log('✅ Ubicaciones inicializadas correctamente');
+        } catch (error) {
+          console.error('❌ Error al inicializar ubicaciones:', error);
+        }
+      }
+
+      // Inicializar validaciones
       if (typeof window.inicializarValidacionesEditarEmprendimiento === 'function') {
         console.log('✅ Inicializando validaciones para editar emprendimiento...');
         window.inicializarValidacionesEditarEmprendimiento();
       } else {
         console.warn('❌ Función inicializarValidacionesEditarEmprendimiento no disponible');
       }
-    }, 600); // Un poco más de tiempo que las ubicaciones
-    
-    // Mostrar modal
-    const modal = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));
-    modal.show();
+    }, 300);
 
   } catch (err) {
     console.error("Error cargando datos:", err);

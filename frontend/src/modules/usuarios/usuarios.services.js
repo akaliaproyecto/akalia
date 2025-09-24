@@ -41,7 +41,7 @@ exports.obtenerUsuario = async (req, res) => {
 /* Actualizar perfil del usuario */
 exports.actualizarPerfilUsuario = async (req, res) => {
   const { id } = req.params;
-  const { nombreUsuario, apellidoUsuario, email, contrasena, telefono } = req.body;
+  const { nombreUsuario, apellidoUsuario, email, contrasena, telefono, direcciones } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Falta id de usuario' });
@@ -57,6 +57,11 @@ exports.actualizarPerfilUsuario = async (req, res) => {
 
   // Si se envía nueva contraseña, la mandamos para que el backend la procese 
   if (contrasena) datosParaApi.contrasena = contrasena;
+
+  // Si se envían direcciones, agregarlas al objeto
+  if (direcciones && Array.isArray(direcciones) && direcciones.length > 0) {
+    datosParaApi.direcciones = direcciones;
+  }
 
   try {
     const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS });

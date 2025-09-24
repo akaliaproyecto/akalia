@@ -11,24 +11,23 @@
         <link href=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css " rel="stylesheet">
 </head>
 
-<body class="h-100 m-0 d-flex flex-column ">
+<body class="h-100 m-0 d-flex flex-column " style="min-height: 100vh">
     <%- include('../partials/navbar.ejs'); %>
-        <main class="container py-4 " style="min-height: 100vh;">
+        <main class="container py-4 " >
             <div
                 class="row  bg-blanco-light rounded shadow-sm  d-flex justify-content-center mx-auto gap-3">
                 <div
-                    class="container row col-12 col-lg-7 d-flex align-items-center justify-content-center imgs-container my-auto">
+                    class="container row col-12 col-lg-7 d-flex align-items-start justify-content-center pt-3 imgs-container gap-3 mb-auto">
                     <!-- Imagen principal  -->
-                    <section id="main-carousel" class="  splide" aria-label="My Awesome Gallery">
+                    <section id="main-carousel" class="splide" aria-label="My Awesome Gallery">
                         <div class="splide__track">
                             <ul class="splide__list">
                                 <% imagenes.forEach(function(img) { %>
                                     <li class="splide__slide">
-                                        <div
-                                            class="splide-image-wrap d-flex align-items-center justify-content-center overflow-hidden  p-2 rounded w-100">
+                                        
                                             <img src="<%= img.urlImagen %>" alt="Imagen del producto"
                                                 class="img-fluid splide-image object-fit-contain w-100 " />
-                                        </div>
+                                        
                                     </li>
                                     <% }) %>
                             </ul>
@@ -123,8 +122,9 @@
             <script src="/js/landing.js"> </script>
             <script src="/js/login_signup.js"></script>
             <script src="/js/validaciones-login-signup.js"></script>
-            <script src="/js/captcha"></script>
+            <script src="/js/captcha.js"></script>
             <script src="/js/perfilProducto.js"></script>
+    
             <!-- Bootstrap + FontAwesome -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 

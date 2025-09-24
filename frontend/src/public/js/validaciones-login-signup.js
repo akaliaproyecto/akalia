@@ -204,6 +204,65 @@ function validarConfirmacionContrasena(campoContrasena, campoConfirmacion, eleme
   return true;
 }
 
+// Función de validación de dirección reutilizable
+function validarDireccionUsuario(campo, elementoError) {
+  const direccion = campo.value.trim();
+
+  // La dirección es opcional, pero si se llena debe tener al menos 10 caracteres
+  if (!direccion) {
+    mostrarExito(campo, elementoError);
+    return true;
+  }
+
+  if (direccion.length < 10) {
+    mostrarError(campo, elementoError, 'La dirección debe tener al menos 10 caracteres');
+    return false;
+  }
+
+  if (direccion.length > 100) {
+    mostrarError(campo, elementoError, 'La dirección no puede exceder 100 caracteres');
+    return false;
+  }
+
+  mostrarExito(campo, elementoError);
+  return true;
+}
+
+// Función de validación de departamento reutilizable
+function validarDepartamentoUsuario(campo, elementoError) {
+  const departamento = campo.value.trim();
+
+  // El departamento es opcional independientemente
+  if (!departamento) {
+    mostrarExito(campo, elementoError);
+    return true;
+  }
+
+  mostrarExito(campo, elementoError);
+  return true;
+}
+
+// Función de validación de ciudad reutilizable
+function validarCiudadUsuario(campo, elementoError, campoDepartamento) {
+  const ciudad = campo.value.trim();
+  const departamento = campoDepartamento?.value?.trim();
+
+  // La ciudad es opcional independientemente
+  if (!ciudad) {
+    mostrarExito(campo, elementoError);
+    return true;
+  }
+
+  // Si se selecciona ciudad, debe haber departamento
+  if (ciudad && !departamento) {
+    mostrarError(campo, elementoError, 'Debe seleccionar un departamento primero');
+    return false;
+  }
+
+  mostrarExito(campo, elementoError);
+  return true;
+}
+
 // ===============================
 // FUNCIÓN PARA INICIALIZAR VALIDACIONES DE EDITAR PERFIL (DINÁMICAMENTE)
 // ===============================
@@ -215,6 +274,12 @@ function inicializarValidacionesEditarPerfil() {
   
   if (!formularioEditarPerfil) {
     console.error('❌ Formulario de editar perfil no encontrado');
+    return;
+  }
+  
+  // Verificar si ya se inicializaron las validaciones para evitar duplicados
+  if (formularioEditarPerfil.dataset.validacionesInicializadas === 'true') {
+    console.log('⚠️ Las validaciones del perfil ya están inicializadas, saltando...');
     return;
   }
   
@@ -270,7 +335,7 @@ function inicializarValidacionesEditarPerfil() {
   formularioEditarPerfil.addEventListener('submit', async (evento) => {
     evento.preventDefault();
     
-    // Ejecutar todas las validaciones
+    // Ejecutar validaciones básicas
     const validaciones = await Promise.all([
       validarNombrePerfilFunc(),
       validarApellidoPerfilFunc(),
@@ -279,37 +344,90 @@ function inicializarValidacionesEditarPerfil() {
       validarContrasenaEditFunc()
     ]);
     
+    // Validar direcciones dinámicas si la función está disponible
+    let direccionesValidas = true;
+    if (typeof validarTodasLasDirecciones === 'function') {
+      direccionesValidas = validarTodasLasDirecciones();
+    }
+    
     // Verificar si todas las validaciones pasaron
-    const todasValidas = validaciones.every(valida => valida === true);
+    const todasValidas = validaciones.every(valida => valida === true) && direccionesValidas;
     
     if (!todasValidas) {
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
       } else {
+        console.warn('mostrarToast no disponible, usando alert como fallback');
         alert('Por favor, corrige los errores en el formulario');
       }
       return;
     }
     
-    // Si todas las validaciones pasaron
-    if (typeof mostrarToast === 'function') {
-      mostrarToast('Actualizando perfil...', 'info');
+    // Si todas las validaciones pasaron, recopilar datos y enviar
+    if (typeof window.mostrarToast === 'function') {
+      window.mostrarToast('Actualizando perfil...', 'info');
     }
     
-    // Cerrar modal después de un breve delay
-    setTimeout(() => {
-      const modalEditar = document.getElementById('modalEditarPerfil');
-      if (modalEditar) {
-        const instanciaModal = bootstrap.Modal.getInstance(modalEditar);
-        if (instanciaModal) {
-          instanciaModal.hide();
+    // Recopilar datos del formulario
+    const formData = new FormData(formularioEditarPerfil);
+    const datosFormulario = {};
+    
+    // Datos básicos
+    for (let [key, value] of formData.entries()) {
+      datosFormulario[key] = value;
+    }
+    
+    // Agregar direcciones dinámicas si la función está disponible
+    if (typeof obtenerDireccionesDelFormulario === 'function') {
+      const direcciones = obtenerDireccionesDelFormulario();
+      if (direcciones.length > 0) {
+        datosFormulario.direcciones = direcciones;
+      }
+    }
+    
+    // Enviar datos vía fetch
+    try {
+      const response = await fetch(formularioEditarPerfil.action, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosFormulario)
+      });
+      
+      if (response.ok) {
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast('Perfil actualizado correctamente', 'success');
+        }
+        
+        // Cerrar modal después de un breve delay
+        setTimeout(() => {
+          const modalEditar = document.getElementById('modalEditarPerfil');
+          if (modalEditar) {
+            const instanciaModal = bootstrap.Modal.getInstance(modalEditar);
+            if (instanciaModal) {
+              instanciaModal.hide();
+            }
+          }
+          // Recargar la página para mostrar los cambios
+          window.location.reload();
+        }, 1500);
+      } else {
+        const errorData = await response.json();
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast(errorData.error || 'Error al actualizar el perfil', 'error');
         }
       }
-    }, 500);
-    
-    // Enviar formulario
-    formularioEditarPerfil.submit();
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Error de conexión al actualizar el perfil', 'error');
+      }
+    }
   });
+  
+  // Marcar que las validaciones ya están inicializadas
+  formularioEditarPerfil.dataset.validacionesInicializadas = 'true';
   
   console.log('Validaciones de editar perfil inicializadas correctamente');
 }
@@ -386,8 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const todasValidas = validaciones.every(valida => valida === true);
 
       if (!todasValidas) {
-        if (typeof mostrarToast === 'function') {
-          mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
         } else {
           alert('Por favor, corrige los errores en el formulario');
         }
@@ -396,8 +514,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // Si todas las validaciones pasaron, mostrar mensaje de procesamiento y enviar el formulario
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Creando cuenta... Por favor espera', 'info');
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Creando cuenta... Por favor espera', 'info');
       }
       console.log('Formulario válido, enviando...');
       
@@ -465,8 +583,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const todasValidas = validaciones.every(valida => valida === true);
       
       if (!todasValidas) {
-        if (typeof mostrarToast === 'function') {
-          mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
         } else {
           alert('Por favor, corrige los errores en el formulario');
         }
@@ -474,8 +592,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Si todas las validaciones pasaron, mostrar mensaje de procesamiento
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Iniciando sesión...', 'info');
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Iniciando sesión...', 'info');
       }
       
       // Enviar formulario
