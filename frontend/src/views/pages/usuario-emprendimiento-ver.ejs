@@ -24,10 +24,28 @@
             <article class="akalia-card-info d-flex flex-column gap-3 mb-3">
 
               <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
-                <!-- Logo del emprendimiento -->
+                
+                          
                 <div class="d-flex justify-content-center align-items-center">
-                  <img src="<%= emprendimiento.logo %>" alt="Logo emprendimiento" class="rounded-circle"
-                    style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #b9b9b9;" />
+                    <!-- Logo del emprendimiento -->
+                 <% if (emprendimiento.logo && emprendimiento.logo.trim() !=='' ) { %>
+                        <img src="<%= emprendimiento.logo %>" alt="Logo de <%= emprendimiento.nombreEmprendimiento %>"
+                          class="rounded-circle"
+                          style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #b9b9b9;"
+                          onerror="this.src=''" />
+                        <% } else { %>
+                          <!-- Placeholder para logo sin imagen -->
+                          <div class="rounded-circle d-flex justify-content-center align-items-center bg-light"
+                            style="width: 100px; height: 100px; border: 1px solid #b9b9b9;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                              class="bi bi-building text-muted" viewBox="0 0 16 16">
+                              <path
+                                d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
+                              <path
+                                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z" />
+                            </svg>
+                          </div>
+                          <% } %>
                 </div>
                 <!-- Información general -->
                 <div class="d-flex flex-column justify-content-center align-items-start gap-3 col-md-8">
@@ -180,9 +198,13 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
       <script src="/js/perfilEmprendimientos.js"></script>
-
-      <script src="/js/login_signup.js"></script>
       <script src="/js/productos.js"></script>
+      <!-- Servicio de ubicaciones -->
+      <script src="/js/ubicaciones.service.js"></script>
+      <!-- Utilidades de emprendimientos -->
+      <script src="/js/emprendimientos.utils.js"></script>
+      <!-- Validaciones de emprendimientos -->
+      <script src="/js/validaciones-emprendimientos.js"></script>
 
       <!-- Bootstrap + FontAwesome -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>

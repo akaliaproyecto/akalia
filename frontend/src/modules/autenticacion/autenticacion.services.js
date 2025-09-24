@@ -34,6 +34,13 @@ exports.registrarUsuario = async (req, res) => {
     // Guardar cookie
     res.cookie('usuario', JSON.stringify(datosUsuarioParaCookie), cookieOpts);
 
+    // Agregar cookie temporal para mostrar toast de éxito
+    res.cookie('registro-exitoso', 'true', { 
+      maxAge: 5000, // Expira en 5 segundos
+      httpOnly: false, // Permitir acceso desde JavaScript
+      path: '/'
+    });
+
     // Redirigir al home
     return res.redirect('/');
 
@@ -71,7 +78,6 @@ exports.iniciarSesion = async (req, res) => {
     if (error.response?.status === 401) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
-
-    return res.status(500).json({ error: 'Error al iniciar sesión. Inténtalo de nuevo más tarde.' });
+    return res.status(500).render('pages/index', { error: errorMessage, titulo: 'Error al iniciar sesión. Inténtalo de nuevo más tarde.' });
   }
 };

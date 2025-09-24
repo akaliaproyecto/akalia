@@ -4,7 +4,13 @@
 const modeloProducto = require("./productos.model");
 const uploadImage = require('../servicios/subirImagen');
 const mongoose = require('mongoose');
-const Log = require('../middlewares/logs')
+const Log = require('../middlewares/logs');
+const {
+  validarIdMongoDB,
+  productoExistePorId,
+  validarDatosCreacionProducto,
+  validarDatosActualizacionProducto
+} = require('./productos.validations');
 
 /*Consultar todos los productos*/
 exports.obtenerProductos = async (req, res) => {
@@ -32,7 +38,7 @@ exports.obtenerProductoPorId = async (req, res) => {
 
   try {
     // Validar formato de id antes de consultar
-    if (!mongoose.isValidObjectId(idProducto)) {
+    if (!validarIdMongoDB(idProducto)) {
       return res.status(400).json({ mensaje: 'Id de producto inválido' });
     }
 
