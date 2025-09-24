@@ -23,6 +23,7 @@
 
             <article class="akalia-card-info d-flex flex-column gap-3 mb-3">
 
+<<<<<<< HEAD
               <div class="d-flex flex-column flex-lg-row gap-4 align-items-center">
 
 
@@ -46,6 +47,31 @@
                         </svg>
                       </div>
                       <% } %>
+=======
+              <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
+                
+                          
+                <div class="d-flex justify-content-center align-items-center">
+                    <!-- Logo del emprendimiento -->
+                 <% if (emprendimiento.logo && emprendimiento.logo.trim() !=='' ) { %>
+                        <img src="<%= emprendimiento.logo %>" alt="Logo de <%= emprendimiento.nombreEmprendimiento %>"
+                          class="rounded-circle"
+                          style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #b9b9b9;"
+                          onerror="this.src=''" />
+                        <% } else { %>
+                          <!-- Placeholder para logo sin imagen -->
+                          <div class="rounded-circle d-flex justify-content-center align-items-center bg-light"
+                            style="width: 100px; height: 100px; border: 1px solid #b9b9b9;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                              class="bi bi-building text-muted" viewBox="0 0 16 16">
+                              <path
+                                d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z" />
+                              <path
+                                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z" />
+                            </svg>
+                          </div>
+                          <% } %>
+>>>>>>> 72e61c9 (Se suben validaciones de usuarios, emprendimientos y productos:)
                 </div>
                 <!-- Información general -->
                 <div class="d-flex flex-column col-md-7 justify-content-center align-items-start gap-3 ">
