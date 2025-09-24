@@ -120,8 +120,11 @@ exports.mostrarDetalleProducto = async (req, res) => {
           producto.categoriaNombre = '';
         }
       }
+      // obtener nombre del emprendimiento
+       const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS }); 
+      const emprendimiento = resp.data.nombreEmprendimiento
       // muestra la página “usuario-producto-ver” y le pasa los datos del producto y del usuario para que la plantilla los muestre dinámicamente.
-      return res.render('pages/usuario-producto-ver', { producto, usuario });
+      return res.render('pages/usuario-producto-ver', { producto, usuario, emprendimiento });
     } else {
       return res.status(404).render('pages/error', { error: 'Producto no encontrado' });
     }
