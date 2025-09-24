@@ -28,13 +28,16 @@
               </label>
               <input type="text" class="form-control" id="editarNombre" name="nombreUsuario"
                 placeholder="Ingresa tu nombre" required>
+              <div id="editarNombreError" class="invalid-feedback" style="display: none;"></div>
             </div>
+            
             <div class="col-md-6">
               <label for="editarApellido" class="form-label">
                 <strong>Apellido</strong>
               </label>
               <input type="text" class="form-control" id="editarApellido" name="apellidoUsuario"
                 placeholder="Ingresa tu apellido" required>
+              <div id="editarApellidoError" class="invalid-feedback" style="display: none;"></div>
             </div>
           </div>
 
@@ -46,12 +49,14 @@
               </label>
               <input type="email" class="form-control" id="editarEmail" name="email" placeholder="ejemplo@correo.com"
                 required>
+              <div id="editarEmailError" class="invalid-feedback" style="display: none;"></div>
             </div>
             <div class="col-md-6">
               <label for="editarTelefono" class="form-label">
                 <strong>Celular</strong>
               </label>
               <input type="tel" class="form-control" id="editarTelefono" name="telefono" placeholder="300 123 4567">
+              <div id="editarTelefonoError" class="invalid-feedback" style="display: none;"></div>
             </div>
           </div>
 
@@ -64,6 +69,7 @@
               </label>
               <input type="password" class="form-control" id="editarContrasena" name="contrasena"
                 placeholder="Ingresa una nueva contraseña (opcional)">
+              <div id="editarContrasenaError" class="invalid-feedback" style="display: none;"></div>
             </div>
           </div>
 

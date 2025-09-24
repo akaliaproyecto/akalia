@@ -95,7 +95,7 @@ exports.mostrarDetalleProducto = async (req, res) => {
 
     // Petición al backend para obtener detalle del producto
     const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
-
+    console.log(respuesta.data)
     // Si se obtiene el producto se renderiza la vista      
     if (respuesta && respuesta.status === 200 && respuesta.data) {
       const producto = respuesta.data;

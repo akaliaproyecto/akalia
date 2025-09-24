@@ -1,31 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Editar producto | Akalia</title>
-  <%- include('../partials/head.ejs'); %>
-    <link rel="stylesheet" href="/styles/usuario-perfil.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
-</head>
-
-<body class="h-100 m-0 d-flex flex-column vh-100 bg-blanco-light">
-  <%- include('../partials/navbar.ejs'); %>
-    <div class="d-flex flex-row h-100">
-      <%- include('../partials/sidebar.ejs'); %>
-        <main class="flex-grow-1 d-flex flex-column justify-content-center align-items-center py-5">
-          <section class="akalia-card overflow-scroll">
-            <h2 class="akalia-title akalia-title--medium">Editar Producto</h2>
-            <!-- Partial que renderiza un modal de edición de producto.
-                 Este archivo debe incluirse y usarse como fragmento HTML que el cliente
-                 inserta en el DOM dentro de un modal. Está escrito con variables claras
-                 y comentarios en español para facilitar el aprendizaje. -->
 
             <div class="modal" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title">Editar producto</h5>
+                    <h5 class="akalia-title akalia-title--medium m-0">Editar producto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                   </div>
 
@@ -37,28 +15,27 @@
                       <!-- Título -->
                       <div class="mb-3">
                         <label class="form-label">Título</label>
-                        <input type="text" name="tituloProducto" class="form-control"
-                          value="<%= producto.tituloProducto %>" required />
+                        <input type="text" name="tituloProducto" class="form-control" value="<%= producto.tituloProducto %>" id="titulo-editar" required />
                       </div>
 
                       <!-- Descripción -->
                       <div class="mb-3">
                         <label class="form-label">Descripción</label>
                         <textarea name="descripcionProducto" class="form-control" rows="3"
-                          required><%= producto.descripcionProducto %></textarea>
+                          required id="descripcion-editar" ><%= producto.descripcionProducto %></textarea>
                       </div>
 
                       <!-- Precio -->
                       <div class="mb-3">
                         <label class="form-label">Precio</label>
                         <input type="number" name="precio" class="form-control" value="<%= producto.precio %>" min="0"
-                          step="0.01" required />
+                          step="0.01" required id="precio-editar"/>
                       </div>
 
                       <!-- Emprendimiento -->
                       <div class="mb-3">
                         <label class="form-label">Emprendimiento</label>
-                        <select name="idEmprendimiento" class="form-select" required>
+                        <select name="idEmprendimiento" class="form-select" required id="emprendimiento-editar">
                           <% emprendimientos.forEach(function(emp){ %>
                             <option value="<%= emp._id || emp.idEmprendimiento %>" <%=(String(emp._id ||
                               emp.idEmprendimiento)===String(producto.idEmprendimiento || producto.idEmprendimiento))
@@ -71,7 +48,7 @@
                       <!-- Categoría -->
                       <div class="mb-3">
                         <label class="form-label">Categoría</label>
-                        <select name="categoria" class="form-select" required>
+                        <select name="categoria" class="form-select" required id="categoria-editar">
                           <% categorias.forEach(function(cat){ %>
                             <option value="<%= cat._id || cat.id %>" <%=(String(cat._id ||
                               cat.id)===String(producto.categoria)) ? 'selected' : '' %>><%= cat.nombreCategoria %>
@@ -96,10 +73,11 @@
                       <!-- Subir nuevas imágenes -->
                       <div class="mb-3">
                         <label class="form-label">Agregar imágenes nuevas</label>
-                        <input type="file" name="imagenes" class="form-control" multiple accept="image/*" />
+                        <input type="file" name="imagenes" class="form-control" id="imagenes-editar" multiple accept="image/*" />
                       </div>
 
                       <!-- Etiquetas -->
+                       
                       <div class="mb-3">
                         <label class="form-label">Etiquetas</label>
                         <!--
@@ -116,11 +94,9 @@
                         <div id="etiquetasSugerenciasEditar" class="list-group position-relative"></div>
                         <div id="etiquetasSeleccionadasEditar" class="d-flex flex-wrap gap-2 mt-2"></div>
 
-                        <!-- Valor real que se enviará al servidor: array JSON de nombres -->
-                        <input type="hidden" name="etiquetas" id="etiquetasHiddenEditar"
-                          value='<%= JSON.stringify(producto.etiquetas || []) %>' />
-
-                        <strong class="text-muted">Para eliminar una etiqueta, haz click sobre ella</strong>
+        <!-- Valor real que se enviará al servidor: array JSON de nombres -->
+        <input type="hidden" name="etiquetas" id="etiquetasHiddenEditar"
+          value='<%= JSON.stringify(producto.etiquetas || []) %>' />                        <strong class="text-muted">Para eliminar una etiqueta, haz click sobre ella</strong>
                         <br>
                         <small class="text-muted">Seleccione hasta 3 etiquetas (opcional).</small>
                         <small class="text-danger d-none">Máximo 3 etiquetas permitidas</small>

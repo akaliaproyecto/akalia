@@ -51,6 +51,8 @@ app.use(methodOverride('_method'));
 app.use('/images', express.static(path.join(__dirname, '../../frontend/src/public/img')));
 // También exponemos el resto de assets públicos si se usa directamente
 app.use('/public', express.static(path.join(__dirname, '../../frontend/src/public')));
+// Servir archivos de módulos específicos
+app.use('/modules', express.static(path.join(__dirname, '../../frontend/src/modules')));
 
 //Manejo de errores 
 app.use((err, req, res, next) => {
@@ -79,6 +81,7 @@ app.use("/pedidos", validateApiKey, pedidosRouter);
 // USUARIOS RUTA
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
 app.use('/usuarios', validateApiKey, usuariosRoutes);
+app.use('/api/usuarios', usuariosRoutes); // Para validaciones JavaScript (sin API key requerida)
 
 // CATEGORIAS RUTA
 const categoriasRoutes = require('./categorias/categorias.routes.js');
@@ -100,4 +103,8 @@ app.use('/comisiones', validateApiKey, comisionesRoutes);
 const captchaRoutes = require('./captcha/captcha.routes.js')
 app.use('/captcha', validateApiKey, captchaRoutes)
 
+// MUNICIPIOS
+app.get('/api/municipios', (req, res) => {
+  res.json(require('./config/municipios_por_departamento.json'));
+});
 module.exports = app;
