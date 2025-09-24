@@ -6,7 +6,6 @@
 
 // Funciones de validación compartidas (disponibles globalmente)
 function mostrarError(campo, elementoError, mensaje) {
-  console.log('Mostrando error:', mensaje, 'Campo:', campo?.id, 'Error element:', elementoError?.id);
   if (campo) {
     campo.classList.add('is-invalid');
     campo.classList.remove('is-valid');
@@ -16,12 +15,10 @@ function mostrarError(campo, elementoError, mensaje) {
     elementoError.style.display = 'block';
     elementoError.classList.add('d-block');
     elementoError.classList.remove('d-none');
-    console.log('Error mostrado, contenido:', elementoError.textContent, 'Display:', elementoError.style.display);
   }
 }
 
 function mostrarExito(campo, elementoError) {
-  console.log('Mostrando éxito para campo:', campo?.id);
   if (campo) {
     campo.classList.add('is-valid');
     campo.classList.remove('is-invalid');
@@ -58,7 +55,6 @@ function validarFormatoTelefono(telefono) {
 
 // Función de validación de nombre/apellido reutilizable
 function validarNombreApellido(campo, elementoError, tipoCampo) {
-  console.log('Validando', tipoCampo, ':', campo?.value, 'Elemento error:', elementoError?.id);
   const valor = campo.value.trim();
 
   if (!valor) {
@@ -209,7 +205,7 @@ function validarConfirmacionContrasena(campoContrasena, campoConfirmacion, eleme
 // ===============================
 
 function inicializarValidacionesEditarPerfil() {
-  console.log('=== INICIANDO VALIDACIONES EDITAR PERFIL ===');
+
   
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
   
@@ -218,7 +214,7 @@ function inicializarValidacionesEditarPerfil() {
     return;
   }
   
-  console.log('✅ Formulario de editar perfil encontrado:', formularioEditarPerfil);
+
   
   // Elementos del formulario de editar perfil
   const campoNombrePerfil = document.getElementById('editarNombre');
@@ -234,13 +230,7 @@ function inicializarValidacionesEditarPerfil() {
   const errorTelefonoPerfil = document.getElementById('editarTelefonoError');
   const errorContrasenaEdit = document.getElementById('editarContrasenaError');
   
-  console.log('Campos de editar perfil encontrados:', {
-    nombre: !!campoNombrePerfil,
-    apellido: !!campoApellidoPerfil,
-    email: !!campoEmailPerfil,
-    telefono: !!campoTelefonoPerfil,
-    contrasena: !!campoContrasenaEdit
-  });
+
   
   // Funciones de validación locales que llaman a las reutilizables
   const validarNombrePerfilFunc = () => validarNombreApellido(campoNombrePerfil, errorNombrePerfil, 'nombre');
@@ -310,8 +300,7 @@ function inicializarValidacionesEditarPerfil() {
     // Enviar formulario
     formularioEditarPerfil.submit();
   });
-  
-  console.log('Validaciones de editar perfil inicializadas correctamente');
+
 }
 
 // Hacer la función disponible globalmente
@@ -391,7 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           alert('Por favor, corrige los errores en el formulario');
         }
-        console.log('Formulario contiene errores, no se puede enviar');
         return;
       }
 
@@ -399,7 +387,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (typeof mostrarToast === 'function') {
         mostrarToast('Creando cuenta... Por favor espera', 'info');
       }
-      console.log('Formulario válido, enviando...');
       
       // Cerrar modal de registro
       const modalRegistro = document.getElementById('registerModal');
@@ -489,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
   
   if (formularioEditarPerfil) {
-    console.log('Formulario editar perfil encontrado en DOM, inicializando validaciones...');
     inicializarValidacionesEditarPerfil();
   }
 });
