@@ -44,7 +44,7 @@ function iniciarSplideProducto() {
       type: 'loop',       // que el carrusel sea circular
       perPage: 1,         // una imagen visible a la vez
       perMove: 1,         // desplazamiento de uno en uno
-      pagination: true,   // mostrar paginación
+      pagination: false,   // mostrar paginación
       arrows: true,       // mostrar flechas
       gap: '1rem',        // espacio entre slides
       // Usar autoHeight para permitir que cada slide ajuste su altura al contenido
