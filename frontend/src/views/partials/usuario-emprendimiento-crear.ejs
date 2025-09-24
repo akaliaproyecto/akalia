@@ -27,15 +27,19 @@
           </div>
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="ubicacionCiudad" class="form-label">Ciudad</label>
-              <!-- Usamos notación con punto para que el controlador la encuentre como 'ubicacionEmprendimiento.ciudad' -->
-              <input type="text" class="form-control" id="ubicacionCiudad" name="ubicacionEmprendimiento.ciudad"
-                required>
+              <label for="ubicacionDepartamento" class="form-label">Departamento</label>
+              <select class="form-control" id="ubicacionDepartamento"
+                name="ubicacionEmprendimiento.departamento" required>
+                <option value="" disabled selected>Cargando departamentos...</option>
+              </select>
             </div>
             <div class="mb-3 col-md-6">
-              <label for="ubicacionDepartamento" class="form-label">Departamento</label>
-              <input type="text" class="form-control" id="ubicacionDepartamento"
-                name="ubicacionEmprendimiento.departamento" required>
+              <label for="ubicacionCiudad" class="form-label">Ciudad</label>
+              <!-- Usamos notación con punto para que el controlador la encuentre como 'ubicacionEmprendimiento.ciudad' -->
+              <select class="form-control" id="ubicacionCiudad" name="ubicacionEmprendimiento.ciudad"
+                required disabled>
+                <option value="" disabled selected>Primero selecciona un departamento</option>
+              </select>
             </div>
           </div>
           <div class="d-flex gap-2 justify-content-end">

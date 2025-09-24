@@ -7,31 +7,51 @@
       </div>
       <div class="modal-body">
 
-        <form action="/registro" method="POST">
+        <form action="/registro" method="POST" id="registerForm">
           <div class="mb-3 text-start">
             <label class="form-label">Dirección de correo electrónico</label>
-            <input type="email" class="akalia-input" name="email" required>
+            <input type="email" class="akalia-input" id="email" name="email" required>
+            <div class="invalid-feedback" id="emailError"></div>
           </div>
 
           <div class="mb-3 text-start">
             <label class="form-label">Nombre</label>
-            <input type="text" class="akalia-input" name="nombreUsuario" required>
+            <input type="text" class="akalia-input" id="nombreUsuario" name="nombreUsuario" required>
+            <div class="invalid-feedback" id="nombreError"></div>
           </div>
 
           <div class="mb-3 text-start">
             <label class="form-label">Apellido</label>
-            <input type="text" class="akalia-input" name="apellidoUsuario" required>
+            <input type="text" class="akalia-input" id="apellidoUsuario" name="apellidoUsuario" required>
+            <div class="invalid-feedback" id="apellidoError"></div>
           </div>
 
           <div class="mb-3 text-start">
             <label class="form-label">Teléfono (opcional)</label>
-            <input type="text" class="akalia-input" name="telefono">
+            <input type="text" class="akalia-input" id="telefono" name="telefono">
+            <small class="form-text text-muted">
+              Si lo ingresas, debe contener exactamente 10 números.
+            </small>
+            <div class="invalid-feedback" id="telefonoError"></div>
           </div>
 
           <div class="mb-3 text-start position-relative">
             <label class="form-label">Contraseña</label>
-            <input type="password" class="akalia-input" name="contrasena" required minlength="8"
+            <input type="password" class="akalia-input" id="contrasena" name="contrasena" required minlength="8"
               title="Debe tener al menos 8 caracteres, una mayúscula, un número y un símbolo.">
+            <small class="form-text text-muted">
+              Debe contener al menos 8 caracteres, incluyendo: una mayúscula, un número y un símbolo.
+            </small>
+            <div class="invalid-feedback" id="contrasenaError"></div>
+          </div>
+
+          <div class="mb-3 text-start position-relative">
+            <label class="form-label">Confirmar Contraseña</label>
+            <input type="password" class="akalia-input" id="confirmarContrasena" name="confirmarContrasena" required>
+            <small class="form-text text-muted">
+              Debe coincidir con la contraseña ingresada.
+            </small>
+            <div class="invalid-feedback" id="confirmarContrasenaError"></div>
           </div>
 
           <button type="submit" class="btn btn-terracota w-100 mb-3 text-start">Crear cuenta</button>

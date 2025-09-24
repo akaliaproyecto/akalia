@@ -2,7 +2,13 @@ const modeloEmprendimiento = require('./emprendimiento.model');
 const uploadImage = require('../servicios/subirImagen')
 const mongoose = require('mongoose');
 const { json } = require('express');
-const Log = require('../middlewares/logs')
+const Log = require('../middlewares/logs');
+const {
+  validarIdMongoDB,
+  emprendimientoExistePorId,
+  validarDatosCreacionEmprendimiento,
+  validarDatosActualizacionEmprendimiento
+} = require('./emprendimiento.validations');
 /* listar emprendimientos */
 const obtenerEmprendimientos = async (req, res) => {
   try {
@@ -22,6 +28,10 @@ const obtenerEmprendimientos = async (req, res) => {
 const obtenerEmprendimientoPorId = async (req, res) => {
   const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
   try {
+    // Validar formato de ID
+    if (!validarIdMongoDB(idEmprendimiento)) {
+      return res.status(400).json({ mensaje: 'ID de emprendimiento inválido' });
+    }
     const emprendimiento = await modeloEmprendimiento.findById(idEmprendimiento);
 
     if (emprendimiento) {
