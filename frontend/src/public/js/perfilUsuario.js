@@ -105,6 +105,13 @@ async function editUsuario(idUsuario) {
     const inputEmail = get('editarEmail'); if (inputEmail) inputEmail.value = usuario.correo || usuario.email || '';
     const inputTelefono = get('editarTelefono'); if (inputTelefono) inputTelefono.value = usuario.telefono || '';
     const inputContrasena = get('editarContrasena'); if (inputContrasena) inputContrasena.value = '';
+    
+    // Inicializar sistema de direcciones dinámicas
+    if (typeof inicializarDireccionesDinamicas === 'function') {
+      inicializarDireccionesDinamicas(usuario.direcciones || []);
+    } else {
+      console.warn('❌ Función inicializarDireccionesDinamicas no disponible');
+    }
 
     const form = get('formEditarPerfil'); if (form) { form.action = `/actualizar-perfil-usuario/${encodeURIComponent(idUsuario)}`; form.method = 'POST'; }
 

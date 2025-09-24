@@ -73,6 +73,32 @@
             </div>
           </div>
 
+          <!-- SECCIÓN DE DIRECCIONES DINÁMICAS -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label">
+                  <strong>Direcciones</strong>
+                  <small class="text-muted">(Opcional)</small>
+                </label>
+                <button type="button" class="btn btn-outline-terracota btn-sm" id="btnAgregarDireccion">
+                  <i class="fas fa-plus me-1"></i> Agregar Dirección
+                </button>
+              </div>
+              
+              <!-- Contenedor dinámico para las direcciones -->
+              <div id="contenedorDirecciones">
+                <!-- Las direcciones se agregan dinámicamente aquí -->
+              </div>
+              
+              <!-- Mensaje cuando no hay direcciones -->
+              <div id="mensajeSinDirecciones" class="text-muted text-center p-3 border rounded" style="display: none;">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                No hay direcciones agregadas. Haz clic en "Agregar Dirección" para añadir una.
+              </div>
+            </div>
+          </div>
+
           <!-- MENSAJE DE ESTADO (se mostrará cuando haya errores o éxito) -->
           <div id="mensajeEstadoModal" class="alert d-none" role="alert"></div>
 

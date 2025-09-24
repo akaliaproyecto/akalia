@@ -376,20 +376,19 @@ function inicializarValidacionesEditar() {
     const todasValidas = validaciones.every(valida => valida === true);
     
     if (!todasValidas) {
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
       } else {
+        console.warn('mostrarToast no disponible, usando alert como fallback');
         alert('Por favor, corrige los errores en el formulario');
       }
       return;
     }
     
     // Si todas las validaciones pasaron
-    if (typeof mostrarToast === 'function') {
-      mostrarToast('Actualizando producto...', 'info');
-    }
-    
-    // Enviar formulario
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Actualizando producto...', 'info');
+      }    // Enviar formulario
     formularioEditarProducto.submit();
   });
 }
@@ -524,20 +523,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const todasValidas = validaciones.every(valida => valida === true);
       
       if (!todasValidas) {
-        if (typeof mostrarToast === 'function') {
-          mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
         } else {
+          console.warn('mostrarToast no disponible, usando alert como fallback');
           alert('Por favor, corrige los errores en el formulario');
         }
         return;
       }
       
       // Si todas las validaciones pasaron
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Creando producto...', 'info');
-      }
-      
-      // Enviar formulario
+    if (typeof window.mostrarToast === 'function') {
+      window.mostrarToast('Creando producto...', 'info');
+    }      // Enviar formulario
       formularioCrearProducto.submit();
     });
   }

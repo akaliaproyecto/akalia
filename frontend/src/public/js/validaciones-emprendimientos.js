@@ -81,11 +81,16 @@ function validarDescripcionEmprendimiento(campoDescripcion, elementoError) {
 }
 
 function validarCiudadEmprendimiento(campoCiudad, elementoError) {
-  if (!campoCiudad) return false;
+  if (!campoCiudad) {
+    console.log('❌ Campo ciudad no encontrado');
+    return false;
+  }
   
-  const ciudad = campoCiudad.value.trim();
+  const ciudad = campoCiudad.value ? campoCiudad.value.trim() : '';
   
-  if (!ciudad) {
+  console.log('Validando ciudad:', { valor: ciudad, estaVacio: !ciudad });
+  
+  if (!ciudad || ciudad === '') {
     mostrarErrorEmprendimiento(campoCiudad, elementoError, 'La ciudad es obligatoria');
     return false;
   }
@@ -95,11 +100,16 @@ function validarCiudadEmprendimiento(campoCiudad, elementoError) {
 }
 
 function validarDepartamentoEmprendimiento(campoDepartamento, elementoError) {
-  if (!campoDepartamento) return false;
+  if (!campoDepartamento) {
+    console.log('❌ Campo departamento no encontrado');
+    return false;
+  }
   
-  const departamento = campoDepartamento.value.trim();
+  const departamento = campoDepartamento.value ? campoDepartamento.value.trim() : '';
   
-  if (!departamento) {
+  console.log('Validando departamento:', { valor: departamento, estaVacio: !departamento });
+  
+  if (!departamento || departamento === '') {
     mostrarErrorEmprendimiento(campoDepartamento, elementoError, 'El departamento es obligatorio');
     return false;
   }
@@ -184,6 +194,14 @@ function inicializarValidacionesEditarEmprendimiento() {
     estado: !!campoEstadoEdit
   });
   
+  // Log adicional para ubicaciones
+  if (campoCiudadEdit) {
+    console.log('Campo ciudad - valor actual:', campoCiudadEdit.value, 'disabled:', campoCiudadEdit.disabled);
+  }
+  if (campoDepartamentoEdit) {
+    console.log('Campo departamento - valor actual:', campoDepartamentoEdit.value, 'disabled:', campoDepartamentoEdit.disabled);
+  }
+  
   // Crear elementos de error para el formulario de editar
   const errorNombreEdit = crearElementoErrorEmprendimiento(campoNombreEdit, 'me-nombreError');
   const errorDescripcionEdit = crearElementoErrorEmprendimiento(campoDescripcionEdit, 'me-descripcionError');
@@ -223,10 +241,24 @@ function inicializarValidacionesEditarEmprendimiento() {
   
   if (campoCiudadEdit) {
     campoCiudadEdit.addEventListener('change', validarCiudadEditar);
+    campoCiudadEdit.addEventListener('blur', validarCiudadEditar);
+    // Observer para cambios programáticos
+    const observerCiudad = new MutationObserver(() => {
+      console.log('Ciudad cambió programáticamente:', campoCiudadEdit.value);
+      setTimeout(validarCiudadEditar, 100); // Pequeño delay para que se actualice el DOM
+    });
+    observerCiudad.observe(campoCiudadEdit, { attributes: true, attributeFilter: ['value', 'disabled'] });
   }
   
   if (campoDepartamentoEdit) {
     campoDepartamentoEdit.addEventListener('change', validarDepartamentoEditar);
+    campoDepartamentoEdit.addEventListener('blur', validarDepartamentoEditar);
+    // Observer para cambios programáticos
+    const observerDepartamento = new MutationObserver(() => {
+      console.log('Departamento cambió programáticamente:', campoDepartamentoEdit.value);
+      setTimeout(validarDepartamentoEditar, 100); // Pequeño delay para que se actualice el DOM
+    });
+    observerDepartamento.observe(campoDepartamentoEdit, { attributes: true, attributeFilter: ['value', 'disabled'] });
   }
   
   if (campoLogoEdit) {
@@ -237,9 +269,15 @@ function inicializarValidacionesEditarEmprendimiento() {
     campoEstadoEdit.addEventListener('change', validarEstadoEditar);
   }
   
+  // Deshabilitar validación HTML nativa para usar solo nuestras validaciones personalizadas
+  formularioEditarEmprendimiento.setAttribute('novalidate', 'true');
+  
   // Validación al enviar el formulario de editar
   formularioEditarEmprendimiento.addEventListener('submit', async (evento) => {
     evento.preventDefault();
+    evento.stopPropagation();
+    
+    console.log('=== VALIDANDO FORMULARIO EDITAR EMPRENDIMIENTO ===');
     
     // Ejecutar todas las validaciones
     const validaciones = [
@@ -251,22 +289,31 @@ function inicializarValidacionesEditarEmprendimiento() {
       validarEstadoEditar()
     ];
     
+    console.log('Resultados de validaciones:', validaciones);
+    
     // Verificar si todas las validaciones pasaron
     const todasValidas = validaciones.every(valida => valida === true);
     
     if (!todasValidas) {
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+      console.log('❌ Validaciones fallaron');
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
       } else {
+        console.warn('mostrarToast no disponible, usando alert como fallback');
         alert('Por favor, corrige los errores en el formulario');
       }
       return;
     }
     
+    console.log('✅ Todas las validaciones pasaron');
+    
     // Si todas las validaciones pasaron
-    if (typeof mostrarToast === 'function') {
-      mostrarToast('Actualizando emprendimiento...', 'info');
+    if (typeof window.mostrarToast === 'function') {
+      window.mostrarToast('Actualizando emprendimiento...', 'info');
     }
+    
+    // Temporalmente habilitar validación HTML para el envío real
+    formularioEditarEmprendimiento.removeAttribute('novalidate');
     
     // Enviar formulario
     formularioEditarEmprendimiento.submit();
@@ -344,9 +391,15 @@ document.addEventListener('DOMContentLoaded', () => {
       campoLogo.addEventListener('change', validarLogoCrear);
     }
     
+    // Deshabilitar validación HTML nativa para usar solo nuestras validaciones personalizadas
+    formularioCrearEmprendimiento.setAttribute('novalidate', 'true');
+    
     // Validación al enviar el formulario
     formularioCrearEmprendimiento.addEventListener('submit', async (evento) => {
       evento.preventDefault();
+      evento.stopPropagation();
+      
+      console.log('=== VALIDANDO FORMULARIO CREAR EMPRENDIMIENTO ===');
       
       // Ejecutar todas las validaciones
       const validaciones = [
@@ -357,22 +410,31 @@ document.addEventListener('DOMContentLoaded', () => {
         validarLogoCrear()
       ];
       
+      console.log('Resultados de validaciones:', validaciones);
+      
       // Verificar si todas las validaciones pasaron
       const todasValidas = validaciones.every(valida => valida === true);
       
       if (!todasValidas) {
-        if (typeof mostrarToast === 'function') {
-          mostrarToast('Por favor, corrige los errores en el formulario', 'error');
+        console.log('❌ Validaciones fallaron');
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
         } else {
+          console.warn('mostrarToast no disponible, usando alert como fallback');
           alert('Por favor, corrige los errores en el formulario');
         }
         return;
       }
       
+      console.log('✅ Todas las validaciones pasaron');
+      
       // Si todas las validaciones pasaron
-      if (typeof mostrarToast === 'function') {
-        mostrarToast('Creando emprendimiento...', 'info');
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Creando emprendimiento...', 'info');
       }
+      
+      // Temporalmente habilitar validación HTML para el envío real
+      formularioCrearEmprendimiento.removeAttribute('novalidate');
       
       // Enviar formulario
       formularioCrearEmprendimiento.submit();
@@ -380,13 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // ===============================
-  // VALIDACIONES DEL FORMULARIO EDITAR EMPRENDIMIENTO (ESTÁTICO)
+  // NOTA: Las validaciones del formulario editar se inicializan dinámicamente
+  // desde perfilEmprendimientos.js cuando se carga el modal
   // ===============================
-  const formularioEditarEmprendimiento = document.getElementById('form-editar-emprendimiento-modal');
-  
-  if (formularioEditarEmprendimiento) {
-    console.log('Formulario editar emprendimiento encontrado, inicializando validaciones...');
-    // Inicializar validaciones usando la función global
-    inicializarValidacionesEditarEmprendimiento();
-  }
 });
