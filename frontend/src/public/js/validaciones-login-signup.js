@@ -6,7 +6,6 @@
 
 // Funciones de validación compartidas (disponibles globalmente)
 function mostrarError(campo, elementoError, mensaje) {
-  console.log('Mostrando error:', mensaje, 'Campo:', campo?.id, 'Error element:', elementoError?.id);
   if (campo) {
     campo.classList.add('is-invalid');
     campo.classList.remove('is-valid');
@@ -16,12 +15,10 @@ function mostrarError(campo, elementoError, mensaje) {
     elementoError.style.display = 'block';
     elementoError.classList.add('d-block');
     elementoError.classList.remove('d-none');
-    console.log('Error mostrado, contenido:', elementoError.textContent, 'Display:', elementoError.style.display);
   }
 }
 
 function mostrarExito(campo, elementoError) {
-  console.log('Mostrando éxito para campo:', campo?.id);
   if (campo) {
     campo.classList.add('is-valid');
     campo.classList.remove('is-invalid');
@@ -58,7 +55,6 @@ function validarFormatoTelefono(telefono) {
 
 // Función de validación de nombre/apellido reutilizable
 function validarNombreApellido(campo, elementoError, tipoCampo) {
-  console.log('Validando', tipoCampo, ':', campo?.value, 'Elemento error:', elementoError?.id);
   const valor = campo.value.trim();
 
   if (!valor) {
@@ -268,7 +264,6 @@ function validarCiudadUsuario(campo, elementoError, campoDepartamento) {
 // ===============================
 
 function inicializarValidacionesEditarPerfil() {
-  console.log('=== INICIANDO VALIDACIONES EDITAR PERFIL ===');
   
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
   
@@ -279,11 +274,9 @@ function inicializarValidacionesEditarPerfil() {
   
   // Verificar si ya se inicializaron las validaciones para evitar duplicados
   if (formularioEditarPerfil.dataset.validacionesInicializadas === 'true') {
-    console.log('⚠️ Las validaciones del perfil ya están inicializadas, saltando...');
     return;
   }
   
-  console.log('✅ Formulario de editar perfil encontrado:', formularioEditarPerfil);
   
   // Elementos del formulario de editar perfil
   const campoNombrePerfil = document.getElementById('editarNombre');
@@ -298,14 +291,6 @@ function inicializarValidacionesEditarPerfil() {
   const errorEmailPerfil = document.getElementById('editarEmailError');
   const errorTelefonoPerfil = document.getElementById('editarTelefonoError');
   const errorContrasenaEdit = document.getElementById('editarContrasenaError');
-  
-  console.log('Campos de editar perfil encontrados:', {
-    nombre: !!campoNombrePerfil,
-    apellido: !!campoApellidoPerfil,
-    email: !!campoEmailPerfil,
-    telefono: !!campoTelefonoPerfil,
-    contrasena: !!campoContrasenaEdit
-  });
   
   // Funciones de validación locales que llaman a las reutilizables
   const validarNombrePerfilFunc = () => validarNombreApellido(campoNombrePerfil, errorNombrePerfil, 'nombre');
@@ -428,9 +413,7 @@ function inicializarValidacionesEditarPerfil() {
   
   // Marcar que las validaciones ya están inicializadas
   formularioEditarPerfil.dataset.validacionesInicializadas = 'true';
-  
-  console.log('Validaciones de editar perfil inicializadas correctamente');
-}
+  }
 
 // Hacer la función disponible globalmente
 window.inicializarValidacionesEditarPerfil = inicializarValidacionesEditarPerfil;
@@ -509,16 +492,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           alert('Por favor, corrige los errores en el formulario');
         }
-        console.log('Formulario contiene errores, no se puede enviar');
         return;
       }
 
       // Si todas las validaciones pasaron, mostrar mensaje de procesamiento y enviar el formulario
       if (typeof window.mostrarToast === 'function') {
         window.mostrarToast('Creando cuenta... Por favor espera', 'info');
-      }
-      console.log('Formulario válido, enviando...');
-      
+      }      
       // Cerrar modal de registro
       const modalRegistro = document.getElementById('registerModal');
       if (modalRegistro) {
@@ -607,7 +587,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
   
   if (formularioEditarPerfil) {
-    console.log('Formulario editar perfil encontrado en DOM, inicializando validaciones...');
     inicializarValidacionesEditarPerfil();
   }
 });

@@ -82,13 +82,12 @@ function validarDescripcionEmprendimiento(campoDescripcion, elementoError) {
 
 function validarCiudadEmprendimiento(campoCiudad, elementoError) {
   if (!campoCiudad) {
-    console.log('❌ Campo ciudad no encontrado');
+
     return false;
   }
   
   const ciudad = campoCiudad.value ? campoCiudad.value.trim() : '';
-  
-  console.log('Validando ciudad:', { valor: ciudad, estaVacio: !ciudad });
+
   
   if (!ciudad || ciudad === '') {
     mostrarErrorEmprendimiento(campoCiudad, elementoError, 'La ciudad es obligatoria');
@@ -101,13 +100,13 @@ function validarCiudadEmprendimiento(campoCiudad, elementoError) {
 
 function validarDepartamentoEmprendimiento(campoDepartamento, elementoError) {
   if (!campoDepartamento) {
-    console.log('❌ Campo departamento no encontrado');
+
     return false;
   }
   
   const departamento = campoDepartamento.value ? campoDepartamento.value.trim() : '';
   
-  console.log('Validando departamento:', { valor: departamento, estaVacio: !departamento });
+
   
   if (!departamento || departamento === '') {
     mostrarErrorEmprendimiento(campoDepartamento, elementoError, 'El departamento es obligatorio');
@@ -166,7 +165,7 @@ function validarEstadoEmprendimiento(campoEstado, elementoError) {
 // ===============================
 
 function inicializarValidacionesEditarEmprendimiento() {
-  console.log('=== INICIANDO VALIDACIONES EDITAR EMPRENDIMIENTO ===');
+
   
   const formularioEditarEmprendimiento = document.getElementById('form-editar-emprendimiento-modal');
   
@@ -175,7 +174,6 @@ function inicializarValidacionesEditarEmprendimiento() {
     return;
   }
   
-  console.log('✅ Formulario de editar emprendimiento encontrado:', formularioEditarEmprendimiento);
   
   // Elementos del formulario de editar (usando IDs con prefijo me-)
   const campoNombreEdit = document.getElementById('me-nombre');
@@ -184,23 +182,6 @@ function inicializarValidacionesEditarEmprendimiento() {
   const campoDepartamentoEdit = document.getElementById('me-ubic-departamento');
   const campoLogoEdit = document.getElementById('me-logo-input');
   const campoEstadoEdit = document.getElementById('me-activo');
-  
-  console.log('Campos de editar encontrados:', {
-    nombre: !!campoNombreEdit,
-    descripcion: !!campoDescripcionEdit,
-    ciudad: !!campoCiudadEdit,
-    departamento: !!campoDepartamentoEdit,
-    logo: !!campoLogoEdit,
-    estado: !!campoEstadoEdit
-  });
-  
-  // Log adicional para ubicaciones
-  if (campoCiudadEdit) {
-    console.log('Campo ciudad - valor actual:', campoCiudadEdit.value, 'disabled:', campoCiudadEdit.disabled);
-  }
-  if (campoDepartamentoEdit) {
-    console.log('Campo departamento - valor actual:', campoDepartamentoEdit.value, 'disabled:', campoDepartamentoEdit.disabled);
-  }
   
   // Crear elementos de error para el formulario de editar
   const errorNombreEdit = crearElementoErrorEmprendimiento(campoNombreEdit, 'me-nombreError');
@@ -244,7 +225,6 @@ function inicializarValidacionesEditarEmprendimiento() {
     campoCiudadEdit.addEventListener('blur', validarCiudadEditar);
     // Observer para cambios programáticos
     const observerCiudad = new MutationObserver(() => {
-      console.log('Ciudad cambió programáticamente:', campoCiudadEdit.value);
       setTimeout(validarCiudadEditar, 100); // Pequeño delay para que se actualice el DOM
     });
     observerCiudad.observe(campoCiudadEdit, { attributes: true, attributeFilter: ['value', 'disabled'] });
@@ -255,7 +235,6 @@ function inicializarValidacionesEditarEmprendimiento() {
     campoDepartamentoEdit.addEventListener('blur', validarDepartamentoEditar);
     // Observer para cambios programáticos
     const observerDepartamento = new MutationObserver(() => {
-      console.log('Departamento cambió programáticamente:', campoDepartamentoEdit.value);
       setTimeout(validarDepartamentoEditar, 100); // Pequeño delay para que se actualice el DOM
     });
     observerDepartamento.observe(campoDepartamentoEdit, { attributes: true, attributeFilter: ['value', 'disabled'] });
@@ -277,7 +256,7 @@ function inicializarValidacionesEditarEmprendimiento() {
     evento.preventDefault();
     evento.stopPropagation();
     
-    console.log('=== VALIDANDO FORMULARIO EDITAR EMPRENDIMIENTO ===');
+
     
     // Ejecutar todas las validaciones
     const validaciones = [
@@ -289,13 +268,12 @@ function inicializarValidacionesEditarEmprendimiento() {
       validarEstadoEditar()
     ];
     
-    console.log('Resultados de validaciones:', validaciones);
     
     // Verificar si todas las validaciones pasaron
     const todasValidas = validaciones.every(valida => valida === true);
     
     if (!todasValidas) {
-      console.log('❌ Validaciones fallaron');
+
       if (typeof window.mostrarToast === 'function') {
         window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
       } else {
@@ -305,8 +283,7 @@ function inicializarValidacionesEditarEmprendimiento() {
       return;
     }
     
-    console.log('✅ Todas las validaciones pasaron');
-    
+
     // Si todas las validaciones pasaron
     if (typeof window.mostrarToast === 'function') {
       window.mostrarToast('Actualizando emprendimiento...', 'info');
@@ -318,8 +295,7 @@ function inicializarValidacionesEditarEmprendimiento() {
     // Enviar formulario
     formularioEditarEmprendimiento.submit();
   });
-  
-  console.log('Validaciones de editar emprendimiento inicializadas correctamente');
+
 }
 
 // Hacer la función disponible globalmente
@@ -333,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const formularioCrearEmprendimiento = document.getElementById('form-crear-emprendimiento');
   
   if (formularioCrearEmprendimiento) {
-    console.log('Formulario crear emprendimiento encontrado, inicializando validaciones...');
+
     
     // Elementos del formulario
     const campoNombre = document.getElementById('nombreEmprendimiento');
@@ -398,8 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formularioCrearEmprendimiento.addEventListener('submit', async (evento) => {
       evento.preventDefault();
       evento.stopPropagation();
-      
-      console.log('=== VALIDANDO FORMULARIO CREAR EMPRENDIMIENTO ===');
+
       
       // Ejecutar todas las validaciones
       const validaciones = [
@@ -409,14 +384,12 @@ document.addEventListener('DOMContentLoaded', () => {
         validarDepartamentoCrear(),
         validarLogoCrear()
       ];
-      
-      console.log('Resultados de validaciones:', validaciones);
+
       
       // Verificar si todas las validaciones pasaron
       const todasValidas = validaciones.every(valida => valida === true);
       
       if (!todasValidas) {
-        console.log('❌ Validaciones fallaron');
         if (typeof window.mostrarToast === 'function') {
           window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
         } else {
@@ -425,8 +398,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return;
       }
-      
-      console.log('✅ Todas las validaciones pasaron');
+
       
       // Si todas las validaciones pasaron
       if (typeof window.mostrarToast === 'function') {

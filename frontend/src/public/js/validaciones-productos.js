@@ -184,13 +184,10 @@ function validarEtiquetasProducto(campoEtiquetas, elementoError, esObligatorio =
   
   try {
     const etiquetasValue = campoEtiquetas.value.trim();
-    console.log('🏷️ Validando etiquetas - Valor campo:', etiquetasValue, 'Es obligatorio:', esObligatorio);
-    
     if (etiquetasValue) {
       etiquetasSeleccionadas = JSON.parse(etiquetasValue);
     }
   } catch (error) {
-    console.log('🏷️ Error parseando etiquetas:', error);
     // Si no es JSON válido, intentar como array simple
     etiquetasSeleccionadas = [];
   }
@@ -199,16 +196,11 @@ function validarEtiquetasProducto(campoEtiquetas, elementoError, esObligatorio =
     etiquetasSeleccionadas = [];
   }
   
-  console.log('🏷️ Etiquetas encontradas:', etiquetasSeleccionadas.length, etiquetasSeleccionadas);
-  
   if (etiquetasSeleccionadas.length === 0) {
-    console.log('🏷️ No hay etiquetas seleccionadas - Es obligatorio:', esObligatorio);
     if (esObligatorio) {
-      console.log('🏷️ Mostrando error: etiquetas obligatorias');
       mostrarError(campoEtiquetas, elementoError, 'Debe seleccionar al menos 1 etiqueta');
       return false;
     } else {
-      console.log('🏷️ Etiquetas opcionales, validación exitosa');
       // Para editar, las etiquetas pueden ser opcionales si ya existen
       mostrarExito(campoEtiquetas, elementoError);
       return true;
