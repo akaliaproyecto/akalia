@@ -111,8 +111,8 @@ window.editUserProductDetail = async (usuario, idProducto) => {
 
     // Mostrar modal con Bootstrap y asegurar limpieza al ocultarse
     const modalEl = document.getElementById('modalEditarProducto');
-    const instancia = bootstrap.Modal.getOrCreateInstance(modalEl);
-    instancia.show();
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
 
     // elimina el div del DOM
     modalEl.addEventListener('hidden.bs.modal', () => {
@@ -140,172 +140,17 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ------------------------- Modal Crear Producto ------------------------- */
 async function crearProducto(idUsuario) {
   try {
-    console.log('🔍 Cargando datos para crear producto, userId:', idUsuario);
-    
-    // Cargar datos necesarios para el modal
-    const emprendimientosUrl = `${window.API_BASE_URL || 'http://localhost:4006'}/emprendimientos/usuario/${idUsuario}`;
-    const categoriasUrl = `${window.API_BASE_URL || 'http://localhost:4006'}/categorias`;
-    const etiquetasUrl = `${window.API_BASE_URL || 'http://localhost:4006'}/etiquetas`;
-    
-    console.log('🔍 URLs a consultar:', { emprendimientosUrl, categoriasUrl, etiquetasUrl });
-    
-    // Hacer las peticiones
-    const [emprendimientosResp, categoriasResp, etiquetasResp] = await Promise.all([
-      fetch(emprendimientosUrl, { 
-        headers: { 
-          'akalia-api-key': window.apiKey || '',
-          'Content-Type': 'application/json'
-        } 
-      }),
-      fetch(categoriasUrl, { 
-        headers: { 
-          'akalia-api-key': window.apiKey || '',
-          'Content-Type': 'application/json'
-        } 
-      }),
-      fetch(etiquetasUrl, { 
-        headers: { 
-          'akalia-api-key': window.apiKey || '',
-          'Content-Type': 'application/json'
-        } 
-      })
-    ]);
-    
-    const emprendimientos = await emprendimientosResp.json();
-    const categorias = await categoriasResp.json();
-    const etiquetas = await etiquetasResp.json();
-    
-    console.log('🔍 Datos cargados:', { 
-      emprendimientos: emprendimientos.length, 
-      categorias: categorias.length, 
-      etiquetas: etiquetas.length 
-    });
-
-    // Validación crítica: El usuario debe tener emprendimientos
-    if (!emprendimientos || emprendimientos.length === 0) {
-      if (window.mostrarToast) {
-        mostrarToast('⚠️ Emprendimiento requerido', 'Para crear productos necesitas tener al menos un emprendimiento activo.', 'warning');
-      } else {
-        alert('Para crear productos necesitas tener al menos un emprendimiento activo.');
-      }
-      
-      // Redirigir a la página de emprendimientos
-      if (confirm('¿Quieres crear tu emprendimiento ahora?')) {
-        window.location.href = '/usuario-emprendimientos';
-      }
-      return;
-    }
-    
-    // Poblar el select de emprendimientos
-    const selectEmprendimiento = document.getElementById('emprendimiento');
-    if (selectEmprendimiento) {
-      selectEmprendimiento.innerHTML = '<option value="">Selecciona un emprendimiento</option>';
-      emprendimientos.forEach(emp => {
-        const option = document.createElement('option');
-        option.value = emp._id;
-        option.textContent = emp.nombreEmprendimiento;
-        selectEmprendimiento.appendChild(option);
-      });
-    }
-    
-    // Poblar el select de categorías
-    const selectCategoria = document.getElementById('categoria');
-    if (selectCategoria) {
-      selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
-      categorias.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat._id;
-        option.textContent = cat.nombreCategoria;
-        selectCategoria.appendChild(option);
-      });
-    }
-    
-    // Actualizar las etiquetas disponibles
-    const buscadorEtiquetas = document.getElementById('etiquetasBuscador');
-    if (buscadorEtiquetas) {
-      buscadorEtiquetas.setAttribute('data-etiquetas', JSON.stringify(etiquetas));
-    }
     
     // Mostrar el modal
-    const modal = new bootstrap.Modal(document.getElementById('modalCrearProducto'));
-    modal.show();
+        // Mostrar modal con Bootstrap y asegurar limpieza al ocultarse
+    const modalEl = document.getElementById('modalCrearProducto');
+    const instancia = bootstrap.Modal.getOrCreateInstance(modalEl);
+    instancia.show();
+
     
   } catch (err) {
     console.error('Error cargando modal crear producto:', err);
     window.mostrarToast && window.mostrarToast('Error al cargar datos para crear producto', 'error');
-  }
-}
-
-/* Validación del formulario de creación de producto dentro del modal */
-function inicializarValidacionCrearProducto() {
-  try {
-    const formCrear = document.getElementById('form-crear-producto');
-
-    // Al enviar el formulario, validamos campos y detenemos el envío si hay errores
-    formCrear.addEventListener('submit', function (ev) {
-      // Limpiar alertas anteriores
-      const contAlertas = document.getElementById('alertasCrearProducto');
-      contAlertas.innerHTML = '';
-
-      // Recoger valores
-      const titulo = document.getElementById('titulo').value;
-      const descripcion = document.getElementById('descripcion').value;
-      const precio = document.getElementById('precio').value;
-      const emprendimiento = document.getElementById('emprendimiento').value;
-      const categoria = document.getElementById('categoria').value;
-      const inputImagenes = document.getElementById('imagenes');
-      const archivos = inputImagenes && inputImagenes.files ? inputImagenes.files : [];
-      const etiquetasHidden = document.getElementById('etiquetasHidden').value;
-
-      const errores = [];
-
-      // Validaciones sencillas y explicativas
-      if (!titulo || titulo.trim().length < 3) {
-        errores.push('Debe ingresar un título de al menos 3 caracteres.');
-      }
-      if (!descripcion || descripcion.trim().length < 3) {
-        errores.push('Debe ingresar una descripción válida.');
-      }
-      if (!precio || Number(precio) < 0) {
-        errores.push('Debe ingresar un precio válido (número mayor o igual a 0).');
-      }
-      if (!emprendimiento) {
-        errores.push('Debe seleccionar un emprendimiento.');
-      }
-      if (!categoria) {
-        errores.push('Debe seleccionar una categoría.');
-      }
-
-      // Validar al menos una imagen
-      if (!archivos || archivos.length === 0) errores.push('Debes ingresar al menos una imagen.');
-
-      // Validar etiquetas
-      try {
-        const parsed = JSON.parse(etiquetasHidden);
-        if (!Array.isArray(parsed) || parsed.length === 0) {
-          errores.push('Debes seleccionar al menos una etiqueta.');
-        }
-      } catch (e) {
-        errores.push('Formato de etiquetas inválido.');
-      }
-
-      // Si hay errores prevenimos el envío y los mostramos en el modal
-      if (errores.length > 0) {
-        ev.preventDefault(); //Evita que el formulario se envíe automáticamente
-        ev.stopPropagation(); // Detiene que el evento se propague a otros elementos
-
-        // Crear una alerta simple (Bootstrap) con la lista de errores
-        const alerta = document.createElement('div');
-        alerta.className = 'alert alert-danger';
-        alerta.role = 'alert';
-        alerta.innerHTML = '<strong>Error de validación:</strong> <ul> ' + errores.map(e => ' <li> ' + e + '</li>').join('') + '</ul> ';
-
-        //gregar dinámicamente el div de alerta dentro del contenedor contAlertas
-        contAlertas.appendChild(alerta);
-      }
-    });
-  } catch (err) {
-    console.error('Error inicializando validación crear producto:', err);
   }
 }
 
