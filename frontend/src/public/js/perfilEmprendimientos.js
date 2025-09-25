@@ -130,7 +130,7 @@ window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
 
     // Action del form
     const form = document.getElementById('form-editar-emprendimiento-modal');
-    form.action = `http://localhost:4666/emprendimiento-editar/${idEmprendimiento}`;
+    form.action = `/emprendimiento-editar/${idEmprendimiento}`;
     
     // Mostrar modal primero
     const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));

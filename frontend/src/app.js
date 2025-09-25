@@ -5,7 +5,14 @@ const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
 
+// Debug de variables de entorno
+console.log('🔍 Frontend environment variables:');
+console.log('- PORT:', process.env.PORT);
+console.log('- PORT_FRONTEND:', process.env.PORT_FRONTEND);
+console.log('- NODE_ENV:', process.env.NODE_ENV);
+
 const PORT_FRONTEND = process.env.PORT || process.env.PORT_FRONTEND || 4666;
+console.log(`🚀 Intentando iniciar frontend en puerto: ${PORT_FRONTEND}`);
 
 // Motor de vistas
 app.set('view engine', 'ejs');
@@ -74,6 +81,7 @@ app.use((err, req, res, next) => {
   res.status(500).render('pages/error', { error: err });
 });
 
-app.listen(PORT_FRONTEND, () => {
-  console.log(`Servidor frontend en línea en el puerto ${PORT_FRONTEND}`);
+app.listen(PORT_FRONTEND, '0.0.0.0', () => {
+  console.log(`✅ Frontend iniciado exitosamente en puerto ${PORT_FRONTEND}`);
+  console.log(`🌐 Servidor escuchando en todas las interfaces (0.0.0.0:${PORT_FRONTEND})`);
 });

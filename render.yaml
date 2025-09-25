@@ -6,8 +6,6 @@ services:
     buildCommand: cd backend && npm install
     startCommand: cd backend && npm start
     envVars:
-      - key: NODE_VERSION
-        value: 20.11.0
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
@@ -32,8 +30,6 @@ services:
     buildCommand: cd frontend && npm install
     startCommand: cd frontend && npm start
     envVars:
-      - key: NODE_VERSION
-        value: 20.11.0
       - key: NODE_ENV
         value: production
       - key: API_KEY
