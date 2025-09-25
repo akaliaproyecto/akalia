@@ -28,7 +28,7 @@ services:
         value: akalia-imgs
 
   - type: web
-    name: akalia-frontend
+    name: akalia-app
     env: node
     plan: free
     buildCommand: cd frontend && npm install
@@ -43,6 +43,6 @@ services:
       - key: API_KEY
         value: akalia-api-key-2025
       - key: URL_BASE
-        value: https://akalia-azbm.onrender.com/
+        value: https://akalia-backend.onrender.com
       - key: API_BASE_URL
-        value: https://akalia-azbm.onrender.com/
+        value: https://akalia-backend.onrender.com
