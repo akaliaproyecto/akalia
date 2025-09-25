@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: akalia-frontend
+    env: node
+    plan: free
+    buildCommand: cd frontend && npm install
+    startCommand: cd frontend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.20.4
+      - key: NODE_ENV
+        value: production
+      - key: API_BASE_URL
+        value: https://akalia-backend-147.onrender.com/api
+      - key: SESSION_SECRET
+        value: akalia-secret-key-production-2024
+        
+  - type: web
+    name: akalia-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.20.4
+      - key: NODE_ENV
+        value: production
