@@ -1,21 +1,5 @@
 services:
   - type: web
-    name: akalia-frontend
-    env: node
-    plan: free
-    buildCommand: cd frontend && npm install
-    startCommand: cd frontend && npm start
-    envVars:
-      - key: NODE_VERSION
-        value: 18.20.4
-      - key: NODE_ENV
-        value: production
-      - key: API_BASE_URL
-        value: https://akalia-backend-147.onrender.com/api
-      - key: SESSION_SECRET
-        value: akalia-secret-key-production-2024
-        
-  - type: web
     name: akalia-backend
     env: node
     plan: free
@@ -26,3 +10,39 @@ services:
         value: 18.20.4
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        value: mongodb+srv://xiogr98:Gaiagaia98@cluster0.2voyn.mongodb.net/akaliaproject_db
+      - key: SESSION_SECRET
+        value: super_secreto_largo_y_aleatorio_production_2024
+      - key: CLIENT_URL
+        value: https://akalia-frontend.onrender.com
+      - key: API_KEY
+        value: akalia-api-key-2025
+      - key: SUPABASE_URL
+        value: https://jfqjioajaazanigdikst.supabase.co
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmcWppb2FqYWF6YW5pZ2Rpa3N0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTc0ODg3MywiZXhwIjoyMDcxMzI0ODczfQ.eQxU8fjwBJybM35ki4Ik5W5o4d_T3CTKgdZwMuC7pRo
+      - key: SUPABASE_BUCKET
+        value: akalia-imgs
+
+  - type: web
+    name: akalia-frontend
+    env: node
+    plan: free
+    buildCommand: cd frontend && npm install
+    startCommand: cd frontend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.20.4
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: API_KEY
+        value: akalia-api-key-2025
+      - key: URL_BASE
+        value: https://akalia-backend.onrender.com
+      - key: API_BASE_URL
+        value: https://akalia-backend.onrender.com
