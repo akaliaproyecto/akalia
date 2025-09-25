@@ -53,4 +53,16 @@ router.get('/municipios-por-departamento', (req, res) => {
   }
 });
 
+// Ruta para obtener municipios por departamento
+router.get('/municipios-por-departamento', (req, res) => {
+  try {
+    const municipiosPath = path.join(__dirname, '..', 'servicios', 'municipios_por_departamento.json');
+    const municipiosData = require(municipiosPath);
+    res.json(municipiosData);
+  } catch (error) {
+    console.error('Error cargando municipios:', error);
+    res.status(500).json({ error: 'Error al cargar municipios' });
+  }
+});
+
 module.exports = router;
