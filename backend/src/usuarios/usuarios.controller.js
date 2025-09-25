@@ -278,6 +278,7 @@ exports.actualizarUsuario = async (req, res) => {
       rolUsuario: usuarioActualizado.rolUsuario || 'usuario',
       estadoUsuario: usuarioActualizado.estadoUsuario || 'activo',
       esVendedor: !!usuarioActualizado.esVendedor,
+      direcciones: usuarioActualizado.direcciones || [],
       fechaRegistro: usuarioActualizado.fechaRegistro || usuarioActualizado.createdAt || null,
       fechaRegistroFormateada: usuarioActualizado.fechaRegistro ? new Date(usuarioActualizado.fechaRegistro).toLocaleDateString('es-ES', {
         year: 'numeric', month: 'long', day: 'numeric'

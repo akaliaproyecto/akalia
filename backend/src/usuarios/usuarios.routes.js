@@ -14,6 +14,8 @@ const {
   verificarContrasenaActual,
 } = require('./usuarios.controller');
 
+const path = require('path');
+
 // Ruta para crear un nuevo usuario (registro)
 router.post('/', crearUsuario);
 
@@ -37,5 +39,17 @@ router.put('/:id', actualizarUsuario);
 
 // eliminar un usuario por ID
 router.patch('/:id', eliminarUsuario);
+
+// Ruta para obtener municipios por departamento
+router.get('/municipios-por-departamento', (req, res) => {
+  try {
+    const municipiosPath = path.join(__dirname, '..', 'servicios', 'municipios_por_departamento.json');
+    const municipiosData = require(municipiosPath);
+    res.json(municipiosData);
+  } catch (error) {
+    console.error('Error cargando municipios:', error);
+    res.status(500).json({ error: 'Error al cargar municipios' });
+  }
+});
 
 module.exports = router;
