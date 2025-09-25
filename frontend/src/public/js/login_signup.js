@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  API_BASE= 'http://localhost:4006'
+  // Esta variable se define desde el servidor via template
+  const API_BASE = window.API_BASE_URL || 'http://localhost:4006';
   /**
    * Muestra u oculta los elementos de la navbar según si el usuario está logueado.
    * @param {boolean} estaLogueado
