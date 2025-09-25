@@ -26,9 +26,10 @@ app.use(express.urlencoded({ extended: true })); // Para procesar datos de formu
 app.use(express.json());
 app.use(cookieParser()); // Middleware para manejar cookies
 
-// Middleware para pasar la API Key a todas las vistas
+// Middleware para pasar la API Key y URL base a todas las vistas
 app.use((req, res, next) => {
   res.locals.apiKey = process.env.API_KEY;
+  res.locals.apiBaseUrl = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
   next();
 });
 

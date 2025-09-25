@@ -3,7 +3,7 @@ const FormData = require('form-data');
 require('dotenv').config();
 
 // Base URL de la API (intenta leer de variables de entorno, con fallback)
-const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4000';
+const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 // Headers mínimos (no exponemos API KEY al cliente, solo la usamos para backend->backend)
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 

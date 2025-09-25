@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const methodOverride = require('method-override');
 const dotenv = require('dotenv');
 const path = require('path');
@@ -30,7 +31,8 @@ app.use(cors({
 //Sesiones
 app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
 
-app.use(session({
+// Configuración de sesiones con MongoDB store para producción
+const sessionConfig = {
   name: 'session-1',
   secret: process.env.SESSION_SECRET || 'mi_super_secreto_seguro',
   resave: false,
@@ -41,7 +43,20 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true, // para que JS en frontend no acceda a la cookie
   }
-}));
+};
+
+// Solo usar MongoDB store en producción
+if (process.env.NODE_ENV === 'production') {
+  sessionConfig.store = MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    touchAfter: 24 * 3600 // lazy session update
+  });
+  console.log('✅ Usando MongoDB store para sesiones en producción');
+} else {
+  console.log('⚠️ Usando MemoryStore para sesiones en desarrollo');
+}
+
+app.use(session(sessionConfig));
 
 //Method Override
 app.use(methodOverride('_method'));
