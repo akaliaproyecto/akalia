@@ -30,15 +30,14 @@ app.use(cors({
 //Sesiones
 app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
 
-
 app.use(session({
   name: 'session-1',
   secret: process.env.SESSION_SECRET || 'mi_super_secreto_seguro',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
-    sameSite: 'none',
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true, // para que JS en frontend no acceda a la cookie
   }

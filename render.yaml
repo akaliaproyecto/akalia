@@ -7,17 +7,15 @@ services:
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_VERSION
-        value: 18.20.4
+        value: 20.11.0
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: MONGO_URI
         value: mongodb+srv://xiogr98:Gaiagaia98@cluster0.2voyn.mongodb.net/akaliaproject_db
       - key: SESSION_SECRET
         value: super_secreto_largo_y_aleatorio_production_2024
       - key: CLIENT_URL
-        value: https://akalia-frontend.onrender.com
+        value: https://akalia-app.onrender.com
       - key: API_KEY
         value: akalia-api-key-2025
       - key: SUPABASE_URL
@@ -35,11 +33,9 @@ services:
     startCommand: cd frontend && npm start
     envVars:
       - key: NODE_VERSION
-        value: 18.20.4
+        value: 20.11.0
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: API_KEY
         value: akalia-api-key-2025
       - key: URL_BASE

@@ -12,6 +12,10 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
     "bcrypt": "^6.0.0",
