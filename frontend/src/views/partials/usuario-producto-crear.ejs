@@ -39,14 +39,26 @@
               <!-- Emprendimiento -->
               <div class="mb-3">
                 <label for="emprendimiento" class="form-label akalia-label">Emprendimiento</label>
-                <select name="idEmprendimiento" id="emprendimiento" class="form-select" required>
-                  <% emprendimientos.forEach(emp=> { %>
-                    <!-- El backend devuelve el id en _id; usar _id aquí para que el campo se envíe correctamente -->
-                    <option value="<%= emp._id %>">
-                      <%= emp.nombreEmprendimiento %>
-                    </option>
+                <% if (typeof emprendimientos !== 'undefined' && emprendimientos.length > 0) { %>
+                  <select name="idEmprendimiento" id="emprendimiento" class="form-select" required>
+                    <option value="">Selecciona un emprendimiento</option>
+                    <% emprendimientos.forEach(emp => { %>
+                      <option value="<%= emp._id %>">
+                        <%= emp.nombreEmprendimiento %>
+                      </option>
                     <% }) %>
-                </select>
+                  </select>
+                <% } else if (typeof emprendimiento !== 'undefined') { %>
+                  <!-- Mostrar el emprendimiento único como texto -->
+                  <input type="text" class="form-control" value="<%= emprendimiento.nombreEmprendimiento %>" readonly>
+                  <!-- Campo hidden para enviar el ID -->
+                  <input type="hidden" name="idEmprendimiento" value="<%= emprendimiento._id %>">
+                <% } else { %>
+                  <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    No hay emprendimientos disponibles. Crea primero tu emprendimiento para publicar productos <a href="/usuarios/emprendimientos">Crear emprendimiento</a>
+                  </div>
+                <% } %>
               </div>
               <!-- Categoría (desplegable dinámico) -->
               <div class="mb-3">
@@ -55,7 +67,7 @@
                 <select name="categoria" id="categoria" class="form-select" required>
                   <% if (typeof categorias !=='undefined' && categorias.length) { %>
                     <% categorias.forEach(function(cat) { %>
-                      <option value="<%= cat._id %>">
+                      <option value="<%= cat.nombreCategoria %>">
                         <%= cat.nombreCategoria %>
                       </option>
                       <% }); %>

@@ -95,31 +95,11 @@ exports.mostrarDetalleProducto = async (req, res) => {
 
     // Petición al backend para obtener detalle del producto
     const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
-    console.log(respuesta.data)
     // Si se obtiene el producto se renderiza la vista      
     if (respuesta && respuesta.status === 200 && respuesta.data) {
       const producto = respuesta.data;
 
-      // obtener nombre de la categoría
-      try {
-        if (producto && producto.categoria) {
-          // Se hace la petición a la API para obtener el nombre de la categoría
-          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${producto.categoria}`, { headers: HEADERS });
-          if (respCategoria && respCategoria.status === 200 && respCategoria.data) {
-            // Guarda el nombre en una propiedad nueva `categoriaNombre` para usarla en la vista.
-            producto.categoriaNombre = respCategoria.data.nombreCategoria
-          }
-        } else {
-          // Si no hay categoría, dejamos un texto vacío
-          producto.categoriaNombre = '';
-        }
-      } catch (errCat) {
-        if (producto.categoria) {
-          producto.categoriaNombre = String(producto.categoria);
-        } else {
-          producto.categoriaNombre = '';
-        }
-      }
+
       // obtener nombre del emprendimiento
        const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS }); 
       const emprendimiento = resp.data.nombreEmprendimiento
@@ -246,7 +226,7 @@ exports.procesarCrearProducto = async (req, res) => {
     const categoria = req.body.categoria;
     // etiquetas pueden venir como JSON string desde el input hidden
     const etiquetasCampo = req.body.etiquetas || '[]';
-
+    
     // Añadir los campos de texto al FormData
     if (tituloProducto) formData.append('tituloProducto', tituloProducto);
     if (descripcionProducto) formData.append('descripcionProducto', descripcionProducto);

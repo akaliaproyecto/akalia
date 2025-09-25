@@ -32,14 +32,9 @@ const corsOptions = {
       'http://localhost:4666'
     ].filter(Boolean);
     
-    console.log('🔍 CORS - Origin:', origin);
-    console.log('🔍 CORS - Allowed origins:', allowedOrigins);
-    
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    
-    console.log('❌ CORS - Origin not allowed:', origin);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,

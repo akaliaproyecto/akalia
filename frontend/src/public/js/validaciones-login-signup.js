@@ -95,7 +95,7 @@ function validarEmailUsuario(campo, elementoError, verificarExistencia = false) 
     if (verificarExistencia) {
       try {
         // Verificar si el email ya existe
-        const respuesta = await fetch(`${API_BASE}/api/usuarios/verificar-email/${encodeURIComponent(email)}`);
+        const respuesta = await fetch(`${API_BASE_URL}/api/usuarios/verificar-email/${encodeURIComponent(email)}`);
         const datos = await respuesta.json();
         
         if (datos.existe) {

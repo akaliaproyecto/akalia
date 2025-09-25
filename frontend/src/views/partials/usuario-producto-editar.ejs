@@ -50,8 +50,8 @@
                         <label class="form-label">Categoría</label>
                         <select name="categoria" class="form-select" required id="categoria-editar">
                           <% categorias.forEach(function(cat){ %>
-                            <option value="<%= cat._id || cat.id %>" <%=(String(cat._id ||
-                              cat.id)===String(producto.categoria)) ? 'selected' : '' %>><%= cat.nombreCategoria %>
+                            <option value="<%= cat.nombreCategoria  %>" <%= (cat.nombreCategoria === producto.categoria) ? 'selected' : '' %> >
+                              <%= cat.nombreCategoria %>
                             </option>
                             <% }) %>
                         </select>

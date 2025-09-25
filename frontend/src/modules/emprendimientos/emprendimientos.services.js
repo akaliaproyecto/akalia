@@ -94,8 +94,14 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
   try {
     const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${id}`, { headers: HEADERS, timeout: 5000 });
     emprendimiento = Array.isArray(resp.data) ? resp.data[0] : (resp.data.emprendimiento || resp.data.data || resp.data);
+    
     const usuario = emprendimiento.usuario;
     const respProd = await axios.get(`${API_BASE_URL}/productos/emprendimiento/${id}`, { headers: HEADERS, timeout: 5000 });
+    const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS, timeout: 5000 });
+    const etiquetas = listaEtiquetas.data
+
+    const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS, timeout: 5000 });
+    const categorias = listaCategorias.data
     let productos = [];
     if (respProd && respProd.data) {
       // Esperamos que el backend devuelva un array de productos
@@ -107,7 +113,7 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
     if (req.headers.accept && req.headers.accept.includes('application/json')) {
       return res.json({ emprendimiento });
     } else {
-      return res.render('pages/usuario-emprendimiento-ver', { emprendimiento, productos, usuario });
+      return res.render('pages/usuario-emprendimiento-ver', { emprendimiento, productos, usuario, etiquetas, categorias });
     }
   } catch (error) {
     console.error('Error al mostrar emprendimiento:', error.message);
