@@ -5,13 +5,15 @@ const path = require('path');
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // Debug de variables de entorno
-console.log('🔍 Environment variables:');
+console.log('🔍 Backend Environment variables:');
 console.log('- PORT:', process.env.PORT);
 console.log('- PORT_BACKEND:', process.env.PORT_BACKEND);
 console.log('- NODE_ENV:', process.env.NODE_ENV);
+console.log('- MONGO_URI:', process.env.MONGO_URI ? 'Set' : 'Not set');
+console.log('- CLIENT_URL:', process.env.CLIENT_URL);
 
 const PORT = process.env.PORT || process.env.PORT_BACKEND || 4006;
-console.log(`🚀 Intentando iniciar servidor en puerto: ${PORT}`);
+console.log(`🚀 Backend - Intentando iniciar servidor en puerto: ${PORT}`);
 
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {

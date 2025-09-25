@@ -10,9 +10,11 @@ console.log('🔍 Frontend environment variables:');
 console.log('- PORT:', process.env.PORT);
 console.log('- PORT_FRONTEND:', process.env.PORT_FRONTEND);
 console.log('- NODE_ENV:', process.env.NODE_ENV);
+console.log('- URL_BASE:', process.env.URL_BASE);
+console.log('- API_BASE_URL:', process.env.API_BASE_URL);
 
 const PORT_FRONTEND = process.env.PORT || process.env.PORT_FRONTEND || 4666;
-console.log(`🚀 Intentando iniciar frontend en puerto: ${PORT_FRONTEND}`);
+console.log(`🚀 Frontend - Intentando iniciar servidor en puerto: ${PORT_FRONTEND}`);
 
 // Motor de vistas
 app.set('view engine', 'ejs');

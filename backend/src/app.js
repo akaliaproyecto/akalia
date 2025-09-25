@@ -21,12 +21,33 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //CORS (Frontend y backend en orígenes distintos)
-app.use(cors({
-  origin: process.env.CLIENT_URL,
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permitir requests sin origin (mobile apps, postman, etc.)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      process.env.CLIENT_URL,
+      'https://akalia-app.onrender.com',
+      'http://localhost:4666'
+    ].filter(Boolean);
+    
+    console.log('🔍 CORS - Origin:', origin);
+    console.log('🔍 CORS - Allowed origins:', allowedOrigins);
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    console.log('❌ CORS - Origin not allowed:', origin);
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'akalia-api-key'] // Agregar header de API key
-}));
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'akalia-api-key', 'Origin', 'X-Requested-With', 'Accept']
+};
+
+app.use(cors(corsOptions));
 
 //Sesiones
 app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
@@ -79,6 +100,25 @@ app.use((err, req, res, next) => {
 
 
 /*MONTAJE DE RUTAS*/
+
+// RUTA DE SALUD (health check)
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'Backend is running',
+    timestamp: new Date().toISOString(),
+    port: process.env.PORT || 'unknown'
+  });
+});
+
+// RUTA RAÍZ
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    message: 'Akalia Backend API',
+    version: '1.0.0',
+    status: 'running'
+  });
+});
 
 //AUTENTICACIÓN
 const authRoutes = require('./autenticacion/auth.routes.js');
