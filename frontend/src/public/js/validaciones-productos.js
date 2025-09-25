@@ -369,6 +369,10 @@ function inicializarValidacionesEditar() {
   // Validación al enviar el formulario de editar
   formularioEditarProducto.addEventListener('submit', async (evento) => {
     evento.preventDefault();
+    evento.stopPropagation();
+    
+    // Desactivar la validación nativa de HTML5
+    formularioEditarProducto.setAttribute('novalidate', 'true');
     
     // Ejecutar todas las validaciones
     const validaciones = [
@@ -380,7 +384,6 @@ function inicializarValidacionesEditar() {
       validarCategoriaEditar(),
       validarEtiquetasEditar()
     ];
-    
     
     // Verificar si todas las validaciones pasaron
     const todasValidas = validaciones.every(valida => valida === true);
@@ -396,9 +399,12 @@ function inicializarValidacionesEditar() {
     }
     
     // Si todas las validaciones pasaron
-      if (typeof window.mostrarToast === 'function') {
-        window.mostrarToast('Actualizando producto...', 'info');
-      }    // Enviar formulario
+    if (typeof window.mostrarToast === 'function') {
+      window.mostrarToast('Actualizando producto...', 'info');
+    }
+    
+    // Reactivar la validación nativa y enviar formulario
+    formularioEditarProducto.removeAttribute('novalidate');
     formularioEditarProducto.submit();
   });
 }
@@ -415,6 +421,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if (formularioCrearProducto) {
     console.log('Formulario crear producto encontrado, inicializando validaciones...');
+    
+    // Deshabilitar validación HTML nativa para usar solo nuestras validaciones personalizadas
+    formularioCrearProducto.setAttribute('novalidate', 'true');
     
     // Elementos del formulario
     const campoTitulo = document.getElementById('titulo');
@@ -517,6 +526,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Validación al enviar el formulario
     formularioCrearProducto.addEventListener('submit', async (evento) => {
       evento.preventDefault();
+      evento.stopPropagation();
+      
+      // Desactivar la validación nativa de HTML5
+      formularioCrearProducto.setAttribute('novalidate', 'true');
       
       // Ejecutar todas las validaciones
       const validaciones = [
@@ -543,9 +556,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Si todas las validaciones pasaron
-    if (typeof window.mostrarToast === 'function') {
-      window.mostrarToast('Creando producto...', 'info');
-    }      // Enviar formulario
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('Creando producto...', 'info');
+      }
+      
+      // Reactivar la validación nativa y enviar formulario
+      formularioCrearProducto.removeAttribute('novalidate');
       formularioCrearProducto.submit();
     });
   }

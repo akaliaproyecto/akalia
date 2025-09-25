@@ -224,6 +224,7 @@ exports.procesarCrearProducto = async (req, res) => {
     const precioProducto = req.body.precio;
     const idEmprendimiento = req.body.idEmprendimiento;
     const categoria = req.body.categoria;
+    console.log(categoria)
     // etiquetas pueden venir como JSON string desde el input hidden
     const etiquetasCampo = req.body.etiquetas || '[]';
     
