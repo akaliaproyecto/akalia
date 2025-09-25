@@ -16,9 +16,27 @@
           <section class="akalia-card overflow-auto">
             <header class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
               <h2 class="akalia-title akalia-title--medium m-0">Mis Productos</h2>
-              <!-- Botón para abrir el modal de creación. Usamos una llamada a la función crearProducto -->
-              <button onclick="crearProducto('<%= usuario.idUsuario %>')" class="btn btn-terracota"
-                data-bs-toggle="modal" data-bs-target="#modalCrearProducto">+ Nuevo Producto</button>
+              <!-- Botón para abrir el modal de creación. Solo se muestra si hay emprendimientos -->
+              <% if (typeof emprendimientos !== 'undefined' && emprendimientos.length > 0) { %>
+                <button onclick="crearProducto('<%= usuario.idUsuario %>')" class="btn btn-terracota"
+                  data-bs-toggle="modal" data-bs-target="#modalCrearProducto">
+                  <i class="fas fa-plus"></i>
+                  <span class="d-none d-sm-inline">Nuevo Producto</span>
+                  <span class="d-inline d-sm-none">Nuevo</span>
+                </button>
+              <% } else { %>
+                <div class="d-flex align-items-center gap-2">
+                  <a href="/usuario-emprendimientos" class="btn btn-outline-terracota">
+                    <i class="fas fa-store"></i>
+                    <span>Crear Emprendimiento</span>
+                  </a>
+                  <button class="btn btn-secondary" disabled title="Necesitas un emprendimiento para crear productos">
+                    <i class="fas fa-lock"></i>
+                    <span class="d-none d-sm-inline">Nuevo Producto</span>
+                    <span class="d-inline d-sm-none">Nuevo</span>
+                  </button>
+                </div>
+              <% } %>
             </header>
 
             <nav class="akalia-table-filters d-flex gap-3 mb-3 flex-wrap d-none">
@@ -107,9 +125,34 @@
                   </table>
                 </div>
                 <% } else { %>
-                  <p class="mb-2 akalia-card-info">
-                    No hay productos registrados en este emprendimiento
-                  </p>
+                  <% if (typeof emprendimientos !== 'undefined' && emprendimientos.length > 0) { %>
+                  
+                      <!-- Tiene emprendimientos pero no productos -->
+                      <div class="mb-4 text-center ">
+                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                        <h4 class="akalia-title--medium mb-2">Aún no tienes productos</h4>
+                        <p class="text-muted mb-3">Comienza a mostrar tus productos al mundo creando tu primera publicación.</p>
+                        <button onclick="crearProducto('<%= usuario.idUsuario %>')" class="btn btn-terracota d-flex align-items-center gap-2 mx-auto"
+                          data-bs-toggle="modal" data-bs-target="#modalCrearProducto">
+                          <i class="fas fa-plus"></i>
+                          Crear mi primer producto
+                        </button>
+                      </div>
+                    <% } else { %>
+                      <!-- No tiene emprendimientos -->
+                      <div class="mb-4 text-center ">
+                        <i class="fas fa-store fa-3x text-warning mb-3"></i>
+                        <h4 class="akalia-title--medium mb-2">Necesitas un emprendimiento</h4>
+                        <p class="text-muted mb-3">Para crear productos, primero debes tener un emprendimiento donde publicarlos.</p>
+                        <div class="d-flex gap-2 justify-content-center flex-wrap">
+                          <a href="/usuario-emprendimientos" class="btn btn-terracota d-flex align-items-center gap-2">
+                            <i class="fas fa-store"></i>
+                            Crear mi emprendimiento
+                          </a>
+                        </div>
+                      
+                    </div>
+                    <% } %>
                   <% } %>
             </article>
           </section>

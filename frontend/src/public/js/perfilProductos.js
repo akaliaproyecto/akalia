@@ -180,6 +180,21 @@ async function crearProducto(idUsuario) {
       categorias: categorias.length, 
       etiquetas: etiquetas.length 
     });
+
+    // Validación crítica: El usuario debe tener emprendimientos
+    if (!emprendimientos || emprendimientos.length === 0) {
+      if (window.mostrarToast) {
+        mostrarToast('⚠️ Emprendimiento requerido', 'Para crear productos necesitas tener al menos un emprendimiento activo.', 'warning');
+      } else {
+        alert('Para crear productos necesitas tener al menos un emprendimiento activo.');
+      }
+      
+      // Redirigir a la página de emprendimientos
+      if (confirm('¿Quieres crear tu emprendimiento ahora?')) {
+        window.location.href = '/usuario-emprendimientos';
+      }
+      return;
+    }
     
     // Poblar el select de emprendimientos
     const selectEmprendimiento = document.getElementById('emprendimiento');

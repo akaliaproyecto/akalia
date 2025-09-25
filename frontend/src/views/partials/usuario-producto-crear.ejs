@@ -56,7 +56,8 @@
                 <% } else { %>
                   <div class="alert alert-warning">
                     <i class="fas fa-exclamation-triangle"></i>
-                    No hay emprendimientos disponibles. Crea primero tu emprendimiento para publicar productos <a href="/usuarios/emprendimientos">Crear emprendimiento</a>
+                    No hay emprendimientos disponibles. Crea primero tu emprendimiento para publicar productos <a href="/usuario-emprendimientos">Crear emprendimiento</a>
+                    <input type="hidden" name="idEmprendimiento" value="">
                   </div>
                 <% } %>
               </div>
@@ -66,6 +67,7 @@
                 <!-- El select se llenará dinámicamente con JS -->
                 <select name="categoria" id="categoria" class="form-select" required>
                   <% if (typeof categorias !=='undefined' && categorias.length) { %>
+                    <option value="">Selecciona una categoría</option>
                     <% categorias.forEach(function(cat) { %>
                       <option value="<%= cat.nombreCategoria %>">
                         <%= cat.nombreCategoria %>
