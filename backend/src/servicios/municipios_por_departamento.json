@@ -1,0 +1,5678 @@
+{
+  "Amazonas": [
+    {
+      "id": 91405,
+      "nombre": "La Chorrera",
+      "area": 12641.4979505
+    },
+    {
+      "id": 91669,
+      "nombre": "Santander",
+      "area": 14692.1323123
+    },
+    {
+      "id": 91460,
+      "nombre": "Mirití-Paraná",
+      "area": 16813.3850352
+    },
+    {
+      "id": 91430,
+      "nombre": "La Victoria",
+      "area": 1428.20287199
+    },
+    {
+      "id": 91540,
+      "nombre": "Puerto Nariño",
+      "area": 1455.58351811
+    },
+    {
+      "id": 91001,
+      "nombre": "Leticia",
+      "area": 6010.30247235
+    },
+    {
+      "id": 91798,
+      "nombre": "Tarapacá",
+      "area": 9039.83203029
+    },
+    {
+      "id": 91263,
+      "nombre": "El Encanto",
+      "area": 10505.0209529
+    },
+    {
+      "id": 91536,
+      "nombre": "Puerto Arica",
+      "area": 13523.5056714
+    },
+    {
+      "id": 91530,
+      "nombre": "Puerto Alegría",
+      "area": 8293.17570586
+    },
+    {
+      "id": 91407,
+      "nombre": "La Pedrera",
+      "area": 13579.8657939
+    }
+  ],
+  "Nariño": [
+    {
+      "id": 52560,
+      "nombre": "Potosí",
+      "area": 388.676331627
+    },
+    {
+      "id": 52215,
+      "nombre": "Córdoba",
+      "area": 304.917374308
+    },
+    {
+      "id": 52573,
+      "nombre": "Puerres",
+      "area": 350.460379939
+    },
+    {
+      "id": 52210,
+      "nombre": "Contadero",
+      "area": 43.2539858968
+    },
+    {
+      "id": 52323,
+      "nombre": "Gualmatán",
+      "area": 29.9941153977
+    },
+    {
+      "id": 52585,
+      "nombre": "Pupiales",
+      "area": 129.803739075
+    },
+    {
+      "id": 52352,
+      "nombre": "Iles",
+      "area": 80.6377024861
+    },
+    {
+      "id": 52317,
+      "nombre": "Guachucal",
+      "area": 155.850489138
+    },
+    {
+      "id": 52287,
+      "nombre": "Funes",
+      "area": 395.119011587
+    },
+    {
+      "id": 52506,
+      "nombre": "Ospina",
+      "area": 64.911709413
+    },
+    {
+      "id": 52720,
+      "nombre": "Sapuyes",
+      "area": 115.680319933
+    },
+    {
+      "id": 52354,
+      "nombre": "Imués",
+      "area": 81.7921157004
+    },
+    {
+      "id": 52885,
+      "nombre": "Yacuanquer",
+      "area": 102.834919541
+    },
+    {
+      "id": 52788,
+      "nombre": "Tangua",
+      "area": 218.18721976
+    },
+    {
+      "id": 52320,
+      "nombre": "Guaitarilla",
+      "area": 116.861338586
+    },
+    {
+      "id": 52207,
+      "nombre": "Consacá",
+      "area": 119.470782421
+    },
+    {
+      "id": 52838,
+      "nombre": "Túquerres",
+      "area": 216.515097095
+    },
+    {
+      "id": 52565,
+      "nombre": "Providencia",
+      "area": 40.001385955
+    },
+    {
+      "id": 52480,
+      "nombre": "Nariño",
+      "area": 25.3361987145
+    },
+    {
+      "id": 52036,
+      "nombre": "Ancuya",
+      "area": 68.9781110886
+    },
+    {
+      "id": 52001,
+      "nombre": "Pasto",
+      "area": 1100.29297587
+    },
+    {
+      "id": 52683,
+      "nombre": "Sandoná",
+      "area": 101.713317122
+    },
+    {
+      "id": 52435,
+      "nombre": "Mallama",
+      "area": 569.813704824
+    },
+    {
+      "id": 52381,
+      "nombre": "La Florida",
+      "area": 136.441933268
+    },
+    {
+      "id": 52110,
+      "nombre": "Buesaco",
+      "area": 636.447971602
+    },
+    {
+      "id": 52699,
+      "nombre": "Santa Cruz",
+      "area": 541.27497552
+    },
+    {
+      "id": 52411,
+      "nombre": "Linares",
+      "area": 135.771915572
+    },
+    {
+      "id": 52019,
+      "nombre": "Albán",
+      "area": 38.6384248796
+    },
+    {
+      "id": 52258,
+      "nombre": "El Tablón",
+      "area": 307.110940005
+    },
+    {
+      "id": 52240,
+      "nombre": "Chachagüí",
+      "area": 146.398668567
+    },
+    {
+      "id": 52051,
+      "nombre": "Arboleda",
+      "area": 60.2323784243
+    },
+    {
+      "id": 52260,
+      "nombre": "El Tambo",
+      "area": 246.547306321
+    },
+    {
+      "id": 52685,
+      "nombre": "San Bernardo",
+      "area": 65.2102640164
+    },
+    {
+      "id": 52694,
+      "nombre": "San Pedro De Cartago",
+      "area": 55.6893230892
+    },
+    {
+      "id": 52678,
+      "nombre": "Samaniego",
+      "area": 605.722447836
+    },
+    {
+      "id": 52254,
+      "nombre": "El Peñol",
+      "area": 121.237333447
+    },
+    {
+      "id": 52083,
+      "nombre": "Belén",
+      "area": 41.8753943234
+    },
+    {
+      "id": 52378,
+      "nombre": "La Cruz",
+      "area": 238.999193762
+    },
+    {
+      "id": 52385,
+      "nombre": "La Llanada",
+      "area": 245.281299171
+    },
+    {
+      "id": 52687,
+      "nombre": "San Lorenzo",
+      "area": 249.351232673
+    },
+    {
+      "id": 52203,
+      "nombre": "Colón",
+      "area": 61.7949573251
+    },
+    {
+      "id": 52786,
+      "nombre": "Taminango",
+      "area": 234.803283527
+    },
+    {
+      "id": 52399,
+      "nombre": "La Unión",
+      "area": 142.263667628
+    },
+    {
+      "id": 52693,
+      "nombre": "San Pablo",
+      "area": 111.934135216
+    },
+    {
+      "id": 52418,
+      "nombre": "Los Andes",
+      "area": 957.9668857
+    },
+    {
+      "id": 52540,
+      "nombre": "Policarpa",
+      "area": 434.665299041
+    },
+    {
+      "id": 52233,
+      "nombre": "Cumbitara",
+      "area": 355.551044966
+    },
+    {
+      "id": 52256,
+      "nombre": "El Rosario",
+      "area": 520.791981005
+    },
+    {
+      "id": 52427,
+      "nombre": "Magüí",
+      "area": 1810.61067309
+    },
+    {
+      "id": 52405,
+      "nombre": "Leiva",
+      "area": 310.696420219
+    },
+    {
+      "id": 52621,
+      "nombre": "Roberto Payán",
+      "area": 1460.038499
+    },
+    {
+      "id": 52520,
+      "nombre": "Francisco Pizarro",
+      "area": 526.08278202
+    },
+    {
+      "id": 52473,
+      "nombre": "Mosquera",
+      "area": 769.308492686
+    },
+    {
+      "id": 52490,
+      "nombre": "Olaya Herrera",
+      "area": 1004.66718363
+    },
+    {
+      "id": 52696,
+      "nombre": "Santa Bárbara",
+      "area": 1226.12581425
+    },
+    {
+      "id": 52390,
+      "nombre": "La Tola",
+      "area": 416.53210344
+    },
+    {
+      "id": 52250,
+      "nombre": "El Charco",
+      "area": 2493.69842675
+    },
+    {
+      "id": 52835,
+      "nombre": "Tumaco",
+      "area": 3616.89087813
+    },
+    {
+      "id": 52356,
+      "nombre": "Ipiales",
+      "area": 1543.04646704
+    },
+    {
+      "id": 52224,
+      "nombre": "Cuaspud",
+      "area": 57.3948341858
+    },
+    {
+      "id": 52022,
+      "nombre": "Aldana",
+      "area": 47.6915028668
+    },
+    {
+      "id": 52227,
+      "nombre": "Cumbal",
+      "area": 917.617209145
+    },
+    {
+      "id": 52612,
+      "nombre": "Ricaurte",
+      "area": 1056.43719399
+    },
+    {
+      "id": 52079,
+      "nombre": "Barbacoas",
+      "area": 2735.9039538
+    }
+  ],
+  "Putumayo": [
+    {
+      "id": 86569,
+      "nombre": "Puerto Caicedo",
+      "area": 926.789715039
+    },
+    {
+      "id": 86320,
+      "nombre": "Orito",
+      "area": 1940.66195929
+    },
+    {
+      "id": 86571,
+      "nombre": "Puerto Guzmán",
+      "area": 4576.40236659
+    },
+    {
+      "id": 86885,
+      "nombre": "Villagarzón",
+      "area": 1397.69206317
+    },
+    {
+      "id": 86760,
+      "nombre": "Santiago",
+      "area": 342.160738053
+    },
+    {
+      "id": 86755,
+      "nombre": "San Francisco",
+      "area": 407.596111149
+    },
+    {
+      "id": 86219,
+      "nombre": "Colón",
+      "area": 64.3229355509
+    },
+    {
+      "id": 86749,
+      "nombre": "Sibundoy",
+      "area": 97.7908512654
+    },
+    {
+      "id": 86001,
+      "nombre": "Mocoa",
+      "area": 1305.26519049
+    },
+    {
+      "id": 86757,
+      "nombre": "San Miguel",
+      "area": 373.642698765
+    },
+    {
+      "id": 86865,
+      "nombre": "Valle Del Guamuez",
+      "area": 814.515422482
+    },
+    {
+      "id": 86568,
+      "nombre": "Puerto Asís",
+      "area": 2802.38601582
+    },
+    {
+      "id": 86573,
+      "nombre": "Leguízamo",
+      "area": 10651.2126821
+    }
+  ],
+  "Caquetá": [
+    {
+      "id": 18785,
+      "nombre": "Solita",
+      "area": 476.830058074
+    },
+    {
+      "id": 18205,
+      "nombre": "Curillo",
+      "area": 399.277219225
+    },
+    {
+      "id": 18756,
+      "nombre": "Solano",
+      "area": 42233.4285497
+    },
+    {
+      "id": 18860,
+      "nombre": "Valparaíso",
+      "area": 1329.92155788
+    },
+    {
+      "id": 18460,
+      "nombre": "Milán",
+      "area": 1220.12056809
+    },
+    {
+      "id": 18029,
+      "nombre": "Albania",
+      "area": 412.827693842
+    },
+    {
+      "id": 18150,
+      "nombre": "Cartagena Del Chairá",
+      "area": 12771.3866711
+    },
+    {
+      "id": 18479,
+      "nombre": "Morelia",
+      "area": 462.396683958
+    },
+    {
+      "id": 18610,
+      "nombre": "San José Del Fragua",
+      "area": 1310.24886369
+    },
+    {
+      "id": 18094,
+      "nombre": "Belén De Los Andaquíes",
+      "area": 1191.55051045
+    },
+    {
+      "id": 18410,
+      "nombre": "Montañita",
+      "area": 1700.23556381
+    },
+    {
+      "id": 18001,
+      "nombre": "Florencia",
+      "area": 2546.94239385
+    },
+    {
+      "id": 18256,
+      "nombre": "El Paujil",
+      "area": 1234.15379461
+    },
+    {
+      "id": 18247,
+      "nombre": "El Doncello",
+      "area": 1105.4981135
+    },
+    {
+      "id": 18592,
+      "nombre": "Puerto Rico",
+      "area": 4143.96132161
+    },
+    {
+      "id": 18753,
+      "nombre": "San Vicente Del Caguán",
+      "area": 20170.2952878
+    }
+  ],
+  "Cauca": [
+    {
+      "id": 19533,
+      "nombre": "Piamonte",
+      "area": 1104.95719443
+    },
+    {
+      "id": 19290,
+      "nombre": "Florencia",
+      "area": 56.6948936093
+    },
+    {
+      "id": 19701,
+      "nombre": "Santa Rosa",
+      "area": 3620.75583337
+    },
+    {
+      "id": 19450,
+      "nombre": "Mercaderes",
+      "area": 698.555237088
+    },
+    {
+      "id": 19693,
+      "nombre": "San Sebastián",
+      "area": 419.244268305
+    },
+    {
+      "id": 19022,
+      "nombre": "Almaguer",
+      "area": 236.85163991
+    },
+    {
+      "id": 19100,
+      "nombre": "Bolívar",
+      "area": 798.34678938
+    },
+    {
+      "id": 19785,
+      "nombre": "Sucre",
+      "area": 135.958539892
+    },
+    {
+      "id": 19397,
+      "nombre": "La Vega",
+      "area": 516.346942815
+    },
+    {
+      "id": 19075,
+      "nombre": "Balboa",
+      "area": 413.552237313
+    },
+    {
+      "id": 19392,
+      "nombre": "La Sierra",
+      "area": 208.467394264
+    },
+    {
+      "id": 19622,
+      "nombre": "Rosas",
+      "area": 169.180145929
+    },
+    {
+      "id": 19532,
+      "nombre": "Patía",
+      "area": 755.838830372
+    },
+    {
+      "id": 19760,
+      "nombre": "Sotará",
+      "area": 516.165593607
+    },
+    {
+      "id": 19585,
+      "nombre": "Puracé",
+      "area": 506.453433337
+    },
+    {
+      "id": 19807,
+      "nombre": "Timbío",
+      "area": 201.397937105
+    },
+    {
+      "id": 19050,
+      "nombre": "Argelia",
+      "area": 776.455491207
+    },
+    {
+      "id": 19001,
+      "nombre": "Popayán",
+      "area": 480.373519692
+    },
+    {
+      "id": 19824,
+      "nombre": "Totoró",
+      "area": 404.584536345
+    },
+    {
+      "id": 19355,
+      "nombre": "Inzá",
+      "area": 866.41159548
+    },
+    {
+      "id": 19318,
+      "nombre": "Guapi",
+      "area": 2570.8866941
+    },
+    {
+      "id": 19130,
+      "nombre": "Cajibío",
+      "area": 552.619423428
+    },
+    {
+      "id": 19743,
+      "nombre": "Silvia",
+      "area": 681.166714495
+    },
+    {
+      "id": 19256,
+      "nombre": "El Tambo",
+      "area": 2741.48858935
+    },
+    {
+      "id": 19548,
+      "nombre": "Piendamó Tunia",
+      "area": 181.269878645
+    },
+    {
+      "id": 19137,
+      "nombre": "Caldono",
+      "area": 354.855729519
+    },
+    {
+      "id": 19809,
+      "nombre": "Timbiquí",
+      "area": 2059.78546951
+    },
+    {
+      "id": 19473,
+      "nombre": "Morales",
+      "area": 511.743390356
+    },
+    {
+      "id": 19364,
+      "nombre": "Jambaló",
+      "area": 234.499838666
+    },
+    {
+      "id": 19517,
+      "nombre": "Páez",
+      "area": 1793.18373865
+    },
+    {
+      "id": 19780,
+      "nombre": "Suárez",
+      "area": 392.585087822
+    },
+    {
+      "id": 19821,
+      "nombre": "Toribío",
+      "area": 492.218383075
+    },
+    {
+      "id": 19698,
+      "nombre": "Santander De Quilichao",
+      "area": 518.364508278
+    },
+    {
+      "id": 19212,
+      "nombre": "Corinto",
+      "area": 325.967882317
+    },
+    {
+      "id": 19110,
+      "nombre": "Buenos Aires",
+      "area": 435.250333434
+    },
+    {
+      "id": 19513,
+      "nombre": "Padilla",
+      "area": 69.696992748
+    },
+    {
+      "id": 19418,
+      "nombre": "López",
+      "area": 3370.42700552
+    },
+    {
+      "id": 19455,
+      "nombre": "Miranda",
+      "area": 189.719284643
+    },
+    {
+      "id": 19142,
+      "nombre": "Caloto",
+      "area": 265.022422145
+    },
+    {
+      "id": 19300,
+      "nombre": "Guachené",
+      "area": 100.649055125
+    },
+    {
+      "id": 19845,
+      "nombre": "Villa Rica",
+      "area": 81.7461062336
+    },
+    {
+      "id": 19573,
+      "nombre": "Puerto Tejada",
+      "area": 108.92998463
+    }
+  ],
+  "Vaupés": [
+    {
+      "id": 97161,
+      "nombre": "Carurú",
+      "area": 6349.02552019
+    },
+    {
+      "id": 97666,
+      "nombre": "Taraira",
+      "area": 6494.49659691
+    },
+    {
+      "id": 97001,
+      "nombre": "Mitú",
+      "area": 16153.9633018
+    },
+    {
+      "id": 97511,
+      "nombre": "Pacoa",
+      "area": 13947.3150437
+    },
+    {
+      "id": 97889,
+      "nombre": "Yavaraté",
+      "area": 4584.13896312
+    },
+    {
+      "id": 97777,
+      "nombre": "Papunaua",
+      "area": 5531.67813911
+    }
+  ],
+  "Huila": [
+    {
+      "id": 41530,
+      "nombre": "Palestina",
+      "area": 196.961261125
+    },
+    {
+      "id": 41006,
+      "nombre": "Acevedo",
+      "area": 521.806772266
+    },
+    {
+      "id": 41770,
+      "nombre": "Suaza",
+      "area": 429.623460686
+    },
+    {
+      "id": 41551,
+      "nombre": "Pitalito",
+      "area": 630.731671288
+    },
+    {
+      "id": 41807,
+      "nombre": "Timaná",
+      "area": 185.721674653
+    },
+    {
+      "id": 41244,
+      "nombre": "Elías",
+      "area": 80.4417995877
+    },
+    {
+      "id": 41319,
+      "nombre": "Guadalupe",
+      "area": 249.535616171
+    },
+    {
+      "id": 41503,
+      "nombre": "Oporapa",
+      "area": 155.820737284
+    },
+    {
+      "id": 41026,
+      "nombre": "Altamira",
+      "area": 180.975472641
+    },
+    {
+      "id": 41668,
+      "nombre": "San Agustín",
+      "area": 1390.85048612
+    },
+    {
+      "id": 41791,
+      "nombre": "Tarqui",
+      "area": 362.790917295
+    },
+    {
+      "id": 41660,
+      "nombre": "Saladoblanco",
+      "area": 466.726447793
+    },
+    {
+      "id": 41359,
+      "nombre": "Isnos",
+      "area": 370.728693005
+    },
+    {
+      "id": 41378,
+      "nombre": "La Argentina",
+      "area": 356.457506955
+    },
+    {
+      "id": 41298,
+      "nombre": "Garzón",
+      "area": 606.403994522
+    },
+    {
+      "id": 41548,
+      "nombre": "Pital",
+      "area": 193.643250823
+    },
+    {
+      "id": 41013,
+      "nombre": "Agrado",
+      "area": 273.687019873
+    },
+    {
+      "id": 41518,
+      "nombre": "Paicol",
+      "area": 278.267478404
+    },
+    {
+      "id": 41396,
+      "nombre": "La Plata",
+      "area": 814.671290227
+    },
+    {
+      "id": 41306,
+      "nombre": "Gigante",
+      "area": 503.519722924
+    },
+    {
+      "id": 41797,
+      "nombre": "Tesalia",
+      "area": 366.957320485
+    },
+    {
+      "id": 41349,
+      "nombre": "Hobo",
+      "area": 194.27530932
+    },
+    {
+      "id": 41483,
+      "nombre": "Nátaga",
+      "area": 131.923607417
+    },
+    {
+      "id": 41020,
+      "nombre": "Algeciras",
+      "area": 589.427162519
+    },
+    {
+      "id": 41885,
+      "nombre": "Yaguará",
+      "area": 332.816630215
+    },
+    {
+      "id": 41132,
+      "nombre": "Campoalegre",
+      "area": 462.497188761
+    },
+    {
+      "id": 41357,
+      "nombre": "Íquira",
+      "area": 356.448475217
+    },
+    {
+      "id": 41615,
+      "nombre": "Rivera",
+      "area": 251.109229004
+    },
+    {
+      "id": 41801,
+      "nombre": "Teruel",
+      "area": 471.650197945
+    },
+    {
+      "id": 41676,
+      "nombre": "Santa María",
+      "area": 339.305248206
+    },
+    {
+      "id": 41524,
+      "nombre": "Palermo",
+      "area": 884.002068324
+    },
+    {
+      "id": 41799,
+      "nombre": "Tello",
+      "area": 530.115223141
+    },
+    {
+      "id": 41001,
+      "nombre": "Neiva",
+      "area": 1269.14313362
+    },
+    {
+      "id": 41078,
+      "nombre": "Baraya",
+      "area": 785.479230551
+    },
+    {
+      "id": 41016,
+      "nombre": "Aipe",
+      "area": 795.298557768
+    },
+    {
+      "id": 41872,
+      "nombre": "Villavieja",
+      "area": 543.629848026
+    },
+    {
+      "id": 41206,
+      "nombre": "Colombia",
+      "area": 1583.62303257
+    }
+  ],
+  "Guaviare": [
+    {
+      "id": 95200,
+      "nombre": "Miraflores",
+      "area": 12774.7632962
+    },
+    {
+      "id": 95015,
+      "nombre": "Calamar",
+      "area": 13510.3076006
+    },
+    {
+      "id": 95025,
+      "nombre": "El Retorno",
+      "area": 12405.9094518
+    },
+    {
+      "id": 95001,
+      "nombre": "San José Del Guaviare",
+      "area": 16712.2206606
+    }
+  ],
+  "N/A": [
+    {
+      "id": 0,
+      "nombre": "Area En Litigio Cauca - Huila",
+      "area": 342.09908699
+    }
+  ],
+  "Meta": [
+    {
+      "id": 50350,
+      "nombre": "La Macarena",
+      "area": 8108.29627162
+    },
+    {
+      "id": 50711,
+      "nombre": "Vistahermosa",
+      "area": 4813.98945963
+    },
+    {
+      "id": 50577,
+      "nombre": "Puerto Lleras",
+      "area": 2531.22576893
+    },
+    {
+      "id": 50683,
+      "nombre": "San Juan De Arama",
+      "area": 1165.36000753
+    },
+    {
+      "id": 50287,
+      "nombre": "Fuentedeoro",
+      "area": 570.084183274
+    },
+    {
+      "id": 50330,
+      "nombre": "Mesetas",
+      "area": 2277.86175335
+    },
+    {
+      "id": 50313,
+      "nombre": "Granada",
+      "area": 347.819894974
+    },
+    {
+      "id": 50251,
+      "nombre": "El Castillo",
+      "area": 567.439713299
+    },
+    {
+      "id": 50270,
+      "nombre": "El Dorado",
+      "area": 117.175995419
+    },
+    {
+      "id": 50370,
+      "nombre": "Uribe",
+      "area": 6454.45538194
+    },
+    {
+      "id": 50400,
+      "nombre": "Lejanías",
+      "area": 814.421012357
+    },
+    {
+      "id": 50689,
+      "nombre": "San Martín",
+      "area": 5922.03563765
+    },
+    {
+      "id": 50150,
+      "nombre": "Castilla La Nueva",
+      "area": 513.865502486
+    },
+    {
+      "id": 50680,
+      "nombre": "San Carlos De Guaroa",
+      "area": 806.565648635
+    },
+    {
+      "id": 50223,
+      "nombre": "Cubarral",
+      "area": 1156.41771699
+    },
+    {
+      "id": 50318,
+      "nombre": "Guamal",
+      "area": 594.919773758
+    },
+    {
+      "id": 50006,
+      "nombre": "Acacías",
+      "area": 1121.91997288
+    },
+    {
+      "id": 50001,
+      "nombre": "Villavicencio",
+      "area": 1283.75745176
+    },
+    {
+      "id": 50226,
+      "nombre": "Cumaral",
+      "area": 623.827712692
+    },
+    {
+      "id": 50573,
+      "nombre": "Puerto López",
+      "area": 6898.19676567
+    },
+    {
+      "id": 50606,
+      "nombre": "Restrepo",
+      "area": 364.492317212
+    },
+    {
+      "id": 50245,
+      "nombre": "El Calvario",
+      "area": 269.905931873
+    },
+    {
+      "id": 50124,
+      "nombre": "Cabuyaro",
+      "area": 911.843720238
+    },
+    {
+      "id": 50686,
+      "nombre": "San Juanito",
+      "area": 244.523507655
+    },
+    {
+      "id": 50110,
+      "nombre": "Barranca De Upía",
+      "area": 403.01385949
+    },
+    {
+      "id": 50568,
+      "nombre": "Puerto Gaitán",
+      "area": 17199.254178
+    },
+    {
+      "id": 50450,
+      "nombre": "Puerto Concordia",
+      "area": 1256.29517454
+    },
+    {
+      "id": 50590,
+      "nombre": "Puerto Rico",
+      "area": 3405.72430421
+    },
+    {
+      "id": 50325,
+      "nombre": "Mapiripán",
+      "area": 11917.426012
+    }
+  ],
+  "Tolima": [
+    {
+      "id": 73555,
+      "nombre": "Planadas",
+      "area": 1753.93489435
+    },
+    {
+      "id": 73024,
+      "nombre": "Alpujarra",
+      "area": 501.171776179
+    },
+    {
+      "id": 73067,
+      "nombre": "Ataco",
+      "area": 1017.32428603
+    },
+    {
+      "id": 73483,
+      "nombre": "Natagaima",
+      "area": 859.350241373
+    },
+    {
+      "id": 73616,
+      "nombre": "Rioblanco",
+      "area": 2046.08217227
+    },
+    {
+      "id": 73563,
+      "nombre": "Prado",
+      "area": 422.707268955
+    },
+    {
+      "id": 73236,
+      "nombre": "Dolores",
+      "area": 651.449517818
+    },
+    {
+      "id": 73217,
+      "nombre": "Coyaima",
+      "area": 668.693838906
+    },
+    {
+      "id": 73873,
+      "nombre": "Villarrica",
+      "area": 430.080139285
+    },
+    {
+      "id": 73671,
+      "nombre": "Saldaña",
+      "area": 193.105629313
+    },
+    {
+      "id": 73585,
+      "nombre": "Purificación",
+      "area": 401.976518127
+    },
+    {
+      "id": 73168,
+      "nombre": "Chaparral",
+      "area": 2101.53586256
+    },
+    {
+      "id": 73504,
+      "nombre": "Ortega",
+      "area": 953.285897252
+    },
+    {
+      "id": 73675,
+      "nombre": "San Antonio",
+      "area": 383.350981781
+    },
+    {
+      "id": 73226,
+      "nombre": "Cunday",
+      "area": 507.025445701
+    },
+    {
+      "id": 73148,
+      "nombre": "Carmen De Apicalá",
+      "area": 190.683235904
+    },
+    {
+      "id": 73268,
+      "nombre": "Espinal",
+      "area": 216.344358641
+    },
+    {
+      "id": 73319,
+      "nombre": "Guamo",
+      "area": 505.312858517
+    },
+    {
+      "id": 73770,
+      "nombre": "Suárez",
+      "area": 190.00863933
+    },
+    {
+      "id": 73352,
+      "nombre": "Icononzo",
+      "area": 214.973557823
+    },
+    {
+      "id": 73449,
+      "nombre": "Melgar",
+      "area": 201.99633796
+    },
+    {
+      "id": 73854,
+      "nombre": "Valle De San Juan",
+      "area": 197.742173198
+    },
+    {
+      "id": 73275,
+      "nombre": "Flandes",
+      "area": 96.7443396553
+    },
+    {
+      "id": 73678,
+      "nombre": "San Luis",
+      "area": 411.996585753
+    },
+    {
+      "id": 73624,
+      "nombre": "Rovira",
+      "area": 739.188935938
+    },
+    {
+      "id": 73200,
+      "nombre": "Coello",
+      "area": 343.422828749
+    },
+    {
+      "id": 73547,
+      "nombre": "Piedras",
+      "area": 354.16431678
+    },
+    {
+      "id": 73026,
+      "nombre": "Alvarado",
+      "area": 344.111865407
+    },
+    {
+      "id": 73043,
+      "nombre": "Anzoátegui",
+      "area": 469.46925983
+    },
+    {
+      "id": 73861,
+      "nombre": "Venadillo",
+      "area": 334.398564058
+    },
+    {
+      "id": 73686,
+      "nombre": "Santa Isabel",
+      "area": 270.052157583
+    },
+    {
+      "id": 73461,
+      "nombre": "Murillo",
+      "area": 423.721513466
+    },
+    {
+      "id": 73030,
+      "nombre": "Ambalema",
+      "area": 237.83825443
+    },
+    {
+      "id": 73408,
+      "nombre": "Lérida",
+      "area": 271.766372734
+    },
+    {
+      "id": 73411,
+      "nombre": "Líbano",
+      "area": 282.200244384
+    },
+    {
+      "id": 73870,
+      "nombre": "Villahermosa",
+      "area": 279.064902915
+    },
+    {
+      "id": 73152,
+      "nombre": "Casabianca",
+      "area": 174.839956927
+    },
+    {
+      "id": 73520,
+      "nombre": "Palocabildo",
+      "area": 64.9729367337
+    },
+    {
+      "id": 73055,
+      "nombre": "Armero",
+      "area": 440.303919271
+    },
+    {
+      "id": 73347,
+      "nombre": "Herveo",
+      "area": 322.538474513
+    },
+    {
+      "id": 73270,
+      "nombre": "Falan",
+      "area": 181.19798474
+    },
+    {
+      "id": 73283,
+      "nombre": "Fresno",
+      "area": 219.556726791
+    },
+    {
+      "id": 73443,
+      "nombre": "Mariquita",
+      "area": 293.115761103
+    },
+    {
+      "id": 73349,
+      "nombre": "Honda",
+      "area": 304.712192818
+    },
+    {
+      "id": 73622,
+      "nombre": "Roncesvalles",
+      "area": 775.656711956
+    },
+    {
+      "id": 73124,
+      "nombre": "Cajamarca",
+      "area": 508.388187308
+    },
+    {
+      "id": 73001,
+      "nombre": "Ibagué",
+      "area": 1376.57180066
+    }
+  ],
+  "Valle del Cauca": [
+    {
+      "id": 76364,
+      "nombre": "Jamundí",
+      "area": 629.198428033
+    },
+    {
+      "id": 76275,
+      "nombre": "Florida",
+      "area": 401.595413832
+    },
+    {
+      "id": 76130,
+      "nombre": "Candelaria",
+      "area": 295.781740236
+    },
+    {
+      "id": 76563,
+      "nombre": "Pradera",
+      "area": 356.774614061
+    },
+    {
+      "id": 76001,
+      "nombre": "Santiago de Cali",
+      "area": 564.138586206
+    },
+    {
+      "id": 76892,
+      "nombre": "Yumbo",
+      "area": 230.813023437
+    },
+    {
+      "id": 76520,
+      "nombre": "Palmira",
+      "area": 1005.0523872
+    },
+    {
+      "id": 76248,
+      "nombre": "El Cerrito",
+      "area": 442.007655175
+    },
+    {
+      "id": 76869,
+      "nombre": "Vijes",
+      "area": 112.971153568
+    },
+    {
+      "id": 76306,
+      "nombre": "Ginebra",
+      "area": 268.767495521
+    },
+    {
+      "id": 76318,
+      "nombre": "Guacarí",
+      "area": 162.523753872
+    },
+    {
+      "id": 76377,
+      "nombre": "La Cumbre",
+      "area": 255.550140491
+    },
+    {
+      "id": 76606,
+      "nombre": "Restrepo",
+      "area": 137.243354052
+    },
+    {
+      "id": 76233,
+      "nombre": "Dagua",
+      "area": 917.072756841
+    },
+    {
+      "id": 76111,
+      "nombre": "Buga",
+      "area": 825.882478869
+    },
+    {
+      "id": 76670,
+      "nombre": "San Pedro",
+      "area": 202.227010707
+    },
+    {
+      "id": 76890,
+      "nombre": "Yotoco",
+      "area": 327.750602099
+    },
+    {
+      "id": 76126,
+      "nombre": "Calima",
+      "area": 793.845864719
+    },
+    {
+      "id": 76834,
+      "nombre": "Tuluá",
+      "area": 909.43863137
+    },
+    {
+      "id": 76616,
+      "nombre": "Riofrío",
+      "area": 308.162729004
+    },
+    {
+      "id": 76036,
+      "nombre": "Andalucía",
+      "area": 110.435324445
+    },
+    {
+      "id": 76109,
+      "nombre": "Buenaventura",
+      "area": 6295.93503203
+    },
+    {
+      "id": 76828,
+      "nombre": "Trujillo",
+      "area": 307.741676262
+    },
+    {
+      "id": 76113,
+      "nombre": "Bugalagrande",
+      "area": 396.812039158
+    },
+    {
+      "id": 76895,
+      "nombre": "Zarzal",
+      "area": 367.952927293
+    },
+    {
+      "id": 76100,
+      "nombre": "Bolívar",
+      "area": 743.778419277
+    },
+    {
+      "id": 76622,
+      "nombre": "Roldanillo",
+      "area": 235.166635088
+    },
+    {
+      "id": 76400,
+      "nombre": "La Unión",
+      "area": 120.872662396
+    },
+    {
+      "id": 76250,
+      "nombre": "El Dovio",
+      "area": 236.029349899
+    },
+    {
+      "id": 76863,
+      "nombre": "Versalles",
+      "area": 200.637638623
+    },
+    {
+      "id": 76823,
+      "nombre": "Toro",
+      "area": 175.755641926
+    },
+    {
+      "id": 76054,
+      "nombre": "Argelia",
+      "area": 90.8059534102
+    },
+    {
+      "id": 76246,
+      "nombre": "El Cairo",
+      "area": 214.237036639
+    },
+    {
+      "id": 76041,
+      "nombre": "Ansermanuevo",
+      "area": 305.460481461
+    },
+    {
+      "id": 76243,
+      "nombre": "El Águila",
+      "area": 187.824055458
+    },
+    {
+      "id": 76736,
+      "nombre": "Sevilla",
+      "area": 537.170394474
+    },
+    {
+      "id": 76122,
+      "nombre": "Caicedonia",
+      "area": 167.137361586
+    },
+    {
+      "id": 76403,
+      "nombre": "La Victoria",
+      "area": 264.718753216
+    },
+    {
+      "id": 76497,
+      "nombre": "Obando",
+      "area": 214.674904072
+    },
+    {
+      "id": 76020,
+      "nombre": "Alcalá",
+      "area": 62.3361044777
+    },
+    {
+      "id": 76845,
+      "nombre": "Ulloa",
+      "area": 41.87225287
+    },
+    {
+      "id": 76147,
+      "nombre": "Cartago",
+      "area": 248.186974791
+    }
+  ],
+  "Guainía": [
+    {
+      "id": 94343,
+      "nombre": "Barrancominas",
+      "area": 14343.0842783
+    },
+    {
+      "id": 94888,
+      "nombre": "Morichal",
+      "area": 8513.75390171
+    },
+    {
+      "id": 94001,
+      "nombre": "Inírida",
+      "area": 15878.8690032
+    },
+    {
+      "id": 94885,
+      "nombre": "La Guadalupe",
+      "area": 1137.44186733
+    },
+    {
+      "id": 94887,
+      "nombre": "Paná-Paná",
+      "area": 10179.7464538
+    },
+    {
+      "id": 94883,
+      "nombre": "San Felipe",
+      "area": 2939.02363483
+    },
+    {
+      "id": 94884,
+      "nombre": "Puerto Colombia",
+      "area": 15615.4528553
+    },
+    {
+      "id": 94886,
+      "nombre": "Cacahual",
+      "area": 2310.68408812
+    }
+  ],
+  "Cundinamarca": [
+    {
+      "id": 25120,
+      "nombre": "Cabrera",
+      "area": 421.416401808
+    },
+    {
+      "id": 25506,
+      "nombre": "Venecia",
+      "area": 122.081212468
+    },
+    {
+      "id": 25649,
+      "nombre": "San Bernardo",
+      "area": 246.749775756
+    },
+    {
+      "id": 25524,
+      "nombre": "Pandi",
+      "area": 71.6267854738
+    },
+    {
+      "id": 25053,
+      "nombre": "Arbeláez",
+      "area": 142.312248318
+    },
+    {
+      "id": 25339,
+      "nombre": "Gutiérrez",
+      "area": 452.645219145
+    },
+    {
+      "id": 25335,
+      "nombre": "Guayabetal",
+      "area": 222.504846362
+    },
+    {
+      "id": 25281,
+      "nombre": "Fosca",
+      "area": 111.055895574
+    },
+    {
+      "id": 25488,
+      "nombre": "Nilo",
+      "area": 224.453243031
+    },
+    {
+      "id": 25612,
+      "nombre": "Ricaurte",
+      "area": 127.918381401
+    },
+    {
+      "id": 25805,
+      "nombre": "Tibacuy",
+      "area": 84.6438160154
+    },
+    {
+      "id": 25535,
+      "nombre": "Pasca",
+      "area": 271.408201202
+    },
+    {
+      "id": 25594,
+      "nombre": "Quetame",
+      "area": 137.596430489
+    },
+    {
+      "id": 25001,
+      "nombre": "Agua De Dios",
+      "area": 85.8851203616
+    },
+    {
+      "id": 25290,
+      "nombre": "Fusagasugá",
+      "area": 193.478016884
+    },
+    {
+      "id": 25845,
+      "nombre": "Une",
+      "area": 208.866481003
+    },
+    {
+      "id": 25307,
+      "nombre": "Girardot",
+      "area": 130.252686214
+    },
+    {
+      "id": 25151,
+      "nombre": "Cáqueza",
+      "area": 111.40520939
+    },
+    {
+      "id": 25483,
+      "nombre": "Nariño",
+      "area": 55.0889738907
+    },
+    {
+      "id": 25743,
+      "nombre": "Silvania",
+      "area": 162.785060754
+    },
+    {
+      "id": 25178,
+      "nombre": "Chipaque",
+      "area": 150.360158254
+    },
+    {
+      "id": 25878,
+      "nombre": "Viotá",
+      "area": 201.103801163
+    },
+    {
+      "id": 25740,
+      "nombre": "Sibaté",
+      "area": 121.902621185
+    },
+    {
+      "id": 25312,
+      "nombre": "Granada",
+      "area": 60.6392765038
+    },
+    {
+      "id": 25841,
+      "nombre": "Ubaque",
+      "area": 106.950175112
+    },
+    {
+      "id": 25324,
+      "nombre": "Guataquí",
+      "area": 90.892175424
+    },
+    {
+      "id": 25815,
+      "nombre": "Tocaima",
+      "area": 245.580976787
+    },
+    {
+      "id": 25245,
+      "nombre": "El Colegio",
+      "area": 118.156112125
+    },
+    {
+      "id": 25599,
+      "nombre": "Apulo",
+      "area": 121.871880786
+    },
+    {
+      "id": 25754,
+      "nombre": "Soacha",
+      "area": 187.23217583
+    },
+    {
+      "id": 25035,
+      "nombre": "Anapoima",
+      "area": 123.837485307
+    },
+    {
+      "id": 25181,
+      "nombre": "Choachí",
+      "area": 212.132447797
+    },
+    {
+      "id": 25645,
+      "nombre": "San Antonio Del Tequendama",
+      "area": 88.4740600734
+    },
+    {
+      "id": 25368,
+      "nombre": "Jerusalén",
+      "area": 221.672753149
+    },
+    {
+      "id": 25438,
+      "nombre": "Medina",
+      "area": 1194.92912504
+    },
+    {
+      "id": 25279,
+      "nombre": "Fómeque",
+      "area": 459.517319885
+    },
+    {
+      "id": 25797,
+      "nombre": "Tena",
+      "area": 51.383663887
+    },
+    {
+      "id": 25386,
+      "nombre": "La Mesa",
+      "area": 148.12919557
+    },
+    {
+      "id": 25473,
+      "nombre": "Mosquera",
+      "area": 106.010168724
+    },
+    {
+      "id": 25530,
+      "nombre": "Paratebueno",
+      "area": 883.906537578
+    },
+    {
+      "id": 25580,
+      "nombre": "Pulí",
+      "area": 197.519709324
+    },
+    {
+      "id": 25099,
+      "nombre": "Bojacá",
+      "area": 102.207490819
+    },
+    {
+      "id": 25123,
+      "nombre": "Cachipay",
+      "area": 53.3958447738
+    },
+    {
+      "id": 25299,
+      "nombre": "Gama",
+      "area": 107.518930923
+    },
+    {
+      "id": 25286,
+      "nombre": "Funza",
+      "area": 69.9726257693
+    },
+    {
+      "id": 25596,
+      "nombre": "Quipile",
+      "area": 127.589565411
+    },
+    {
+      "id": 25293,
+      "nombre": "Gachalá",
+      "area": 384.374231073
+    },
+    {
+      "id": 25898,
+      "nombre": "Zipacón",
+      "area": 54.1407987825
+    },
+    {
+      "id": 25372,
+      "nombre": "Junín",
+      "area": 343.265912997
+    },
+    {
+      "id": 25086,
+      "nombre": "Beltrán",
+      "area": 176.726636733
+    },
+    {
+      "id": 25040,
+      "nombre": "Anolaima",
+      "area": 120.831495578
+    },
+    {
+      "id": 25430,
+      "nombre": "Madrid",
+      "area": 119.445210839
+    },
+    {
+      "id": 25839,
+      "nombre": "Ubalá",
+      "area": 521.578329703
+    },
+    {
+      "id": 25269,
+      "nombre": "Facatativá",
+      "area": 157.879061284
+    },
+    {
+      "id": 25799,
+      "nombre": "Tenjo",
+      "area": 114.00982296
+    },
+    {
+      "id": 25322,
+      "nombre": "Guasca",
+      "area": 360.084256637
+    },
+    {
+      "id": 25095,
+      "nombre": "Bituima",
+      "area": 61.0169435914
+    },
+    {
+      "id": 25260,
+      "nombre": "El Rosal",
+      "area": 87.1200901332
+    },
+    {
+      "id": 25328,
+      "nombre": "Guayabal De Síquima",
+      "area": 61.8397402525
+    },
+    {
+      "id": 25019,
+      "nombre": "Albán",
+      "area": 50.7509850889
+    },
+    {
+      "id": 25297,
+      "nombre": "Gachetá",
+      "area": 258.50579108
+    },
+    {
+      "id": 25867,
+      "nombre": "Vianí",
+      "area": 67.035809058
+    },
+    {
+      "id": 25662,
+      "nombre": "San Juan De Rioseco",
+      "area": 313.816821839
+    },
+    {
+      "id": 25126,
+      "nombre": "Cajicá",
+      "area": 51.2563177264
+    },
+    {
+      "id": 25326,
+      "nombre": "Guatavita",
+      "area": 251.997878014
+    },
+    {
+      "id": 25785,
+      "nombre": "Tabio",
+      "area": 75.1298225095
+    },
+    {
+      "id": 25168,
+      "nombre": "Chaguaní",
+      "area": 171.874682497
+    },
+    {
+      "id": 25718,
+      "nombre": "Sasaima",
+      "area": 111.506610336
+    },
+    {
+      "id": 25817,
+      "nombre": "Tocancipá",
+      "area": 73.1481078036
+    },
+    {
+      "id": 25658,
+      "nombre": "San Francisco",
+      "area": 118.615597553
+    },
+    {
+      "id": 25295,
+      "nombre": "Gachancipá",
+      "area": 42.8654406633
+    },
+    {
+      "id": 25436,
+      "nombre": "Manta",
+      "area": 107.735632873
+    },
+    {
+      "id": 25875,
+      "nombre": "Villeta",
+      "area": 140.774702576
+    },
+    {
+      "id": 25769,
+      "nombre": "Subachoque",
+      "area": 208.96738288
+    },
+    {
+      "id": 25402,
+      "nombre": "La Vega",
+      "area": 155.270479977
+    },
+    {
+      "id": 25736,
+      "nombre": "Sesquilé",
+      "area": 140.987327179
+    },
+    {
+      "id": 25491,
+      "nombre": "Nocaima",
+      "area": 68.8663953528
+    },
+    {
+      "id": 25777,
+      "nombre": "Supatá",
+      "area": 130.237789949
+    },
+    {
+      "id": 25807,
+      "nombre": "Tibirita",
+      "area": 56.4560263506
+    },
+    {
+      "id": 25426,
+      "nombre": "Machetá",
+      "area": 228.836766382
+    },
+    {
+      "id": 25592,
+      "nombre": "Quebradanegra",
+      "area": 79.7774345393
+    },
+    {
+      "id": 25899,
+      "nombre": "Zipaquirá",
+      "area": 194.58141191
+    },
+    {
+      "id": 25486,
+      "nombre": "Nemocón",
+      "area": 98.2299375613
+    },
+    {
+      "id": 25200,
+      "nombre": "Cogua",
+      "area": 132.701279305
+    },
+    {
+      "id": 25862,
+      "nombre": "Vergara",
+      "area": 144.492458686
+    },
+    {
+      "id": 25489,
+      "nombre": "Nimaima",
+      "area": 59.4388437653
+    },
+    {
+      "id": 25772,
+      "nombre": "Suesca",
+      "area": 173.01882049
+    },
+    {
+      "id": 25183,
+      "nombre": "Chocontá",
+      "area": 299.656003739
+    },
+    {
+      "id": 25793,
+      "nombre": "Tausa",
+      "area": 201.598739289
+    },
+    {
+      "id": 25851,
+      "nombre": "Útica",
+      "area": 91.9941262089
+    },
+    {
+      "id": 25398,
+      "nombre": "La Peña",
+      "area": 128.338345079
+    },
+    {
+      "id": 25781,
+      "nombre": "Sutatausa",
+      "area": 64.7806225224
+    },
+    {
+      "id": 25513,
+      "nombre": "Pacho",
+      "area": 402.147406001
+    },
+    {
+      "id": 25224,
+      "nombre": "Cucunubá",
+      "area": 109.681838161
+    },
+    {
+      "id": 25258,
+      "nombre": "El Peñón",
+      "area": 133.944090383
+    },
+    {
+      "id": 25871,
+      "nombre": "Villagómez",
+      "area": 62.8950627808
+    },
+    {
+      "id": 25873,
+      "nombre": "Villapinzón",
+      "area": 225.803925142
+    },
+    {
+      "id": 25843,
+      "nombre": "Ubaté",
+      "area": 102.111771119
+    },
+    {
+      "id": 25407,
+      "nombre": "Lenguazaque",
+      "area": 155.396010912
+    },
+    {
+      "id": 25823,
+      "nombre": "Topaipí",
+      "area": 143.551600974
+    },
+    {
+      "id": 25653,
+      "nombre": "San Cayetano",
+      "area": 287.448130642
+    },
+    {
+      "id": 25394,
+      "nombre": "La Palma",
+      "area": 190.594013048
+    },
+    {
+      "id": 25320,
+      "nombre": "Guaduas",
+      "area": 762.81970023
+    },
+    {
+      "id": 25317,
+      "nombre": "Guachetá",
+      "area": 169.918330831
+    },
+    {
+      "id": 25154,
+      "nombre": "Carmen De Carupa",
+      "area": 298.147185171
+    },
+    {
+      "id": 25518,
+      "nombre": "Paime",
+      "area": 173.428984151
+    },
+    {
+      "id": 25288,
+      "nombre": "Fúquene",
+      "area": 77.3491060502
+    },
+    {
+      "id": 25779,
+      "nombre": "Susa",
+      "area": 104.007394077
+    },
+    {
+      "id": 25148,
+      "nombre": "Caparrapí",
+      "area": 615.080457278
+    },
+    {
+      "id": 25745,
+      "nombre": "Simijaca",
+      "area": 96.5802649379
+    },
+    {
+      "id": 25572,
+      "nombre": "Puerto Salgar",
+      "area": 515.252722024
+    },
+    {
+      "id": 25885,
+      "nombre": "Yacopí",
+      "area": 955.765644425
+    },
+    {
+      "id": 11001,
+      "nombre": "Bogotá, D.C.",
+      "area": 1618.17328466
+    },
+    {
+      "id": 25214,
+      "nombre": "Cota",
+      "area": 53.6795050268
+    },
+    {
+      "id": 25377,
+      "nombre": "La Calera",
+      "area": 326.344345672
+    },
+    {
+      "id": 25175,
+      "nombre": "Chía",
+      "area": 80.0515929114
+    },
+    {
+      "id": 25758,
+      "nombre": "Sopó",
+      "area": 110.889294284
+    }
+  ],
+  "Chocó": [
+    {
+      "id": 27250,
+      "nombre": "El Litoral Del San Juán",
+      "area": 4136.15271933
+    },
+    {
+      "id": 27745,
+      "nombre": "Sipí",
+      "area": 1577.45312748
+    },
+    {
+      "id": 27491,
+      "nombre": "Nóvita",
+      "area": 945.676017301
+    },
+    {
+      "id": 27450,
+      "nombre": "Medio San Juan",
+      "area": 663.774047243
+    },
+    {
+      "id": 27660,
+      "nombre": "San José Del Palmar",
+      "area": 1582.52436377
+    },
+    {
+      "id": 27205,
+      "nombre": "Condoto",
+      "area": 467.886423975
+    },
+    {
+      "id": 27580,
+      "nombre": "Rio Iró",
+      "area": 325.216307119
+    },
+    {
+      "id": 27361,
+      "nombre": "Istmina",
+      "area": 1881.08165145
+    },
+    {
+      "id": 27430,
+      "nombre": "Medio Baudó",
+      "area": 1372.9429954
+    },
+    {
+      "id": 27810,
+      "nombre": "Unión Panamericana",
+      "area": 177.837743223
+    },
+    {
+      "id": 27787,
+      "nombre": "Tadó",
+      "area": 714.99591925
+    },
+    {
+      "id": 27160,
+      "nombre": "Cértegui",
+      "area": 423.514000809
+    },
+    {
+      "id": 27135,
+      "nombre": "El Cantón Del San Pablo",
+      "area": 380.693334347
+    },
+    {
+      "id": 27077,
+      "nombre": "Bajo Baudó",
+      "area": 3482.19823267
+    },
+    {
+      "id": 27073,
+      "nombre": "Bagadó",
+      "area": 807.568721332
+    },
+    {
+      "id": 27600,
+      "nombre": "Rio Quito",
+      "area": 699.363055327
+    },
+    {
+      "id": 27050,
+      "nombre": "Atrato",
+      "area": 421.739415805
+    },
+    {
+      "id": 27413,
+      "nombre": "Lloró",
+      "area": 843.122590255
+    },
+    {
+      "id": 27495,
+      "nombre": "Nuquí",
+      "area": 704.583366146
+    },
+    {
+      "id": 27245,
+      "nombre": "El Carmen",
+      "area": 830.293808897
+    },
+    {
+      "id": 27025,
+      "nombre": "Alto Baudó",
+      "area": 2051.87789424
+    },
+    {
+      "id": 27425,
+      "nombre": "Medio Atrato",
+      "area": 1813.74920955
+    },
+    {
+      "id": 27001,
+      "nombre": "Quibdó",
+      "area": 3508.65591872
+    },
+    {
+      "id": 27075,
+      "nombre": "Bahía Solano",
+      "area": 896.065658178
+    },
+    {
+      "id": 27099,
+      "nombre": "Bojayá",
+      "area": 3633.17806513
+    },
+    {
+      "id": 27372,
+      "nombre": "Juradó",
+      "area": 1298.05370057
+    },
+    {
+      "id": 27800,
+      "nombre": "Unguía",
+      "area": 1191.23066701
+    },
+    {
+      "id": 27006,
+      "nombre": "Acandí",
+      "area": 798.528294573
+    },
+    {
+      "id": 27150,
+      "nombre": "Carmen Del Darién",
+      "area": 3182.6874916
+    },
+    {
+      "id": 27615,
+      "nombre": "Riosucio",
+      "area": 7615.67104593
+    }
+  ],
+  "Casanare": [
+    {
+      "id": 85440,
+      "nombre": "Villanueva",
+      "area": 832.180524326
+    },
+    {
+      "id": 85300,
+      "nombre": "Sabanalarga",
+      "area": 400.158196598
+    },
+    {
+      "id": 85162,
+      "nombre": "Monterrey",
+      "area": 777.573425811
+    },
+    {
+      "id": 85139,
+      "nombre": "Maní",
+      "area": 3745.28132605
+    },
+    {
+      "id": 85410,
+      "nombre": "Tauramena",
+      "area": 2380.17369698
+    },
+    {
+      "id": 85230,
+      "nombre": "Orocué",
+      "area": 4739.8772113
+    },
+    {
+      "id": 85010,
+      "nombre": "Aguazul",
+      "area": 1439.26519039
+    },
+    {
+      "id": 85015,
+      "nombre": "Chámeza",
+      "area": 309.163382578
+    },
+    {
+      "id": 85279,
+      "nombre": "Recetor",
+      "area": 180.845873385
+    },
+    {
+      "id": 85325,
+      "nombre": "San Luis De Palenque",
+      "area": 2981.01215909
+    },
+    {
+      "id": 85001,
+      "nombre": "Yopal",
+      "area": 2476.85303647
+    },
+    {
+      "id": 85430,
+      "nombre": "Trinidad",
+      "area": 2959.93143151
+    },
+    {
+      "id": 85225,
+      "nombre": "Nunchía",
+      "area": 1099.12873736
+    },
+    {
+      "id": 85263,
+      "nombre": "Pore",
+      "area": 779.445474369
+    },
+    {
+      "id": 85400,
+      "nombre": "Támara",
+      "area": 1088.44818755
+    },
+    {
+      "id": 85315,
+      "nombre": "Sácama",
+      "area": 311.467075361
+    },
+    {
+      "id": 85250,
+      "nombre": "Paz De Ariporo",
+      "area": 12074.5597134
+    },
+    {
+      "id": 85125,
+      "nombre": "Hato Corozal",
+      "area": 5492.2601462
+    },
+    {
+      "id": 85136,
+      "nombre": "La Salina",
+      "area": 199.419243712
+    }
+  ],
+  "Risaralda": [
+    {
+      "id": 66170,
+      "nombre": "Dosquebradas",
+      "area": 69.9744352367
+    },
+    {
+      "id": 66400,
+      "nombre": "La Virginia",
+      "area": 32.8001684927
+    },
+    {
+      "id": 66682,
+      "nombre": "Santa Rosa De Cabal",
+      "area": 543.32923051
+    },
+    {
+      "id": 66075,
+      "nombre": "Balboa",
+      "area": 119.479326587
+    },
+    {
+      "id": 66440,
+      "nombre": "Marsella",
+      "area": 149.297668793
+    },
+    {
+      "id": 66383,
+      "nombre": "La Celia",
+      "area": 92.4755128907
+    },
+    {
+      "id": 66687,
+      "nombre": "Santuario",
+      "area": 190.859614865
+    },
+    {
+      "id": 66045,
+      "nombre": "Apía",
+      "area": 149.979609736
+    },
+    {
+      "id": 66088,
+      "nombre": "Belén De Umbría",
+      "area": 180.587224085
+    },
+    {
+      "id": 66318,
+      "nombre": "Guática",
+      "area": 100.808996419
+    },
+    {
+      "id": 66594,
+      "nombre": "Quinchía",
+      "area": 140.137778939
+    },
+    {
+      "id": 66572,
+      "nombre": "Pueblo Rico",
+      "area": 613.802662183
+    },
+    {
+      "id": 66456,
+      "nombre": "Mistrató",
+      "area": 564.736158834
+    },
+    {
+      "id": 66001,
+      "nombre": "Pereira",
+      "area": 608.239139615
+    }
+  ],
+  "Boyacá": [
+    {
+      "id": 15236,
+      "nombre": "Chivor",
+      "area": 108.493203365
+    },
+    {
+      "id": 15690,
+      "nombre": "Santa María",
+      "area": 309.106606844
+    },
+    {
+      "id": 15325,
+      "nombre": "Guayatá",
+      "area": 99.8042032598
+    },
+    {
+      "id": 15667,
+      "nombre": "San Luis De Gaceno",
+      "area": 468.96632065
+    },
+    {
+      "id": 15022,
+      "nombre": "Almeida",
+      "area": 57.5741961988
+    },
+    {
+      "id": 15761,
+      "nombre": "Somondoco",
+      "area": 58.6967771383
+    },
+    {
+      "id": 15778,
+      "nombre": "Sutatenza",
+      "area": 41.0635010278
+    },
+    {
+      "id": 15322,
+      "nombre": "Guateque",
+      "area": 36.0751797543
+    },
+    {
+      "id": 15425,
+      "nombre": "Macanal",
+      "area": 199.614148994
+    },
+    {
+      "id": 15135,
+      "nombre": "Campohermoso",
+      "area": 298.173539054
+    },
+    {
+      "id": 15798,
+      "nombre": "Tenza",
+      "area": 45.7873127292
+    },
+    {
+      "id": 15380,
+      "nombre": "La Capilla",
+      "area": 56.8371527537
+    },
+    {
+      "id": 15299,
+      "nombre": "Garagoa",
+      "area": 193.174568743
+    },
+    {
+      "id": 15514,
+      "nombre": "Páez",
+      "area": 338.408194237
+    },
+    {
+      "id": 15511,
+      "nombre": "Pachavita",
+      "area": 66.5774306616
+    },
+    {
+      "id": 15455,
+      "nombre": "Miraflores",
+      "area": 258.239484916
+    },
+    {
+      "id": 15172,
+      "nombre": "Chinavita",
+      "area": 136.137656392
+    },
+    {
+      "id": 15090,
+      "nombre": "Berbeo",
+      "area": 57.9036194816
+    },
+    {
+      "id": 15842,
+      "nombre": "Úmbita",
+      "area": 145.844502742
+    },
+    {
+      "id": 15660,
+      "nombre": "San Eduardo",
+      "area": 109.259460768
+    },
+    {
+      "id": 15835,
+      "nombre": "Turmequé",
+      "area": 79.5775765813
+    },
+    {
+      "id": 15804,
+      "nombre": "Tibaná",
+      "area": 121.62620639
+    },
+    {
+      "id": 15897,
+      "nombre": "Zetaquirá",
+      "area": 251.04174055
+    },
+    {
+      "id": 15494,
+      "nombre": "Nuevo Colón",
+      "area": 51.3115696504
+    },
+    {
+      "id": 15367,
+      "nombre": "Jenesano",
+      "area": 58.9501855044
+    },
+    {
+      "id": 15189,
+      "nombre": "Ciénega",
+      "area": 53.8969816885
+    },
+    {
+      "id": 15599,
+      "nombre": "Ramiriquí",
+      "area": 125.421563139
+    },
+    {
+      "id": 15861,
+      "nombre": "Ventaquemada",
+      "area": 159.753729625
+    },
+    {
+      "id": 15104,
+      "nombre": "Boyacá",
+      "area": 47.9411208194
+    },
+    {
+      "id": 15621,
+      "nombre": "Rondón",
+      "area": 205.987195069
+    },
+    {
+      "id": 15518,
+      "nombre": "Pajarito",
+      "area": 313.008176244
+    },
+    {
+      "id": 15879,
+      "nombre": "Viracachá",
+      "area": 62.4699064593
+    },
+    {
+      "id": 15212,
+      "nombre": "Coper",
+      "area": 149.677996838
+    },
+    {
+      "id": 15764,
+      "nombre": "Soracá",
+      "area": 55.6605492296
+    },
+    {
+      "id": 15109,
+      "nombre": "Buenavista",
+      "area": 110.010247559
+    },
+    {
+      "id": 15740,
+      "nombre": "Siachoque",
+      "area": 119.007193097
+    },
+    {
+      "id": 15401,
+      "nombre": "La Victoria",
+      "area": 27.973062351
+    },
+    {
+      "id": 15646,
+      "nombre": "Samacá",
+      "area": 167.316276535
+    },
+    {
+      "id": 15224,
+      "nombre": "Cucaita",
+      "area": 42.0580874391
+    },
+    {
+      "id": 15001,
+      "nombre": "Tunja",
+      "area": 119.518460984
+    },
+    {
+      "id": 15600,
+      "nombre": "Ráquira",
+      "area": 220.326457007
+    },
+    {
+      "id": 15822,
+      "nombre": "Tota",
+      "area": 195.664181548
+    },
+    {
+      "id": 15676,
+      "nombre": "San Miguel De Sema",
+      "area": 93.8605754352
+    },
+    {
+      "id": 15480,
+      "nombre": "Muzo",
+      "area": 137.710304469
+    },
+    {
+      "id": 15762,
+      "nombre": "Sora",
+      "area": 47.7655473096
+    },
+    {
+      "id": 15226,
+      "nombre": "Cuítiva",
+      "area": 44.039840592
+    },
+    {
+      "id": 15638,
+      "nombre": "Sáchica",
+      "area": 63.8252215081
+    },
+    {
+      "id": 15187,
+      "nombre": "Chivatá",
+      "area": 49.444209966
+    },
+    {
+      "id": 15808,
+      "nombre": "Tinjacá",
+      "area": 79.6310304277
+    },
+    {
+      "id": 15131,
+      "nombre": "Caldas",
+      "area": 78.8568840084
+    },
+    {
+      "id": 15580,
+      "nombre": "Quípama",
+      "area": 167.12896517
+    },
+    {
+      "id": 15047,
+      "nombre": "Aquitania",
+      "area": 940.354375451
+    },
+    {
+      "id": 15542,
+      "nombre": "Pesca",
+      "area": 262.592657714
+    },
+    {
+      "id": 15362,
+      "nombre": "Iza",
+      "area": 34.180277057
+    },
+    {
+      "id": 15442,
+      "nombre": "Maripí",
+      "area": 160.478341223
+    },
+    {
+      "id": 15814,
+      "nombre": "Toca",
+      "area": 167.941202119
+    },
+    {
+      "id": 15500,
+      "nombre": "Oicatá",
+      "area": 60.1955175039
+    },
+    {
+      "id": 15476,
+      "nombre": "Motavita",
+      "area": 59.947279475
+    },
+    {
+      "id": 15776,
+      "nombre": "Sutamarchán",
+      "area": 103.345670014
+    },
+    {
+      "id": 15377,
+      "nombre": "Labranzagrande",
+      "area": 579.987150925
+    },
+    {
+      "id": 15176,
+      "nombre": "Chiquinquirá",
+      "area": 164.778387882
+    },
+    {
+      "id": 15232,
+      "nombre": "Chíquiza",
+      "area": 116.318487898
+    },
+    {
+      "id": 15272,
+      "nombre": "Firavitoba",
+      "area": 109.117534774
+    },
+    {
+      "id": 15407,
+      "nombre": "Villa De Leiva",
+      "area": 126.384013488
+    },
+    {
+      "id": 15106,
+      "nombre": "Briceño",
+      "area": 64.5120257252
+    },
+    {
+      "id": 15837,
+      "nombre": "Tuta",
+      "area": 165.236809078
+    },
+    {
+      "id": 15832,
+      "nombre": "Tununguá",
+      "area": 29.1823025223
+    },
+    {
+      "id": 15466,
+      "nombre": "Monguí",
+      "area": 68.6738820341
+    },
+    {
+      "id": 15533,
+      "nombre": "Paya",
+      "area": 442.761583269
+    },
+    {
+      "id": 15681,
+      "nombre": "San Pablo De Borbur",
+      "area": 195.664683543
+    },
+    {
+      "id": 15759,
+      "nombre": "Sogamoso",
+      "area": 207.320784123
+    },
+    {
+      "id": 15632,
+      "nombre": "Saboyá",
+      "area": 248.288258624
+    },
+    {
+      "id": 15464,
+      "nombre": "Mongua",
+      "area": 360.040450984
+    },
+    {
+      "id": 15696,
+      "nombre": "Santa Sofía",
+      "area": 77.4420329005
+    },
+    {
+      "id": 15820,
+      "nombre": "Tópaga",
+      "area": 33.5589854546
+    },
+    {
+      "id": 15293,
+      "nombre": "Gachantivá",
+      "area": 88.025661821
+    },
+    {
+      "id": 15204,
+      "nombre": "Cómbita",
+      "area": 138.002572399
+    },
+    {
+      "id": 15491,
+      "nombre": "Nobsa",
+      "area": 55.4029676173
+    },
+    {
+      "id": 15806,
+      "nombre": "Tibasosa",
+      "area": 93.5678418628
+    },
+    {
+      "id": 15531,
+      "nombre": "Pauna",
+      "area": 252.301625246
+    },
+    {
+      "id": 15051,
+      "nombre": "Arcabuco",
+      "area": 137.668891957
+    },
+    {
+      "id": 15550,
+      "nombre": "Pisba",
+      "area": 463.875133351
+    },
+    {
+      "id": 15296,
+      "nombre": "Gámeza",
+      "area": 123.418941017
+    },
+    {
+      "id": 15763,
+      "nombre": "Sotaquirá",
+      "area": 291.557113223
+    },
+    {
+      "id": 15114,
+      "nombre": "Busbanzá",
+      "area": 25.301192752
+    },
+    {
+      "id": 15215,
+      "nombre": "Corrales",
+      "area": 60.7268420965
+    },
+    {
+      "id": 15507,
+      "nombre": "Otanche",
+      "area": 474.484663575
+    },
+    {
+      "id": 15276,
+      "nombre": "Floresta",
+      "area": 87.9578962191
+    },
+    {
+      "id": 15469,
+      "nombre": "Moniquirá",
+      "area": 217.930068314
+    },
+    {
+      "id": 15816,
+      "nombre": "Togüí",
+      "area": 101.277589147
+    },
+    {
+      "id": 15790,
+      "nombre": "Tasco",
+      "area": 209.252780327
+    },
+    {
+      "id": 15516,
+      "nombre": "Paipa",
+      "area": 304.543722804
+    },
+    {
+      "id": 15693,
+      "nombre": "Santa Rosa De Viterbo",
+      "area": 116.481603818
+    },
+    {
+      "id": 15238,
+      "nombre": "Duitama",
+      "area": 233.545435137
+    },
+    {
+      "id": 15664,
+      "nombre": "San José De Pare",
+      "area": 74.2848085128
+    },
+    {
+      "id": 15757,
+      "nombre": "Socha",
+      "area": 149.882586849
+    },
+    {
+      "id": 15185,
+      "nombre": "Chitaraque",
+      "area": 158.270153519
+    },
+    {
+      "id": 15723,
+      "nombre": "Sativasur",
+      "area": 54.6258317144
+    },
+    {
+      "id": 15686,
+      "nombre": "Santana",
+      "area": 67.8529492434
+    },
+    {
+      "id": 15755,
+      "nombre": "Socotá",
+      "area": 602.303791554
+    },
+    {
+      "id": 15839,
+      "nombre": "Tutazá",
+      "area": 121.760099028
+    },
+    {
+      "id": 15720,
+      "nombre": "Sativanorte",
+      "area": 161.0700716
+    },
+    {
+      "id": 15368,
+      "nombre": "Jericó",
+      "area": 131.36450917
+    },
+    {
+      "id": 15572,
+      "nombre": "Puerto Boyacá",
+      "area": 1511.70140445
+    },
+    {
+      "id": 15774,
+      "nombre": "Susacón",
+      "area": 182.312911111
+    },
+    {
+      "id": 15183,
+      "nombre": "Chita",
+      "area": 675.807789297
+    },
+    {
+      "id": 15403,
+      "nombre": "La Uvita",
+      "area": 161.201297226
+    },
+    {
+      "id": 15753,
+      "nombre": "Soatá",
+      "area": 122.830954835
+    },
+    {
+      "id": 15244,
+      "nombre": "El Cocuy",
+      "area": 237.789570999
+    },
+    {
+      "id": 15097,
+      "nombre": "Boavita",
+      "area": 144.985878373
+    },
+    {
+      "id": 15810,
+      "nombre": "Tipacoque",
+      "area": 71.7930506559
+    },
+    {
+      "id": 15673,
+      "nombre": "San Mateo",
+      "area": 123.602333343
+    },
+    {
+      "id": 15317,
+      "nombre": "Guacamayas",
+      "area": 57.521730766
+    },
+    {
+      "id": 15522,
+      "nombre": "Panqueba",
+      "area": 39.6238766172
+    },
+    {
+      "id": 15248,
+      "nombre": "El Espino",
+      "area": 69.2418431069
+    },
+    {
+      "id": 15218,
+      "nombre": "Covarachía",
+      "area": 102.0877477
+    },
+    {
+      "id": 15332,
+      "nombre": "Güicán De La Sierra",
+      "area": 949.899771064
+    },
+    {
+      "id": 15180,
+      "nombre": "Chiscas",
+      "area": 657.280745776
+    },
+    {
+      "id": 15223,
+      "nombre": "Cubará",
+      "area": 1159.22427447
+    },
+    {
+      "id": 15092,
+      "nombre": "Betéitiva",
+      "area": 101.665712225
+    },
+    {
+      "id": 15162,
+      "nombre": "Cerinza",
+      "area": 63.453069882
+    },
+    {
+      "id": 15087,
+      "nombre": "Belén",
+      "area": 162.774187162
+    },
+    {
+      "id": 15537,
+      "nombre": "Paz De Rio",
+      "area": 122.439297679
+    }
+  ],
+  "Caldas": [
+    {
+      "id": 17873,
+      "nombre": "Villamaria",
+      "area": 454.87084767
+    },
+    {
+      "id": 17088,
+      "nombre": "Belalcázar",
+      "area": 113.316409046
+    },
+    {
+      "id": 17174,
+      "nombre": "Chinchiná",
+      "area": 109.320672476
+    },
+    {
+      "id": 17665,
+      "nombre": "San José",
+      "area": 60.9603104964
+    },
+    {
+      "id": 17877,
+      "nombre": "Viterbo",
+      "area": 112.896188684
+    },
+    {
+      "id": 17524,
+      "nombre": "Palestina",
+      "area": 112.203893666
+    },
+    {
+      "id": 17001,
+      "nombre": "Manizales",
+      "area": 440.888019623
+    },
+    {
+      "id": 17616,
+      "nombre": "Risaralda",
+      "area": 89.9059339762
+    },
+    {
+      "id": 17486,
+      "nombre": "Neira",
+      "area": 369.199365722
+    },
+    {
+      "id": 17042,
+      "nombre": "Anserma",
+      "area": 209.15969799
+    },
+    {
+      "id": 17433,
+      "nombre": "Manzanares",
+      "area": 197.804515588
+    },
+    {
+      "id": 17444,
+      "nombre": "Marquetalia",
+      "area": 90.2774402957
+    },
+    {
+      "id": 17050,
+      "nombre": "Aranzazu",
+      "area": 149.529574678
+    },
+    {
+      "id": 17446,
+      "nombre": "Marulanda",
+      "area": 376.091380317
+    },
+    {
+      "id": 17272,
+      "nombre": "Filadelfia",
+      "area": 192.56029993
+    },
+    {
+      "id": 17388,
+      "nombre": "La Merced",
+      "area": 88.5773822237
+    },
+    {
+      "id": 17653,
+      "nombre": "Salamina",
+      "area": 387.958789212
+    },
+    {
+      "id": 17442,
+      "nombre": "Marmato",
+      "area": 36.853751717
+    },
+    {
+      "id": 17777,
+      "nombre": "Supia",
+      "area": 121.439609513
+    },
+    {
+      "id": 17541,
+      "nombre": "Pensilvania",
+      "area": 498.94378848
+    },
+    {
+      "id": 17614,
+      "nombre": "Riosucio",
+      "area": 384.095360997
+    },
+    {
+      "id": 17513,
+      "nombre": "Pácora",
+      "area": 257.192566165
+    },
+    {
+      "id": 17867,
+      "nombre": "Victoria",
+      "area": 558.465853083
+    },
+    {
+      "id": 17013,
+      "nombre": "Aguadas",
+      "area": 475.551030669
+    },
+    {
+      "id": 17662,
+      "nombre": "Samaná",
+      "area": 757.684251667
+    },
+    {
+      "id": 17495,
+      "nombre": "Norcasia",
+      "area": 227.378567617
+    },
+    {
+      "id": 17380,
+      "nombre": "La Dorada",
+      "area": 549.082847142
+    }
+  ],
+  "Vichada": [
+    {
+      "id": 99624,
+      "nombre": "Santa Rosalía",
+      "area": 3678.02479051
+    },
+    {
+      "id": 99773,
+      "nombre": "Cumaribo",
+      "area": 65187.5052714
+    },
+    {
+      "id": 99524,
+      "nombre": "La Primavera",
+      "area": 18368.2706424
+    },
+    {
+      "id": 99001,
+      "nombre": "Puerto Carreño",
+      "area": 11860.9297961
+    }
+  ],
+  "Antioquia": [
+    {
+      "id": 5145,
+      "nombre": "Caramanta",
+      "area": 92.0626540159
+    },
+    {
+      "id": 5364,
+      "nombre": "Jardín",
+      "area": 201.140930069
+    },
+    {
+      "id": 5483,
+      "nombre": "Nariño",
+      "area": 316.620083088
+    },
+    {
+      "id": 5055,
+      "nombre": "Argelia",
+      "area": 245.199240782
+    },
+    {
+      "id": 5856,
+      "nombre": "Valparaiso",
+      "area": 126.145628848
+    },
+    {
+      "id": 5034,
+      "nombre": "Andes",
+      "area": 402.487183079
+    },
+    {
+      "id": 5091,
+      "nombre": "Betania",
+      "area": 180.526376623
+    },
+    {
+      "id": 5789,
+      "nombre": "Támesis",
+      "area": 252.194535997
+    },
+    {
+      "id": 5390,
+      "nombre": "La Pintada",
+      "area": 54.298411127
+    },
+    {
+      "id": 5353,
+      "nombre": "Hispania",
+      "area": 54.1782927364
+    },
+    {
+      "id": 5368,
+      "nombre": "Jericó",
+      "area": 204.971233215
+    },
+    {
+      "id": 5576,
+      "nombre": "Pueblorrico",
+      "area": 75.426831373
+    },
+    {
+      "id": 5756,
+      "nombre": "Sonsón",
+      "area": 1345.60992671
+    },
+    {
+      "id": 5101,
+      "nombre": "Ciudad Bolívar",
+      "area": 263.790910454
+    },
+    {
+      "id": 5792,
+      "nombre": "Tarso",
+      "area": 120.461495711
+    },
+    {
+      "id": 5002,
+      "nombre": "Abejorral",
+      "area": 506.952797993
+    },
+    {
+      "id": 5467,
+      "nombre": "Montebello",
+      "area": 76.0052834321
+    },
+    {
+      "id": 5652,
+      "nombre": "San Francisco",
+      "area": 354.20157116
+    },
+    {
+      "id": 5282,
+      "nombre": "Fredonia",
+      "area": 254.04507618
+    },
+    {
+      "id": 5679,
+      "nombre": "Santa Bárbara",
+      "area": 196.118128201
+    },
+    {
+      "id": 5861,
+      "nombre": "Venecia",
+      "area": 143.630473489
+    },
+    {
+      "id": 5400,
+      "nombre": "La Unión",
+      "area": 167.670317839
+    },
+    {
+      "id": 5591,
+      "nombre": "Puerto Triunfo",
+      "area": 369.654426383
+    },
+    {
+      "id": 5376,
+      "nombre": "La Ceja",
+      "area": 132.666735724
+    },
+    {
+      "id": 5642,
+      "nombre": "Salgar",
+      "area": 288.239194502
+    },
+    {
+      "id": 5030,
+      "nombre": "Amagá",
+      "area": 84.1189767611
+    },
+    {
+      "id": 5129,
+      "nombre": "Caldas",
+      "area": 132.769626073
+    },
+    {
+      "id": 5197,
+      "nombre": "Cocorná",
+      "area": 257.809406676
+    },
+    {
+      "id": 5660,
+      "nombre": "San Luis",
+      "area": 518.379782737
+    },
+    {
+      "id": 5809,
+      "nombre": "Titiribí",
+      "area": 140.32861234
+    },
+    {
+      "id": 5148,
+      "nombre": "Carmen De Viboral",
+      "area": 409.127763324
+    },
+    {
+      "id": 5607,
+      "nombre": "El Retiro",
+      "area": 241.920230862
+    },
+    {
+      "id": 5631,
+      "nombre": "Sabaneta",
+      "area": 15.7328515121
+    },
+    {
+      "id": 5697,
+      "nombre": "Santuario",
+      "area": 83.5283196308
+    },
+    {
+      "id": 5209,
+      "nombre": "Concordia",
+      "area": 247.886945835
+    },
+    {
+      "id": 5380,
+      "nombre": "La Estrella",
+      "area": 36.8384465602
+    },
+    {
+      "id": 5036,
+      "nombre": "Angelópolis",
+      "area": 81.8599333137
+    },
+    {
+      "id": 5266,
+      "nombre": "Envigado",
+      "area": 80.0100629576
+    },
+    {
+      "id": 5360,
+      "nombre": "Itagüí",
+      "area": 19.5078533588
+    },
+    {
+      "id": 5313,
+      "nombre": "Granada",
+      "area": 190.084419333
+    },
+    {
+      "id": 5615,
+      "nombre": "Rionegro",
+      "area": 195.871114025
+    },
+    {
+      "id": 5059,
+      "nombre": "Armenia",
+      "area": 110.422137919
+    },
+    {
+      "id": 5440,
+      "nombre": "Marinilla",
+      "area": 112.234537273
+    },
+    {
+      "id": 5347,
+      "nombre": "Heliconia",
+      "area": 114.830916168
+    },
+    {
+      "id": 5093,
+      "nombre": "Betulia",
+      "area": 262.362121212
+    },
+    {
+      "id": 5585,
+      "nombre": "Puerto Nare",
+      "area": 579.067116506
+    },
+    {
+      "id": 5541,
+      "nombre": "Peñol",
+      "area": 118.255198097
+    },
+    {
+      "id": 5321,
+      "nombre": "Guatapé",
+      "area": 83.2816619938
+    },
+    {
+      "id": 5649,
+      "nombre": "San Carlos",
+      "area": 716.412563488
+    },
+    {
+      "id": 5318,
+      "nombre": "Guarne",
+      "area": 152.155692758
+    },
+    {
+      "id": 5674,
+      "nombre": "San Vicente",
+      "area": 230.391520576
+    },
+    {
+      "id": 5667,
+      "nombre": "San Rafael",
+      "area": 363.693133175
+    },
+    {
+      "id": 5044,
+      "nombre": "Anzá",
+      "area": 255.910527372
+    },
+    {
+      "id": 5021,
+      "nombre": "Alejandría",
+      "area": 128.856439668
+    },
+    {
+      "id": 5240,
+      "nombre": "Ebéjico",
+      "area": 237.747376613
+    },
+    {
+      "id": 5206,
+      "nombre": "Concepción",
+      "area": 201.952591313
+    },
+    {
+      "id": 5142,
+      "nombre": "Caracolí",
+      "area": 262.583656962
+    },
+    {
+      "id": 5125,
+      "nombre": "Caicedo",
+      "area": 200.13033332
+    },
+    {
+      "id": 5670,
+      "nombre": "San Roque",
+      "area": 424.527229158
+    },
+    {
+      "id": 5690,
+      "nombre": "Santo Domingo",
+      "area": 265.767384695
+    },
+    {
+      "id": 5190,
+      "nombre": "Cisneros",
+      "area": 46.9149210452
+    },
+    {
+      "id": 5847,
+      "nombre": "Urrao",
+      "area": 2563.84971941
+    },
+    {
+      "id": 5761,
+      "nombre": "Sopetrán",
+      "area": 219.036485144
+    },
+    {
+      "id": 5425,
+      "nombre": "Maceo",
+      "area": 455.286647206
+    },
+    {
+      "id": 5501,
+      "nombre": "Olaya",
+      "area": 86.9739042665
+    },
+    {
+      "id": 5042,
+      "nombre": "Santa Fe De Antioquia",
+      "area": 525.571815785
+    },
+    {
+      "id": 5306,
+      "nombre": "Giraldo",
+      "area": 93.4917650691
+    },
+    {
+      "id": 5579,
+      "nombre": "Puerto Berrío",
+      "area": 1218.93162729
+    },
+    {
+      "id": 5004,
+      "nombre": "Abriaquí",
+      "area": 296.97419196
+    },
+    {
+      "id": 5885,
+      "nombre": "Yalí",
+      "area": 440.555244044
+    },
+    {
+      "id": 5411,
+      "nombre": "Liborina",
+      "area": 216.386765154
+    },
+    {
+      "id": 5150,
+      "nombre": "Carolina",
+      "area": 149.514224905
+    },
+    {
+      "id": 5890,
+      "nombre": "Yolombó",
+      "area": 943.398058135
+    },
+    {
+      "id": 5310,
+      "nombre": "Gómez Plata",
+      "area": 332.030889924
+    },
+    {
+      "id": 5873,
+      "nombre": "Vigía Del Fuerte",
+      "area": 1662.72991614
+    },
+    {
+      "id": 5658,
+      "nombre": "San José De La Montaña",
+      "area": 126.047536589
+    },
+    {
+      "id": 5284,
+      "nombre": "Frontino",
+      "area": 1384.4559634
+    },
+    {
+      "id": 5315,
+      "nombre": "Guadalupe",
+      "area": 118.174173349
+    },
+    {
+      "id": 5038,
+      "nombre": "Angostura",
+      "area": 338.354473734
+    },
+    {
+      "id": 5113,
+      "nombre": "Buriticá",
+      "area": 355.191242344
+    },
+    {
+      "id": 5138,
+      "nombre": "Cañasgordas",
+      "area": 364.838601419
+    },
+    {
+      "id": 5858,
+      "nombre": "Vegachí",
+      "area": 540.298819641
+    },
+    {
+      "id": 5842,
+      "nombre": "Uramita",
+      "area": 265.937020838
+    },
+    {
+      "id": 5647,
+      "nombre": "San Andrés de Cuerquia",
+      "area": 206.820164648
+    },
+    {
+      "id": 5475,
+      "nombre": "Murindó",
+      "area": 1266.83987582
+    },
+    {
+      "id": 5628,
+      "nombre": "Sabanalarga",
+      "area": 265.727012194
+    },
+    {
+      "id": 5819,
+      "nombre": "Toledo",
+      "area": 134.417542397
+    },
+    {
+      "id": 5134,
+      "nombre": "Campamento",
+      "area": 232.059119277
+    },
+    {
+      "id": 5543,
+      "nombre": "Peque",
+      "area": 434.038831339
+    },
+    {
+      "id": 5887,
+      "nombre": "Yarumal",
+      "area": 712.329935687
+    },
+    {
+      "id": 5107,
+      "nombre": "Briceño",
+      "area": 376.240107516
+    },
+    {
+      "id": 5604,
+      "nombre": "Remedios",
+      "area": 1964.99784597
+    },
+    {
+      "id": 5893,
+      "nombre": "Yondó",
+      "area": 1892.95354185
+    },
+    {
+      "id": 5031,
+      "nombre": "Amalfi",
+      "area": 1208.34621589
+    },
+    {
+      "id": 5854,
+      "nombre": "Valdivia",
+      "area": 567.481661596
+    },
+    {
+      "id": 5040,
+      "nombre": "Anorí",
+      "area": 1412.95737086
+    },
+    {
+      "id": 5736,
+      "nombre": "Segovia",
+      "area": 1132.80940287
+    },
+    {
+      "id": 5361,
+      "nombre": "Ituango",
+      "area": 2840.9264174
+    },
+    {
+      "id": 5895,
+      "nombre": "Zaragoza",
+      "area": 1166.73534616
+    },
+    {
+      "id": 5790,
+      "nombre": "Tarazá",
+      "area": 1148.69450836
+    },
+    {
+      "id": 5172,
+      "nombre": "Chigorodó",
+      "area": 721.981667062
+    },
+    {
+      "id": 5147,
+      "nombre": "Carepa",
+      "area": 387.435334126
+    },
+    {
+      "id": 5120,
+      "nombre": "Cáceres",
+      "area": 1872.69675959
+    },
+    {
+      "id": 5250,
+      "nombre": "El Bagre",
+      "area": 1558.62054923
+    },
+    {
+      "id": 5045,
+      "nombre": "Apartadó",
+      "area": 535.364722568
+    },
+    {
+      "id": 5154,
+      "nombre": "Caucasia",
+      "area": 1428.23932093
+    },
+    {
+      "id": 5495,
+      "nombre": "Nechí",
+      "area": 936.581078994
+    },
+    {
+      "id": 5665,
+      "nombre": "San Pedro De Urabá",
+      "area": 602.6512175
+    },
+    {
+      "id": 5490,
+      "nombre": "Necoclí",
+      "area": 1256.1145134
+    },
+    {
+      "id": 5659,
+      "nombre": "San Juan De Urabá",
+      "area": 252.025979498
+    },
+    {
+      "id": 5051,
+      "nombre": "Arboletes",
+      "area": 754.394505865
+    },
+    {
+      "id": 5234,
+      "nombre": "Dabeiba",
+      "area": 1957.69913043
+    },
+    {
+      "id": 5480,
+      "nombre": "Mutatá",
+      "area": 1075.02160643
+    },
+    {
+      "id": 5837,
+      "nombre": "Turbo",
+      "area": 2919.20647693
+    },
+    {
+      "id": 5079,
+      "nombre": "Barbosa",
+      "area": 205.603284507
+    },
+    {
+      "id": 5686,
+      "nombre": "Santa Rosa De Osos",
+      "area": 864.499049008
+    },
+    {
+      "id": 5001,
+      "nombre": "Medellín",
+      "area": 373.440415781
+    },
+    {
+      "id": 5212,
+      "nombre": "Copacabana",
+      "area": 67.9243471514
+    },
+    {
+      "id": 5308,
+      "nombre": "Girardota",
+      "area": 82.8007371232
+    },
+    {
+      "id": 5237,
+      "nombre": "Donmatías",
+      "area": 198.015100946
+    },
+    {
+      "id": 5264,
+      "nombre": "Entrerrios",
+      "area": 214.228511074
+    },
+    {
+      "id": 5086,
+      "nombre": "Belmira",
+      "area": 295.85879949
+    },
+    {
+      "id": 5088,
+      "nombre": "Bello",
+      "area": 147.923860035
+    },
+    {
+      "id": 5656,
+      "nombre": "San Jerónimo",
+      "area": 152.139951529
+    },
+    {
+      "id": 5664,
+      "nombre": "San Pedro De Los Milagros",
+      "area": 235.365861614
+    }
+  ],
+  "Santander": [
+    {
+      "id": 68271,
+      "nombre": "Florián",
+      "area": 176.365257251
+    },
+    {
+      "id": 68020,
+      "nombre": "Albania",
+      "area": 165.982589515
+    },
+    {
+      "id": 68368,
+      "nombre": "Jesús María",
+      "area": 89.4664480458
+    },
+    {
+      "id": 68572,
+      "nombre": "Puente Nacional",
+      "area": 251.298976709
+    },
+    {
+      "id": 68077,
+      "nombre": "Barbosa",
+      "area": 46.5955289273
+    },
+    {
+      "id": 68324,
+      "nombre": "Guavatá",
+      "area": 83.6714447387
+    },
+    {
+      "id": 68377,
+      "nombre": "La Belleza",
+      "area": 334.777525469
+    },
+    {
+      "id": 68327,
+      "nombre": "Güepsa",
+      "area": 30.1093121721
+    },
+    {
+      "id": 68298,
+      "nombre": "Gámbita",
+      "area": 607.173153506
+    },
+    {
+      "id": 68179,
+      "nombre": "Chipatá",
+      "area": 94.8362765312
+    },
+    {
+      "id": 68673,
+      "nombre": "San Benito",
+      "area": 59.0180591547
+    },
+    {
+      "id": 68773,
+      "nombre": "Sucre",
+      "area": 521.846920584
+    },
+    {
+      "id": 68250,
+      "nombre": "El Peñón",
+      "area": 397.676776537
+    },
+    {
+      "id": 68770,
+      "nombre": "Suaita",
+      "area": 282.92678637
+    },
+    {
+      "id": 68264,
+      "nombre": "Encino",
+      "area": 399.667736454
+    },
+    {
+      "id": 68013,
+      "nombre": "Aguada",
+      "area": 75.1105160469
+    },
+    {
+      "id": 68101,
+      "nombre": "Bolívar",
+      "area": 1008.85600026
+    },
+    {
+      "id": 68320,
+      "nombre": "Guadalupe",
+      "area": 146.084369492
+    },
+    {
+      "id": 68245,
+      "nombre": "El Guacamayo",
+      "area": 92.8187682086
+    },
+    {
+      "id": 68500,
+      "nombre": "Oiba",
+      "area": 287.340764809
+    },
+    {
+      "id": 68322,
+      "nombre": "Guapotá",
+      "area": 67.183621631
+    },
+    {
+      "id": 68211,
+      "nombre": "Contratación",
+      "area": 136.949412713
+    },
+    {
+      "id": 68217,
+      "nombre": "Coromoro",
+      "area": 576.362429689
+    },
+    {
+      "id": 68397,
+      "nombre": "La Paz",
+      "area": 283.909080814
+    },
+    {
+      "id": 68167,
+      "nombre": "Charalá",
+      "area": 418.46749108
+    },
+    {
+      "id": 68498,
+      "nombre": "Ocamonte",
+      "area": 75.0687956954
+    },
+    {
+      "id": 68209,
+      "nombre": "Confines",
+      "area": 71.2935637407
+    },
+    {
+      "id": 68524,
+      "nombre": "Palmas Del Socorro",
+      "area": 58.437725727
+    },
+    {
+      "id": 68176,
+      "nombre": "Chima",
+      "area": 172.927986699
+    },
+    {
+      "id": 68855,
+      "nombre": "Valle De San José",
+      "area": 80.9625498673
+    },
+    {
+      "id": 68533,
+      "nombre": "Páramo",
+      "area": 72.8469207931
+    },
+    {
+      "id": 68720,
+      "nombre": "Santa Helena Del Opón",
+      "area": 373.26689294
+    },
+    {
+      "id": 68755,
+      "nombre": "Socorro",
+      "area": 127.596893771
+    },
+    {
+      "id": 68502,
+      "nombre": "Onzaga",
+      "area": 488.214316446
+    },
+    {
+      "id": 68861,
+      "nombre": "Vélez",
+      "area": 446.98404065
+    },
+    {
+      "id": 68549,
+      "nombre": "Pinchote",
+      "area": 55.4554142705
+    },
+    {
+      "id": 68385,
+      "nombre": "Landázuri",
+      "area": 589.374617852
+    },
+    {
+      "id": 68522,
+      "nombre": "Palmar",
+      "area": 19.6597399048
+    },
+    {
+      "id": 68682,
+      "nombre": "San Joaquín",
+      "area": 142.840736079
+    },
+    {
+      "id": 68425,
+      "nombre": "Macaravita",
+      "area": 102.689015743
+    },
+    {
+      "id": 68147,
+      "nombre": "Capitanejo",
+      "area": 85.2261494416
+    },
+    {
+      "id": 68686,
+      "nombre": "San Miguel",
+      "area": 71.0559436751
+    },
+    {
+      "id": 68121,
+      "nombre": "Cabrera",
+      "area": 65.4571184834
+    },
+    {
+      "id": 68344,
+      "nombre": "Hato",
+      "area": 168.72778998
+    },
+    {
+      "id": 68464,
+      "nombre": "Mogotes",
+      "area": 483.013150865
+    },
+    {
+      "id": 68679,
+      "nombre": "San Gil",
+      "area": 146.580262016
+    },
+    {
+      "id": 68229,
+      "nombre": "Curití",
+      "area": 243.749453657
+    },
+    {
+      "id": 68684,
+      "nombre": "San José De Miranda",
+      "area": 75.1329495842
+    },
+    {
+      "id": 68266,
+      "nombre": "Enciso",
+      "area": 74.6545502493
+    },
+    {
+      "id": 68468,
+      "nombre": "Molagavita",
+      "area": 180.098543313
+    },
+    {
+      "id": 68079,
+      "nombre": "Barichara",
+      "area": 137.027359757
+    },
+    {
+      "id": 68370,
+      "nombre": "Jordán",
+      "area": 39.8239633206
+    },
+    {
+      "id": 68152,
+      "nombre": "Carcasí",
+      "area": 258.368719918
+    },
+    {
+      "id": 68872,
+      "nombre": "Villanueva",
+      "area": 97.4269993202
+    },
+    {
+      "id": 68190,
+      "nombre": "Cimitarra",
+      "area": 3170.54228611
+    },
+    {
+      "id": 68296,
+      "nombre": "Galán",
+      "area": 201.380802849
+    },
+    {
+      "id": 68432,
+      "nombre": "Málaga",
+      "area": 57.0716610705
+    },
+    {
+      "id": 68160,
+      "nombre": "Cepitá",
+      "area": 107.751642364
+    },
+    {
+      "id": 68051,
+      "nombre": "Aratoca",
+      "area": 169.461758212
+    },
+    {
+      "id": 68235,
+      "nombre": "El Carmen",
+      "area": 922.570307912
+    },
+    {
+      "id": 68573,
+      "nombre": "Puerto Parra",
+      "area": 761.333821586
+    },
+    {
+      "id": 68207,
+      "nombre": "Concepción",
+      "area": 336.376157346
+    },
+    {
+      "id": 68418,
+      "nombre": "Los Santos",
+      "area": 289.582565087
+    },
+    {
+      "id": 68745,
+      "nombre": "Simacota",
+      "area": 903.358722113
+    },
+    {
+      "id": 68669,
+      "nombre": "San Andrés",
+      "area": 280.976161977
+    },
+    {
+      "id": 68895,
+      "nombre": "Zapatoca",
+      "area": 363.774350283
+    },
+    {
+      "id": 68547,
+      "nombre": "Piedecuesta",
+      "area": 483.795850494
+    },
+    {
+      "id": 68276,
+      "nombre": "Floridablanca",
+      "area": 99.9333642254
+    },
+    {
+      "id": 68689,
+      "nombre": "San Vicente De Chucurí",
+      "area": 1114.68359487
+    },
+    {
+      "id": 68092,
+      "nombre": "Betulia",
+      "area": 430.516559716
+    },
+    {
+      "id": 68307,
+      "nombre": "Girón",
+      "area": 491.572246604
+    },
+    {
+      "id": 68081,
+      "nombre": "Barrancabermeja",
+      "area": 1324.6662059
+    },
+    {
+      "id": 68001,
+      "nombre": "Bucaramanga",
+      "area": 153.234822765
+    },
+    {
+      "id": 68169,
+      "nombre": "Charta",
+      "area": 126.458300472
+    },
+    {
+      "id": 68867,
+      "nombre": "Vetas",
+      "area": 92.2351573705
+    },
+    {
+      "id": 68132,
+      "nombre": "California",
+      "area": 44.9235798375
+    },
+    {
+      "id": 68406,
+      "nombre": "Lebrija",
+      "area": 549.467767736
+    },
+    {
+      "id": 68444,
+      "nombre": "Matanza",
+      "area": 235.297421381
+    },
+    {
+      "id": 68780,
+      "nombre": "Suratá",
+      "area": 362.298471788
+    },
+    {
+      "id": 68255,
+      "nombre": "El Playón",
+      "area": 454.153146005
+    },
+    {
+      "id": 68655,
+      "nombre": "Sabana De Torres",
+      "area": 1426.70872276
+    },
+    {
+      "id": 68615,
+      "nombre": "Rionegro",
+      "area": 1166.48053649
+    },
+    {
+      "id": 68575,
+      "nombre": "Puerto Wilches",
+      "area": 1480.48890653
+    },
+    {
+      "id": 68162,
+      "nombre": "Cerrito",
+      "area": 420.06462983
+    },
+    {
+      "id": 68318,
+      "nombre": "Guaca",
+      "area": 268.983557303
+    },
+    {
+      "id": 68705,
+      "nombre": "Santa Bárbara",
+      "area": 178.276618666
+    },
+    {
+      "id": 68820,
+      "nombre": "Tona",
+      "area": 330.120918908
+    }
+  ],
+  "Arauca": [
+    {
+      "id": 81591,
+      "nombre": "Puerto Rondón",
+      "area": 2273.95745362
+    },
+    {
+      "id": 81794,
+      "nombre": "Tame",
+      "area": 5403.88160248
+    },
+    {
+      "id": 81300,
+      "nombre": "Fortul",
+      "area": 1155.52525327
+    },
+    {
+      "id": 81220,
+      "nombre": "Cravo Norte",
+      "area": 5189.13967755
+    },
+    {
+      "id": 81065,
+      "nombre": "Arauquita",
+      "area": 3011.67579418
+    },
+    {
+      "id": 81736,
+      "nombre": "Saravena",
+      "area": 923.497671182
+    },
+    {
+      "id": 81001,
+      "nombre": "Arauca",
+      "area": 5755.97516472
+    }
+  ],
+  "Norte de Santander": [
+    {
+      "id": 54125,
+      "nombre": "Cácota",
+      "area": 138.620056547
+    },
+    {
+      "id": 54480,
+      "nombre": "Mutiscua",
+      "area": 158.508386152
+    },
+    {
+      "id": 54377,
+      "nombre": "Labateca",
+      "area": 255.46142914
+    },
+    {
+      "id": 54518,
+      "nombre": "Pamplona",
+      "area": 297.650030539
+    },
+    {
+      "id": 54520,
+      "nombre": "Pamplonita",
+      "area": 170.541661277
+    },
+    {
+      "id": 54223,
+      "nombre": "Cucutilla",
+      "area": 374.130647325
+    },
+    {
+      "id": 54172,
+      "nombre": "Chinácota",
+      "area": 165.891759823
+    },
+    {
+      "id": 54051,
+      "nombre": "Arboledas",
+      "area": 455.219212466
+    },
+    {
+      "id": 54099,
+      "nombre": "Bochalema",
+      "area": 169.963628012
+    },
+    {
+      "id": 54385,
+      "nombre": "La Esperanza",
+      "area": 668.75090723
+    },
+    {
+      "id": 54239,
+      "nombre": "Durania",
+      "area": 174.577881629
+    },
+    {
+      "id": 54128,
+      "nombre": "Cáchira",
+      "area": 614.671656257
+    },
+    {
+      "id": 54405,
+      "nombre": "Los Patios",
+      "area": 126.143921965
+    },
+    {
+      "id": 54660,
+      "nombre": "Salazar",
+      "area": 492.905510915
+    },
+    {
+      "id": 54673,
+      "nombre": "San Cayetano",
+      "area": 138.975539022
+    },
+    {
+      "id": 54680,
+      "nombre": "Santiago",
+      "area": 172.17061647
+    },
+    {
+      "id": 54313,
+      "nombre": "Gramalote",
+      "area": 148.714998036
+    },
+    {
+      "id": 54418,
+      "nombre": "Lourdes",
+      "area": 86.4100833015
+    },
+    {
+      "id": 54871,
+      "nombre": "Villa Caro",
+      "area": 400.273988203
+    },
+    {
+      "id": 54109,
+      "nombre": "Bucarasica",
+      "area": 270.251035998
+    },
+    {
+      "id": 54003,
+      "nombre": "Ábrego",
+      "area": 1379.89869089
+    },
+    {
+      "id": 54261,
+      "nombre": "El Zulia",
+      "area": 504.246251199
+    },
+    {
+      "id": 54398,
+      "nombre": "La Playa",
+      "area": 241.772366761
+    },
+    {
+      "id": 54498,
+      "nombre": "Ocaña",
+      "area": 552.869340381
+    },
+    {
+      "id": 54344,
+      "nombre": "Hacarí",
+      "area": 418.210193913
+    },
+    {
+      "id": 54720,
+      "nombre": "Sardinata",
+      "area": 1464.66497222
+    },
+    {
+      "id": 54670,
+      "nombre": "San Calixto",
+      "area": 397.287573489
+    },
+    {
+      "id": 54250,
+      "nombre": "El Tarra",
+      "area": 702.7440475
+    },
+    {
+      "id": 54820,
+      "nombre": "Toledo",
+      "area": 1478.26316625
+    },
+    {
+      "id": 54347,
+      "nombre": "Herrán",
+      "area": 107.517686194
+    },
+    {
+      "id": 54599,
+      "nombre": "Ragonvalia",
+      "area": 97.821844444
+    },
+    {
+      "id": 54874,
+      "nombre": "Villa Del Rosario",
+      "area": 91.5653965326
+    },
+    {
+      "id": 54553,
+      "nombre": "Puerto Santander",
+      "area": 46.3135579237
+    },
+    {
+      "id": 54001,
+      "nombre": "San José de Cúcuta",
+      "area": 1132.15423194
+    },
+    {
+      "id": 54810,
+      "nombre": "Tibú",
+      "area": 2674.68273912
+    },
+    {
+      "id": 54800,
+      "nombre": "Teorama",
+      "area": 924.838883405
+    },
+    {
+      "id": 54206,
+      "nombre": "Convención",
+      "area": 928.414957499
+    },
+    {
+      "id": 54245,
+      "nombre": "El Carmen",
+      "area": 1733.45063139
+    },
+    {
+      "id": 54174,
+      "nombre": "Chitagá",
+      "area": 1182.50538166
+    },
+    {
+      "id": 54743,
+      "nombre": "Silos",
+      "area": 391.489883222
+    }
+  ],
+  "Bolívar": [
+    {
+      "id": 13160,
+      "nombre": "Cantagallo",
+      "area": 879.58754817
+    },
+    {
+      "id": 13670,
+      "nombre": "San Pablo",
+      "area": 2018.55750048
+    },
+    {
+      "id": 13688,
+      "nombre": "Santa Rosa Del Sur",
+      "area": 2380.1202093
+    },
+    {
+      "id": 13744,
+      "nombre": "Simití",
+      "area": 1352.83547658
+    },
+    {
+      "id": 13655,
+      "nombre": "San Jacinto Del Cauca",
+      "area": 569.456734579
+    },
+    {
+      "id": 13458,
+      "nombre": "Montecristo",
+      "area": 2090.71746623
+    },
+    {
+      "id": 13473,
+      "nombre": "Morales",
+      "area": 1345.74855158
+    },
+    {
+      "id": 13042,
+      "nombre": "Arenal",
+      "area": 461.362969801
+    },
+    {
+      "id": 13490,
+      "nombre": "Norosí",
+      "area": 415.852617485
+    },
+    {
+      "id": 13810,
+      "nombre": "Tiquisio",
+      "area": 761.962622399
+    },
+    {
+      "id": 13600,
+      "nombre": "Rioviejo",
+      "area": 844.259626043
+    },
+    {
+      "id": 13580,
+      "nombre": "Regidor",
+      "area": 183.241567207
+    },
+    {
+      "id": 13030,
+      "nombre": "Altos Del Rosario",
+      "area": 303.390908373
+    },
+    {
+      "id": 13006,
+      "nombre": "Achí",
+      "area": 950.756565815
+    },
+    {
+      "id": 13074,
+      "nombre": "Barranco De Loba",
+      "area": 430.209679307
+    },
+    {
+      "id": 13667,
+      "nombre": "San Martín De Loba",
+      "area": 449.545982135
+    },
+    {
+      "id": 13268,
+      "nombre": "El Peñón",
+      "area": 318.552167718
+    },
+    {
+      "id": 13300,
+      "nombre": "Hatillo De Loba",
+      "area": 194.02398014
+    },
+    {
+      "id": 13549,
+      "nombre": "Pinillos",
+      "area": 774.817286953
+    },
+    {
+      "id": 13440,
+      "nombre": "Margarita",
+      "area": 292.62005973
+    },
+    {
+      "id": 13650,
+      "nombre": "San Fernando",
+      "area": 317.777259396
+    },
+    {
+      "id": 13468,
+      "nombre": "Mompós",
+      "area": 651.576637378
+    },
+    {
+      "id": 13188,
+      "nombre": "Cicuco",
+      "area": 132.016447353
+    },
+    {
+      "id": 13780,
+      "nombre": "Talaigua Nuevo",
+      "area": 249.094373786
+    },
+    {
+      "id": 13430,
+      "nombre": "Magangué",
+      "area": 1129.98750562
+    },
+    {
+      "id": 13212,
+      "nombre": "Córdoba",
+      "area": 596.865625875
+    },
+    {
+      "id": 13894,
+      "nombre": "Zambrano",
+      "area": 309.309849703
+    },
+    {
+      "id": 13244,
+      "nombre": "El Carmen De Bolívar",
+      "area": 945.744292077
+    },
+    {
+      "id": 13654,
+      "nombre": "San Jacinto",
+      "area": 442.65142066
+    },
+    {
+      "id": 13442,
+      "nombre": "María La Baja",
+      "area": 561.019901049
+    },
+    {
+      "id": 13657,
+      "nombre": "San Juan Nepomuceno",
+      "area": 630.807222409
+    },
+    {
+      "id": 13248,
+      "nombre": "El Guamo",
+      "area": 382.976178206
+    },
+    {
+      "id": 13433,
+      "nombre": "Mahates",
+      "area": 432.097963345
+    },
+    {
+      "id": 13838,
+      "nombre": "Turbana",
+      "area": 191.078586475
+    },
+    {
+      "id": 13062,
+      "nombre": "Arroyohondo",
+      "area": 163.686341487
+    },
+    {
+      "id": 13052,
+      "nombre": "Arjona",
+      "area": 587.189791336
+    },
+    {
+      "id": 13140,
+      "nombre": "Calamar",
+      "area": 255.50405224
+    },
+    {
+      "id": 13760,
+      "nombre": "Soplaviento",
+      "area": 92.5641381356
+    },
+    {
+      "id": 13620,
+      "nombre": "San Cristóbal",
+      "area": 42.2419763091
+    },
+    {
+      "id": 13836,
+      "nombre": "Turbaco",
+      "area": 202.576324883
+    },
+    {
+      "id": 13647,
+      "nombre": "San Estanislao",
+      "area": 211.511338334
+    },
+    {
+      "id": 13873,
+      "nombre": "Villanueva",
+      "area": 137.058445961
+    },
+    {
+      "id": 13683,
+      "nombre": "Santa Rosa",
+      "area": 154.613113089
+    },
+    {
+      "id": 13222,
+      "nombre": "Clemencia",
+      "area": 85.3337566234
+    },
+    {
+      "id": 13001,
+      "nombre": "Cartagena De Indias",
+      "area": 567.136096462
+    },
+    {
+      "id": 13673,
+      "nombre": "Santa Catalina",
+      "area": 172.738378596
+    }
+  ],
+  "Córdoba": [
+    {
+      "id": 23682,
+      "nombre": "San José De Uré",
+      "area": 525.459018052
+    },
+    {
+      "id": 23580,
+      "nombre": "Puerto Libertador",
+      "area": 1647.24756414
+    },
+    {
+      "id": 23350,
+      "nombre": "La Apartada",
+      "area": 286.895397027
+    },
+    {
+      "id": 23466,
+      "nombre": "Montelíbano",
+      "area": 1550.83896207
+    },
+    {
+      "id": 23807,
+      "nombre": "Tierralta",
+      "area": 4938.33118658
+    },
+    {
+      "id": 23079,
+      "nombre": "Buenavista",
+      "area": 834.583440417
+    },
+    {
+      "id": 23855,
+      "nombre": "Valencia",
+      "area": 919.220657171
+    },
+    {
+      "id": 23068,
+      "nombre": "Ayapel",
+      "area": 1963.72979464
+    },
+    {
+      "id": 23555,
+      "nombre": "Planeta Rica",
+      "area": 1140.09893388
+    },
+    {
+      "id": 23570,
+      "nombre": "Pueblo Nuevo",
+      "area": 848.951556839
+    },
+    {
+      "id": 23090,
+      "nombre": "Canalete",
+      "area": 420.088971245
+    },
+    {
+      "id": 23678,
+      "nombre": "San Carlos",
+      "area": 446.439706636
+    },
+    {
+      "id": 23419,
+      "nombre": "Los Córdobas",
+      "area": 366.126725567
+    },
+    {
+      "id": 23001,
+      "nombre": "Montería",
+      "area": 3137.34686502
+    },
+    {
+      "id": 23162,
+      "nombre": "Cereté",
+      "area": 290.446607662
+    },
+    {
+      "id": 23660,
+      "nombre": "Sahagún",
+      "area": 964.36619125
+    },
+    {
+      "id": 23189,
+      "nombre": "Ciénaga De Oro",
+      "area": 641.069451438
+    },
+    {
+      "id": 23686,
+      "nombre": "San Pelayo",
+      "area": 445.58548524
+    },
+    {
+      "id": 23574,
+      "nombre": "Puerto Escondido",
+      "area": 411.177028385
+    },
+    {
+      "id": 23300,
+      "nombre": "Cotorra",
+      "area": 87.7411764003
+    },
+    {
+      "id": 23182,
+      "nombre": "Chinú",
+      "area": 625.998682215
+    },
+    {
+      "id": 23168,
+      "nombre": "Chima",
+      "area": 324.058224868
+    },
+    {
+      "id": 23670,
+      "nombre": "San Andrés De Sotavento",
+      "area": 206.743845825
+    },
+    {
+      "id": 23815,
+      "nombre": "Tuchín",
+      "area": 106.524817492
+    },
+    {
+      "id": 23500,
+      "nombre": "Moñitos",
+      "area": 203.413613391
+    },
+    {
+      "id": 23417,
+      "nombre": "Lorica",
+      "area": 951.22870301
+    },
+    {
+      "id": 23464,
+      "nombre": "Momil",
+      "area": 158.639647246
+    },
+    {
+      "id": 23586,
+      "nombre": "Purísima",
+      "area": 117.494753503
+    },
+    {
+      "id": 23672,
+      "nombre": "San Antero",
+      "area": 208.106870756
+    },
+    {
+      "id": 23675,
+      "nombre": "San Bernardo Del Viento",
+      "area": 315.797741939
+    }
+  ],
+  "Cesar": [
+    {
+      "id": 20710,
+      "nombre": "San Alberto",
+      "area": 549.315719877
+    },
+    {
+      "id": 20770,
+      "nombre": "San Martín",
+      "area": 991.730098425
+    },
+    {
+      "id": 20614,
+      "nombre": "Río De Oro",
+      "area": 517.759322532
+    },
+    {
+      "id": 20310,
+      "nombre": "González",
+      "area": 72.5741002986
+    },
+    {
+      "id": 20295,
+      "nombre": "Gamarra",
+      "area": 326.426554708
+    },
+    {
+      "id": 20011,
+      "nombre": "Aguachica",
+      "area": 876.317690602
+    },
+    {
+      "id": 20383,
+      "nombre": "La Gloria",
+      "area": 801.578079235
+    },
+    {
+      "id": 20550,
+      "nombre": "Pelaya",
+      "area": 422.739522373
+    },
+    {
+      "id": 20787,
+      "nombre": "Tamalameque",
+      "area": 512.47036389
+    },
+    {
+      "id": 20517,
+      "nombre": "Pailitas",
+      "area": 530.909625133
+    },
+    {
+      "id": 20175,
+      "nombre": "Chimichagua",
+      "area": 1374.36713776
+    },
+    {
+      "id": 20032,
+      "nombre": "Astrea",
+      "area": 637.04714962
+    },
+    {
+      "id": 20250,
+      "nombre": "El Paso",
+      "area": 812.31387919
+    },
+    {
+      "id": 20060,
+      "nombre": "Bosconia",
+      "area": 585.797674165
+    },
+    {
+      "id": 20750,
+      "nombre": "San Diego",
+      "area": 644.881803283
+    },
+    {
+      "id": 20238,
+      "nombre": "El Copey",
+      "area": 955.149818387
+    },
+    {
+      "id": 20570,
+      "nombre": "Pueblo Bello",
+      "area": 742.636863261
+    },
+    {
+      "id": 20001,
+      "nombre": "Valledupar",
+      "area": 4181.84482461
+    },
+    {
+      "id": 20228,
+      "nombre": "Curumaní",
+      "area": 913.669277143
+    },
+    {
+      "id": 20178,
+      "nombre": "Chiriguaná",
+      "area": 1112.67927359
+    },
+    {
+      "id": 20400,
+      "nombre": "La Jagua De Ibirico",
+      "area": 754.815605576
+    },
+    {
+      "id": 20045,
+      "nombre": "Becerril",
+      "area": 1224.38407708
+    },
+    {
+      "id": 20013,
+      "nombre": "Agustín Codazzi",
+      "area": 1750.99145863
+    },
+    {
+      "id": 20443,
+      "nombre": "Manaure Balcón Del Cesar",
+      "area": 136.648188856
+    },
+    {
+      "id": 20621,
+      "nombre": "La Paz",
+      "area": 1070.94643419
+    }
+  ],
+  "Sucre": [
+    {
+      "id": 70265,
+      "nombre": "Guaranda",
+      "area": 361.397445114
+    },
+    {
+      "id": 70708,
+      "nombre": "San Marcos",
+      "area": 969.792185718
+    },
+    {
+      "id": 70429,
+      "nombre": "Majagual",
+      "area": 844.585648628
+    },
+    {
+      "id": 70400,
+      "nombre": "La Unión",
+      "area": 232.190078205
+    },
+    {
+      "id": 70124,
+      "nombre": "Caimito",
+      "area": 412.224086648
+    },
+    {
+      "id": 70771,
+      "nombre": "Sucre",
+      "area": 1130.33009731
+    },
+    {
+      "id": 70678,
+      "nombre": "San Benito Abad",
+      "area": 1493.13820734
+    },
+    {
+      "id": 70233,
+      "nombre": "El Roble",
+      "area": 198.362165721
+    },
+    {
+      "id": 70235,
+      "nombre": "Galeras",
+      "area": 321.635896927
+    },
+    {
+      "id": 70670,
+      "nombre": "Sampués",
+      "area": 214.008996881
+    },
+    {
+      "id": 70215,
+      "nombre": "Corozal",
+      "area": 285.513494297
+    },
+    {
+      "id": 70742,
+      "nombre": "Sincé",
+      "area": 418.719067423
+    },
+    {
+      "id": 70702,
+      "nombre": "San Juan De Betulia",
+      "area": 168.026174229
+    },
+    {
+      "id": 70523,
+      "nombre": "Palmito",
+      "area": 174.59545907
+    },
+    {
+      "id": 70001,
+      "nombre": "Sincelejo",
+      "area": 279.813907553
+    },
+    {
+      "id": 70110,
+      "nombre": "Buenavista",
+      "area": 146.400106818
+    },
+    {
+      "id": 70221,
+      "nombre": "Coveñas",
+      "area": 55.8168032613
+    },
+    {
+      "id": 70717,
+      "nombre": "San Pedro",
+      "area": 212.802401068
+    },
+    {
+      "id": 70473,
+      "nombre": "Morroa",
+      "area": 170.164732954
+    },
+    {
+      "id": 70418,
+      "nombre": "Los Palmitos",
+      "area": 198.764722967
+    },
+    {
+      "id": 70204,
+      "nombre": "Colosó",
+      "area": 131.092847209
+    },
+    {
+      "id": 70823,
+      "nombre": "Toluviejo",
+      "area": 284.702329707
+    },
+    {
+      "id": 70230,
+      "nombre": "Chalán",
+      "area": 83.6715906361
+    },
+    {
+      "id": 70820,
+      "nombre": "Tolú",
+      "area": 302.591279934
+    },
+    {
+      "id": 70508,
+      "nombre": "Ovejas",
+      "area": 459.799769726
+    },
+    {
+      "id": 70713,
+      "nombre": "San Onofre",
+      "area": 1034.69921812
+    }
+  ],
+  "Magdalena": [
+    {
+      "id": 47245,
+      "nombre": "El Banco",
+      "area": 814.045205639
+    },
+    {
+      "id": 47318,
+      "nombre": "Guamal",
+      "area": 563.81396055
+    },
+    {
+      "id": 47703,
+      "nombre": "San Zenón",
+      "area": 268.539492381
+    },
+    {
+      "id": 47692,
+      "nombre": "San Sebastián De Buenavista",
+      "area": 437.111081229
+    },
+    {
+      "id": 47720,
+      "nombre": "Santa Bárbara De Pinto",
+      "area": 494.249440435
+    },
+    {
+      "id": 47545,
+      "nombre": "Pijiño Del Carmen",
+      "area": 660.763176856
+    },
+    {
+      "id": 47707,
+      "nombre": "Santa Ana",
+      "area": 1119.22242329
+    },
+    {
+      "id": 47460,
+      "nombre": "Nueva Granada",
+      "area": 841.124382007
+    },
+    {
+      "id": 47058,
+      "nombre": "Ariguaní",
+      "area": 1130.33761469
+    },
+    {
+      "id": 47798,
+      "nombre": "Tenerife",
+      "area": 491.780185748
+    },
+    {
+      "id": 47555,
+      "nombre": "Plato",
+      "area": 1455.59656092
+    },
+    {
+      "id": 47170,
+      "nombre": "Chivolo",
+      "area": 536.099687578
+    },
+    {
+      "id": 47541,
+      "nombre": "Pedraza",
+      "area": 305.463586059
+    },
+    {
+      "id": 47960,
+      "nombre": "Zapayán",
+      "area": 372.606203668
+    },
+    {
+      "id": 47205,
+      "nombre": "Concordia",
+      "area": 109.395001709
+    },
+    {
+      "id": 47161,
+      "nombre": "Cerro De San Antonio",
+      "area": 176.883361497
+    },
+    {
+      "id": 47660,
+      "nombre": "Sabanas De San Ángel",
+      "area": 1237.52338861
+    },
+    {
+      "id": 47030,
+      "nombre": "Algarrobo",
+      "area": 405.917791279
+    },
+    {
+      "id": 47258,
+      "nombre": "El Piñón",
+      "area": 556.686024284
+    },
+    {
+      "id": 47675,
+      "nombre": "Salamina",
+      "area": 170.164138008
+    },
+    {
+      "id": 47288,
+      "nombre": "Fundación",
+      "area": 970.567883867
+    },
+    {
+      "id": 47551,
+      "nombre": "Pivijay",
+      "area": 1638.66126696
+    },
+    {
+      "id": 47605,
+      "nombre": "Remolino",
+      "area": 594.375139707
+    },
+    {
+      "id": 47268,
+      "nombre": "El Retén",
+      "area": 261.902289449
+    },
+    {
+      "id": 47745,
+      "nombre": "Sitionuevo",
+      "area": 970.217145024
+    },
+    {
+      "id": 47001,
+      "nombre": "Santa Marta",
+      "area": 2344.07159966
+    },
+    {
+      "id": 47053,
+      "nombre": "Aracataca",
+      "area": 1738.4135206
+    },
+    {
+      "id": 47980,
+      "nombre": "Zona Bananera",
+      "area": 418.030217893
+    },
+    {
+      "id": 47570,
+      "nombre": "Puebloviejo",
+      "area": 674.759172683
+    },
+    {
+      "id": 47189,
+      "nombre": "Ciénaga",
+      "area": 1351.16322819
+    }
+  ],
+  "Atlántico": [
+    {
+      "id": 8770,
+      "nombre": "Suan",
+      "area": 42.5133795649
+    },
+    {
+      "id": 8675,
+      "nombre": "Santa Lucía",
+      "area": 57.3119628176
+    },
+    {
+      "id": 8137,
+      "nombre": "Campo De La Cruz",
+      "area": 99.9193172007
+    },
+    {
+      "id": 8436,
+      "nombre": "Manatí",
+      "area": 214.127286311
+    },
+    {
+      "id": 8141,
+      "nombre": "Candelaria",
+      "area": 135.680660784
+    },
+    {
+      "id": 8606,
+      "nombre": "Repelón",
+      "area": 358.344060611
+    },
+    {
+      "id": 8421,
+      "nombre": "Luruaco",
+      "area": 224.189489867
+    },
+    {
+      "id": 8638,
+      "nombre": "Sabanalarga",
+      "area": 395.578941119
+    },
+    {
+      "id": 8560,
+      "nombre": "Ponedera",
+      "area": 206.508112904
+    },
+    {
+      "id": 8520,
+      "nombre": "Palmar De Varela",
+      "area": 92.1917609944
+    },
+    {
+      "id": 8685,
+      "nombre": "Santo Tomás",
+      "area": 65.0323586662
+    },
+    {
+      "id": 8849,
+      "nombre": "Usiacurí",
+      "area": 101.309134058
+    },
+    {
+      "id": 8558,
+      "nombre": "Polonuevo",
+      "area": 73.8071945728
+    },
+    {
+      "id": 8549,
+      "nombre": "Piojó",
+      "area": 252.782509715
+    },
+    {
+      "id": 8634,
+      "nombre": "Sabanagrande",
+      "area": 43.0658949881
+    },
+    {
+      "id": 8433,
+      "nombre": "Malambo",
+      "area": 98.189817099
+    },
+    {
+      "id": 8758,
+      "nombre": "Soledad",
+      "area": 59.127992506
+    },
+    {
+      "id": 8573,
+      "nombre": "Puerto Colombia",
+      "area": 70.310647546
+    },
+    {
+      "id": 8001,
+      "nombre": "Barranquilla",
+      "area": 153.791294805
+    },
+    {
+      "id": 8078,
+      "nombre": "Baranoa",
+      "area": 121.192917207
+    },
+    {
+      "id": 8372,
+      "nombre": "Juan De Acosta",
+      "area": 167.892095816
+    },
+    {
+      "id": 8296,
+      "nombre": "Galapa",
+      "area": 97.5165180025
+    },
+    {
+      "id": 8832,
+      "nombre": "Tubará",
+      "area": 183.001114304
+    }
+  ],
+  "La Guajira": [
+    {
+      "id": 44098,
+      "nombre": "Distracción",
+      "area": 231.228700647
+    },
+    {
+      "id": 44090,
+      "nombre": "Dibulla",
+      "area": 1746.7868336
+    },
+    {
+      "id": 44001,
+      "nombre": "Riohacha",
+      "area": 3082.41094691
+    },
+    {
+      "id": 44560,
+      "nombre": "Manaure",
+      "area": 1616.1256007
+    },
+    {
+      "id": 44420,
+      "nombre": "La Jagua Del Pilar",
+      "area": 179.112413527
+    },
+    {
+      "id": 44855,
+      "nombre": "Urumita",
+      "area": 245.488124617
+    },
+    {
+      "id": 44874,
+      "nombre": "Villanueva",
+      "area": 259.572787484
+    },
+    {
+      "id": 44110,
+      "nombre": "El Molino",
+      "area": 241.271653054
+    },
+    {
+      "id": 44650,
+      "nombre": "San Juan Del Cesar",
+      "area": 1307.98197575
+    },
+    {
+      "id": 44279,
+      "nombre": "Fonseca",
+      "area": 472.517104505
+    },
+    {
+      "id": 44078,
+      "nombre": "Barrancas",
+      "area": 799.947538017
+    },
+    {
+      "id": 44378,
+      "nombre": "Hatonuevo",
+      "area": 215.20872087
+    },
+    {
+      "id": 44035,
+      "nombre": "Albania",
+      "area": 544.118035528
+    },
+    {
+      "id": 44430,
+      "nombre": "Maicao",
+      "area": 1767.24921322
+    },
+    {
+      "id": 44847,
+      "nombre": "Uribia",
+      "area": 7863.72731964
+    }
+  ],
+  "San Andrés y Providencia": [
+    {
+      "id": 88564,
+      "nombre": "Providencia y Santa Catalina",
+      "area": 22.4897868824
+    },
+    {
+      "id": 88001,
+      "nombre": "San Andrés",
+      "area": 27.3989813444
+    }
+  ],
+  "Quindío": [
+    {
+      "id": 63302,
+      "nombre": "Génova",
+      "area": 295.696903107
+    },
+    {
+      "id": 63401,
+      "nombre": "La Tebaida",
+      "area": 89.4450482617
+    },
+    {
+      "id": 63690,
+      "nombre": "Salento",
+      "area": 346.318285165
+    },
+    {
+      "id": 63272,
+      "nombre": "Filandia",
+      "area": 106.608758462
+    },
+    {
+      "id": 63548,
+      "nombre": "Pijao",
+      "area": 247.957865489
+    },
+    {
+      "id": 63111,
+      "nombre": "Buenavista",
+      "area": 38.2629920184
+    },
+    {
+      "id": 63212,
+      "nombre": "Córdoba",
+      "area": 93.8003237793
+    },
+    {
+      "id": 63130,
+      "nombre": "Calarcá",
+      "area": 219.785489051
+    },
+    {
+      "id": 63470,
+      "nombre": "Montenegro",
+      "area": 149.437699591
+    },
+    {
+      "id": 63001,
+      "nombre": "Armenia",
+      "area": 120.930419962
+    },
+    {
+      "id": 63594,
+      "nombre": "Quimbaya",
+      "area": 133.227752246
+    },
+    {
+      "id": 63190,
+      "nombre": "Circasia",
+      "area": 91.5072748462
+    }
+  ]
+}

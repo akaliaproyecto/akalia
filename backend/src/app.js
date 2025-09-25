@@ -80,6 +80,9 @@ app.use("/pedidos", validateApiKey, pedidosRouter);
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
 app.use('/usuarios', validateApiKey, usuariosRoutes);
 
+const departamentos = require('./usuarios/usuarios.routes.js');
+app.use('/departamentos', departamentos);
+
 // CATEGORIAS RUTA
 const categoriasRoutes = require('./categorias/categorias.routes.js');
 app.use('/categorias', validateApiKey, categoriasRoutes);

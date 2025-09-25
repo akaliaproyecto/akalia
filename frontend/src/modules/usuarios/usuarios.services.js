@@ -41,7 +41,7 @@ exports.obtenerUsuario = async (req, res) => {
 /* Actualizar perfil del usuario */
 exports.actualizarPerfilUsuario = async (req, res) => {
   const { id } = req.params;
-  const { nombreUsuario, apellidoUsuario, email, contrasena, telefono } = req.body;
+  const { nombreUsuario, apellidoUsuario, email, contrasena, telefono, direcciones } = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Falta id de usuario' });
@@ -54,6 +54,16 @@ exports.actualizarPerfilUsuario = async (req, res) => {
     email,
     telefono
   };
+
+  // Manejar direcciones si vienen como string JSON
+  if (direcciones) {
+    try {
+      datosParaApi.direcciones = typeof direcciones === 'string' ? JSON.parse(direcciones) : direcciones;
+    } catch (e) {
+      console.error('Error parseando direcciones:', e);
+      datosParaApi.direcciones = [];
+    }
+  }
 
   // Si se envía nueva contraseña, la mandamos para que el backend la procese 
   if (contrasena) datosParaApi.contrasena = contrasena;
