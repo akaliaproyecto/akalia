@@ -70,8 +70,8 @@ function validarDescripcionProducto(campoDescripcion, elementoError) {
     return false;
   }
   
-  if (descripcion.length > 1000) {
-    mostrarError(campoDescripcion, elementoError, 'La descripción no puede superar los 1000 caracteres');
+  if (descripcion.length > 800) {
+    mostrarError(campoDescripcion, elementoError, 'La descripción no puede superar los 800 caracteres');
     return false;
   }
   
@@ -97,8 +97,8 @@ function validarPrecioProducto(campoPrecio, elementoError) {
   // Validar que no tenga más de 2 decimales
   const precioString = campoPrecio.value.trim();
   const decimalIndex = precioString.indexOf('.');
-  if (decimalIndex !== -1 && precioString.length - decimalIndex > 3) {
-    mostrarError(campoPrecio, elementoError, 'El precio no puede tener más de 2 decimales');
+  if (decimalIndex !== -1 && precioString.length - decimalIndex > 0) {
+    mostrarError(campoPrecio, elementoError, 'El precio no puede tener decimales');
     return false;
   }
   
@@ -128,9 +128,9 @@ function validarImagenesProducto(campoImagenes, elementoError, esObligatorio = t
   }
   
   // Validar cada archivo
-  const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+  const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/jfif', 'image/avif', 'image/heic', 'image/heif'];
   const tamanoMaximo = 25 * 1024 * 1024; // 25MB por imagen
-  
+
   for (let i = 0; i < archivos.length; i++) {
     const archivo = archivos[i];
     
@@ -317,7 +317,7 @@ function inicializarValidacionesEditar() {
     campoDescripcionEdit.addEventListener('blur', validarDescripcionEditar);
     campoDescripcionEdit.addEventListener('input', () => {
       const descripcion = campoDescripcionEdit.value.trim();
-      if (descripcion.length > 1000) {
+      if (descripcion.length > 800) {
         validarDescripcionEditar();
       }
     });
@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
       campoDescripcion.addEventListener('blur', validarDescripcionCrear);
       campoDescripcion.addEventListener('input', () => {
         const descripcion = campoDescripcion.value.trim();
-        if (descripcion.length > 1000) {
+        if (descripcion.length > 800) {
           validarDescripcionCrear();
         }
       });

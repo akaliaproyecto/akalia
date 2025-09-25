@@ -37,7 +37,7 @@ const ProductoSchema = new mongoose.Schema({
       {
         validator: function (value) {
           // Validar que todas las URLs apunten a imágenes con extensiones permitidas
-          return value.every(url => /^https?:\/\/.+\.(jpg|jpeg|jfif|png|gif|webp|avif|svg|heic|heif)$/i.test(url));
+          return value.every(url => /^https?:\/\/.+\.(jpg|jpeg|jfif|png|webp|avif|svg|heic|heif)$/i.test(url));
         },
         message: 'Todas las imágenes deben ser URLs válidas con formato jpg, jpeg, png, gif o svg'
       }

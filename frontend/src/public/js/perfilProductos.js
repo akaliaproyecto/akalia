@@ -140,10 +140,84 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ------------------------- Modal Crear Producto ------------------------- */
 async function crearProducto(idUsuario) {
   try {
+    console.log('🔍 Cargando datos para crear producto, userId:', idUsuario);
+    
+    // Cargar datos necesarios para el modal
+    const emprendimientosUrl = `${window.API_BASE_URL || 'http://localhost:4006'}/emprendimientos/usuario/${idUsuario}`;
+    const categoriasUrl = `${window.API_BASE_URL || 'http://localhost:4006'}/categorias`;
+    const etiquetasUrl = `${window.API_BASE_URL || 'http://localhost:4006'}/etiquetas`;
+    
+    console.log('🔍 URLs a consultar:', { emprendimientosUrl, categoriasUrl, etiquetasUrl });
+    
+    // Hacer las peticiones
+    const [emprendimientosResp, categoriasResp, etiquetasResp] = await Promise.all([
+      fetch(emprendimientosUrl, { 
+        headers: { 
+          'akalia-api-key': window.apiKey || '',
+          'Content-Type': 'application/json'
+        } 
+      }),
+      fetch(categoriasUrl, { 
+        headers: { 
+          'akalia-api-key': window.apiKey || '',
+          'Content-Type': 'application/json'
+        } 
+      }),
+      fetch(etiquetasUrl, { 
+        headers: { 
+          'akalia-api-key': window.apiKey || '',
+          'Content-Type': 'application/json'
+        } 
+      })
+    ]);
+    
+    const emprendimientos = await emprendimientosResp.json();
+    const categorias = await categoriasResp.json();
+    const etiquetas = await etiquetasResp.json();
+    
+    console.log('🔍 Datos cargados:', { 
+      emprendimientos: emprendimientos.length, 
+      categorias: categorias.length, 
+      etiquetas: etiquetas.length 
+    });
+    
+    // Poblar el select de emprendimientos
+    const selectEmprendimiento = document.getElementById('emprendimiento');
+    if (selectEmprendimiento) {
+      selectEmprendimiento.innerHTML = '<option value="">Selecciona un emprendimiento</option>';
+      emprendimientos.forEach(emp => {
+        const option = document.createElement('option');
+        option.value = emp._id;
+        option.textContent = emp.nombreEmprendimiento;
+        selectEmprendimiento.appendChild(option);
+      });
+    }
+    
+    // Poblar el select de categorías
+    const selectCategoria = document.getElementById('categoria');
+    if (selectCategoria) {
+      selectCategoria.innerHTML = '<option value="">Selecciona una categoría</option>';
+      categorias.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat._id;
+        option.textContent = cat.nombreCategoria;
+        selectCategoria.appendChild(option);
+      });
+    }
+    
+    // Actualizar las etiquetas disponibles
+    const buscadorEtiquetas = document.getElementById('etiquetasBuscador');
+    if (buscadorEtiquetas) {
+      buscadorEtiquetas.setAttribute('data-etiquetas', JSON.stringify(etiquetas));
+    }
+    
+    // Mostrar el modal
     const modal = new bootstrap.Modal(document.getElementById('modalCrearProducto'));
     modal.show();
+    
   } catch (err) {
     console.error('Error cargando modal crear producto:', err);
+    window.mostrarToast && window.mostrarToast('Error al cargar datos para crear producto', 'error');
   }
 }
 
