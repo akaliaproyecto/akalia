@@ -139,27 +139,31 @@ function logout() {
   cerrarSesionUsuario();
 }
 
-/* logica de inicio de sesion */
 document.addEventListener('DOMContentLoaded', () => {
-  const formularioInicioSesion = document.getElementById('loginForm');
+  const formularioLogin = document.getElementById('loginForm');
 
-  if (formularioInicioSesion) {
-    formularioInicioSesion.addEventListener('submit', async (eventoEnvio) => {
+  if (formularioLogin) {
+    formularioLogin.addEventListener('submit', async (eventoEnvio) => {
       eventoEnvio.preventDefault(); // Evitar envío tradicional del formulario
 
       // Obtener datos del formulario
-      const correoIngresado = formularioInicioSesion.email.value;
-      const contrasenaIngresada = formularioInicioSesion.contrasena.value;
-      const captchaIngresado = formularioInicioSesion.captcha.value;
-
-      const captchaValidado = await validarCaptchaAntesDeEnviar()
-
-      if (!captchaValidado) {
-        return
-      }
-
+            // Realizar autenticación
       try {
-        // Hacer petición POST al servidor para validar credenciales
+        // Validar captcha antes de proceder
+        if (typeof validarCaptchaAntesDeEnviar === 'function') {
+          const captchaValidado = await validarCaptchaAntesDeEnviar();
+          if (!captchaValidado) {
+            if (typeof window.mostrarToast === 'function') {
+              window.mostrarToast('Por favor, completa el CAPTCHA correctamente', 'error');
+            }
+            return;
+          }
+        }
+
+        const correoIngresado = document.getElementById('correoLogin').value;
+        const contrasenaIngresada = document.getElementById('contrasenaLogin').value;
+        const captchaIngresado = formularioLogin.querySelector('[name="captcha"]')?.value || '';
+
         const respuestaDelServidor = await fetch('/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -171,16 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const datosDeRespuesta = await respuestaDelServidor.json();
-        console.log('El captcha ingresado es: ', datosDeRespuesta)
 
         if (respuestaDelServidor.ok) {
           // Si el inicio de sesión fue exitoso
-          console.log('Inicio de sesión exitoso:', datosDeRespuesta);
-          
-          // Mostrar notificación de éxito
-          mostrarToast('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
+          if (typeof window.mostrarToast === 'function') {
+            window.mostrarToast('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
+          }
 
-          // Crear cookie adicional para JavaScript (por si acaso)
+          // Crear cookie para JavaScript
           document.cookie = `usuario=${encodeURIComponent(JSON.stringify(datosDeRespuesta.usuario))}; path=/; max-age=${7 * 24 * 60 * 60}`;
 
           // Cerrar modal de inicio de sesión
@@ -192,21 +194,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
-          // Recargar la página después de un breve delay para mostrar el toast
+          // Recargar la página después de un breve delay
           setTimeout(() => {
             window.location.reload();
           }, 1500);
 
-
         } else {
           // Si hay error en las credenciales
-          console.error('Error de credenciales:', datosDeRespuesta);
-          mostrarToast(datosDeRespuesta.error || 'Credenciales incorrectas. Verifica tu correo y contraseña.', 'error');
+          if (typeof window.mostrarToast === 'function') {
+            window.mostrarToast(datosDeRespuesta.error || 'Credenciales incorrectas. Verifica tu correo y contraseña.', 'error');
+          }
         }
 
       } catch (errorDeConexion) {
         console.error('Error de conexión al iniciar sesión:', errorDeConexion);
-        mostrarToast('Error de conexión. Por favor, inténtalo de nuevo más tarde.', 'error');
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast('Error de conexión. Por favor, inténtalo de nuevo más tarde.', 'error');
+        }
       }
     });
   }

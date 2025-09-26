@@ -144,22 +144,7 @@ const validarEmailEmprendimiento = (email) => {
  * @param {string} direccion - Dirección del emprendimiento
  * @returns {boolean} - true si es válido, false si no
  */
-const validarDireccionEmprendimiento = (direccion) => {
-  if (!direccion) {
-    return true; // Es opcional
-  }
-  
-  if (typeof direccion !== 'string') {
-    return false;
-  }
-  
-  const direccionTrimmed = direccion.trim();
-  if (direccionTrimmed.length < 5 || direccionTrimmed.length > 200) {
-    return false;
-  }
-  
-  return true;
-};
+
 
 /**
  * Valida el ID del usuario propietario
@@ -170,40 +155,6 @@ const validarIdUsuario = (idUsuario) => {
   return validarIdMongoDB(idUsuario);
 };
 
-/**
- * Valida las redes sociales del emprendimiento
- * @param {object} redesSociales - Objeto con redes sociales
- * @returns {boolean} - true si es válido, false si no
- */
-const validarRedesSociales = (redesSociales) => {
-  if (!redesSociales) {
-    return true; // Son opcionales
-  }
-  
-  if (typeof redesSociales !== 'object' || Array.isArray(redesSociales)) {
-    return false;
-  }
-  
-  const redesPermitidas = ['facebook', 'instagram', 'twitter', 'whatsapp', 'website'];
-  
-  for (const [red, url] of Object.entries(redesSociales)) {
-    if (!redesPermitidas.includes(red.toLowerCase())) {
-      return false;
-    }
-    
-    if (url && typeof url === 'string') {
-      const urlTrimmed = url.trim();
-      if (urlTrimmed.length > 0 && urlTrimmed.length < 5) {
-        return false; // URL muy corta
-      }
-      if (urlTrimmed.length > 300) {
-        return false; // URL muy larga
-      }
-    }
-  }
-  
-  return true;
-};
 
 /**
  * Valida la imagen del emprendimiento
@@ -236,12 +187,7 @@ const validarDatosCreacionEmprendimiento = async (datosEmprendimiento) => {
   const {
     nombreEmprendimiento,
     descripcionEmprendimiento,
-    categoria,
-    telefono,
-    email,
-    direccion,
     usuario,
-    redesSociales,
     imagen
   } = datosEmprendimiento;
   
@@ -255,33 +201,11 @@ const validarDatosCreacionEmprendimiento = async (datosEmprendimiento) => {
     errores.push('La descripción del emprendimiento es inválida (20-1000 caracteres)');
   }
   
-  // Validar categoría (requerida)
-  if (!validarCategoriaEmprendimiento(categoria)) {
-    errores.push('Categoría de emprendimiento inválida');
-  }
-  
   // Validar usuario (requerido)
   if (!validarIdUsuario(usuario)) {
     errores.push('ID de usuario inválido');
   }
-  
-  // Validar campos opcionales
-  if (!validarTelefonoEmprendimiento(telefono)) {
-    errores.push('Teléfono de emprendimiento inválido');
-  }
-  
-  if (!validarEmailEmprendimiento(email)) {
-    errores.push('Email de emprendimiento inválido');
-  }
-  
-  if (!validarDireccionEmprendimiento(direccion)) {
-    errores.push('Dirección de emprendimiento inválida (5-200 caracteres)');
-  }
-  
-  if (!validarRedesSociales(redesSociales)) {
-    errores.push('Redes sociales inválidas');
-  }
-  
+
   if (!validarImagenEmprendimiento(imagen)) {
     errores.push('Imagen de emprendimiento inválida');
   }
@@ -303,11 +227,7 @@ const validarDatosActualizacionEmprendimiento = async (datosEmprendimiento, idEm
   const {
     nombreEmprendimiento,
     descripcionEmprendimiento,
-    categoria,
-    telefono,
-    email,
     direccion,
-    redesSociales,
     imagen
   } = datosEmprendimiento;
   
@@ -331,27 +251,7 @@ const validarDatosActualizacionEmprendimiento = async (datosEmprendimiento, idEm
   if (descripcionEmprendimiento !== undefined && !validarDescripcionEmprendimiento(descripcionEmprendimiento)) {
     errores.push('La descripción del emprendimiento es inválida (20-1000 caracteres)');
   }
-  
-  if (categoria !== undefined && !validarCategoriaEmprendimiento(categoria)) {
-    errores.push('Categoría de emprendimiento inválida');
-  }
-  
-  if (telefono !== undefined && !validarTelefonoEmprendimiento(telefono)) {
-    errores.push('Teléfono de emprendimiento inválido');
-  }
-  
-  if (email !== undefined && !validarEmailEmprendimiento(email)) {
-    errores.push('Email de emprendimiento inválido');
-  }
-  
-  if (direccion !== undefined && !validarDireccionEmprendimiento(direccion)) {
-    errores.push('Dirección de emprendimiento inválida (5-200 caracteres)');
-  }
-  
-  if (redesSociales !== undefined && !validarRedesSociales(redesSociales)) {
-    errores.push('Redes sociales inválidas');
-  }
-  
+
   if (imagen !== undefined && !validarImagenEmprendimiento(imagen)) {
     errores.push('Imagen de emprendimiento inválida');
   }
@@ -367,12 +267,7 @@ module.exports = {
   emprendimientoExistePorId,
   validarNombreEmprendimiento,
   validarDescripcionEmprendimiento,
-  validarCategoriaEmprendimiento,
-  validarTelefonoEmprendimiento,
-  validarEmailEmprendimiento,
-  validarDireccionEmprendimiento,
   validarIdUsuario,
-  validarRedesSociales,
   validarImagenEmprendimiento,
   validarDatosCreacionEmprendimiento,
   validarDatosActualizacionEmprendimiento
