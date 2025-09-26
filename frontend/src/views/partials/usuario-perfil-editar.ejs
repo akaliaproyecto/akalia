@@ -55,7 +55,7 @@
               <label for="editarTelefono" class="form-label">
                 <strong>Celular</strong>
               </label>
-              <input type="tel" class="form-control" id="editarTelefono" name="telefono" placeholder="300 123 4567">
+              <input type="tel" class="form-control" id="editarTelefono" name="telefono" placeholder="Ej: 300 123 4567">
               <div id="editarTelefonoError" class="invalid-feedback" style="display: none;"></div>
             </div>
           </div>
@@ -63,13 +63,41 @@
           <!-- FILA 3: Contraseña (opcional) -->
           <div class="row mb-3">
             <div class="col-12">
-              <label for="editarContrasena" class="form-label">
-                <strong>Nueva Contraseña</strong>
-                <small class="text-muted">(Déjala vacía si no quieres cambiarla)</small>
-              </label>
-              <input type="password" class="form-control" id="editarContrasena" name="contrasena"
-                placeholder="Ingresa una nueva contraseña (opcional)">
-              <div id="editarContrasenaError" class="invalid-feedback" style="display: none;"></div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label">
+                  <strong>Contraseña</strong>
+                </label>
+                <button type="button" class="btn btn-basic btn-sm" id="btnCambiarContrasena">
+                  <i class="fas fa-key me-1"></i> Cambiar Contraseña
+                </button>
+              </div>
+              
+              <!-- Campos de contraseña (inicialmente ocultos) -->
+              <div id="camposContrasena" style="display: none;">
+                <!-- Contraseña actual -->
+                <div class="mb-3">
+                  <label for="contrasenaActual" class="form-label">Contraseña Actual</label>
+                  <input type="password" class="form-control" id="contrasenaActual" 
+                         placeholder="Ingresa tu contraseña actual">
+                  <div id="contrasenaActualError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+                
+                <!-- Nueva contraseña -->
+                <div class="mb-3">
+                  <label for="editarContrasena" class="form-label">Nueva Contraseña</label>
+                  <input type="password" class="form-control" id="editarContrasena" name="contrasena"
+                         placeholder="Ingresa tu nueva contraseña">
+                  <div id="editarContrasenaError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+                
+                <!-- Confirmar nueva contraseña -->
+                <div class="mb-2">
+                  <label for="confirmarNuevaContrasena" class="form-label">Confirmar Nueva Contraseña</label>
+                  <input type="password" class="form-control" id="confirmarNuevaContrasena"
+                         placeholder="Confirma tu nueva contraseña">
+                  <div id="confirmarNuevaContrasenaError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+              </div>
             </div>
           </div>
 

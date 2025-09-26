@@ -40,7 +40,7 @@ function validarFormatoEmail(email) {
 // Validación de nombre/apellido (reutilizable)
 function validarFormatoNombreApellido(valor) {
   const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/;
-  return valor.length >= 2 && regexNombre.test(valor);
+  return valor.length >= 3 && valor.length <= 30 && regexNombre.test(valor);
 }
 
 // Validación de teléfono (reutilizable)
@@ -48,10 +48,6 @@ function validarFormatoTelefono(telefono) {
   const regexTelefono = /^\d{10}$/;
   return regexTelefono.test(telefono);
 }
-
-// ===============================
-// FUNCIONES DE VALIDACIÓN REUTILIZABLES
-// ===============================
 
 // Función de validación de nombre/apellido reutilizable
 function validarNombreApellido(campo, elementoError, tipoCampo) {
@@ -63,8 +59,8 @@ function validarNombreApellido(campo, elementoError, tipoCampo) {
   }
 
   if (!validarFormatoNombreApellido(valor)) {
-    if (valor.length < 2) {
-      mostrarError(campo, elementoError, `El ${tipoCampo} debe tener al menos 2 caracteres`);
+    if (valor.length < 3 || valor.length > 30) {
+      mostrarError(campo, elementoError, `El ${tipoCampo} debe tener mín 3 y máx 30 caracteres`);
     } else {
       mostrarError(campo, elementoError, `El ${tipoCampo} solo puede contener letras y espacios`);
     }
@@ -97,7 +93,7 @@ function validarEmailUsuario(campo, elementoError, verificarExistencia = false) 
         // Verificar si el email ya existe
         const respuesta = await fetch(`${API_BASE_URL}/api/usuarios/verificar-email/${encodeURIComponent(email)}`);
         const datos = await respuesta.json();
-        
+
         if (datos.existe) {
           mostrarError(campo, elementoError, 'Este correo ya está registrado');
           resolve(false);
@@ -200,144 +196,211 @@ function validarConfirmacionContrasena(campoContrasena, campoConfirmacion, eleme
   return true;
 }
 
-// Función de validación de dirección reutilizable
-function validarDireccionUsuario(campo, elementoError) {
-  const direccion = campo.value.trim();
-
-  // La dirección es opcional, pero si se llena debe tener al menos 10 caracteres
-  if (!direccion) {
-    mostrarExito(campo, elementoError);
-    return true;
-  }
-
-  if (direccion.length < 10) {
-    mostrarError(campo, elementoError, 'La dirección debe tener al menos 10 caracteres');
-    return false;
-  }
-
-  if (direccion.length > 100) {
-    mostrarError(campo, elementoError, 'La dirección no puede exceder 100 caracteres');
-    return false;
-  }
-
-  mostrarExito(campo, elementoError);
-  return true;
-}
-
-// Función de validación de departamento reutilizable
-function validarDepartamentoUsuario(campo, elementoError) {
-  const departamento = campo.value.trim();
-
-  // El departamento es opcional independientemente
-  if (!departamento) {
-    mostrarExito(campo, elementoError);
-    return true;
-  }
-
-  mostrarExito(campo, elementoError);
-  return true;
-}
-
-// Función de validación de ciudad reutilizable
-function validarCiudadUsuario(campo, elementoError, campoDepartamento) {
-  const ciudad = campo.value.trim();
-  const departamento = campoDepartamento?.value?.trim();
-
-  // La ciudad es opcional independientemente
-  if (!ciudad) {
-    mostrarExito(campo, elementoError);
-    return true;
-  }
-
-  // Si se selecciona ciudad, debe haber departamento
-  if (ciudad && !departamento) {
-    mostrarError(campo, elementoError, 'Debe seleccionar un departamento primero');
-    return false;
-  }
-
-  mostrarExito(campo, elementoError);
-  return true;
-}
-
 // ===============================
 // FUNCIÓN PARA INICIALIZAR VALIDACIONES DE EDITAR PERFIL (DINÁMICAMENTE)
 // ===============================
 
 function inicializarValidacionesEditarPerfil() {
-  
+
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
-  
+
   if (!formularioEditarPerfil) {
     console.error('❌ Formulario de editar perfil no encontrado');
     return;
   }
-  
+
   // Verificar si ya se inicializaron las validaciones para evitar duplicados
   if (formularioEditarPerfil.dataset.validacionesInicializadas === 'true') {
     return;
   }
-  
-  
+
+
   // Elementos del formulario de editar perfil
   const campoNombrePerfil = document.getElementById('editarNombre');
   const campoApellidoPerfil = document.getElementById('editarApellido');
   const campoEmailPerfil = document.getElementById('editarEmail');
   const campoTelefonoPerfil = document.getElementById('editarTelefono');
   const campoContrasenaEdit = document.getElementById('editarContrasena');
-  
+
   // Elementos de error
   const errorNombrePerfil = document.getElementById('editarNombreError');
   const errorApellidoPerfil = document.getElementById('editarApellidoError');
   const errorEmailPerfil = document.getElementById('editarEmailError');
   const errorTelefonoPerfil = document.getElementById('editarTelefonoError');
   const errorContrasenaEdit = document.getElementById('editarContrasenaError');
-  
+
   // Funciones de validación locales que llaman a las reutilizables
   const validarNombrePerfilFunc = () => validarNombreApellido(campoNombrePerfil, errorNombrePerfil, 'nombre');
   const validarApellidoPerfilFunc = () => validarNombreApellido(campoApellidoPerfil, errorApellidoPerfil, 'apellido');
-  const validarEmailPerfilFunc = () => validarEmailUsuario(campoEmailPerfil, errorEmailPerfil, false);
+
+  // Validación especial para email en perfil: verificar existencia pero excluir email actual
+  const validarEmailPerfilFunc = async () => {
+    const emailActual = campoEmailPerfil.dataset.emailOriginal || '';
+    const emailNuevo = campoEmailPerfil.value.trim();
+
+    // Si el email no ha cambiado, no verificar existencia
+    if (emailActual === emailNuevo) {
+      return validarEmailUsuario(campoEmailPerfil, errorEmailPerfil, false);
+    }
+
+    // Si cambió, verificar que no exista en la base de datos
+    return validarEmailUsuario(campoEmailPerfil, errorEmailPerfil, true);
+  };
+
   const validarTelefonoPerfilFunc = () => validarTelefonoUsuario(campoTelefonoPerfil, errorTelefonoPerfil, false);
-  const validarContrasenaEditFunc = () => validarContrasenaUsuario(campoContrasenaEdit, errorContrasenaEdit, false);
-  
+
+  // Elementos adicionales para cambio de contraseña
+  const btnCambiarContrasena = document.getElementById('btnCambiarContrasena');
+  const camposContrasena = document.getElementById('camposContrasena');
+  const campoContrasenaActual = document.getElementById('contrasenaActual');
+  const campoConfirmarNuevaContrasena = document.getElementById('confirmarNuevaContrasena');
+  const errorContrasenaActual = document.getElementById('contrasenaActualError');
+  const errorConfirmarNuevaContrasena = document.getElementById('confirmarNuevaContrasenaError');
+
+  // Funciones de validación para contraseñas
+  const validarContrasenaActualFunc = async () => {
+    const contrasena = campoContrasenaActual?.value.trim() || '';
+    if (!contrasena) {
+      mostrarError(campoContrasenaActual, errorContrasenaActual, 'La contraseña actual es requerida');
+      return false;
+    }
+
+    // Verificar la contraseña actual usando la función global
+    try {
+      const userId = document.getElementById('formEditarPerfil')?.dataset.userId;
+      if (!userId) {
+        mostrarError(campoContrasenaActual, errorContrasenaActual, 'Error de autenticación');
+        return false;
+      }
+
+      // Usar la función global definida en perfilUsuario.js
+      if (typeof verificarContrasenaActual === 'function') {
+        const result = await verificarContrasenaActual(userId, contrasena);
+
+        if (result.valida) {
+          mostrarExito(campoContrasenaActual, errorContrasenaActual);
+          return true;
+        } else {
+          mostrarError(campoContrasenaActual, errorContrasenaActual, result.mensaje || 'Contraseña actual incorrecta');
+          return false;
+        }
+      } else {
+        mostrarError(campoContrasenaActual, errorContrasenaActual, 'Función de verificación no disponible');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error al verificar contraseña:', error);
+      mostrarError(campoContrasenaActual, errorContrasenaActual, 'Error al verificar la contraseña');
+      return false;
+    }
+  };
+
+  const validarContrasenaEditFunc = () => {
+    // Solo validar si los campos de contraseña están visibles
+    if (camposContrasena && camposContrasena.style.display === 'none') {
+      return true; // No validar si no se está cambiando la contraseña
+    }
+    return validarContrasenaUsuario(campoContrasenaEdit, errorContrasenaEdit, true);
+  };
+
+  const validarConfirmarNuevaContrasenaFunc = () => {
+    // Solo validar si los campos de contraseña están visibles
+    if (camposContrasena && camposContrasena.style.display === 'none') {
+      return true;
+    }
+    return validarConfirmacionContrasena(campoContrasenaEdit, campoConfirmarNuevaContrasena, errorConfirmarNuevaContrasena);
+  };
+
+  // Manejador del botón "Cambiar contraseña"
+  if (btnCambiarContrasena) {
+    btnCambiarContrasena.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (camposContrasena) {
+        const estaVisible = camposContrasena.style.display !== 'none';
+        if (estaVisible) {
+          // Ocultar campos
+          camposContrasena.style.display = 'none';
+          btnCambiarContrasena.textContent = 'Cambiar contraseña';
+          // Limpiar campos
+          if (campoContrasenaActual) campoContrasenaActual.value = '';
+          if (campoContrasenaEdit) campoContrasenaEdit.value = '';
+          if (campoConfirmarNuevaContrasena) campoConfirmarNuevaContrasena.value = '';
+          // Limpiar errores
+          mostrarExito(campoContrasenaActual, errorContrasenaActual);
+          mostrarExito(campoContrasenaEdit, errorContrasenaEdit);
+          mostrarExito(campoConfirmarNuevaContrasena, errorConfirmarNuevaContrasena);
+        } else {
+          // Mostrar campos
+          camposContrasena.style.display = 'block';
+          btnCambiarContrasena.textContent = 'Cancelar cambio de contraseña';
+        }
+      }
+    });
+  }
+
   // Event listeners para validación en tiempo real - Editar Perfil
   if (campoNombrePerfil) {
     campoNombrePerfil.addEventListener('blur', validarNombrePerfilFunc);
+    campoNombrePerfil.addEventListener('input', validarNombrePerfilFunc);
   }
   if (campoApellidoPerfil) {
     campoApellidoPerfil.addEventListener('blur', validarApellidoPerfilFunc);
+    campoApellidoPerfil.addEventListener('input', validarApellidoPerfilFunc);
   }
   if (campoEmailPerfil) {
     campoEmailPerfil.addEventListener('blur', validarEmailPerfilFunc);
+    campoEmailPerfil.addEventListener('input', validarEmailPerfilFunc);
   }
   if (campoTelefonoPerfil) {
     campoTelefonoPerfil.addEventListener('blur', validarTelefonoPerfilFunc);
+    campoTelefonoPerfil.addEventListener('input', validarTelefonoPerfilFunc);
+  }
+  if (campoContrasenaActual) {
+    campoContrasenaActual.addEventListener('blur', validarContrasenaActualFunc);
+    campoContrasenaActual.addEventListener('input', validarContrasenaActualFunc);
   }
   if (campoContrasenaEdit) {
     campoContrasenaEdit.addEventListener('blur', validarContrasenaEditFunc);
+    campoContrasenaEdit.addEventListener('input', validarContrasenaEditFunc);
   }
-  
+  if (campoConfirmarNuevaContrasena) {
+    campoConfirmarNuevaContrasena.addEventListener('blur', validarConfirmarNuevaContrasenaFunc);
+    campoConfirmarNuevaContrasena.addEventListener('input', validarConfirmarNuevaContrasenaFunc);
+  }
+
   // Validación al enviar el formulario de editar perfil
   formularioEditarPerfil.addEventListener('submit', async (evento) => {
     evento.preventDefault();
-    
-    // Ejecutar validaciones básicas
-    const validaciones = await Promise.all([
+
+    // Preparar validaciones básicas
+    const validacionesBasicas = [
       validarNombrePerfilFunc(),
       validarApellidoPerfilFunc(),
       validarEmailPerfilFunc(),
-      validarTelefonoPerfilFunc(),
-      validarContrasenaEditFunc()
-    ]);
-    
+      validarTelefonoPerfilFunc()
+    ];
+
+    // Agregar validaciones de contraseña si están visibles
+    if (camposContrasena && camposContrasena.style.display !== 'none') {
+      validacionesBasicas.push(
+        validarContrasenaActualFunc(),
+        validarContrasenaEditFunc(),
+        validarConfirmarNuevaContrasenaFunc()
+      );
+    }
+
+    // Ejecutar todas las validaciones
+    const validaciones = await Promise.all(validacionesBasicas);
+
     // Validar direcciones dinámicas si la función está disponible
     let direccionesValidas = true;
     if (typeof validarTodasLasDirecciones === 'function') {
       direccionesValidas = validarTodasLasDirecciones();
     }
-    
+
     // Verificar si todas las validaciones pasaron
     const todasValidas = validaciones.every(valida => valida === true) && direccionesValidas;
-    
+
     if (!todasValidas) {
       if (typeof window.mostrarToast === 'function') {
         window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
@@ -347,29 +410,45 @@ function inicializarValidacionesEditarPerfil() {
       }
       return;
     }
-    
+
     // Si todas las validaciones pasaron, recopilar datos y enviar
     if (typeof window.mostrarToast === 'function') {
       window.mostrarToast('Actualizando perfil...', 'info');
     }
-    
+
     // Recopilar datos del formulario
     const formData = new FormData(formularioEditarPerfil);
     const datosFormulario = {};
-    
+
     // Datos básicos
     for (let [key, value] of formData.entries()) {
       datosFormulario[key] = value;
     }
-    
+
+    // Normalizar el nombre del campo email para el backend
+    if (datosFormulario.email) {
+      datosFormulario.correo = datosFormulario.email;
+      delete datosFormulario.email;
+    }
+
+    // Manejar contraseña solo si se está cambiando
+    if (camposContrasena && camposContrasena.style.display !== 'none') {
+      // Si están visibles los campos de contraseña, enviar la nueva contraseña
+      datosFormulario.contrasena = campoContrasenaEdit.value;
+    } else {
+      // Si no se está cambiando contraseña, no enviar el campo
+      delete datosFormulario.contrasena;
+      delete datosFormulario.editarContrasena;
+    }
+
     // Agregar direcciones dinámicas si la función está disponible
     if (typeof obtenerDireccionesDelFormulario === 'function') {
       const direcciones = obtenerDireccionesDelFormulario();
-      if (direcciones.length > 0) {
-        datosFormulario.direcciones = direcciones;
-      }
+      // Siempre enviar el array de direcciones, incluso si está vacío
+      // Esto permite que el backend sepa que debe eliminar direcciones existentes
+      datosFormulario.direcciones = direcciones;
     }
-    
+
     // Enviar datos vía fetch
     try {
       const response = await fetch(formularioEditarPerfil.action, {
@@ -379,12 +458,12 @@ function inicializarValidacionesEditarPerfil() {
         },
         body: JSON.stringify(datosFormulario)
       });
-      
+
       if (response.ok) {
         if (typeof window.mostrarToast === 'function') {
           window.mostrarToast('Perfil actualizado correctamente', 'success');
         }
-        
+
         // Cerrar modal después de un breve delay
         setTimeout(() => {
           const modalEditar = document.getElementById('modalEditarPerfil');
@@ -410,10 +489,10 @@ function inicializarValidacionesEditarPerfil() {
       }
     }
   });
-  
+
   // Marcar que las validaciones ya están inicializadas
   formularioEditarPerfil.dataset.validacionesInicializadas = 'true';
-  }
+}
 
 // Hacer la función disponible globalmente
 window.inicializarValidacionesEditarPerfil = inicializarValidacionesEditarPerfil;
@@ -423,12 +502,12 @@ window.inicializarValidacionesEditarPerfil = inicializarValidacionesEditarPerfil
 // ===============================
 
 document.addEventListener('DOMContentLoaded', () => {
-  
+
   // ===============================
   // VALIDACIONES DEL FORMULARIO DE REGISTRO
   // ===============================
   const formularioRegistro = document.getElementById('registerForm');
-  
+
   if (formularioRegistro) {
     // Elementos del formulario
     const campoEmail = document.getElementById('email');
@@ -498,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Si todas las validaciones pasaron, mostrar mensaje de procesamiento y enviar el formulario
       if (typeof window.mostrarToast === 'function') {
         window.mostrarToast('Creando cuenta... Por favor espera', 'info');
-      }      
+      }
       // Cerrar modal de registro
       const modalRegistro = document.getElementById('registerModal');
       if (modalRegistro) {
@@ -507,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
           instanciaModal.hide();
         }
       }
-      
+
       // Enviar formulario
       formularioRegistro.submit();
     });
@@ -517,30 +596,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // VALIDACIONES DEL FORMULARIO DE LOGIN
   // ===============================
   const formularioLogin = document.getElementById('loginForm');
-  
+
   if (formularioLogin) {
+
+    formularioLogin.setAttribute('novalidate', 'true');
+
     // Elementos del formulario de login
     const campoEmailLogin = document.getElementById('correoLogin');
     const campoContrasenaLogin = document.getElementById('contrasenaLogin');
-    
+
     // Elementos de error
     const errorEmailLogin = document.getElementById('emailLoginError');
     const errorContrasenaLogin = document.getElementById('contrasenaLoginError');
-    
+
     // Funciones de validación locales usando las reutilizables
     const validarEmailLoginFunc = () => validarEmailUsuario(campoEmailLogin, errorEmailLogin, false);
     const validarContrasenaLoginFunc = () => {
       const contrasena = campoContrasenaLogin.value.trim();
-      
+
       if (!contrasena) {
         mostrarError(campoContrasenaLogin, errorContrasenaLogin, 'La contraseña es requerida');
         return false;
       }
-      
+
       mostrarExito(campoContrasenaLogin, errorContrasenaLogin);
       return true;
     };
-    
+
     // Event listeners para validación en tiempo real
     if (campoEmailLogin) {
       campoEmailLogin.addEventListener('blur', validarEmailLoginFunc);
@@ -548,20 +630,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (campoContrasenaLogin) {
       campoContrasenaLogin.addEventListener('blur', validarContrasenaLoginFunc);
     }
-    
+
     // Validación al enviar el formulario de login
     formularioLogin.addEventListener('submit', async (evento) => {
       evento.preventDefault();
-      
+
       // Ejecutar todas las validaciones
       const validaciones = await Promise.all([
         validarEmailLoginFunc(),
         validarContrasenaLoginFunc()
       ]);
-      
+
       // Verificar si todas las validaciones pasaron
       const todasValidas = validaciones.every(valida => valida === true);
-      
+
       if (!todasValidas) {
         if (typeof window.mostrarToast === 'function') {
           window.mostrarToast('Por favor, corrige los errores en el formulario', 'error');
@@ -570,14 +652,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return;
       }
-      
+
+      console.log('✅ Validaciones pasaron, enviando formulario...');
+
       // Si todas las validaciones pasaron, mostrar mensaje de procesamiento
       if (typeof window.mostrarToast === 'function') {
         window.mostrarToast('Iniciando sesión...', 'info');
       }
-      
-      // Enviar formulario
-      formularioLogin.submit();
+
+      // Realizar autenticación
+
     });
   }
 
@@ -585,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // VALIDACIONES DEL FORMULARIO DE EDITAR PERFIL (ESTÁTICO)
   // ===============================
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
-  
+
   if (formularioEditarPerfil) {
     inicializarValidacionesEditarPerfil();
   }

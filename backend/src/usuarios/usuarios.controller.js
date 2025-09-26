@@ -13,7 +13,7 @@ const {
 /*Listar todos los usuarios*/
 exports.obtenerUsuarios = async (req, res) => {
   try {
-    const { nombre, correo, rol, estado, esVendedor, telefono, fecha } = req.query;
+    const { nombre, apellido, correo, rol, estado, esVendedor, telefono, fecha } = req.query;
     let filtros = {};
 
     if (nombre) {
@@ -87,7 +87,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
       nombreUsuario: usuarioEncontrado.nombreUsuario || 'No disponible',
       apellidoUsuario: usuarioEncontrado.apellidoUsuario || 'No disponible',
       email: usuarioEncontrado.correo || usuarioEncontrado.email || 'No disponible',
-      telefono: usuarioEncontrado.telefono || 'No registrado',
+      telefono: usuarioEncontrado.telefono || '',
       rolUsuario: usuarioEncontrado.rolUsuario || 'usuario',
       estadoUsuario: usuarioEncontrado.estadoUsuario || 'activo',
       esVendedor: !!usuarioEncontrado.esVendedor,
@@ -217,8 +217,8 @@ exports.actualizarUsuario = async (req, res) => {
     }
 
     // Manejar direcciones múltiples si llegan en la petición
-    if (datosRecibidos.direcciones && Array.isArray(datosRecibidos.direcciones)) {
-      // Procesar array de direcciones
+    if (datosRecibidos.hasOwnProperty('direcciones') && Array.isArray(datosRecibidos.direcciones)) {
+      // Procesar array de direcciones (incluso si está vacío)
       const direccionesValidas = [];
       
       for (const direccionData of datosRecibidos.direcciones) {
@@ -232,6 +232,7 @@ exports.actualizarUsuario = async (req, res) => {
         }
       }
       
+      // Siempre asignar el array, incluso si está vacío (para eliminar direcciones existentes)
       datosParaActualizar.direcciones = direccionesValidas;
     } else if (datosRecibidos.direccion || datosRecibidos.departamento || datosRecibidos.ciudad) {
       // Mantener compatibilidad con el formato anterior (una sola dirección)
@@ -273,7 +274,7 @@ exports.actualizarUsuario = async (req, res) => {
       nombreUsuario: usuarioActualizado.nombreUsuario || 'No disponible',
       apellidoUsuario: usuarioActualizado.apellidoUsuario || 'No disponible',
       email: usuarioActualizado.correo || usuarioActualizado.email || 'No disponible',
-      telefono: usuarioActualizado.telefono || 'No registrado',
+      telefono: usuarioActualizado.telefono || '',
       rolUsuario: usuarioActualizado.rolUsuario || 'usuario',
       estadoUsuario: usuarioActualizado.estadoUsuario || 'activo',
       esVendedor: !!usuarioActualizado.esVendedor,
@@ -363,5 +364,35 @@ exports.verificarEmail = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).json({ mensaje: "Error al verificar email", detalle: error.message });
+  }
+};
+
+/*Verificar contraseña actual del usuario*/
+exports.verificarContrasenaActual = async (req, res) => {
+  try {
+    const { userId, contrasenaActual } = req.body;
+    
+    if (!userId || !contrasenaActual) {
+      return res.status(400).json({ mensaje: "ID de usuario y contraseña actual son requeridos" });
+    }
+
+    // Buscar el usuario por ID
+    const usuario = await modeloUsuario.findById(userId);
+    
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    // Comparar la contraseña actual con la almacenada
+    const contrasenaValida = await bcrypt.compare(contrasenaActual, usuario.contrasena);
+
+    if (contrasenaValida) {
+      return res.status(200).json({ valida: true, mensaje: "Contraseña actual correcta" });
+    } else {
+      return res.status(200).json({ valida: false, mensaje: "Contraseña actual incorrecta" });
+    }
+  } catch (error) {
+    console.error('verificarContrasenaActual error:', error);
+    return res.status(500).json({ mensaje: "Error al verificar contraseña", detalle: error.message });
   }
 };

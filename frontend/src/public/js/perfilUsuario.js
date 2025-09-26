@@ -3,6 +3,60 @@ function get(id) {
   return document.getElementById(id);
 }
 
+// Función global para verificar contraseña actual
+async function verificarContrasenaActual(userId, contrasenaActual) {
+  try {
+    const response = await fetch('/usuario-detalle/verificar-contrasena', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: userId,
+        contrasenaActual: contrasenaActual
+      })
+    });
+    
+    const result = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(result.error || 'Error al verificar contraseña');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error('Error al verificar contraseña:', error);
+    throw error;
+  }
+}// Hacer la función disponible globalmente
+window.verificarContrasenaActual = verificarContrasenaActual;
+
+
+// Limpiar estado de validación de campos del modal editar perfil
+function limpiarEstadoValidacion() {
+  const campos = ['editarNombre', 'editarApellido', 'editarEmail', 'editarTelefono', 'editarContrasena'];
+  const errores = ['editarNombreError', 'editarApellidoError', 'editarEmailError', 'editarTelefonoError', 'editarContrasenaError'];
+
+  // Limpiar clases de validación de los campos
+  campos.forEach(campoId => {
+    const campo = get(campoId);
+    if (campo) {
+      campo.classList.remove('is-invalid', 'is-valid');
+    }
+  });
+
+  // Limpiar mensajes de error
+  errores.forEach(errorId => {
+    const error = get(errorId);
+    if (error) {
+      error.textContent = '';
+      error.style.display = 'none';
+      error.classList.add('d-none');
+      error.classList.remove('d-block');
+    }
+  });
+}
+
 // Abrir modal (editar/eliminar) - elimina/editar usan IDs de los partials
 function abrirModalEliminar(modalId, nombreId, { id, nombre }) {
   const modal = get(modalId);
@@ -100,12 +154,20 @@ async function editUsuario(idUsuario) {
     const data = await response.json();
     const usuario = data.usuario || data || {};
 
-    const inputNombre = get('editarNombre'); if (inputNombre) inputNombre.value = usuario.nombreUsuario || usuario.nombre || '';
-    const inputApellido = get('editarApellido'); if (inputApellido) inputApellido.value = usuario.apellidoUsuario || usuario.apellido || '';
-    const inputEmail = get('editarEmail'); if (inputEmail) inputEmail.value = usuario.correo || usuario.email || '';
+    // Debug: mostrar qué datos está recibiendo
+    console.log('📍 Datos del usuario recibidos:', usuario);
+
+    const inputNombre = get('editarNombre'); if (inputNombre) inputNombre.value = usuario.nombreUsuario || '';
+    const inputApellido = get('editarApellido'); if (inputApellido) inputApellido.value = usuario.apellidoUsuario || '';
+    const inputEmail = get('editarEmail');
+    if (inputEmail) {
+      inputEmail.value = usuario.email || '';
+      // Guardar email original para comparación
+      inputEmail.dataset.emailOriginal = usuario.email || '';
+    }
     const inputTelefono = get('editarTelefono'); if (inputTelefono) inputTelefono.value = usuario.telefono || '';
     const inputContrasena = get('editarContrasena'); if (inputContrasena) inputContrasena.value = '';
-    
+
     // Inicializar sistema de direcciones dinámicas
     if (typeof inicializarDireccionesDinamicas === 'function') {
       inicializarDireccionesDinamicas(usuario.direcciones || []);
@@ -113,9 +175,15 @@ async function editUsuario(idUsuario) {
       console.warn('❌ Función inicializarDireccionesDinamicas no disponible');
     }
 
-    const form = get('formEditarPerfil'); if (form) { form.action = `/actualizar-perfil-usuario/${encodeURIComponent(idUsuario)}`; form.method = 'POST'; }
+    const form = get('formEditarPerfil');
+    if (form) {
+      form.action = `/actualizar-perfil-usuario/${encodeURIComponent(idUsuario)}`;
+      form.method = 'POST';
+      // Guardar userId para validaciones de contraseña
+      form.dataset.userId = idUsuario;
+    }
 
-    // Inicializar validaciones dinámicamente después de cargar los datos
+    // Inicializar validaciones dinámicamente DESPUÉS de cargar los datos y mostrar el modal
     setTimeout(() => {
       if (typeof window.inicializarValidacionesEditarPerfil === 'function') {
         console.log('✅ Inicializando validaciones para editar perfil...');
@@ -123,7 +191,10 @@ async function editUsuario(idUsuario) {
       } else {
         console.warn('❌ Función inicializarValidacionesEditarPerfil no disponible');
       }
-    }, 100);
+    }, 300);
+
+    // Limpiar estado de validación antes de mostrar el modal
+    limpiarEstadoValidacion();
 
     const modalEl = get('modalEditarPerfil');
     if (modalEl) new bootstrap.Modal(modalEl).show();
