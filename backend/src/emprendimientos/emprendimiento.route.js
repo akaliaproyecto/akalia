@@ -8,7 +8,8 @@ const {
   obtenerEmprendimientoPorIdUsuario,
   crearEmprendimiento,
   actualizarEmprendimiento,
-  deshabilitarEmprendimiento
+  deshabilitarEmprendimiento,
+  verificarEmprendimientoActivo
 } = require('./emprendimiento.controller');
 
 // obtener todos los emprendimientos
@@ -28,5 +29,8 @@ router.put('/:id', subirImagen.single('logo'), actualizarEmprendimiento);
 
 // deshabilitar un emprendimiento
 router.patch('/:id', deshabilitarEmprendimiento);
+
+// verificar si un emprendimiento está activo
+router.get('/verificar-activo/:id', verificarEmprendimientoActivo);
 
 module.exports = router;

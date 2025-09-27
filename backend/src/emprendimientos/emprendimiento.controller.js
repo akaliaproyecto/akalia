@@ -1,4 +1,5 @@
 const modeloEmprendimiento = require('./emprendimiento.model');
+const modeloProducto = require('../productos/productos.model')
 const uploadImage = require('../servicios/subirImagen')
 const mongoose = require('mongoose');
 const { json } = require('express');
@@ -9,6 +10,8 @@ const {
   validarDatosCreacionEmprendimiento,
   validarDatosActualizacionEmprendimiento
 } = require('./emprendimiento.validations');
+
+
 /* listar emprendimientos */
 const obtenerEmprendimientos = async (req, res) => {
   try {
@@ -105,13 +108,26 @@ const actualizarEmprendimiento = async (req, res) => {
       datosEmprendimiento,
       { new: true }
     );
+    let updateProductos = {};
+
+    if (emprendimientoActualizado.emprendimientoActivo === false) {
+      updateProductos = { $set: { productoActivo: false } };
+    } else {
+      updateProductos = { $set: { productoActivo: true } };
+    }
+
+    const productosActualizados = await modeloProducto.updateMany(
+      { idEmprendimiento: idEmprendimiento },
+      updateProductos
+    );
+
     if (!emprendimientoActualizado) {
       return res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
     }
     //Registrar log
     Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido editado: ${emprendimientoActualizado}, fecha: ${new Date()}`);
 
-    res.status(200).json(emprendimientoActualizado);
+    res.status(200).json(emprendimientoActualizado,productosActualizados);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al actualizar emprendimiento", detalle: error.message });
   }
@@ -132,10 +148,17 @@ const deshabilitarEmprendimiento = async (req, res) => {
     
     const emprendimiento = await modeloEmprendimiento.findByIdAndUpdate(
       idEmprendimiento,
-      { emprendimientoEliminado: true },
+      { emprendimientoEliminado: true,
+        emprendimientoActivo: false
+       },
       { new: true }
     );
     
+    const productos = await modeloProducto.updateMany(
+      { idEmprendimiento: idEmprendimiento },
+      { $set: { productoEliminado: true, productoActivo: false } }
+    );
+    console.log(productos)
     //Registrar log
     Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido eliminado: ${idEmprendimiento}, fecha: ${new Date()}`);
 
@@ -149,11 +172,45 @@ const deshabilitarEmprendimiento = async (req, res) => {
   }
 };
 
+/* Verificar si un emprendimiento está activo */
+const verificarEmprendimientoActivo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    if (!id) {
+      return res.status(400).json({ mensaje: "ID de emprendimiento es requerido" });
+    }
+
+    // Validar formato de ID
+    if (!validarIdMongoDB(id)) {
+      return res.status(400).json({ mensaje: 'ID de emprendimiento inválido' });
+    }
+
+    const emprendimiento = await modeloEmprendimiento.findById(id);
+
+    if (!emprendimiento) {
+      return res.status(404).json({ activo: false, mensaje: "Emprendimiento no encontrado" });
+    }
+
+    if (emprendimiento.emprendimientoEliminado) {
+      return res.status(200).json({ activo: false, mensaje: "El emprendimiento está eliminado" });
+    }
+
+    return res.status(200).json({ 
+      activo: emprendimiento.emprendimientoActivo, 
+      mensaje: emprendimiento.emprendimientoActivo ? "Emprendimiento activo" : "Emprendimiento inactivo" 
+    });
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Error al verificar estado del emprendimiento", detalle: error.message });
+  }
+};
+
 module.exports = {
   obtenerEmprendimientos,
   obtenerEmprendimientoPorId,
   obtenerEmprendimientoPorIdUsuario,
   crearEmprendimiento,
   actualizarEmprendimiento,
-  deshabilitarEmprendimiento
+  deshabilitarEmprendimiento,
+  verificarEmprendimientoActivo
 };
