@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   // Ocultar el id del emprendimiento en la barra de direcciones si estamos
   // en la ruta /emprendimiento-detalle/:id
-  ocultarIdEmprendimientoEnUrl();
+  //ocultarIdEmprendimientoEnUrl();
 });
 
 /* ------------------------- Modal Crear Emprendimiento ------------------------- */

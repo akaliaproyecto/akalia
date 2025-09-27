@@ -79,51 +79,6 @@ window.showUserProductDetail = (usuario, idProducto) => {
   window.location.href = rutaDetalle;
 };
 
-/*Función para abrir el modal de edición de producto*/
-window.editUserProductDetail = async (usuario, idProducto) => {
-  try {
-    // Pedir al servidor el partial HTML del formulario de edición
-    const res = await fetch(`/productos/usuario-productos/editar/${idProducto}`);
-    const html = await res.text();
-
-    // busca garantizar un contenedor dinámico y añadir contenido en él.
-    const contId = 'contenedorModalesDinamicos'; //asegura que exista en el DOM un <div> con id contenedorModalesDinamicos.
-    let contenedor = document.getElementById(contId);
-    if (!contenedor) {
-      contenedor = document.createElement('div');
-      contenedor.id = contId;
-      document.body.appendChild(contenedor);
-    }
-    contenedor.innerHTML = html;
-
-    // Inicializo autocompletado de etiquetas
-    inicializarAutocompletadoEtiquetasConPrefijo('Editar');
-
-    // Usar setTimeout para asegurar que el DOM esté completamente renderizado antes de inicializar validaciones
-    setTimeout(() => {      
-      // Inicializar validaciones del formulario de editar producto
-      if (typeof window.inicializarValidacionesEditar === 'function') {
-        window.inicializarValidacionesEditar();
-      } else {
-        console.error('❌ Función inicializarValidacionesEditar no disponible');
-      }
-    }, 200);
-
-    // Mostrar modal con Bootstrap y asegurar limpieza al ocultarse
-    const modalEl = document.getElementById('modalEditarProducto');
-    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-    modal.show();
-
-    // elimina el div del DOM
-    modalEl.addEventListener('hidden.bs.modal', () => {
-      contenedor.remove();
-    });
-  } catch (err) {
-    // Mensaje claro para desarrollador y usuario
-    console.error('No se pudo cargar el formulario de edición', err);
-  }
-};
-
 // Inicializar listeners cuando el DOM cargue
 document.addEventListener('DOMContentLoaded', () => {
   configurarBotonConfirmacionProducto({
@@ -134,20 +89,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Ocultar id de producto en la barra de direcciones si estamos en /productos/usuario-productos/:id
-  ocultarIdProductoEnUrl();
+  //ocultarIdProductoEnUrl();
 });
 
 /* ------------------------- Modal Crear Producto ------------------------- */
 async function crearProducto(idUsuario) {
   try {
-    
+
     // Mostrar el modal
-        // Mostrar modal con Bootstrap y asegurar limpieza al ocultarse
+    // Mostrar modal con Bootstrap y asegurar limpieza al ocultarse
     const modalEl = document.getElementById('modalCrearProducto');
     const instancia = bootstrap.Modal.getOrCreateInstance(modalEl);
     instancia.show();
 
-    
+
   } catch (err) {
     console.error('Error cargando modal crear producto:', err);
     window.mostrarToast && window.mostrarToast('Error al cargar datos para crear producto', 'error');
@@ -238,29 +193,128 @@ function inicializarAutocompletadoEtiquetas() {
 // Inicializar autocompletado cuando el DOM esté listo 
 document.addEventListener('DOMContentLoaded', () => {
   inicializarAutocompletadoEtiquetas();
-  inicializarValidacionCrearProducto(); // Inicializar validación del formulario
 });
 
 /* ------------------------- Modal EDITAR Producto ------------------------- */
-async function editProducto(idUsuario, idProducto) {
+window.editProducto = async function (idUsuario, idProducto) {
   try {
     // Pedimos detalle del producto al servidor (ruta proxy en frontend)
-    const response = await fetch(`/api/productos/${idProducto}`, { headers: { 'Accept': 'application/json' } });
+    const response = await fetch(`/productos/usuario-productos/ver/${idProducto}`, { headers: { 'Accept': 'application/json' } });
     const data = await response.json();
 
     // Llenamos campos del modal con los datos recibidos
-    document.getElementById('me-usuario-id').value = idUsuario;
-    document.getElementById('me-producto-id').value = idProducto;
-    document.getElementById('me-titulo').value = data.producto?.tituloProducto || '';
-    document.getElementById('me-descripcion').value = data.producto?.descripcionProducto || '';
-    document.getElementById('me-precio').value = data.producto?.precio || '';
+    document.getElementById('titulo-editar').value = data.producto?.tituloProducto || '';
+    document.getElementById('descripcion-editar').value = data.producto?.descripcionProducto || '';
+    document.getElementById('precio-editar').value = data.producto?.precio || '';
+    
+    // Estado actual
+    const selectActivo = document.getElementById('me-activo');
+    if (typeof data.producto.productoActivo === 'boolean') {
+      selectActivo.value = data.producto.productoActivo ? "true" : "false";
+    } else {
+      selectActivo.value = "";
+    }
 
     // Imágenes: si existe preview lo mostramos
-    const logoPreview = document.getElementById('me-imagen-preview');
-    if (logoPreview) {
-      logoPreview.src = data.producto?.urlImagen || '';
-      logoPreview.style.display = data.producto?.urlImagen ? 'block' : 'none';
+    // Contenedor de imágenes
+      const imagenesContainer = document.getElementById("imagenes-container");
+
+      // Limpiar imágenes anteriores (si las hay)
+      imagenesContainer.innerHTML = "";
+
+      // Cargar imágenes nuevas
+      if (Array.isArray(data.imagenes)) {
+        data.imagenes.forEach(img => {
+          const imageElement = document.createElement("img");
+          imageElement.src = img;
+          imageElement.style.width = "80px";
+          imageElement.style.height = "60px";
+          imageElement.style.objectFit = "cover";
+          imageElement.style.borderRadius = "6px";
+          imageElement.style.border = "1px solid #ddd";
+          imagenesContainer.appendChild(imageElement);
+        });
+      }
+
+    const selectEmpr = document.getElementById('emprendimiento-editar');
+    selectEmpr.innerHTML = ""; // limpiar opciones previas
+    const emprendimientos = data.emprendimientos
+    if (Array.isArray(emprendimientos)) {
+      emprendimientos.forEach(emp => {
+        const option = document.createElement("option");
+        option.value = emp._id;
+        option.textContent = emp.nombreEmprendimiento;
+        if (emp._id === data.producto.idEmprendimiento) {
+          option.selected = true;
+        }
+        selectEmpr.appendChild(option);
+      });
     }
+
+    // Select de categorias
+    const selectCat = document.getElementById('categoria-editar');
+    selectCat.innerHTML = ""; // limpiar opciones previas
+    const categorias = data.categorias
+    if (Array.isArray(categorias)) {
+      categorias.forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.nombreCategoria;
+        option.textContent = cat.nombreCategoria;
+        if (cat.nombreCategoria === data.producto.categoria) {
+          option.selected = true;
+        }
+        selectCat.appendChild(option);
+      });
+    }
+
+    // === ETIQUETAS ===
+    const etiquetasDisponibles = data.etiquetas || [];
+    const etiquetasProducto = data.producto.etiquetas || [];
+
+    // Input hidden donde se guardarán para enviar al backend
+    const hidden = document.getElementById('etiquetasHiddenEditar');
+    if (hidden) hidden.value = JSON.stringify(etiquetasProducto);
+
+    // Contenedor de chips
+    const seleccionadasCont = document.getElementById('etiquetasSeleccionadasEditar');
+    seleccionadasCont.innerHTML = "";
+
+    // Pintar etiquetas ya asociadas al producto como chips
+    etiquetasProducto.forEach(nombre => {
+      const chip = document.createElement("span");
+      chip.className = "badge bg-secondary me-1";
+      chip.textContent = nombre;
+      chip.style.cursor = "pointer";
+      chip.onclick = () => {
+        // Al click, eliminamos
+        const idx = etiquetasProducto.indexOf(nombre);
+        if (idx > -1) etiquetasProducto.splice(idx, 1);
+        hidden.value = JSON.stringify(etiquetasProducto);
+        chip.remove();
+      };
+      seleccionadasCont.appendChild(chip);
+    });
+
+    // Guardamos también las disponibles en el input de búsqueda (para autocompletado)
+    const buscador = document.getElementById('etiquetasBuscadorEditar');
+    if (buscador) {
+      buscador.dataset.etiquetas = JSON.stringify(etiquetasDisponibles);
+    }
+
+    // Inicializo autocompletado de etiquetas
+    inicializarAutocompletadoEtiquetasConPrefijo('Editar');
+
+    // Set de action
+    document.getElementById('form-editar-producto').action = `/productos/usuario-productos/editar/${data.producto._id} `
+    // Usar setTimeout para asegurar que el DOM esté completamente renderizado antes de inicializar validaciones
+    setTimeout(() => {
+      // Inicializar validaciones del formulario de editar producto
+      if (typeof window.inicializarValidacionesEditar === 'function') {
+        window.inicializarValidacionesEditar();
+      } else {
+        console.error('❌ Función inicializarValidacionesEditar no disponible');
+      }
+    }, 200);
     const modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));
     modal.show();
 
@@ -284,6 +338,7 @@ function ocultarIdProductoEnUrl() {
   }
 }
 
+
+
 // Exportar funciones para uso en templates 
 window.crearProducto = crearProducto;
-window.editProducto = editProducto;

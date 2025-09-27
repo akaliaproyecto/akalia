@@ -92,21 +92,38 @@ exports.mostrarDetalleProducto = async (req, res) => {
     // Obtener id del producto desde la URL y usuario autenticado
     const idProducto = req.params.id;
     const usuario = req.usuarioAutenticado;
-
+    
     // Petición al backend para obtener detalle del producto
     const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
     // Si se obtiene el producto se renderiza la vista      
     if (respuesta && respuesta.status === 200 && respuesta.data) {
       const producto = respuesta.data;
-
-
+      
+      
       // obtener nombre del emprendimiento
-       const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS }); 
+      const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS });
+      
+      // Pedir listas relacionadas
+      const listaEmprendimientos = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`, { headers: HEADERS });
+      const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
+      const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS });
+
+      const emprendimientos = listaEmprendimientos.data;
+      const categorias = listaCategorias.data;
+      const etiquetas = listaEtiquetas.data
+
+      const imagenes = producto.imagenes
       const emprendimiento = resp.data.nombreEmprendimiento
+      
+
       // muestra la página “usuario-producto-ver” y le pasa los datos del producto y del usuario para que la plantilla los muestre dinámicamente.
-      return res.render('pages/usuario-producto-ver', { producto, usuario, emprendimiento });
+      if (req.headers.accept && req.headers.accept.includes('application/json')) {
+        return res.json({ producto, usuario, emprendimiento, emprendimientos, categorias, etiquetas, imagenes });
+      } else {
+        return res.render('pages/usuario-producto-ver', { producto, usuario, emprendimiento, emprendimientos, categorias, etiquetas, imagenes });
+      }
     } else {
-      return res.status(404).render('pages/error', { error: 'Producto no encontrado' });
+      return res.status(404).json({ error: 'Producto no encontrado' });
     }
   } catch (error) {
     return res.status(500).render('pages/error', { error: 'Error al obtener detalle de producto', message: error.message || String(error) });
@@ -158,14 +175,16 @@ exports.procesarEditarProducto = async (req, res) => {
     const idProducto = req.params.id; // id del producto a editar
     const datos = req.body; // datos enviados desde el formulario
     const formData = new FormData(); // objeto para enviar datos al backend
-
+    const usuario = req.usuarioAutenticado;
     // Campos de texto principales
+    console.log(datos)
     const camposTexto = {
       tituloProducto: datos.tituloProducto,
       descripcionProducto: datos.descripcionProducto,
       precio: datos.precio,
       idEmprendimiento: datos.idEmprendimiento,
-      categoria: datos.categoria
+      categoria: datos.categoria,
+      productoActivo: datos.productoActivo
     };
     // Agregar al FormData los campos que existan (clave : valor)
     for (const [clave, valor] of Object.entries(camposTexto)) {
@@ -199,20 +218,32 @@ exports.procesarEditarProducto = async (req, res) => {
     const ruta = `${API_BASE_URL}/productos/${idProducto}`;
     const respuesta = await axios.put(ruta, formData, { headers: cabeceras, maxBodyLength: Infinity });
 
+    const producto = respuesta.data
+    const emprendimiento = producto.idEmprendimiento
+    const imagenes = producto.imagenes
     // Validar respuesta
     if (respuesta?.status === 200 || respuesta?.status === 201) {
-      return res.redirect('/productos/usuario-productos'); // redirige al listado
+      return res.redirect(`/productos/usuario-productos/ver/${idProducto}`); // redirige al listado
     }
     return res.status(500).send('Respuesta inesperada del backend al actualizar producto');
 
   } catch (error) {
     // Captura de errores y log en consola
     console.error('Error en procesarEditarProducto:', error.response?.data || error.message || error);
+
+    // Manejar error específico de emprendimiento inactivo
+    if (error.response?.status === 400 && error.response?.data?.emprendimientoInactivo) {
+      return res.status(400).json({
+        mensaje: error.response.data.mensaje,
+        campo: error.response.data.campo,
+        emprendimientoInactivo: true
+      });
+    }
     return res.status(500).send('Error procesando la edición del producto');
   }
 };
 
-/* Crear un nuevo producto */
+/***  Crear un nuevo producto ***/
 exports.procesarCrearProducto = async (req, res) => {
   try {
     // Construir el objeto FormData
@@ -227,7 +258,7 @@ exports.procesarCrearProducto = async (req, res) => {
     console.log(categoria)
     // etiquetas pueden venir como JSON string desde el input hidden
     const etiquetasCampo = req.body.etiquetas || '[]';
-    
+
     // Añadir los campos de texto al FormData
     if (tituloProducto) formData.append('tituloProducto', tituloProducto);
     if (descripcionProducto) formData.append('descripcionProducto', descripcionProducto);
@@ -272,10 +303,10 @@ exports.procesarCrearProducto = async (req, res) => {
     const rutaCrearProducto = `${API_BASE_URL}/productos`;
     const respuestaBackend = await axios.post(rutaCrearProducto, formData, { headers: cabeceras, maxBodyLength: Infinity });
 
-    // Si el backend responde con creado (201) o similar, redirigimos a la lista de productos
+    // Si el backend responde con creado (201) o similar, refrescamos la página actual
     if (respuestaBackend && (respuestaBackend.status === 200 || respuestaBackend.status === 201)) {
-      // Redirigimos al usuario a la vista donde están sus productos
-      return res.redirect('/productos/usuario-productos');
+      // Refrescar la página desde donde se creó el producto
+      return res.redirect(req.get('referer') || '/');
     } else {
       console.error('Respuesta inesperada del backend al crear producto:', respuestaBackend && respuestaBackend.status);
       return res.status(500).render('pages/error', { error: 'Error al crear producto', message: 'Respuesta inesperada del backend' });

@@ -50,9 +50,9 @@
                   <table class="table akalia-table align-middle text-start m-0">
                     <thead>
                       <tr>
-                        <th class="d-none d-lg-block">Imagen</th>
+                        <th class="d-none d-lg-inline">Imagen</th>
                         <th>Título</th>
-                        <th class="d-none d-lg-block">Emprendimiento</th>
+                        <th class="d-none d-lg-inline">Emprendimiento</th>
                         <th>Precio</th>
                         <th class="d-none">Estado</th>
                         <th>Acción</th>
@@ -73,12 +73,17 @@
                           </td>
                           <td>$<%= producto.precio %>
                           </td>
-                          <td class="d-none">
-                            <%= producto.estado %>
+                          <td class="">
+                        <% if (producto.productoActivo==true) { %>
+                          <span class="badge bg-success">Activo</span>
+                          <% } else { %>
+                            <!-- Si está inactivo, permitimos activar mediante modal de confirmación -->
+                            <span class="badge bg-secondary">Inactivo</span>
+                            <% } %>
                           </td>
                           <td>
                             <!-- ACCIONES -->
-                            <div class="akalia-actions-product d-flex flex-column flex-lg-row">
+                            <div class="justify-content-center d-flex flex-column flex-lg-row">
   
                               <button onclick="showUserProductDetail('<%= usuario.idUsuario %>','<%= producto._id %>')"
                                 class="akalia-btn-icon" title="Ver">
@@ -93,7 +98,7 @@
                                 </svg>
                               </button>
                               <button class="btn text-vinotinto" title="Editar"
-                                onclick="editUserProductDetail('<%= usuario.idUsuario %>','<%= producto._id %>')">
+                                onclick="editProducto('<%= usuario.idUsuario %>','<%= producto._id %>')">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                                   fill="none">
                                   <g clip-path="url(#clip0_168_47)">
@@ -175,6 +180,7 @@
       <%- include('../partials/usuario-producto-crear.ejs'); %>
         <!-- Include partial que contiene el modal para eliminar producto -->
         <%- include('../partials/usuario-producto-eliminar.ejs'); %>
+        <%- include('../partials/usuario-producto-editar.ejs'); %>
 
 </body>
 

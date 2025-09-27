@@ -4,6 +4,22 @@
 // FUNCIONES UTILITARIAS COMUNES (GLOBALES)
 // ===============================
 
+/* Función para verificar si un emprendimiento está activo */
+async function verificarEmprendimientoActivo(idEmprendimiento) {
+  try {
+    const response = await fetch(`/emprendimientos/verificar-activo/${idEmprendimiento}`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.activo;
+  } catch (error) {
+    console.error('Error al verificar estado del emprendimiento:', error);
+    return true; // Por defecto asumimos que está activo en caso de error
+  }
+}
+
 // Funciones de validación compartidas
 function mostrarError(campo, elementoError, mensaje) {
   if (campo) {
@@ -149,7 +165,7 @@ function validarImagenesProducto(campoImagenes, elementoError, esObligatorio = t
   return true;
 }
 
-function validarEmprendimientoProducto(campoEmprendimiento, elementoError) {
+async function validarEmprendimientoProducto(campoEmprendimiento, elementoError, campoEstado = null) {
   if (!campoEmprendimiento) return true;
   
   const emprendimientoId = campoEmprendimiento.value.trim();
@@ -159,8 +175,30 @@ function validarEmprendimientoProducto(campoEmprendimiento, elementoError) {
     return false;
   }
   
-  mostrarExito(campoEmprendimiento, elementoError);
-  return true;
+  // Verificar si el emprendimiento está activo
+  const emprendimientoActivo = await verificarEmprendimientoActivo(emprendimientoId);
+  
+  if (!emprendimientoActivo) {
+    // Si hay un campo de estado y está marcado como activo, cambiarlo a inactivo automáticamente
+    if (campoEstado && campoEstado.value === 'true') {
+      campoEstado.value = 'false';
+    }
+    
+    // Mostrar advertencia pero con estilo de warning, no error
+    if (elementoError) {
+      elementoError.textContent = 'Este emprendimiento está inactivo';
+      elementoError.style.display = 'block';
+      elementoError.className = 'text-warning small mt-1'; // Cambiar a warning en lugar de error
+    }
+    if (campoEmprendimiento) {
+      campoEmprendimiento.classList.remove('is-invalid');
+      campoEmprendimiento.classList.add('is-valid'); // Marcar como válido porque el emprendimiento existe
+    }
+  } else {
+    mostrarExito(campoEmprendimiento, elementoError);
+  }
+  
+  return true; // Siempre retornar true - la validación real del estado está en validarEstadoProducto
 }
 
 function validarCategoriaProducto(campoCategoria, elementoError) {
@@ -216,6 +254,36 @@ function validarEtiquetasProducto(campoEtiquetas, elementoError, esObligatorio =
   return true;
 }
 
+async function validarEstadoProducto(campoEstado, elementoError, campoEmprendimiento = null) {
+  if (!campoEstado) return false;
+  
+  const estado = campoEstado.value;
+  
+  if (estado !== 'true' && estado !== 'false') {
+    mostrarError(campoEstado, elementoError, 'Debe seleccionar un estado válido');
+    return false;
+  }
+  
+  // Si el producto se está activando, verificar que el emprendimiento esté activo
+  if (estado === 'true' && campoEmprendimiento && campoEmprendimiento.value) {
+    const emprendimientoActivo = await verificarEmprendimientoActivo(campoEmprendimiento.value);
+    
+    if (!emprendimientoActivo) {
+      mostrarError(campoEstado, elementoError, 'No puede activar el producto porque el emprendimiento está inactivo');
+      
+      // Mostrar toast de error si está disponible
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast('No puede activar el producto porque el emprendimiento está inactivo', 'error');
+      }
+      
+      return false;
+    }
+  }
+  
+  mostrarExito(campoEstado, elementoError);
+  return true;
+}
+
 // ===============================
 // FUNCIÓN PARA CREAR ELEMENTOS DE ERROR (GLOBAL)
 // ===============================
@@ -257,7 +325,7 @@ function inicializarValidacionesEditar() {
   const campoEmprendimientoEdit = document.getElementById('emprendimiento-editar');
   const campoCategoriaEdit = document.getElementById('categoria-editar');
   const campoEtiquetasEdit = document.getElementById('etiquetasHiddenEditar');
-
+  const campoEstadoEdit = document.getElementById('me-activo');
   
   // Log detallado de elementos faltantes
   if (!campoTituloEdit) console.error('❌ Campo título no encontrado');
@@ -273,7 +341,8 @@ function inicializarValidacionesEditar() {
   const errorImagenesEdit = crearElementoError(campoImagenesEdit, 'imagenesEditError');
   const errorEmprendimientoEdit = crearElementoError(campoEmprendimientoEdit, 'emprendimientoEditError');
   const errorCategoriaEdit = crearElementoError(campoCategoriaEdit, 'categoriaEditError');
-  
+  const errorEstadoEdit = crearElementoError(campoEstadoEdit, 'me-estadoError');
+
   // Para etiquetas, buscar el contenedor específico
   let errorEtiquetasEdit = document.getElementById('etiquetasEditError');
   if (!errorEtiquetasEdit && campoEtiquetasEdit) {
@@ -297,10 +366,11 @@ function inicializarValidacionesEditar() {
   const validarDescripcionEditar = () => validarDescripcionProducto(campoDescripcionEdit, errorDescripcionEdit);
   const validarPrecioEditar = () => validarPrecioProducto(campoPrecioEdit, errorPrecioEdit);
   const validarImagenesEditar = () => validarImagenesProducto(campoImagenesEdit, errorImagenesEdit, false); // Opcional en editar
-  const validarEmprendimientoEditar = () => validarEmprendimientoProducto(campoEmprendimientoEdit, errorEmprendimientoEdit);
+  const validarEmprendimientoEditar = () => validarEmprendimientoProducto(campoEmprendimientoEdit, errorEmprendimientoEdit, campoEstadoEdit);
   const validarCategoriaEditar = () => validarCategoriaProducto(campoCategoriaEdit, errorCategoriaEdit);
   const validarEtiquetasEditar = () => validarEtiquetasProducto(campoEtiquetasEdit, errorEtiquetasEdit, true); // Obligatorio en editar
-  
+  const validarEstadoEditar = () => validarEstadoProducto(campoEstadoEdit, errorEstadoEdit, campoEmprendimientoEdit);
+
   // Event listeners para validación en tiempo real - Editar
   if (campoTituloEdit) {
 
@@ -333,13 +403,21 @@ function inicializarValidacionesEditar() {
   }
   
   if (campoEmprendimientoEdit) {
-    campoEmprendimientoEdit.addEventListener('change', validarEmprendimientoEditar);
+    campoEmprendimientoEdit.addEventListener('change', async () => {
+      await validarEmprendimientoEditar();
+    });
   }
   
   if (campoCategoriaEdit) {
     campoCategoriaEdit.addEventListener('change', validarCategoriaEditar);
   }
   
+  if (campoEstadoEdit) {
+    campoEstadoEdit.addEventListener('change', async () => {
+      await validarEstadoEditar();
+    });
+  }
+
   if (campoEtiquetasEdit) {
     // Crear un observador para detectar cambios en el valor del campo oculto
     const observerEdit = new MutationObserver(() => {
@@ -374,16 +452,17 @@ function inicializarValidacionesEditar() {
     // Desactivar la validación nativa de HTML5
     formularioEditarProducto.setAttribute('novalidate', 'true');
     
-    // Ejecutar todas las validaciones
-    const validaciones = [
+    // Ejecutar todas las validaciones (algunas son asíncronas)
+    const validaciones = await Promise.all([
       validarTituloEditar(),
       validarDescripcionEditar(),
       validarPrecioEditar(),
       validarImagenesEditar(),
       validarEmprendimientoEditar(),
       validarCategoriaEditar(),
-      validarEtiquetasEditar()
-    ];
+      validarEtiquetasEditar(),
+      validarEstadoEditar()
+    ]);
     
     // Verificar si todas las validaciones pasaron
     const todasValidas = validaciones.every(valida => valida === true);
@@ -499,7 +578,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (campoEmprendimiento) {
-      campoEmprendimiento.addEventListener('change', validarEmprendimientoCrear);
+      campoEmprendimiento.addEventListener('change', async () => {
+        await validarEmprendimientoCrear();
+      });
     }
     
     if (campoCategoria) {
@@ -531,8 +612,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Desactivar la validación nativa de HTML5
       formularioCrearProducto.setAttribute('novalidate', 'true');
       
-      // Ejecutar todas las validaciones
-      const validaciones = [
+      // Ejecutar todas las validaciones (algunas son asíncronas)
+      const validaciones = await Promise.all([
         validarTituloCrear(),
         validarDescripcionCrear(),
         validarPrecioCrear(),
@@ -540,7 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         validarEmprendimientoCrear(),
         validarCategoriaCrear(),
         validarEtiquetasCrear()
-      ];
+      ]);
       
       // Verificar si todas las validaciones pasaron
       const todasValidas = validaciones.every(valida => valida === true);

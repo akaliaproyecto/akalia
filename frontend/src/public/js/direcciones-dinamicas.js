@@ -328,6 +328,11 @@ function validarCampoDireccion(campo) {
         mostrarErrorDireccion(campo, 'El departamento es requerido cuando se especifica una dirección');
         return false;
       }
+      // Validar que el departamento sea una opción válida
+      if (valor && !validarOpcionValida(campo, valor)) {
+        mostrarErrorDireccion(campo, 'Debe seleccionar un departamento válido de la lista');
+        return false;
+      }
       break;
       
     case 'ciudad':
@@ -339,11 +344,25 @@ function validarCampoDireccion(campo) {
         mostrarErrorDireccion(campo, 'La ciudad es requerida cuando se especifica una dirección');
         return false;
       }
+      // Validar que la ciudad sea una opción válida
+      if (valor && !validarOpcionValida(campo, valor)) {
+        mostrarErrorDireccion(campo, 'Debe seleccionar una ciudad válida de la lista');
+        return false;
+      }
       break;
   }
   
   limpiarErrorDireccion(campo);
   return true;
+}
+
+// Función para validar que una opción sea válida en un select
+function validarOpcionValida(selectElement, valor) {
+  if (!selectElement || !valor) return false;
+  
+  // Verificar si el valor existe como una opción válida en el select
+  const opciones = Array.from(selectElement.options);
+  return opciones.some(opcion => opcion.value === valor);
 }
 
 // Funciones auxiliares para mostrar/limpiar errores
