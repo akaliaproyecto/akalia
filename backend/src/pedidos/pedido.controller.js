@@ -51,11 +51,20 @@ exports.crearPedido = async (req, res) => {
   const datosPedido = req.body;
 
   try {
+    const validacion = await validarDatosCreacionPedido(datosPedido);
+
+    if (!validacion.valido) {
+      return res.status(400).json({
+        error: 'Datos de pedido inválidos',
+        errores: validacion.errores
+      });
+    }
+    
     const nuevoPedido = new modeloPedido(datosPedido);
     const pedidoGuardado = await nuevoPedido.save();
 
     //Registrar log
-    Log.generateLog('pedido.log', `Un pedido ha sido creado: ${pedidoGuardado}, fecha: ${new Date()}`);
+    Log.generateLog('pedido.log', `Un pedido ha sido creado: ${pedidoGuardado._id}, fecha: ${new Date()}`);
 
     res.status(201).json(pedidoGuardado);
   } catch (error) {

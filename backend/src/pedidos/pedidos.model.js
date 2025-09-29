@@ -28,10 +28,11 @@ const DetallePedidoSchema = new mongoose.Schema({
   },
   descripcion: {
     type: String,
-    required: [true, 'La descripción es obligatoria'],
+    required: [true, 'La descripción es obligatoria'], 
     trim: true,
     minlength: [3, 'La descripción debe tener al menos 3 caracteres'],
-    maxlength: [255, 'La descripción no puede superar los 255 caracteres']
+    maxlength: [500, 'La descripción no puede superar los 500 caracteres'],
+    default: 'En este espacio se hará la descripción detallada del pedido final'
   },
   unidades: {
     type: Number,
@@ -39,15 +40,33 @@ const DetallePedidoSchema = new mongoose.Schema({
     min: [1, 'Debe haber al menos 1 unidad'],
     default: 1
   },
-  subtotal: {
+  precioPactado: {
     type: Number,
-    required: [true, 'El subtotal es obligatorio'],
-    min: [0, 'El subtotal no puede ser negativo'],
-    default: 0
+    required: [true, 'El precio pactado es obligatorio'],
+    min: [0, 'El precio pactado no puede ser negativo']
   }
 });
 
-
+// Esquema para la dirección de envío
+const DireccionEnvioSchema = new mongoose.Schema({
+  direccion: {
+    type: String,
+    required: [true, 'La dirección es obligatoria'],
+    trim: true,
+    minlength: [5, 'La dirección debe tener al menos 5 caracteres'],
+    maxlength: [100, 'La dirección no puede superar los 100 caracteres']
+  },
+  departamento: {
+    type: String,
+    required: [true, 'El departamento es obligatorio'],
+    trim: true
+  },
+  ciudad: {
+    type: String,
+    required: [true, 'La ciudad es obligatoria'],
+    trim: true
+  }
+});
 
 /* ESQUEMA PRINCIPAL DE PEDIDO */
 const PedidoSchema = new mongoose.Schema({
@@ -60,6 +79,10 @@ const PedidoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
     required: [true, 'El vendedor es obligatorio']
+  },
+  idEmprendimiento: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Emprendimiento'
   },
   fechaCreacion: {
     type: Date,
@@ -99,26 +122,26 @@ const PedidoSchema = new mongoose.Schema({
   estadoPedido: {
     type: String,
     enum: ['pendiente', 'aceptado', 'completado', 'cancelado'],
-    required: [true, 'El estado del pedido es obligatorio']
+    required: [true, 'El estado del pedido es obligatorio'],
+    default: 'pendiente'
   },
-  precioTotal: {
+  total: {
     type: Number,
-    required: [true, 'El precio total es obligatorio'],
-    min: [0, 'El precio total no puede ser negativo']
+    required: [true, 'El total es obligatorio'],
+    min: [0, 'El total no puede ser negativo']
+  },
+  direccionEnvio: {
+    type: DireccionEnvioSchema,
+    required: [true, 'La dirección de envío es obligatoria']
   },
   estadoEliminacion: {
     type: String,
     enum: ['activo', 'eliminado'],
     default: 'activo'
   },
-  detalles: {
-    type: [DetallePedidoSchema],
-    validate: {
-      validator: function (value) {
-        return value.length >= 1; // Al menos un detalle de pedido
-      },
-      message: 'El pedido debe tener al menos un producto'
-    }
+  detallePedido: {
+    type: DetallePedidoSchema,
+    required: [true, 'El detalle del pedido es obligatorio']
   },
   mensajes: [MensajeSchema],
   reporte: {

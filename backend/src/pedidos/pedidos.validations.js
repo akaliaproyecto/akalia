@@ -44,10 +44,8 @@ const validarEstadoPedido = (estado) => {
   
   const estadosValidos = [
     'pendiente',
-    'confirmado',
-    'preparando',
-    'enviado',
-    'entregado',
+    'en proceso',
+    'completado',
     'cancelado'
   ];
   
@@ -91,48 +89,70 @@ const validarTotalPedido = (total) => {
 };
 
 /**
- * Valida los productos del pedido
- * @param {Array} productos - Array de productos del pedido
+ * Valida el detalle del pedido (un solo producto)
+ * @param {object} detallePedido - Detalle del pedido
  * @returns {boolean} - true si es válido, false si no
  */
-const validarProductosPedido = (productos) => {
-  if (!productos || !Array.isArray(productos)) {
+const validarDetallePedido = (detallePedido) => {
+  if (!detallePedido || typeof detallePedido !== 'object') {
     return false;
   }
   
-  if (productos.length === 0) {
-    return false; // Un pedido debe tener al menos un producto
+  const { idProducto, descripcion, unidades, precioPactado } = detallePedido;
+  
+  // Validar ID del producto
+  if (!validarIdMongoDB(idProducto)) {
+    return false;
   }
   
-  if (productos.length > 50) {
-    return false; // Máximo 50 productos por pedido
+  // Validar descripción
+  if (!descripcion || typeof descripcion !== 'string' || 
+      descripcion.trim().length < 3 || descripcion.trim().length > 255) {
+    return false;
   }
   
-  // Validar cada producto
-  return productos.every(producto => {
-    if (!producto || typeof producto !== 'object') {
-      return false;
-    }
-    
-    const { producto: idProducto, cantidad, precio } = producto;
-    
-    // Validar ID del producto
-    if (!validarIdMongoDB(idProducto)) {
-      return false;
-    }
-    
-    // Validar cantidad
-    if (!validarCantidadProducto(cantidad)) {
-      return false;
-    }
-    
-    // Validar precio
-    if (!validarTotalPedido(precio)) {
-      return false;
-    }
-    
-    return true;
-  });
+  // Validar unidades
+  if (!validarCantidadProducto(unidades)) {
+    return false;
+  }
+  
+  // Validar precio pactado
+  if (!validarTotalPedido(precioPactado)) {
+    return false;
+  }
+  
+  return true;
+};
+
+/**
+ * Valida la dirección de envío
+ * @param {object} direccionEnvio - Dirección de envío
+ * @returns {boolean} - true si es válido, false si no
+ */
+const validarDireccionEnvio = (direccionEnvio) => {
+  if (!direccionEnvio || typeof direccionEnvio !== 'object') {
+    return false;
+  }
+  
+  const { direccion, departamento, ciudad } = direccionEnvio;
+  
+  // Validar dirección
+  if (!direccion || typeof direccion !== 'string' || 
+      direccion.trim().length < 5 || direccion.trim().length > 100) {
+    return false;
+  }
+  
+  // Validar departamento
+  if (!departamento || typeof departamento !== 'string' || departamento.trim().length < 2) {
+    return false;
+  }
+  
+  // Validar ciudad
+  if (!ciudad || typeof ciudad !== 'string' || ciudad.trim().length < 2) {
+    return false;
+  }
+  
+  return true;
 };
 
 /**
@@ -240,16 +260,31 @@ const validarFechaEntregaPedido = (fechaEntrega) => {
 const validarDatosCreacionPedido = async (datosPedido) => {
   const errores = [];
   const {
-    productos,
+    idUsuarioComprador,
+    idUsuarioVendedor,
+    idEmprendimiento,
+    detallePedido,
     total,
-    contacto,
-    observaciones,
-    fechaEntrega
+    direccionEnvio
   } = datosPedido;
   
-  // Validar productos (requeridos)
-  if (!validarProductosPedido(productos)) {
-    errores.push('Los productos del pedido son inválidos (debe haber al menos 1 y máximo 50)');
+  // Validar IDs obligatorios
+  if (!validarIdMongoDB(idUsuarioComprador)) {
+    errores.push('ID del usuario comprador inválido');
+  }
+  
+  if (!validarIdMongoDB(idUsuarioVendedor)) {
+    errores.push('ID del usuario vendedor inválido');
+  }
+  
+  // Validar ID emprendimiento (opcional)
+  if (idEmprendimiento && !validarIdMongoDB(idEmprendimiento)) {
+    errores.push('ID del emprendimiento inválido');
+  }
+  
+  // Validar detalle del pedido (requerido)
+  if (!validarDetallePedido(detallePedido)) {
+    errores.push('El detalle del pedido es inválido');
   }
   
   // Validar total (requerido)
@@ -257,18 +292,9 @@ const validarDatosCreacionPedido = async (datosPedido) => {
     errores.push('El total del pedido es inválido (debe ser un número positivo)');
   }
   
-  // Validar contacto (requerido)
-  if (!validarContactoPedido(contacto)) {
-    errores.push('La información de contacto es inválida');
-  }
-  
-  // Validar campos opcionales
-  if (!validarObservacionesPedido(observaciones)) {
-    errores.push('Las observaciones del pedido son inválidas (máximo 500 caracteres)');
-  }
-  
-  if (!validarFechaEntregaPedido(fechaEntrega)) {
-    errores.push('La fecha de entrega es inválida (debe ser futura y dentro de 1 año)');
+  // Validar dirección de envío (requerida)
+  if (!validarDireccionEnvio(direccionEnvio)) {
+    errores.push('La dirección de envío es inválida');
   }
   
   return {
@@ -328,7 +354,8 @@ module.exports = {
   validarEstadoPedido,
   validarCantidadProducto,
   validarTotalPedido,
-  validarProductosPedido,
+  validarDetallePedido,
+  validarDireccionEnvio,
   validarContactoPedido,
   validarObservacionesPedido,
   validarFechaEntregaPedido,
