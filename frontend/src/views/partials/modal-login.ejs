@@ -10,12 +10,14 @@
         <form id="loginForm">
           <div class="mb-3 text-start">
             <label class="form-label">Correo electrónico</label>
-            <input type="email" class="akalia-input" name="email" required>
+            <input type="email" class="akalia-input" id="correoLogin" name="email" required>
+            <div id="emailLoginError" class="text-danger" style="display: none;"></div>
           </div>
 
           <div class="mb-3 text-start position-relative">
             <label class="form-label">Contraseña</label>
-            <input type="password" class="akalia-input" name="contrasena" required>
+            <input type="password" class="akalia-input" id="contrasenaLogin" name="contrasena" required>
+            <div id="contrasenaLoginError" class="text-danger" style="display: none;"></div>
           </div>
           <%- include('./captcha') %>
           <button type="submit" class="btn btn-terracota w-100 mb-3">Iniciar Sesión</button>

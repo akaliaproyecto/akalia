@@ -2,102 +2,32 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <title>
-    <%= producto.tituloProducto %> | Akalia
-  </title>
-  <%- include('../partials/head.ejs'); %>
+    <meta charset="UTF-8">
+    <title>
+        <%= producto.tituloProducto %> | Akalia
+    </title>
+    <%- include('../partials/head.ejs'); %>
     <link rel="stylesheet" href="/styles/funciones-usuarios.css">
+    <link href=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css " rel="stylesheet">
+    
 </head>
 
 <body class="h-100 m-0 d-flex flex-column vh-100 bg-blanco-light">
-  <%- include('../partials/navbar.ejs'); %>
+    <%- include('../partials/navbar.ejs'); %>
     <div class="d-flex flex-row h-100">
       <%- include('../partials/sidebar.ejs'); %>
-        <main class="flex-grow-1 d-flex flex-column justify-content-center align-content-center py-5">
-          <section class="akalia-card overflow-auto">
-            <div class="d-flex flex-md-row flex-column justify-content-between align-items-start pb-4 gap-3">
-              <h2 class="akalia-title akalia-title--medium m-0">Detalle del producto </h2>
+        <main class="container py-4 overflow-auto" >
+            <div
+                class="row bg-blanco-light rounded shadow-sm  d-flex justify-content-center mx-auto gap-3  producto-usuario-card">
 
-            </div>
-
-            <article class="akalia-card-info d-flex flex-column gap-3 mb-3">
-
-              <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
-                <!-- Imagen principal del producto (o placeholder si no existe) -->
-                <div class="d-flex justify-content-center align-items-center">
-                  <img
-                    src="<%= (producto.imagenes && producto.imagenes[0]) ? producto.imagenes[0] : '/img/placeholder.png' %>"
-                    alt="Imagen del producto" class="rounded-circle"
-                    style="width: 120px; height: 120px; object-fit: cover; border: 1px solid #b9b9b9;" />
-                </div>
-
-                <!-- Información general del producto -->
-                <div class="d-flex flex-column justify-content-center align-items-start gap-3 col-md-6">
-                  <!-- Título del producto -->
-                  <h4 class="mb-1">
-                    <%= producto.tituloProducto %>
-                  </h4>
-
-                  <!-- Descripción corta -->
-                  <p class="mb-2">
-                    <%= producto.descripcionProducto %>
-                  </p>
-
-                  <!-- Precio -->
-                  <div class="d-flex align-items-center gap-2">
-                    <strong>Precio:</strong>
-                    <span class="text-muted small">$<%= producto.precio %></span>
-                  </div>
-
-                  <!-- Categoría y etiquetas -->
-                  <div class="d-flex gap-2 align-items-center">
-                    <!--
-                      En el modelo `Producto` el campo `categoria` guarda el _id de la categoría.
-                      Para mostrar un texto legible (el nombre de la categoría) el handler
-                      `mostrarDetalleProducto` en el frontend obtiene el documento de la
-                      categoría y agrega `producto.categoriaNombre`.
-                      Aquí mostramos `categoriaNombre` si existe, sino usamos un fallback
-                      que muestra el id o una cadena vacía.
-                    -->
-                    <small class="text-muted">Categoría: <strong>
-                        <%= (producto.categoriaNombre && producto.categoriaNombre.length>0) ? producto.categoriaNombre :
-                          (producto.categoria ? producto.categoria : 'Sin categoría') %>
-                      </strong></small>
-                  </div>
-                  <div>
-                    <% if (Array.isArray(producto.etiquetas) && producto.etiquetas.length>0) { %>
-                      <% producto.etiquetas.forEach(function(et){ %>
-                        <span class="badge bg-secondary me-1">
-                          <%= et %>
-                        </span>
-                        <% }) %>
-                          <% } %>
-                  </div>
-
-                  <!-- Fecha de creación (formato legible) -->
-                  <div class="d-flex align-items-center gap-2">
-                    <small class="text-muted">Creado: <%= new Date(producto.createdAt).toLocaleDateString('es-ES', {
-                        year: 'numeric' , month: 'long' , day: 'numeric' }) %></small>
-                  </div>
-                </div>
-
-
-                <!-- Estado del producto y acciones -->
-                <div class="d-flex flex-column gap-2 justify-content-center my-auto align-items-center w-100">
-                  <div class="d-flex align-items-center gap-2">
-                    <% if (producto.productoActivo) { %>
-                      <span class="badge bg-success">Publicado</span>
-                      <% } else { %>
-                        <span class="badge bg-secondary">Inactivo</span>
-                        <% } %>
-                  </div>
+                <!-- ACCIONES -->
+                <div class="d-flex flex-column gap-2 justify-content-center my-auto align-items-end w-100">
                   <div
                     class="d-flex flex-md-column flex-lg-row gap-2 justify-content-center my-auto align-items-center">
 
                     <!-- Botón editar producto -->
                     <button class="btn text-vinotinto" title="Editar"
-                      onclick="editUserProductDetail('<%= usuario %>','<%= producto._id %>')">
+                      onclick="editProducto('<%= usuario %>','<%= producto._id %>')">
                       <!-- icono editar -->
                       <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                         <g clip-path="url(#clip0_168_47)">
@@ -125,30 +55,124 @@
                     </button>
                   </div>
                 </div>
-              </div>
-            </article>
-            <!-- Detalle adicional: galería de imágenes pequeñas (si hay varias imágenes) -->
-          </section>
+                <div
+                    class="container row col-12 col-lg-7 d-flex align-items-start justify-content-center pt-3 imgs-container gap-3 mb-auto">
+                    <!-- Imagen principal  -->
+                    <section id="main-carousel" class="splide" aria-label="My Awesome Gallery">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                <% producto.imagenes.forEach(function(img) { %>
+                                    <li class="splide__slide">
+                                        
+                                            <img src="<%= img %>" alt="Imagen del producto"
+                                                class="img-fluid splide-image object-fit-contain w-100 " />
+                                        
+                                    </li>
+                                    <% }) %>
+                            </ul>
+                        </div>
+                    </section>
 
+                    <!-- Miniaturas -->
+                    <ul id="thumbnails" class="thumbnails">
+                        <% producto.imagenes.forEach(function(img) { %>
+                            <li class="thumbnail">
+                                <img src="<%= img %>" class="img-thumbnail" alt="">
+                            </li>
+                            <% }) %>
 
+                    </ul>
+                </div>
+                <!-- Info producto -->
+                <div class="col-12 col-lg-5 px-3 py-4">
+                    <h2 class="fw-bold mb-2">
+                        <%= producto.tituloProducto %>
+                    </h2>
+                    <h3 class="text-vinotinto mb-3">$ <%= producto.precio %>
+                    </h3>
+                    <div class="d-flex align-items-start gap-2"> <p> Estado: </p>
+                    <% if (producto.productoActivo) { %>
+                      <span class="badge bg-success">Publicado</span>
+                      <% } else { %>
+                        <span class="badge bg-secondary">Inactivo</span>
+                        <% } %>
+                  </div>
+                    <p class="lead text-muted lh-sm mb-3 text-break producto-descripcion"
+                        aria-label="Descripción del producto">
+                    <div class="mb-2"> Descipción: </div>
+                    <%= producto.descripcionProducto %>
 
+                        </p>
+
+                        <!-- Hecho por -->
+                        <div class="d-flex flex-column align-items-start justify-content-start ps-3">
+                            <div class="mb-2 d-flex align-items-start justify-content-start gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
+                                    fill="none">
+                                    <path
+                                        d="M11.725 5.3375C11.725 5.0962 11.6775 4.85725 11.5851 4.63432C11.4928 4.41138 11.3574 4.20882 11.1868 4.03819C11.0162 3.86756 10.8136 3.73221 10.5907 3.63987C10.3677 3.54753 10.1288 3.5 9.8875 3.5C9.6462 3.5 9.40726 3.54753 9.18432 3.63987C8.96138 3.73221 8.75882 3.86756 8.58819 4.03819C8.41756 4.20882 8.28221 4.41138 8.18987 4.63432C8.09753 4.85725 8.05 5.0962 8.05 5.3375V8.8375M11.725 5.3375V3.5875C11.725 3.10016 11.9186 2.63279 12.2632 2.28819C12.6078 1.94359 13.0752 1.75 13.5625 1.75C14.0498 1.75 14.5172 1.94359 14.8618 2.28819C15.2064 2.63279 15.4 3.10016 15.4 3.5875V5.3375M11.725 5.3375L11.8125 12.25M8.05 8.8375C8.05 8.35017 7.85641 7.88279 7.51181 7.53819C7.16721 7.19359 6.69984 7 6.2125 7C5.72516 7 5.25779 7.19359 4.91319 7.53819C4.56859 7.88279 4.375 8.35017 4.375 8.8375V18.375C4.375 20.4636 5.20469 22.4666 6.68153 23.9435C8.15838 25.4203 10.1614 26.25 12.25 26.25H14.6043C16.2287 26.2498 17.7865 25.6044 18.935 24.4557L20.9557 22.435C22.1044 21.2865 22.7498 19.7287 22.75 18.1043L22.7535 15.743C22.7546 15.5365 22.8377 15.3388 22.9845 15.1935C23.1552 15.0228 23.2906 14.8202 23.3829 14.5972C23.4753 14.3742 23.5228 14.1352 23.5228 13.8938C23.5228 13.6525 23.4753 13.4135 23.3829 13.1905C23.2906 12.9675 23.1552 12.7648 22.9845 12.5942C22.8138 12.4235 22.6112 12.2881 22.3882 12.1957C22.1652 12.1034 21.9262 12.0558 21.6848 12.0558C21.4435 12.0558 21.2045 12.1034 20.9815 12.1957C20.7585 12.2881 20.5558 12.4235 20.3852 12.5942C19.5527 13.4255 19.083 14.5525 19.0785 15.729M8.05 8.8375V14M15.4 5.3375V13.125M15.4 5.3375C15.4 4.85016 15.5936 4.38279 15.9382 4.03819C16.2828 3.69359 16.7502 3.5 17.2375 3.5C17.7248 3.5 18.1922 3.69359 18.5368 4.03819C18.8814 4.38279 19.075 4.85016 19.075 5.3375V17.5M19.075 17.5C18.3859 17.4997 17.7034 17.6353 17.0668 17.8992C16.4302 18.163 15.8519 18.5499 15.365 19.0377M19.075 17.5H19.0773"
+                                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span class="text-dark fw-semibold">Hecho por: <%= emprendimiento
+                                        %>
+                                </span>
+                            </div>
+
+                            <!-- Categoría y etiquetas -->
+                            <div class="d-flex gap-2 align-items-center mb-2">
+                                <small class="text-muted">Categoría: <strong>
+                                        <%= (producto.categoria) ?
+                                            producto.categoria :
+                                            (producto.categoria ? producto.categoria : 'Sin categoría') %>
+                                    </strong></small>
+                            </div>
+
+                            <div class="d-flex gap-2 align-items-center mb-3 flex-wrap">
+                                <small class="text-muted">Etiquetas: </small>
+                                <% if (Array.isArray(producto.etiquetas) && producto.etiquetas.length>0) { %>
+                                    <% producto.etiquetas.forEach(function(et){ %>
+                                        <span class="badge bg-secondary me-1">
+                                            <%= et %>
+                                        </span>
+                                        <% }) %>
+                                            <% } %>
+                            </div>
+                            <!-- Fecha de creación (formato legible) -->
+                            <div class="d-flex align-items-center gap-2">
+                              <small class="text-muted">Creado: <%= new Date(producto.createdAt).toLocaleDateString('es-ES', {
+                                  year: 'numeric' , month: 'long' , day: 'numeric' }) %></small>
+                            </div>
+
+                          
+
+                        </div>
+                </div>
+            </div>
         </main>
-    </div>
-    <%- include('../partials/footer.ejs'); %>
-      <script src="/js/perfilUsuario.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-      <script src="/js/perfilEmprendimientos.js"></script>
+        </div>
+        <%- include('../partials/footer.ejs'); %>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+                crossorigin="anonymous"></script>
+            
+            <script src=" https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js "></script>
 
-      <script src="/js/login_signup.js"></script>
-      <script src="/js/productos.js"></script>
+            <script src="/js/landing.js"> </script>
+            <script src="/js/login_signup.js"></script>
+            <script src="/js/validaciones-login-signup.js"></script>
+            <script src="/js/captcha.js"></script>
+            <script src="/js/perfilProductos.js"></script>
+            
 
-      <!-- Bootstrap + FontAwesome -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+            <script src="/js/validaciones-productos.js"></script>
+            <script src="/js/perfilEmprendimientos.js"></script>
+            <!-- Bootstrap + FontAwesome -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
-      <%- include('../partials/usuario-emprendimiento-editar.ejs'); %>
-        <%- include('../partials/usuario-emprendimiento-eliminar.ejs'); %>
 </body>
+<%- include('../partials/modal-login.ejs'); %>
+    <%- include('../partials/modal-signup.ejs'); %>
+    <%- include('../partials/usuario-producto-editar.ejs'); %>
+    <%- include('../partials/usuario-producto-eliminar.ejs'); %>
 
 </html>

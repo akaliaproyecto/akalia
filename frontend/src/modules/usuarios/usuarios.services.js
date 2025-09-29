@@ -11,6 +11,33 @@ const {
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
+/* Verificar contraseña actual del usuario - Middleware de Express */
+exports.verificarContrasenaActual = async (req, res) => {
+  try {
+    const { userId, contrasenaActual } = req.body;
+    
+    const response = await axios.post(`${API_BASE_URL}/usuarios/verificar-contrasena`, {
+      userId: userId,
+      contrasenaActual: contrasenaActual
+    }, { headers: HEADERS });
+    
+    res.json(response.data);
+  } catch (error) {
+    // Evitar referencias circulares al loggear el error
+    const errorInfo = {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message
+    };
+    console.error('Error al verificar contraseña:', errorInfo);
+    
+    // Responder con el error de forma segura
+    const errorMessage = error.response?.data?.mensaje || error.response?.data?.error || error.message || 'Error al verificar contraseña';
+    res.status(500).json({ error: errorMessage });
+  }
+};
+
 /* Verificar usuario logueado */
 exports.obtenerUsuario = async (req, res) => {
   const id = req.usuarioAutenticado?.idUsuario;
@@ -41,22 +68,27 @@ exports.obtenerUsuario = async (req, res) => {
 /* Actualizar perfil del usuario */
 exports.actualizarPerfilUsuario = async (req, res) => {
   const { id } = req.params;
-  const { nombreUsuario, apellidoUsuario, email, contrasena, telefono } = req.body;
-
+  const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono, direcciones } = req.body;
+  
   if (!id) {
     return res.status(400).json({ error: 'Falta id de usuario' });
   }
 
-  // Construir objeto que se enviará al backend (enviar 'email' y normalizar en backend)
+  // Construir objeto que se enviará al backend (normalizar 'email' a 'correo')
   const datosParaApi = {
     nombreUsuario,
     apellidoUsuario,
-    email,
+    correo,  // Normalizar: el frontend envía 'email' pero el backend espera 'correo'
     telefono
   };
-
+  
   // Si se envía nueva contraseña, la mandamos para que el backend la procese 
   if (contrasena) datosParaApi.contrasena = contrasena;
+
+  // Si se envían direcciones, agregarlas al objeto (incluso si el array está vacío para eliminar todas)
+  if (direcciones && Array.isArray(direcciones)) {
+    datosParaApi.direcciones = direcciones;
+  }
 
   try {
     const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS });

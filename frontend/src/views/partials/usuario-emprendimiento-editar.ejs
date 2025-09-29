@@ -8,7 +8,7 @@
       </div>
       <div class="modal-body">
         <!-- Formulario de edición (se rellenará por JS) -->
-        <form id="form-editar-emprendimiento-modal" method="POST" enctype="multipart/form-data" action=''>
+        <form id="form-editar-emprendimiento-modal" method="POST" enctype="multipart/form-data" action='/emprendimiento-editar/${idEmprendimiento}'>
           <!-- campos ocultos para usuario y emprendimiento -->
           <input type="hidden" id="me-usuario-id" name="usuario" value="">
           <input type="hidden" id="me-empr-id" name="idEmprendimiento" value="">
@@ -47,19 +47,23 @@
             <label for="me-descripcion" class="form-label">Descripción</label>
             <!-- Usamos el mismo nombre que el backend espera: descripcionEmprendimiento -->
             <textarea class="form-control" id="me-descripcion" name="descripcionEmprendimiento" rows="4"
-              required></textarea>
+              ></textarea>
           </div>
           <!-- Ubicación del emprendimiento -->
           <div class="row">
             <div class="mb-3 col-md-6">
-              <label for="me-ubic-ciudad" class="form-label">Ciudad</label>
-              <input type="text" class="form-control" id="me-ubic-ciudad" name="ubicacionEmprendimiento.ciudad"
-                value="">
+              <label for="me-ubic-departamento" class="form-label">Departamento</label>
+              <select class="form-control" id="me-ubic-departamento"
+                name="ubicacionEmprendimiento.departamento" required>
+                <option value="" disabled selected></option>
+              </select>
             </div>
             <div class="mb-3 col-md-6">
-              <label for="me-ubic-departamento" class="form-label">Departamento</label>
-              <input type="text" class="form-control" id="me-ubic-departamento"
-                name="ubicacionEmprendimiento.departamento" value="">
+              <label for="me-ubic-ciudad" class="form-label">Ciudad</label>
+              <select class="form-control" id="me-ubic-ciudad" name="ubicacionEmprendimiento.ciudad"
+                required disabled>
+                <option value="" disabled selected></option>
+              </select>
             </div>
           </div>
           <div class="d-flex gap-2 justify-content-end">

@@ -1,6 +1,12 @@
-//Importar el modelo de pedido
+// Importar el modelo de pedido
 const modeloPedido = require("./pedidos.model");
-const Log = require('../middlewares/logs')
+const Log = require('../middlewares/logs');
+const {
+  validarIdMongoDB,
+  pedidoExistePorId,
+  validarDatosCreacionPedido,
+  validarDatosActualizacionPedido
+} = require('./pedidos.validations');
 
 //Consultar todos los pedidos (panel admin)
 exports.obtenerPedidos = async (req, res) => {
@@ -23,6 +29,10 @@ exports.obtenerPedidosPorId = async (req, res) => {
   const idPedido = req.params.id; // obtener el parámetro de la URL
 
   try {
+    // Validar formato de ID
+    if (!validarIdMongoDB(idPedido)) {
+      return res.status(400).json({ mensaje: 'ID de pedido inválido' });
+    }
     const pedidoEncontrado = await modeloPedido.findById(idPedido);
 
     if (pedidoEncontrado) {
@@ -41,11 +51,20 @@ exports.crearPedido = async (req, res) => {
   const datosPedido = req.body;
 
   try {
+    const validacion = await validarDatosCreacionPedido(datosPedido);
+
+    if (!validacion.valido) {
+      return res.status(400).json({
+        error: 'Datos de pedido inválidos',
+        errores: validacion.errores
+      });
+    }
+    
     const nuevoPedido = new modeloPedido(datosPedido);
     const pedidoGuardado = await nuevoPedido.save();
 
     //Registrar log
-    Log.generateLog('pedido.log', `Un pedido ha sido creado: ${pedidoGuardado}, fecha: ${new Date()}`);
+    Log.generateLog('pedido.log', `Un pedido ha sido creado: ${pedidoGuardado._id}, fecha: ${new Date()}`);
 
     res.status(201).json(pedidoGuardado);
   } catch (error) {

@@ -4,7 +4,13 @@
 const modeloProducto = require("./productos.model");
 const uploadImage = require('../servicios/subirImagen');
 const mongoose = require('mongoose');
-const Log = require('../middlewares/logs')
+const Log = require('../middlewares/logs');
+const {
+  validarIdMongoDB,
+  productoExistePorId,
+  validarDatosCreacionProducto,
+  validarDatosActualizacionProducto
+} = require('./productos.validations');
 
 /*Consultar todos los productos*/
 exports.obtenerProductos = async (req, res) => {
@@ -32,18 +38,15 @@ exports.obtenerProductoPorId = async (req, res) => {
 
   try {
     // Validar formato de id antes de consultar
-    if (!mongoose.isValidObjectId(idProducto)) {
+    if (!validarIdMongoDB(idProducto)) {
       return res.status(400).json({ mensaje: 'Id de producto inválido' });
     }
 
     // Buscamos el producto por id y aceptamos ambos esquemas de estado
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
-    });
+       productoEliminado: false 
+      });
 
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
@@ -110,6 +113,17 @@ exports.crearProducto = async (req, res) => {
 
     return res.status(201).json(productoGuardado);
   } catch (error) {
+    // Sanitizar y loggear el error completo (truncando HTML si apareciera)
+    try {
+      const raw = String(error && error.message ? error.message : error);
+      const isHtml = raw.trim().toLowerCase().startsWith('<!doctype') || raw.trim().toLowerCase().startsWith('<html');
+      const safe = isHtml ? (raw.slice(0, 200) + '... [HTML truncated]') : raw;
+      console.error('Error en crearProducto:', safe);
+      if (error && error.stack) console.error(error.stack.split('\n').slice(0, 5).join('\n'));
+    } catch (logErr) {
+      console.error('Error al loggear el error en crearProducto:', error && error.message ? error.message : error);
+    }
+
     return res.status(500).json({ mensaje: "Error al crear producto", detalle: error.message });
   }
 };
@@ -118,7 +132,8 @@ exports.crearProducto = async (req, res) => {
 exports.actualizarProducto = async (req, res) => {
   let idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
   const datosProducto = req.body; // datos que llegan con el request
-
+  console.log('AAAA')
+  console.log(datosProducto)
   try {
 
     let imagenes = [];
@@ -147,6 +162,16 @@ exports.actualizarProducto = async (req, res) => {
       res.status(404).json({ mensaje: "Producto no encontrado" });
     }
   } catch (error) {
+    try {
+      const raw = String(error && error.message ? error.message : error);
+      const isHtml = raw.trim().toLowerCase().startsWith('<!doctype') || raw.trim().toLowerCase().startsWith('<html');
+      const safe = isHtml ? (raw.slice(0, 200) + '... [HTML truncated]') : raw;
+      console.error('Error en actualizarProducto:', safe);
+      if (error && error.stack) console.error(error.stack.split('\n').slice(0, 5).join('\n'));
+    } catch (logErr) {
+      console.error('Error al loggear el error en actualizarProducto:', error && error.message ? error.message : error);
+    }
+
     res.status(500).json({ mensaje: "Error al actualizar producto", detalle: error.message });
   }
 };
@@ -197,10 +222,6 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
 
     const productosDelEmprendimiento = await modeloProducto.find({
       idEmprendimiento: idEmprendimiento,
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
     });
 
     return res.status(200).json(productosDelEmprendimiento);
@@ -230,10 +251,7 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
     // Buscar productos cuyos idEmprendimiento estén en la lista
     const productosUsuario = await modeloProducto.find({
       idEmprendimiento: { $in: listaIdsEmpr },
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
+       productoEliminado: false
     });
 
     return res.status(200).json(productosUsuario);

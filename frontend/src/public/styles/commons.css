@@ -216,7 +216,6 @@ body {
 
 .thumbnails {
   display: flex;
-  margin: 1rem auto 0;
   padding: 0;
   justify-content: center;
 }
@@ -244,12 +243,11 @@ body {
   width: 100%;
   justify-content: center;
   align-items: center;
-  height: 35rem; /* o el alto que quieras */
   background-color: #f2f2f2;
+  max-height: 30rem;
 }
 
 .splide__slide img {
-  
   height: 100%;
   display: block;
   object-fit: contain;
@@ -289,3 +287,114 @@ body {
     text-align: center;
     letter-spacing: 2px;
 }
+
+/* Estilos de validación para formularios */
+.akalia-input.is-invalid {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.akalia-input.is-valid {
+  border-color: #28a745;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.invalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #dc3545;
+}
+
+.invalid-feedback[style*="display: block"] {
+  display: block !important;
+}
+
+.valid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #28a745;
+}
+
+/* Estilos para toasts/notificaciones */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-notification {
+  min-width: 300px;
+  max-width: 400px;
+  margin: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Animaciones para toasts */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Responsive para toasts en móviles */
+@media (max-width: 768px) {
+  #toast-container {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+  }
+  
+  .toast-notification {
+    min-width: auto;
+    max-width: none;
+    width: 100%;
+  }
+}
+
+/* tagify */
+
+.tagify--outside {
+    border: 0;
+  }
+
+  .tagify--outside .tagify__input {
+    order: -1;
+    flex: 100%;
+    border: 1px solid var(--tags-border-color, #ccc);
+    margin-bottom: 1em;
+    transition: .1s;
+  }
+
+  .tagify--outside .tagify__input:hover {
+    border-color: var(--tags-hover-border-color, #999);
+  }
+
+  .tagify--outside.tagify--focus .tagify__input {
+    transition: 0s;
+    border-color: var(--tags-focus-border-color, #007bff);
+  }

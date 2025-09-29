@@ -1,12 +1,19 @@
 // Se importa el modelo de usuarios
 const modeloUsuario = require("./usuarios.model");
 const bcrypt = require('bcrypt');
-const Log = require('../middlewares/logs')
+const Log = require('../middlewares/logs');
+const {
+  emailExiste,
+  validarIdMongoDB,
+  usuarioExistePorId,
+  validarDatosCreacionUsuario,
+  validarDatosActualizacionUsuario
+} = require('./usuarios.validations');
 
 /*Listar todos los usuarios*/
 exports.obtenerUsuarios = async (req, res) => {
   try {
-    const { nombre, correo, rol, estado, esVendedor, telefono, fecha } = req.query;
+    const { nombre, apellido, correo, rol, estado, esVendedor, telefono, fecha } = req.query;
     let filtros = {};
 
     if (nombre) {
@@ -56,6 +63,11 @@ exports.obtenerUsuarioPorId = async (req, res) => {
   const idUsuario = req.params.id;   // obtener el parámetro de la URL
 
   try {
+    // Validar formato de ID
+    if (!validarIdMongoDB(idUsuario)) {
+      return res.status(400).json({ mensaje: "Formato de ID inválido" });
+    }
+
     // Autorización mínima: se asume que validateApiKey o middleware de auth ya está en la ruta,
     // pero comprobamos que exista la cabecera para dar un mensaje claro.
     if (!req.headers['akalia-api-key']) {
@@ -75,7 +87,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
       nombreUsuario: usuarioEncontrado.nombreUsuario || 'No disponible',
       apellidoUsuario: usuarioEncontrado.apellidoUsuario || 'No disponible',
       email: usuarioEncontrado.correo || usuarioEncontrado.email || 'No disponible',
-      telefono: usuarioEncontrado.telefono || 'No registrado',
+      telefono: usuarioEncontrado.telefono || '',
       rolUsuario: usuarioEncontrado.rolUsuario || 'usuario',
       estadoUsuario: usuarioEncontrado.estadoUsuario || 'activo',
       esVendedor: !!usuarioEncontrado.esVendedor,
@@ -83,7 +95,9 @@ exports.obtenerUsuarioPorId = async (req, res) => {
       // Fecha formateada para mostrar en frontend
       fechaRegistroFormateada: usuarioEncontrado.fechaRegistro ? new Date(usuarioEncontrado.fechaRegistro).toLocaleDateString('es-ES', {
         year: 'numeric', month: 'long', day: 'numeric'
-      }) : null
+      }) : null,
+      // Direcciones del usuario
+      direcciones: usuarioEncontrado.direcciones || []
       // NOTA: no incluimos contrasena, totpSecret ni campos sensibles
     };
 
@@ -115,19 +129,33 @@ exports.crearUsuario = async (req, res, next) => {
   try {
     const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono } = req.body;
 
-    // Preparar datos (dejar la validación a Mongoose/schema)
+    // Validar datos antes de procesarlos
+    const validacion = await validarDatosCreacionUsuario({
+      nombreUsuario,
+      apellidoUsuario,
+      correo,
+      contrasena,
+      telefono
+    });
+
+    if (!validacion.valido) {
+      return res.status(400).json({
+        error: 'Datos de usuario inválidos',
+        errores: validacion.errores
+      });
+    }
+
+    // Preparar datos
     const datosUsuario = {
       nombreUsuario,
       apellidoUsuario,
-      correo: correo ? correo.toLowerCase() : undefined,
+      correo: correo.toLowerCase(),
       telefono: telefono || null
     };
 
-    // Hashear contraseña solo si llega (schema puede requerirla)
-    if (contrasena) {
-      const saltRounds = 10;
-      datosUsuario.contrasena = await bcrypt.hash(contrasena, saltRounds);
-    }
+    // Hashear contraseña
+    const saltRounds = 10;
+    datosUsuario.contrasena = await bcrypt.hash(contrasena, saltRounds);
 
     const nuevoUsuario = new modeloUsuario(datosUsuario);
     const usuarioGuardado = await nuevoUsuario.save();
@@ -169,12 +197,55 @@ exports.actualizarUsuario = async (req, res) => {
   const datosRecibidos = req.body; // datos que llegan con el request
 
   try {
-    // Construir objeto con solo campos permitidos para actualizar (delegar validaciones al schema)
+    // Validar datos antes de procesarlos
+    const validacion = await validarDatosActualizacionUsuario(datosRecibidos, idUsuario);
+
+    if (!validacion.valido) {
+      return res.status(400).json({
+        error: 'Datos de usuario inválidos',
+        errores: validacion.errores
+      });
+    }
+
+    // Construir objeto con solo campos permitidos para actualizar
     const camposPermitidos = ['nombreUsuario', 'apellidoUsuario', 'correo', 'telefono', 'contrasena'];
     const datosParaActualizar = {};
     for (const key of camposPermitidos) {
       if (typeof datosRecibidos[key] !== 'undefined') {
         datosParaActualizar[key] = datosRecibidos[key];
+      }
+    }
+
+    // Manejar direcciones múltiples si llegan en la petición
+    if (datosRecibidos.hasOwnProperty('direcciones') && Array.isArray(datosRecibidos.direcciones)) {
+      // Procesar array de direcciones (incluso si está vacío)
+      const direccionesValidas = [];
+      
+      for (const direccionData of datosRecibidos.direcciones) {
+        if (direccionData.direccion && direccionData.departamento && direccionData.ciudad) {
+          direccionesValidas.push({
+            direccion: direccionData.direccion.trim(),
+            departamento: direccionData.departamento.trim(),
+            ciudad: direccionData.ciudad.trim(),
+            fechaCreacion: new Date()
+          });
+        }
+      }
+      
+      // Siempre asignar el array, incluso si está vacío (para eliminar direcciones existentes)
+      datosParaActualizar.direcciones = direccionesValidas;
+    } else if (datosRecibidos.direccion || datosRecibidos.departamento || datosRecibidos.ciudad) {
+      // Mantener compatibilidad con el formato anterior (una sola dirección)
+      const nuevaDireccion = {
+        direccion: datosRecibidos.direccion,
+        departamento: datosRecibidos.departamento,
+        ciudad: datosRecibidos.ciudad,
+        fechaCreacion: new Date()
+      };
+
+      // Verificar que todos los campos de dirección estén presentes
+      if (nuevaDireccion.direccion && nuevaDireccion.departamento && nuevaDireccion.ciudad) {
+        datosParaActualizar.direcciones = [nuevaDireccion];
       }
     }
 
@@ -203,14 +274,16 @@ exports.actualizarUsuario = async (req, res) => {
       nombreUsuario: usuarioActualizado.nombreUsuario || 'No disponible',
       apellidoUsuario: usuarioActualizado.apellidoUsuario || 'No disponible',
       email: usuarioActualizado.correo || usuarioActualizado.email || 'No disponible',
-      telefono: usuarioActualizado.telefono || 'No registrado',
+      telefono: usuarioActualizado.telefono || '',
       rolUsuario: usuarioActualizado.rolUsuario || 'usuario',
       estadoUsuario: usuarioActualizado.estadoUsuario || 'activo',
       esVendedor: !!usuarioActualizado.esVendedor,
       fechaRegistro: usuarioActualizado.fechaRegistro || usuarioActualizado.createdAt || null,
       fechaRegistroFormateada: usuarioActualizado.fechaRegistro ? new Date(usuarioActualizado.fechaRegistro).toLocaleDateString('es-ES', {
         year: 'numeric', month: 'long', day: 'numeric'
-      }) : null
+      }) : null,
+      // Direcciones del usuario
+      direcciones: usuarioActualizado.direcciones || []
     };
 
     //Registrar log
@@ -270,5 +343,56 @@ exports.eliminarUsuario = async (req, res) => {
   } catch (error) {
     console.error('eliminarUsuario error:', error);
     return res.status(500).json({ mensaje: 'Error al deshabilitar usuario', detalle: error.message });
+  }
+};
+
+/*Verificar si un email ya existe*/
+exports.verificarEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    
+    if (!email) {
+      return res.status(400).json({ mensaje: "Email es requerido" });
+    }
+
+    const existe = await emailExiste(email);
+
+    if (existe) {
+      return res.status(200).json({ existe: true, mensaje: "El email ya está registrado" });
+    } else {
+      return res.status(200).json({ existe: false, mensaje: "El email está disponible" });
+    }
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Error al verificar email", detalle: error.message });
+  }
+};
+
+/*Verificar contraseña actual del usuario*/
+exports.verificarContrasenaActual = async (req, res) => {
+  try {
+    const { userId, contrasenaActual } = req.body;
+    
+    if (!userId || !contrasenaActual) {
+      return res.status(400).json({ mensaje: "ID de usuario y contraseña actual son requeridos" });
+    }
+
+    // Buscar el usuario por ID
+    const usuario = await modeloUsuario.findById(userId);
+    
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+
+    // Comparar la contraseña actual con la almacenada
+    const contrasenaValida = await bcrypt.compare(contrasenaActual, usuario.contrasena);
+
+    if (contrasenaValida) {
+      return res.status(200).json({ valida: true, mensaje: "Contraseña actual correcta" });
+    } else {
+      return res.status(200).json({ valida: false, mensaje: "Contraseña actual incorrecta" });
+    }
+  } catch (error) {
+    console.error('verificarContrasenaActual error:', error);
+    return res.status(500).json({ mensaje: "Error al verificar contraseña", detalle: error.message });
   }
 };

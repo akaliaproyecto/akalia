@@ -11,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
     "axios": "^1.11.0",

@@ -12,18 +12,18 @@ const {
 } = require('./pedido.controller');
 
 //obtener todos los pedidos
-router.get('/pedidos', obtenerPedidos);
+router.get('/', obtenerPedidos);
 
 //obtener un pedido por id
-router.get('/pedidos/:id', obtenerPedidosPorId);
+router.get('/:id', obtenerPedidosPorId);
 
 //crear un nuevo pedido
-router.post('/pedidos', crearPedido);
+router.post('/', crearPedido);
 
 //editar un pedido existente
-router.put('/pedidos/:id', editarPedido);
+router.put('/:id', editarPedido);
 
 //eliminar un pedido (delete lógico con PATCH)
-router.patch('/pedidos/:id/eliminar', eliminarPedido);
+router.patch('/:id/eliminar', eliminarPedido);
 
 module.exports = router;

@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   // Ocultar el id del emprendimiento en la barra de direcciones si estamos
   // en la ruta /emprendimiento-detalle/:id
-  ocultarIdEmprendimientoEnUrl();
+  //ocultarIdEmprendimientoEnUrl();
 });
 
 /* ------------------------- Modal Crear Emprendimiento ------------------------- */
@@ -103,7 +103,7 @@ async function crearEmprendimiento(idUsuario) {
 }
 
 /* ------------------------- Modal EDITAR Emprendimiento ------------------------- */
-async function editEmprendimiento(idUsuario, idEmprendimiento) {
+window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
   try {
     const usuario = idUsuario;
 
@@ -114,8 +114,6 @@ async function editEmprendimiento(idUsuario, idEmprendimiento) {
     document.getElementById('me-empr-id').value = idEmprendimiento;
     document.getElementById('me-nombre').value = data.emprendimiento.nombreEmprendimiento || '';
     document.getElementById('me-descripcion').value = data.emprendimiento.descripcionEmprendimiento || '';
-    document.getElementById('me-ubic-ciudad').value = data.emprendimiento.ubicacionEmprendimiento?.ciudad || '';
-    document.getElementById('me-ubic-departamento').value = data.emprendimiento.ubicacionEmprendimiento?.departamento || '';
 
     // Estado actual
     const selectActivo = document.getElementById('me-activo');
@@ -130,12 +128,39 @@ async function editEmprendimiento(idUsuario, idEmprendimiento) {
     logoPreview.src = data.emprendimiento.logo || '';
     logoPreview.style.display = data.emprendimiento.logo ? 'block' : 'none';
 
-    // Action del form
-    const form = document.getElementById('form-editar-emprendimiento-modal');
-    form.action = `http://localhost:4666/emprendimiento-editar/${idEmprendimiento}`;
-    // Mostrar modal
-    const modal = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));
-    modal.show();
+    // Mostrar modal primero
+    const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));
+    modalEditar.show();
+
+    // Inicializar ubicaciones y validaciones después de mostrar el modal
+    setTimeout(async () => {
+      // Inicializar ubicaciones
+      if (window.ubicacionesService && data.emprendimiento.ubicacionEmprendimiento) {
+        const valoresUbicacion = {
+          departamento: data.emprendimiento.ubicacionEmprendimiento.departamento || '',
+          municipio: data.emprendimiento.ubicacionEmprendimiento.ciudad || ''
+        };
+        
+        try {
+          await window.ubicacionesService.inicializarSelects(
+            'me-ubic-departamento',
+            'me-ubic-ciudad',
+            valoresUbicacion
+          );
+          console.log('✅ Ubicaciones inicializadas correctamente');
+        } catch (error) {
+          console.error('❌ Error al inicializar ubicaciones:', error);
+        }
+      }
+
+      // Inicializar validaciones
+      if (typeof window.inicializarValidacionesEditarEmprendimiento === 'function') {
+        console.log('✅ Inicializando validaciones para editar emprendimiento...');
+        window.inicializarValidacionesEditarEmprendimiento();
+      } else {
+        console.warn('❌ Función inicializarValidacionesEditarEmprendimiento no disponible');
+      }
+    }, 300);
 
   } catch (err) {
     console.error("Error cargando datos:", err);

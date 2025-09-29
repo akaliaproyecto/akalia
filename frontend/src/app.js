@@ -5,7 +5,8 @@ const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
 
-const PORT_FRONTEND = process.env.PORT_FRONTEND || 4666;
+const PORT_FRONTEND = process.env.PORT || process.env.PORT_FRONTEND || 4666;
+console.log(`🚀 Frontend - Intentando iniciar servidor en puerto: ${PORT_FRONTEND}`);
 
 // Motor de vistas
 app.set('view engine', 'ejs');
@@ -19,9 +20,10 @@ app.use(express.urlencoded({ extended: true })); // Para procesar datos de formu
 app.use(express.json());
 app.use(cookieParser()); // Middleware para manejar cookies
 
-// Middleware para pasar la API Key a todas las vistas
+// Middleware para pasar la API Key y URL base a todas las vistas
 app.use((req, res, next) => {
   res.locals.apiKey = process.env.API_KEY;
+  res.locals.apiBaseUrl = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
   next();
 });
 
@@ -74,6 +76,6 @@ app.use((err, req, res, next) => {
   res.status(500).render('pages/error', { error: err });
 });
 
-app.listen(PORT_FRONTEND, () => {
-  console.log(`Servidor frontend en línea en el puerto ${PORT_FRONTEND}`);
+app.listen(PORT_FRONTEND, '0.0.0.0', () => {
+  console.log(`✅ Frontend iniciado exitosamente en puerto ${PORT_FRONTEND}`);
 });

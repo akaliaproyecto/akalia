@@ -13,7 +13,7 @@
 
 main{
     max-height: calc(100vh - 4rem);
-    padding-inline: 2rem;
+    padding-inline: clamp(0.5rem, 3vw, 2rem);
 }
 /* Información interna de la tarjeta */
 .akalia-card-info {
@@ -36,7 +36,7 @@ main{
 
 @media (max-width: 768px) {
   .akalia-card {
-    padding: 1rem 0.5rem;
+    padding: 0.5rem 0.5rem;
   }
   .akalia-card-info {
     padding: 1rem 0.5rem;
@@ -50,7 +50,9 @@ main{
 .akalia-table {
   padding: 2rem;
 }
-
+.table-responsive {
+  overflow-x: scroll;
+}
 .akalia-table-filters .btn {
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
@@ -80,9 +82,10 @@ main{
 .akalia-table td,
 .akalia-table th {
   vertical-align: middle;
+  border-bottom: none;
   padding: 0.75rem;
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 1rem + 0.2vw, 1.0625rem);;
 }
 
 .akalia-table tbody tr {
@@ -94,12 +97,6 @@ main{
   height: 60px;
   object-fit: cover;
   border-radius: 10px;
-}
-
-.akalia-actions-product {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
 }
 
 .akalia-btn-icon {
@@ -134,4 +131,9 @@ main{
 .akalia-tagify--outside.akalia-tagify--focus .akalia-tagify__input {
   transition: 0s;
   border-color: var(--tags-focus-border-color, #007bff);
+}
+
+/* Container producto usuario */
+.producto-usuario-card {
+ max-height: 88vh;
 }

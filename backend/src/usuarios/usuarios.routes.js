@@ -10,6 +10,8 @@ const {
   crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
+  verificarEmail,
+  verificarContrasenaActual,
 } = require('./usuarios.controller');
 
 // Ruta para crear un nuevo usuario (registro)
@@ -23,6 +25,12 @@ router.get('/:id', obtenerUsuarioPorId);
 
 // obtener un usuario por nombre
 router.get('/nombre/:nombre', obtenerUsuarioPorNombre);
+
+// Ruta para verificar si un email ya existe (sin API key requerida)
+router.get('/verificar-email/:email', verificarEmail);
+
+// Ruta para verificar contraseña actual del usuario
+router.post('/verificar-contrasena', verificarContrasenaActual);
 
 // editar un usuario existente
 router.put('/:id', actualizarUsuario);

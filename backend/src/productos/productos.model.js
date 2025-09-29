@@ -8,7 +8,7 @@ const ProductoSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: 'Emprendimiento', required: true },
 
   descripcionProducto:
-    { type: String, required: true, trim: true, minLength: 3, maxLength: 1000 },
+    { type: String, required: true, trim: true, minLength: 3, maxLength: 800 },
 
   precio:
     { type: Number, required: true, min: 0, default: 0 },
@@ -37,7 +37,7 @@ const ProductoSchema = new mongoose.Schema({
       {
         validator: function (value) {
           // Validar que todas las URLs apunten a imágenes con extensiones permitidas
-          return value.every(url => /^https?:\/\/.+\.(jpg|jpeg|jfif|png|gif|webp|avif|svg|heic|heif)$/i.test(url));
+          return value.every(url => /^https?:\/\/.+\.(jpg|jpeg|jfif|png|webp|avif|svg|heic|heif)$/i.test(url));
         },
         message: 'Todas las imágenes deben ser URLs válidas con formato jpg, jpeg, png, gif o svg'
       }

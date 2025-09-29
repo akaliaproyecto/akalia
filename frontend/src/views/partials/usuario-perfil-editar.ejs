@@ -28,13 +28,16 @@
               </label>
               <input type="text" class="form-control" id="editarNombre" name="nombreUsuario"
                 placeholder="Ingresa tu nombre" required>
+              <div id="editarNombreError" class="invalid-feedback" style="display: none;"></div>
             </div>
+            
             <div class="col-md-6">
               <label for="editarApellido" class="form-label">
                 <strong>Apellido</strong>
               </label>
               <input type="text" class="form-control" id="editarApellido" name="apellidoUsuario"
                 placeholder="Ingresa tu apellido" required>
+              <div id="editarApellidoError" class="invalid-feedback" style="display: none;"></div>
             </div>
           </div>
 
@@ -46,24 +49,81 @@
               </label>
               <input type="email" class="form-control" id="editarEmail" name="email" placeholder="ejemplo@correo.com"
                 required>
+              <div id="editarEmailError" class="invalid-feedback" style="display: none;"></div>
             </div>
             <div class="col-md-6">
               <label for="editarTelefono" class="form-label">
                 <strong>Celular</strong>
               </label>
-              <input type="tel" class="form-control" id="editarTelefono" name="telefono" placeholder="300 123 4567">
+              <input type="tel" class="form-control" id="editarTelefono" name="telefono" placeholder="Ej: 300 123 4567">
+              <div id="editarTelefonoError" class="invalid-feedback" style="display: none;"></div>
             </div>
           </div>
 
           <!-- FILA 3: Contraseña (opcional) -->
           <div class="row mb-3">
             <div class="col-12">
-              <label for="editarContrasena" class="form-label">
-                <strong>Nueva Contraseña</strong>
-                <small class="text-muted">(Déjala vacía si no quieres cambiarla)</small>
-              </label>
-              <input type="password" class="form-control" id="editarContrasena" name="contrasena"
-                placeholder="Ingresa una nueva contraseña (opcional)">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label">
+                  <strong>Contraseña</strong>
+                </label>
+                <button type="button" class="btn btn-basic btn-sm" id="btnCambiarContrasena">
+                  <i class="fas fa-key me-1"></i> Cambiar Contraseña
+                </button>
+              </div>
+              
+              <!-- Campos de contraseña (inicialmente ocultos) -->
+              <div id="camposContrasena" style="display: none;">
+                <!-- Contraseña actual -->
+                <div class="mb-3">
+                  <label for="contrasenaActual" class="form-label">Contraseña Actual</label>
+                  <input type="password" class="form-control" id="contrasenaActual" 
+                         placeholder="Ingresa tu contraseña actual">
+                  <div id="contrasenaActualError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+                
+                <!-- Nueva contraseña -->
+                <div class="mb-3">
+                  <label for="editarContrasena" class="form-label">Nueva Contraseña</label>
+                  <input type="password" class="form-control" id="editarContrasena" name="contrasena"
+                         placeholder="Ingresa tu nueva contraseña">
+                  <div id="editarContrasenaError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+                
+                <!-- Confirmar nueva contraseña -->
+                <div class="mb-2">
+                  <label for="confirmarNuevaContrasena" class="form-label">Confirmar Nueva Contraseña</label>
+                  <input type="password" class="form-control" id="confirmarNuevaContrasena"
+                         placeholder="Confirma tu nueva contraseña">
+                  <div id="confirmarNuevaContrasenaError" class="invalid-feedback" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECCIÓN DE DIRECCIONES DINÁMICAS -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label">
+                  <strong>Direcciones</strong>
+                  <small class="text-muted">(Opcional)</small>
+                </label>
+                <button type="button" class="btn btn-outline-terracota btn-sm" id="btnAgregarDireccion">
+                  <i class="fas fa-plus me-1"></i> Agregar Dirección
+                </button>
+              </div>
+              
+              <!-- Contenedor dinámico para las direcciones -->
+              <div id="contenedorDirecciones">
+                <!-- Las direcciones se agregan dinámicamente aquí -->
+              </div>
+              
+              <!-- Mensaje cuando no hay direcciones -->
+              <div id="mensajeSinDirecciones" class="text-muted text-center p-3 border rounded" style="display: none;">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                No hay direcciones agregadas. Haz clic en "Agregar Dirección" para añadir una.
+              </div>
             </div>
           </div>
 

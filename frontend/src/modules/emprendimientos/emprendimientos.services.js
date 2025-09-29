@@ -94,8 +94,14 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
   try {
     const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${id}`, { headers: HEADERS, timeout: 5000 });
     emprendimiento = Array.isArray(resp.data) ? resp.data[0] : (resp.data.emprendimiento || resp.data.data || resp.data);
+    
     const usuario = emprendimiento.usuario;
     const respProd = await axios.get(`${API_BASE_URL}/productos/emprendimiento/${id}`, { headers: HEADERS, timeout: 5000 });
+    const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS, timeout: 5000 });
+    const etiquetas = listaEtiquetas.data
+
+    const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS, timeout: 5000 });
+    const categorias = listaCategorias.data
     let productos = [];
     if (respProd && respProd.data) {
       // Esperamos que el backend devuelva un array de productos
@@ -107,7 +113,7 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
     if (req.headers.accept && req.headers.accept.includes('application/json')) {
       return res.json({ emprendimiento });
     } else {
-      return res.render('pages/usuario-emprendimiento-ver', { emprendimiento, productos, usuario });
+      return res.render('pages/usuario-emprendimiento-ver', { emprendimiento, productos, usuario, etiquetas, categorias });
     }
   } catch (error) {
     console.error('Error al mostrar emprendimiento:', error.message);
@@ -177,6 +183,9 @@ exports.eliminarEmprendimiento = async (req, res) => {
       { emprendimientoEliminado },
       { headers: HEADERS }
     );
+
+    
+
     // Redirigir al listado sin exponer id de usuario
     res.redirect('/usuario-emprendimientos');
   } catch (error) {
@@ -191,4 +200,32 @@ exports.eliminarEmprendimiento = async (req, res) => {
 /* redirigir a listado de emprendimientos si no hay id en la URL */
 exports.redirigirSiNoHayIdEnUrl = async (req, res) => {
   return res.redirect('/usuario-emprendimientos');
+};
+
+/* Verificar si un emprendimiento está activo (proxy al backend) */
+exports.verificarEmprendimientoActivo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Hacer proxy al backend
+    const response = await axios.get(`${API_BASE_URL}/emprendimientos/verificar-activo/${id}`, { 
+      headers: HEADERS 
+    });
+    
+    // Devolver la respuesta del backend
+    res.status(response.status).json(response.data);
+  } catch (error) {
+    console.error('Error al verificar emprendimiento activo:', error.message);
+    
+    // Si hay respuesta del backend, usar su status y data
+    if (error.response) {
+      return res.status(error.response.status).json(error.response.data);
+    }
+    
+    // Error de conexión o similar
+    res.status(500).json({ 
+      activo: false, 
+      mensaje: "Error al verificar estado del emprendimiento" 
+    });
+  }
 };
