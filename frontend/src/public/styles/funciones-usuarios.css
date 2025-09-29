@@ -82,6 +82,7 @@ main{
 .akalia-table td,
 .akalia-table th {
   vertical-align: middle;
+  border-bottom: none;
   padding: 0.75rem;
   font-family: 'Montserrat', sans-serif;
   font-size: clamp(0.8rem, 1rem + 0.2vw, 1.0625rem);;
@@ -96,12 +97,6 @@ main{
   height: 60px;
   object-fit: cover;
   border-radius: 10px;
-}
-
-.akalia-actions-product {
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
 }
 
 .akalia-btn-icon {

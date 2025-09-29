@@ -45,11 +45,8 @@ exports.obtenerProductoPorId = async (req, res) => {
     // Buscamos el producto por id y aceptamos ambos esquemas de estado
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
-    });
+       productoEliminado: false 
+      });
 
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
@@ -135,7 +132,8 @@ exports.crearProducto = async (req, res) => {
 exports.actualizarProducto = async (req, res) => {
   let idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
   const datosProducto = req.body; // datos que llegan con el request
-
+  console.log('AAAA')
+  console.log(datosProducto)
   try {
 
     let imagenes = [];
@@ -224,10 +222,6 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
 
     const productosDelEmprendimiento = await modeloProducto.find({
       idEmprendimiento: idEmprendimiento,
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
     });
 
     return res.status(200).json(productosDelEmprendimiento);
@@ -257,10 +251,7 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
     // Buscar productos cuyos idEmprendimiento estén en la lista
     const productosUsuario = await modeloProducto.find({
       idEmprendimiento: { $in: listaIdsEmpr },
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
+       productoEliminado: false
     });
 
     return res.status(200).json(productosUsuario);

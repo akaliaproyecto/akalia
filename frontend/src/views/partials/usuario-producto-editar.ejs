@@ -1,114 +1,101 @@
+<div class="modal" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="akalia-title akalia-title--medium m-0">Editar producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
 
-            <div class="modal" id="modalEditarProducto" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="akalia-title akalia-title--medium m-0">Editar producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                  </div>
+      <!-- Formulario simple que será enviado al frontend y este lo reenviará al backend -->
+      <form id="form-editar-producto" action="" method="POST" enctype="multipart/form-data">
+        <div class= " modal-body">
 
-                  <!-- Formulario simple que será enviado al frontend y este lo reenviará al backend -->
-                  <form id="form-editar-producto" action="/productos/usuario-productos/editar/<%= producto._id %>"
-                    method="POST" enctype="multipart/form-data">
-                    <div class="modal-body">
+        <!-- Título -->
+        <div class="mb-3">
+          <label class="form-label">Título</label>
+          <input type="text" name="tituloProducto" class="form-control" value="" id="titulo-editar" required />
+        </div>
 
-                      <!-- Título -->
-                      <div class="mb-3">
-                        <label class="form-label">Título</label>
-                        <input type="text" name="tituloProducto" class="form-control" value="<%= producto.tituloProducto %>" id="titulo-editar" required />
-                      </div>
+        <!-- Descripción -->
+        <div class="mb-3">
+          <label class="form-label">Descripción</label>
+          <textarea name="descripcionProducto" class="form-control" rows="3" required
+            id="descripcion-editar"></textarea>
+        </div>
 
-                      <!-- Descripción -->
-                      <div class="mb-3">
-                        <label class="form-label">Descripción</label>
-                        <textarea name="descripcionProducto" class="form-control" rows="3"
-                          required id="descripcion-editar" ><%= producto.descripcionProducto %></textarea>
-                      </div>
+        <!-- Precio -->
+        <div class="mb-3">
+          <label class="form-label">Precio</label>
+          <input type="number" name="precio" class="form-control" value="" min="0" step="0.01" required
+            id="precio-editar" />
+        </div>
+        <div class="mb-3">
+          <label for="me-activo" class="form-label">Estado</label>
+          <!-- Usamos el mismo nombre que el backend espera: productoActivo -->
 
-                      <!-- Precio -->
-                      <div class="mb-3">
-                        <label class="form-label">Precio</label>
-                        <input type="number" name="precio" class="form-control" value="<%= producto.precio %>" min="0"
-                          step="0.01" required id="precio-editar"/>
-                      </div>
+          <select class="form-control" id="me-activo" name="productoActivo" rows="4" required>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
+        </div>
+        <!-- Emprendimiento -->
+        <div class="mb-3">
+          <label class="form-label">Emprendimiento</label>
+          <select name="idEmprendimiento" class="form-select" required id="emprendimiento-editar"> </select>
+        </div>
 
-                      <!-- Emprendimiento -->
-                      <div class="mb-3">
-                        <label class="form-label">Emprendimiento</label>
-                        <select name="idEmprendimiento" class="form-select" required id="emprendimiento-editar">
-                          <% emprendimientos.forEach(function(emp){ %>
-                            <option value="<%= emp._id || emp.idEmprendimiento %>" <%=(String(emp._id ||
-                              emp.idEmprendimiento)===String(producto.idEmprendimiento || producto.idEmprendimiento))
-                              ? 'selected' : '' %>><%= emp.nombreEmprendimiento || emp.nombre %>
-                            </option>
-                            <% }) %>
-                        </select>
-                      </div>
+        <!-- Categoría -->
+        <div class="mb-3">
+          <label class="form-label">Categoría</label>
+          <select name="categoria" class="form-select" required id="categoria-editar"> </select>
+        </div>
 
-                      <!-- Categoría -->
-                      <div class="mb-3">
-                        <label class="form-label">Categoría</label>
-                        <select name="categoria" class="form-select" required id="categoria-editar">
-                          <% categorias.forEach(function(cat){ %>
-                            <option value="<%= cat.nombreCategoria  %>" <%= (cat.nombreCategoria === producto.categoria) ? 'selected' : '' %> >
-                              <%= cat.nombreCategoria %>
-                            </option>
-                            <% }) %>
-                        </select>
-                      </div>
+        <!-- Imágenes actuales -->
+        <div class="mb-3">
+          <label class="form-label">Imágenes actuales</label>
 
-                      <!-- Imágenes actuales -->
-                      <div class="mb-3">
-                        <label class="form-label">Imágenes actuales</label>
-                        <div class="d-flex gap-2 flex-wrap">
-                          <% imagenes.forEach(function(img){ %>
-                            <img src="<%= img %>"
-                              style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #ddd;" />
-                            <% }) %>
+          <div id="imagenes-container" class="d-flex gap-2 flex-wrap"> </div>
+          <small class="text-muted">Si subes nuevas imágenes, las anteriores se reemplazarán.</small>
+        </div>
 
-                        </div>
-                        <small class="text-muted">Si subes nuevas imágenes, las anteriores se reemplazarán.</small>
-                      </div>
+        <!-- Subir nuevas imágenes -->
+        <div class="mb-3">
+          <label class="form-label">Agregar imágenes nuevas</label>
+          <input type="file" name="imagenes" class="form-control" id="imagenes-editar" multiple accept="image/*" />
+        </div>
 
-                      <!-- Subir nuevas imágenes -->
-                      <div class="mb-3">
-                        <label class="form-label">Agregar imágenes nuevas</label>
-                        <input type="file" name="imagenes" class="form-control" id="imagenes-editar" multiple accept="image/*" />
-                      </div>
+        <!-- Etiquetas -->
 
-                      <!-- Etiquetas -->
-                       
-                      <div class="mb-3">
-                        <label class="form-label">Etiquetas</label>
-                        <!--
-                          Implementación de autocompletado similar al modal de crear producto.
-                          - El servidor pasa `etiquetas` (array) al partial cuando lo renderiza.
-                          - Aquí renderizamos ese array en data-etiquetas para que el JS lo lea.
-                          - Usamos ids con sufijo 'Editar' para no chocar con el modal de crear.
-                        -->
-                        <input type="text" id="etiquetasBuscadorEditar" class="form-control"
-                          placeholder="Escribe para buscar una etiqueta..." autocomplete="off"
-                          data-etiquetas='<%= JSON.stringify(etiquetas || []) %>' />
+        <div class="mb-3">
+          <label class="form-label">Etiquetas</label>
+          <!--
+                            Implementación de autocompletado similar al modal de crear producto.
+                            - El servidor pasa `etiquetas` (array) al partial cuando lo renderiza.
+                            - Aquí renderizamos ese array en data-etiquetas para que el JS lo lea.
+                            - Usamos ids con sufijo 'Editar' para no chocar con el modal de crear.
+                          -->
+          <input type="text" id="etiquetasBuscadorEditar" class="form-control"
+            placeholder="Escribe para buscar una etiqueta..." autocomplete="off" data-etiquetas='[]' />
 
-                        <!-- Contenedor de sugerencias y selección (con sufijo Editar) -->
-                        <div id="etiquetasSugerenciasEditar" class="list-group position-relative"></div>
-                        <div id="etiquetasSeleccionadasEditar" class="d-flex flex-wrap gap-2 mt-2"></div>
+          <!-- Contenedor de sugerencias y selección (con sufijo Editar) -->
+          <div id="etiquetasSugerenciasEditar" class="list-group position-relative"></div>
+          <div id="etiquetasSeleccionadasEditar" class="d-flex flex-wrap gap-2 mt-2"></div>
 
-        <!-- Valor real que se enviará al servidor: array JSON de nombres -->
-        <input type="hidden" name="etiquetas" id="etiquetasHiddenEditar"
-          value='<%= JSON.stringify(producto.etiquetas || []) %>' />                        <strong class="text-muted">Para eliminar una etiqueta, haz click sobre ella</strong>
-                        <br>
-                        <small class="text-muted">Seleccione hasta 3 etiquetas (opcional).</small>
-                        <small class="text-danger d-none">Máximo 3 etiquetas permitidas</small>
-                      </div>
+          <!-- Valor real que se enviará al servidor: array JSON de nombres -->
+          <input type="hidden" name="etiquetas" id="etiquetasHiddenEditar" value='[]' />
+          <strong class="text-muted">Para eliminar una etiqueta, haz click sobre ella</strong>
+          <br>
+          <small class="text-muted">Seleccione hasta 3 etiquetas (opcional).</small>
+          <small class="text-danger d-none">Máximo 3 etiquetas permitidas</small>
+        </div>
 
-                    </div>
+    </div>
 
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                      <button type="submit" class="btn btn-terracota">Guardar cambios</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      <button type="submit" class="btn btn-terracota">Guardar cambios</button>
+    </div>
+    </form>
+  </div>
+</div>
+</div>

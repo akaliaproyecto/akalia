@@ -9,7 +9,8 @@ const {
   obtenerDetalleEmprendimiento,
   editarEmprendimiento,
   eliminarEmprendimiento,
-  redirigirSiNoHayIdEnUrl
+  redirigirSiNoHayIdEnUrl,
+  verificarEmprendimientoActivo
 } = require('./emprendimientos.services');
 
 /* Rutas GET para obtener los emprendimientos del usuario
@@ -29,7 +30,7 @@ router.post('/emprendimiento-editar/:id', upload.single('logo'), editarEmprendim
 
 router.post('/emprendimiento/eliminar/:id', eliminarEmprendimiento);
 
-
-
+/* Ruta API proxy para verificar si un emprendimiento está activo */
+router.get('/emprendimientos/verificar-activo/:id', verificarEmprendimientoActivo);
 
 module.exports = router;

@@ -23,6 +23,15 @@ function mostrarExitoEmprendimiento(campo, elementoError) {
   }
 }
 
+// Función para validar que una opción sea válida en un select
+function validarOpcionValidaEmprendimiento(selectElement, valor) {
+  if (!selectElement || !valor) return false;
+  
+  // Verificar si el valor existe como una opción válida en el select
+  const opciones = Array.from(selectElement.options);
+  return opciones.some(opcion => opcion.value === valor);
+}
+
 function crearElementoErrorEmprendimiento(campo, idError) {
   if (!campo) return null;
   
@@ -94,6 +103,12 @@ function validarCiudadEmprendimiento(campoCiudad, elementoError) {
     return false;
   }
   
+  // Validar que la ciudad sea una opción válida
+  if (!validarOpcionValidaEmprendimiento(campoCiudad, ciudad)) {
+    mostrarErrorEmprendimiento(campoCiudad, elementoError, 'Debe seleccionar una ciudad válida de la lista');
+    return false;
+  }
+  
   mostrarExitoEmprendimiento(campoCiudad, elementoError);
   return true;
 }
@@ -110,6 +125,12 @@ function validarDepartamentoEmprendimiento(campoDepartamento, elementoError) {
   
   if (!departamento || departamento === '') {
     mostrarErrorEmprendimiento(campoDepartamento, elementoError, 'El departamento es obligatorio');
+    return false;
+  }
+  
+  // Validar que el departamento sea una opción válida
+  if (!validarOpcionValidaEmprendimiento(campoDepartamento, departamento)) {
+    mostrarErrorEmprendimiento(campoDepartamento, elementoError, 'Debe seleccionar un departamento válido de la lista');
     return false;
   }
   

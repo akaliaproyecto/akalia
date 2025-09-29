@@ -46,6 +46,33 @@ document.addEventListener('DOMContentLoaded', function () {
       loadCaptcha();
     }
   });
+
+  // Validación en tiempo real del captcha
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'captcha-input') {
+      const captchaError = document.getElementById('captcha-error');
+      const captchaValue = e.target.value.trim();
+      
+      if (captchaValue) {
+        captchaError.style.display = 'none';
+        e.target.classList.remove('is-invalid');
+      }
+    }
+  });
+
+  // Validación al perder el foco del captcha
+  document.addEventListener('blur', function (e) {
+    if (e.target && e.target.id === 'captcha-input') {
+      const captchaError = document.getElementById('captcha-error');
+      const captchaValue = e.target.value.trim();
+      
+      if (!captchaValue) {
+        captchaError.textContent = 'El CAPTCHA es requerido';
+        captchaError.style.display = 'block';
+        e.target.classList.add('is-invalid');
+      }
+    }
+  }, true);
 });
 
 async function validarCaptchaAntesDeEnviar() {
@@ -61,8 +88,14 @@ async function validarCaptchaAntesDeEnviar() {
     console.log(response.body)
     const result = await response.json();
     if (!result.success) {
+      // Mostrar error en el campo del captcha
       document.getElementById('captcha-error').textContent = result.message;
       document.getElementById('captcha-error').style.display = 'block';
+
+      // Mostrar toast si está disponible
+      if (typeof window.mostrarToast === 'function') {
+        window.mostrarToast(result.message || 'CAPTCHA incorrecto', 'error');
+      }
 
       if (result.newCaptcha) {
         document.getElementById('captcha-svg').innerHTML = result.newCaptcha.data;
@@ -75,6 +108,12 @@ async function validarCaptchaAntesDeEnviar() {
 
   } catch (error) {
     console.error('Error validando captcha frontend: ', error);
+    
+    // Mostrar toast de error de conexión si está disponible
+    if (typeof window.mostrarToast === 'function') {
+      window.mostrarToast('Error al validar CAPTCHA. Intenta nuevamente.', 'error');
+    }
+    
     return false;
   }
 }

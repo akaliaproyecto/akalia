@@ -10,7 +10,8 @@ const {
   actualizarPerfilUsuario,
   validarContrasenaUsuario,
   desactivarCuentaUsuario,
-  obtenerDetalleUsuario
+  obtenerDetalleUsuario,
+  verificarContrasenaActual
 } = require('./usuarios.services')
 
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
@@ -32,7 +33,9 @@ router.post('/validar-contrasena-usuario/:id', validarContrasenaUsuario);
 router.put('/desactivar-cuenta-usuario/:id', desactivarCuentaUsuario);
 
 /* Ruta para obtener detalle de usuario en formato JSON (proxy al backend) */
-router.get('/usuario-detalle/:id', obtenerDetalleUsuario)
+router.get('/usuario-detalle/:id', obtenerDetalleUsuario);
 
+/* Ruta para verificar contraseña actual */
+router.post('/usuario-detalle/verificar-contrasena', verificarContrasenaActual);
 
 module.exports = router;

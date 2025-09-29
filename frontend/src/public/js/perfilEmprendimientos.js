@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   // Ocultar el id del emprendimiento en la barra de direcciones si estamos
   // en la ruta /emprendimiento-detalle/:id
-  ocultarIdEmprendimientoEnUrl();
+  //ocultarIdEmprendimientoEnUrl();
 });
 
 /* ------------------------- Modal Crear Emprendimiento ------------------------- */
@@ -128,10 +128,6 @@ window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
     logoPreview.src = data.emprendimiento.logo || '';
     logoPreview.style.display = data.emprendimiento.logo ? 'block' : 'none';
 
-    // Action del form
-    const form = document.getElementById('form-editar-emprendimiento-modal');
-    form.action = `/emprendimiento-editar/${idEmprendimiento}`;
-    
     // Mostrar modal primero
     const modalEditar = new bootstrap.Modal(document.getElementById('modalEditarEmprendimiento'));
     modalEditar.show();
