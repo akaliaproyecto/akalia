@@ -338,7 +338,5 @@ function ocultarIdProductoEnUrl() {
   }
 }
 
-
-
 // Exportar funciones para uso en templates 
 window.crearProducto = crearProducto;
