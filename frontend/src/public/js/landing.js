@@ -26,6 +26,20 @@ function showProductDetail(idProducto) {
 window.showListProducts = showListProducts;
 window.showProductDetail = showProductDetail;
 
+// Redirigir a la lista de productos filtrados por categoría
+function mostrarProductosPorCategoria(idCategoria) {
+  try {
+    if (!idCategoria) return;
+    // Redirigimos a la ruta frontend que renderiza productos por categoría
+    window.location.href = `/productos/categoria/${idCategoria}`;
+  } catch (err) {
+    console.error('Error en mostrarProductosPorCategoria:', err);
+  }
+}
+
+// Exponer la función para uso en las vistas EJS
+window.mostrarProductosPorCategoria = mostrarProductosPorCategoria;
+
 /* Inicializar Splide para la vista de producto */
 function iniciarSplideProducto() {
   try {

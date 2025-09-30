@@ -46,8 +46,12 @@
           <div class=" col-12 d-flex align-items-center justify-content-center flex-wrap ">
             <% if (typeof categorias !=='undefined' && categorias.length) { %>
               <% categorias.forEach(categoria=> { %>
-                <div class="card-container col-4 col-md-4 mb-4 ">
-                  <div class="card border-0 gap-3 py-3">
+                <!-- Tarjeta de categoría: al hacer click redirige a productos filtrados -->
+                <div class="card-container col-4 col-md-4 mb-4">
+                  <div class="card border-0 gap-3 py-3" role="button"
+                    data-id-categoria="<%= categoria._id || categoria.id || '' %>"
+                    onclick="mostrarProductosPorCategoria(this.dataset.idCategoria)">
+                    <!-- Imagen de la categoría (fallback a imagen por defecto) -->
                     <img src="<%= categoria.imagen || '/img/default-category.jpg' %>"
                       class="card-img-top img-fluid h-100 object-fit-cover rounded card-img-fixed"
                       alt="<%= categoria.nombreCategoria || 'Categoría' %>">
@@ -58,7 +62,7 @@
                     </div>
                   </div>
                 </div>
-                <% }); %>
+              <% }); %>
                   <% } else { %>
                     <li><span>Sin categorías</span></li>
                     <% } %>
