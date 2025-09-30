@@ -207,3 +207,31 @@ Un emprendimiento ha sido editado: {
   updatedAt: 2025-09-30T18:13:37.698Z,
   __v: 0
 }, fecha: Tue Sep 30 2025 13:13:38 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido creado por el usuario 68dc1cf96f88967b52aead52, emprendimiento: {
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'Detalles encantadores',
+  descripcionEmprendimiento: 'Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores Detalles encantadores',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Huila', ciudad: 'Tarqui' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/be1e548b-b494-437f-95ba-7a81a1a69b01.jpg',
+  _id: new ObjectId('68dc5d07f45520e2c00275be'),
+  fechaRegistro: 2025-09-30T22:43:19.681Z,
+  createdAt: 2025-09-30T22:43:19.685Z,
+  updatedAt: 2025-09-30T22:43:19.685Z,
+  __v: 0
+}, fecha: Tue Sep 30 2025 17:43:19 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guaviare', ciudad: 'El Retorno' },
+  _id: new ObjectId('68dc1d826f88967b52aead86'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'Maderas con amor',
+  descripcionEmprendimiento: 'Maderas del sur Maderas del sur Maderas del sur Maderas del sur Maderas del sur Maderas del sur',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/ecf797cc-15d3-4ca9-b840-4f84ece17d47.jpg',
+  fechaRegistro: 2025-09-30T18:12:18.754Z,
+  createdAt: 2025-09-30T18:12:18.756Z,
+  updatedAt: 2025-09-30T22:44:53.321Z,
+  __v: 0
+}, fecha: Tue Sep 30 2025 17:44:53 GMT-0500 (hora estándar de Colombia)
