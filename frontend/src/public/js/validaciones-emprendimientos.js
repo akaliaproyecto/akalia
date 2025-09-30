@@ -157,9 +157,9 @@ function validarLogoEmprendimiento(campoLogo, elementoError, esOpcional = true) 
   }
   
   // Validar tamaño (5MB máximo)
-  const tamanoMaximo = 5 * 1024 * 1024; // 5MB en bytes
+  const tamanoMaximo = 25 * 1024 * 1024; // 5MB en bytes
   if (logo.size > tamanoMaximo) {
-    mostrarErrorEmprendimiento(campoLogo, elementoError, 'La imagen no puede superar los 5MB');
+    mostrarErrorEmprendimiento(campoLogo, elementoError, 'La imagen no puede superar los 25MB');
     return false;
   }
   
