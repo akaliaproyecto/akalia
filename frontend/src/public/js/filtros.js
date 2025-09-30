@@ -45,3 +45,21 @@ function inicializarBusquedaNavbar() {
 }
 inicializarBusquedaNavbar()
 
+/* Cargar departamentos en el select de filtro de ubicación */
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.ubicacionesService && typeof window.ubicacionesService.obtenerDepartamentos === 'function') {
+        window.ubicacionesService.obtenerDepartamentos()
+            .then(departamentos => {
+                const selectDepto = document.getElementById('ubicacionDepartamento');
+                if (selectDepto) {
+                    window.ubicacionesService.llenarSelect(selectDepto, departamentos, null, null, 'Seleccionar departamento...');
+                } else {
+                    console.warn('Select de departamento no encontrado en la página');
+                }
+            })
+            .catch(err => console.error('Error cargando departamentos:', err));
+    } else {
+        console.warn('ubicacionesService no disponible. Asegúrate de que /js/ubicaciones.service.js se cargue.');
+    }
+});
+
