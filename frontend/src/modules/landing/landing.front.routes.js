@@ -9,7 +9,6 @@ const {
   categoriasProductosLanding,
   mostrarProductos,
   mostrarProductoPorId,
-  mostrarProductosPorCategoria
 } = require('./landing.services');
 
 /* Ruta que renderiza la landing con categorías, productos e imágenes.*/
@@ -20,8 +19,5 @@ router.get('/productos', mostrarProductos);
 
 /* Ruta que renderiza la vista de un producto específico por ID */
 router.get('/producto/:id', mostrarProductoPorId);
-
-/* Ruta que renderiza la vista de productos filtrados por categoría */
-router.get('/productos/categoria/:id', mostrarProductosPorCategoria) 
 
 module.exports = router;

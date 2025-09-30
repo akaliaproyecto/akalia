@@ -243,7 +243,7 @@ exports.procesarEditarProducto = async (req, res) => {
   }
 };
 
-/***  Crear un nuevo producto ***/
+/*  Crear un nuevo producto */
 exports.procesarCrearProducto = async (req, res) => {
   try {
     // Construir el objeto FormData
