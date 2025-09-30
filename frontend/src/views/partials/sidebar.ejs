@@ -37,6 +37,18 @@
       </svg>
       <span class="sidebar-label d-none d-md-inline">Productos</span>
     </a>
+
+<!-- enlace a la vista de "mis ventas" del emprendedor (lista de pedidos del usuario) -->
+<a href="/usuario-pedidos/<%= usuarioActual ? usuarioActual.idUsuario : '' %>" class="btn-option">
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <path d="M4 6h20v2H4z" fill="currentColor" />
+    <path d="M6 12h16v2H6z" fill="currentColor" />
+    <path d="M8 18h12v2H8z" fill="currentColor" />
+  </svg>
+  <span class="sidebar-label d-none d-md-inline">Mis ventas</span>
+</a>
+
+
   </nav>
   <div class="w-100 mb-4 d-flex flex-column align-items-center">
 

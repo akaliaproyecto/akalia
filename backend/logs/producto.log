@@ -243,3 +243,113 @@ Un producto ha sido actualizado: {
   updatedAt: 2025-09-29T17:58:35.606Z,
   __v: 0
 }, fecha: Mon Sep 29 2025 12:58:35 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68dada3a4694cf94e930dac1, información: {
+  tituloProducto: 'Tejido artesanal de hoja de caña',
+  idEmprendimiento: new ObjectId('68dad75d4694cf94e930da97'),
+  descripcionProducto: 'Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña',
+  precio: 50000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/3416b9ad-ac13-4a1a-a807-28ebf933d6a4.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/4f5d9db7-7017-4c30-b1f9-262422d26fe0.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/efe77ea0-59da-47b7-90e8-26bfdf7c5c9c.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'tejido en dos agujas', 'figuras decorativas' ],
+  _id: new ObjectId('68dada3a4694cf94e930dac1'),
+  createdAt: 2025-09-29T19:12:58.993Z,
+  updatedAt: 2025-09-29T19:12:58.993Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:12:59 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68dada3a4694cf94e930dac1'),
+  tituloProducto: 'Tejido de hoja de caña',
+  idEmprendimiento: new ObjectId('68dad75d4694cf94e930da97'),
+  descripcionProducto: 'Tejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de caña',
+  precio: 99000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f4cda295-60a0-489d-baa2-616beea0bf80.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/6c2474e3-9c23-4c99-9f3c-397981ba0709.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'tejido en dos agujas', 'figuras decorativas' ],
+  createdAt: 2025-09-29T19:12:58.993Z,
+  updatedAt: 2025-09-29T19:14:01.686Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:14:01 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dadaef4694cf94e930dae1, información: {
+  tituloProducto: 'Aromatizante en cerámica',
+  idEmprendimiento: new ObjectId('68dadab74694cf94e930dada'),
+  descripcionProducto: 'Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica',
+  precio: 4000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/096906d0-f0f8-49ed-966c-06b3785a6aba.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/ccb26240-8e7d-41d8-87e1-ba9c342c5c3d.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/c8a96d4f-4293-4d9c-917f-39466bfd4d25.jpg'
+  ],
+  categoria: 'Cerámica y moldeado',
+  etiquetas: [ 'cerámica esmaltada' ],
+  _id: new ObjectId('68dadaef4694cf94e930dae1'),
+  createdAt: 2025-09-29T19:15:59.076Z,
+  updatedAt: 2025-09-29T19:15:59.076Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:15:59 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dadb464694cf94e930daef, información: {
+  tituloProducto: 'Mesa de centro en madera de roble',
+  idEmprendimiento: new ObjectId('68dadb0d4694cf94e930dae8'),
+  descripcionProducto: 'Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble',
+  precio: 80000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/1bb39646-3938-41c9-803e-9513444748c6.jpg'
+  ],
+  categoria: 'Madera y carpintería',
+  etiquetas: [ 'pintura en madera' ],
+  _id: new ObjectId('68dadb464694cf94e930daef'),
+  createdAt: 2025-09-29T19:17:26.772Z,
+  updatedAt: 2025-09-29T19:17:26.772Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:17:26 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dadbe44694cf94e930db2b, información: {
+  tituloProducto: 'Bolso tejido por indígenas de la guajira',
+  idEmprendimiento: new ObjectId('68dad75d4694cf94e930da97'),
+  descripcionProducto: 'Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira',
+  precio: 80000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8d8818fb-38a4-444a-928d-8d281fc80d57.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/96daa0f2-39f8-47f9-b329-6b7f874e1d7c.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'bolsas ecológicas' ],
+  _id: new ObjectId('68dadbe44694cf94e930db2b'),
+  createdAt: 2025-09-29T19:20:04.560Z,
+  updatedAt: 2025-09-29T19:20:04.560Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:20:04 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68db21b617d48f148a3e348f, información: {
+  tituloProducto: 'Cactus en amigurumi',
+  idEmprendimiento: new ObjectId('68db217017d48f148a3e3473'),
+  descripcionProducto: 'Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi',
+  precio: 50000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/1b8bd4dd-5917-4572-bf8b-f44130a50a63.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/90947689-11e3-4f31-ad7e-f5bf7deab2dd.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/7b692072-c3da-40cf-9518-a3d99de13503.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'amigurumi' ],
+  _id: new ObjectId('68db21b617d48f148a3e348f'),
+  createdAt: 2025-09-30T00:17:58.003Z,
+  updatedAt: 2025-09-30T00:17:58.003Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 19:17:58 GMT-0500 (hora estándar de Colombia)

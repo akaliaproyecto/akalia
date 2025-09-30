@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Ventas | Akalia</title>
+    <%- include('../partials/head.ejs'); %>
+        <link rel="stylesheet" href="/styles/funciones-usuarios.css">
+</head>
+
+<body class="h-100 m-0 d-flex flex-column vh-100 bg-blanco-light">
+    <%- include('../partials/navbar.ejs'); %>
+        <div class="d-flex flex-row h-100">
+            <%- include('../partials/sidebar.ejs'); %>
+                <main class="flex-grow-1 d-flex flex-column justify-content-center align-content-center py-5">
+                    <section class="akalia-card overflow-auto">
+                        <div
+                            class="d-flex flex-md-row flex-column justify-content-between align-items-start pb-3 gap-3">
+                            <h2 class="akalia-title akalia-title--medium m-0">Mis Ventas</h2>
+                        </div>
+                        <% if (pedidos && pedidos.length> 0) { %>
+                            <!-- Lista de pedidos del usuario (como vendedor) -->
+                            <% pedidos.forEach(pedido=> { %>
+                                <article class="akalia-card-info d-flex flex-column gap-3 mb-3">
+                                    <div class="d-flex flex-column flex-md-row gap-4 align-items-start">
+
+                                        <!-- Información general del pedido -->
+                                        <div
+                                            class="d-flex flex-column justify-content-center align-items-start gap-2 col-md-8">
+                                            <h4 class="akalia-label">Pedido: <span class="text-muted small">
+                                                    <%= pedido._id %>
+                                                </span></h4>
+
+                                            <div class="d-flex gap-3 flex-wrap">
+                                                <span class="badge bg-info text-dark">Estado: <%= pedido.estadoPedido %>
+                                                        </span>
+                                                <span class="badge bg-light text-muted">Total: $<%= pedido.total !=null
+                                                        ? pedido.total : pedido.precioTotal || 0 %></span>
+                                                <span class="badge bg-light text-muted">Creado: <%= new
+                                                        Date(pedido.fechaCreacion || pedido.createdAt).toLocaleString()
+                                                        %></span>
+                                            </div>
+
+                                            <p class="mb-1 mt-2"><strong>Dirección de envío:</strong>
+                                                <% if (pedido.direccionEnvio) { %>
+                                                    <%= pedido.direccionEnvio.direccion %>, <%=
+                                                            pedido.direccionEnvio.ciudad %> - <%=
+                                                                pedido.direccionEnvio.departamento %>
+                                                                <% } else { %>
+                                                                    <span class="text-muted">No disponible</span>
+                                                                    <% } %>
+                                            </p>
+
+                                            <div>
+                                                <strong>Detalle:</strong>
+                                                <% if (pedido.detallePedido) { %>
+                                                    <div class="small text-muted">Producto: <%=
+                                                            pedido.detallePedido.descripcion %> · Unidades: <%=
+                                                                pedido.detallePedido.unidades %> · Precio pactado: $<%=
+                                                                    pedido.detallePedido.precioPactado %>
+                                                    </div>
+                                                    <% } else if (Array.isArray(pedido.detalles) &&
+                                                        pedido.detalles.length>0) { %>
+                                                        <% pedido.detalles.forEach(d=> { %>
+                                                            <div class="small text-muted">Producto: <%= d.descripcion %>
+                                                                    · Unidades: <%= d.unidades %> · Precio pactado: $<%=
+                                                                            d.precioPactado %>
+                                                            </div>
+                                                            <% }); %>
+                                                                <% } else { %>
+                                                                    <div class="small text-muted">Sin detalles</div>
+                                                                    <% } %>
+                                            </div>
+
+                                            <% if (pedido.reporte && pedido.reporte.motivoReporte) { %>
+                                                <div class="mt-2 text-danger small">Reporte: <%=
+                                                        pedido.reporte.motivoReporte %> — <%=
+                                                            pedido.reporte.descripcionReporte || '' %>
+                                                </div>
+                                                <% } %>
+
+                                        </div>
+
+                                        <!-- Acciones y mensajes -->
+                                        <div class="d-flex flex-column gap-2 align-items-end col-md-4">
+                                            <div>
+                                                <button class="btn btn-sm btn-outline-primary" title="Ver pedido"
+                                                    onclick="location.href='/pedido-detalle/<%= pedido._id %>'">Ver</button>
+                                                <% if (pedido.estadoPedido==='pendiente' ) { %>
+                                                    <button class="btn btn-sm btn-success"
+                                                        onclick="aceptarPedido('<%= pedido._id %>')">Aceptar</button>
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="cancelarPedido('<%= pedido._id %>')">Cancelar</button>
+                                                    <% } else if (pedido.estadoPedido==='aceptado' ) { %>
+                                                        <button class="btn btn-sm btn-secondary"
+                                                            onclick="marcarCompletado('<%= pedido._id %>')">Marcar
+                                                            completado</button>
+                                                        <% } %>
+                                            </div>
+
+                                            <div class="text-end small">
+                                                Mensajes: <%= Array.isArray(pedido.mensajes) ? pedido.mensajes.length :
+                                                    0 %>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </article>
+                                <% }); %>
+                                    <% } else { %>
+                                        <!-- Mensaje cuando no hay pedidos -->
+                                        <div
+                                            class="text-center py-3 d-flex flex-column justify-content-center align-items-center">
+                                            <div class="mb-4">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                                    fill="currentColor" class="bi bi-receipt text-muted"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M3 0a1 1 0 0 0-1 1v14l2-1 2 1 2-1 2 1 2-1 2 1V1a1 1 0 0 0-1-1H3z" />
+                                                </svg>
+                                            </div>
+                                            <h4 class="text-muted">Aún no tienes pedidos</h4>
+                                            <p class="text-muted mb-4">Cuando recibas un pedido aparecerá aquí para que
+                                                lo gestiones.</p>
+                                        </div>
+                                        <% } %>
+                    </section>
+
+                </main>
+        </div>
+
+        <%- include('../partials/footer.ejs'); %>
+            <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
+            <script>
+                window.API_BASE_URL = '<%= apiBaseUrl %>';
+                window.API_KEY = '<%= apiKey %>';
+            </script>
+            <script src="/js/perfilUsuario.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+                crossorigin="anonymous"></script>
+            <!-- Cargar la lógica del modal -->
+            <script src="/js/login_signup.js"></script>
+            <script src="/js/ubicaciones.service.js"></script>
+            <script src="/js/pedidos.js"></script>
+            <!-- Bootstrap + FontAwesome -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</body>
+</html>

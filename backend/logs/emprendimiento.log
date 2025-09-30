@@ -80,3 +80,102 @@ Un emprendimiento ha sido editado: {
   logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/093cc81b-a74c-4029-ba8b-351c06cea794.jpg'
 }, fecha: Tue Sep 23 2025 23:46:07 GMT-0500 (Colombia Standard Time)
 Un emprendimiento ha sido eliminado: 68d3463c75d711663a870fc7, fecha: Tue Sep 23 2025 23:46:14 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido creado por el usuario 68dad1354694cf94e930da72, emprendimiento: {
+  usuario: new ObjectId('68dad1354694cf94e930da72'),
+  nombreEmprendimiento: 'Tejidos amor mío',
+  descripcionEmprendimiento: 'Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío Tejidos amor mío',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/8cc317dd-3031-49b2-8d6e-cba519bdce2a.jpg',
+  _id: new ObjectId('68dad75d4694cf94e930da97'),
+  fechaRegistro: 2025-09-29T19:00:45.090Z,
+  createdAt: 2025-09-29T19:00:45.093Z,
+  updatedAt: 2025-09-29T19:00:45.093Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:00:45 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Casanare', ciudad: 'Pore' },
+  _id: new ObjectId('68dad75d4694cf94e930da97'),
+  usuario: new ObjectId('68dad1354694cf94e930da72'),
+  nombreEmprendimiento: 'Tejidos amor de amores',
+  descripcionEmprendimiento: 'Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores Tejidos amor de amores',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/e62308fc-45b8-4475-a7d6-b8553088146b.jpg',
+  fechaRegistro: 2025-09-29T19:00:45.090Z,
+  createdAt: 2025-09-29T19:00:45.093Z,
+  updatedAt: 2025-09-29T19:06:16.782Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:06:17 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido creado por el usuario 68dad1354694cf94e930da72, emprendimiento: {
+  usuario: new ObjectId('68dad1354694cf94e930da72'),
+  nombreEmprendimiento: 'Cerámicas ancestrales',
+  descripcionEmprendimiento: 'Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Bolívar', ciudad: 'El Guamo' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/458636c0-adf8-406b-b787-ad9cff15b76f.jpg',
+  _id: new ObjectId('68dadab74694cf94e930dada'),
+  fechaRegistro: 2025-09-29T19:15:03.987Z,
+  createdAt: 2025-09-29T19:15:03.988Z,
+  updatedAt: 2025-09-29T19:15:03.988Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:15:04 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido creado por el usuario 68dad1354694cf94e930da72, emprendimiento: {
+  usuario: new ObjectId('68dad1354694cf94e930da72'),
+  nombreEmprendimiento: 'Carpintería el abuelo',
+  descripcionEmprendimiento: 'Carpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abueloCarpintería el abuelo',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Bolívar', ciudad: 'Córdoba' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/183db460-a65c-4e59-befc-6d96dffdbe8d.jpg',
+  _id: new ObjectId('68dadb0d4694cf94e930dae8'),
+  fechaRegistro: 2025-09-29T19:16:29.004Z,
+  createdAt: 2025-09-29T19:16:29.006Z,
+  updatedAt: 2025-09-29T19:16:29.006Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:16:29 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido eliminado: 68dadb0d4694cf94e930dae8, fecha: Mon Sep 29 2025 14:18:27 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Bolívar', ciudad: 'El Guamo' },
+  _id: new ObjectId('68dadab74694cf94e930dada'),
+  usuario: new ObjectId('68dad1354694cf94e930da72'),
+  nombreEmprendimiento: 'Cerámicas ancestrales',
+  descripcionEmprendimiento: 'Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales  Cerámicas ancestrales',
+  emprendimientoActivo: false,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/458636c0-adf8-406b-b787-ad9cff15b76f.jpg',
+  fechaRegistro: 2025-09-29T19:15:03.987Z,
+  createdAt: 2025-09-29T19:15:03.988Z,
+  updatedAt: 2025-09-29T19:18:46.389Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:18:46 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Huila', ciudad: 'Isnos' },
+  _id: new ObjectId('68d4c8620fc4c75ee38f809c'),
+  usuario: new ObjectId('68d4c7ad0fc4c75ee38f808c'),
+  nombreEmprendimiento: 'Laura Zapatera Goldddd pro plus diamond max',
+  descripcionEmprendimiento: 'Laura Zapatera Goldddd pro plus diamond maxLaura Zapatera Goldddd pro plus diamond maxLaura Zapatera Goldddd pro plus diamond maxLaura Zapatera Goldddd pro plus diamond max',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  fechaRegistro: 2025-09-25T04:43:14.573Z,
+  createdAt: 2025-09-25T04:43:14.574Z,
+  updatedAt: 2025-09-29T19:27:33.554Z,
+  __v: 0,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/040fb306-6e30-4a1b-ac5f-6d92851bf9a8.jpg'
+}, fecha: Mon Sep 29 2025 14:27:33 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido creado por el usuario 68db20e117d48f148a3e3445, emprendimiento: {
+  usuario: new ObjectId('68db20e117d48f148a3e3445'),
+  nombreEmprendimiento: 'Mostacilla bonita',
+  descripcionEmprendimiento: 'Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita Mostacilla bonita',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'La Guajira', ciudad: 'Maicao' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/4e8d4e31-d016-4192-8067-46e865f55ae4.jpg',
+  _id: new ObjectId('68db217017d48f148a3e3473'),
+  fechaRegistro: 2025-09-30T00:16:48.186Z,
+  createdAt: 2025-09-30T00:16:48.189Z,
+  updatedAt: 2025-09-30T00:16:48.189Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 19:16:48 GMT-0500 (hora estándar de Colombia)

@@ -53,7 +53,8 @@
                     </h3>
 
                     <!-- Boton call to actión "iniciar pedido" color terracota #9e2c21  -->
-                    <button class="btn btn-terracota d-flex align-items-center gap-2 px-4 mb-4" type="button">Iniciar
+                    <!-- Llama a la función iniciarPedido en /public/js/pedidos.js -->
+                    <button class="btn btn-terracota d-flex align-items-center gap-2 px-4 mb-4" type="button" onclick="iniciarPedido('<%= producto._id %>')">Iniciar
                         pedido</button>
 
                     <p class="lead text-muted lh-sm mb-3 text-break producto-descripcion"
@@ -124,6 +125,7 @@
             <script src="/js/validaciones-login-signup.js"></script>
             <script src="/js/captcha.js"></script>
             <script src="/js/perfilProducto.js"></script>
+            <script src="/js/pedidos.js"></script>
     
             <!-- Bootstrap + FontAwesome -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>

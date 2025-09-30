@@ -103,9 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       // Validar tamaño (5MB máximo)
-      const tamanoMaximo = 5 * 1024 * 1024; // 5MB en bytes
+      const tamanoMaximo = 25 * 1024 * 1024; // 5MB en bytes
       if (imagen.size > tamanoMaximo) {
-        mostrarError(campoImagenCategoria, errorImagenCategoria, 'La imagen no puede superar los 5MB');
+        mostrarError(campoImagenCategoria, errorImagenCategoria, 'La imagen no puede superar los 25MB');
         return false;
       }
       
