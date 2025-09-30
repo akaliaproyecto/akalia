@@ -179,3 +179,31 @@ Un emprendimiento ha sido creado por el usuario 68db20e117d48f148a3e3445, empren
   updatedAt: 2025-09-30T00:16:48.189Z,
   __v: 0
 }, fecha: Mon Sep 29 2025 19:16:48 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido creado por el usuario 68dc1cf96f88967b52aead52, emprendimiento: {
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'Maderas del sur',
+  descripcionEmprendimiento: 'Maderas del sur Maderas del sur Maderas del sur Maderas del sur Maderas del sur Maderas del sur',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Guaviare', ciudad: 'El Retorno' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/ecf797cc-15d3-4ca9-b840-4f84ece17d47.jpg',
+  _id: new ObjectId('68dc1d826f88967b52aead86'),
+  fechaRegistro: 2025-09-30T18:12:18.754Z,
+  createdAt: 2025-09-30T18:12:18.756Z,
+  updatedAt: 2025-09-30T18:12:18.756Z,
+  __v: 0
+}, fecha: Tue Sep 30 2025 13:12:18 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guaviare', ciudad: 'El Retorno' },
+  _id: new ObjectId('68dc1d826f88967b52aead86'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'Maderas bonitas del sur',
+  descripcionEmprendimiento: 'Maderas del sur Maderas del sur Maderas del sur Maderas del sur Maderas del sur Maderas del sur',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/ecf797cc-15d3-4ca9-b840-4f84ece17d47.jpg',
+  fechaRegistro: 2025-09-30T18:12:18.754Z,
+  createdAt: 2025-09-30T18:12:18.756Z,
+  updatedAt: 2025-09-30T18:13:37.698Z,
+  __v: 0
+}, fecha: Tue Sep 30 2025 13:13:38 GMT-0500 (hora estándar de Colombia)

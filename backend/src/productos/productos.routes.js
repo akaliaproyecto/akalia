@@ -1,8 +1,6 @@
 // Importa Express y crea un router para definir las rutas de productos
 const express = require('express');
 const router = express.Router();
-
-// ...existing code...
 const subirImagen = require('../middlewares/manejadorImg.js'); // Importa el middleware de subida de imágenes
 
 // Importa las funciones del controlador que se van a ejecutar cuando se llame cada ruta
