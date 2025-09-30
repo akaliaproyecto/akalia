@@ -17,7 +17,12 @@
         <h2 class="mb-3 fw-semibold">Productos</h2>
 
         <!-- Caja de filtros  -->
-        <div class="w-100 mb-3 d-flex justify-content-center align-items-center gap-3 border rounded-3 p-2">
+        <!-- Título decorativo: se muestra sobre el borde del contenedor sin alterar el orden del formulario -->
+        <div class="w-100 mb-3 position-relative">
+          <div style="position:absolute; left:50%; transform:translateX(-50%); top:-12px; z-index:2;">
+            <span class="badge bg-white text-terracota rounded-pill border shadow-sm px-3 py-2" style="font-weight:700; font-size:0.95rem; letter-spacing:0.4px;">Filtros de búsqueda</span>
+          </div>
+          <div class="w-100 d-flex justify-content-center align-items-center gap-3 border rounded-3 p-2 bg-white mb-4" style="box-shadow: 0 1px 0 rgba(0,0,0,0.02);">
           <form id="filtroForm" class="row align-items-center justify-content-center">
             <!-- Ordenamiento por precio -->
             <div class="col-12 col-sm-6 col-md-3">
@@ -58,7 +63,7 @@
         </div>
 
 
-        <div class="row col-10 col-md-12 d-flex align-items-center justify-content-center mx-md-5">
+  <div class="row justify-content-center gx-4 mx-auto w-100">
           <% if (typeof productos !=='undefined' && productos.length) { %>
             <% productos.forEach(producto=> { %>
               <% /* idParaRuta: usar _id o idProducto o id según exista en el objeto */ %>
