@@ -30,13 +30,17 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownFiltro">
               <% if (typeof categorias !=='undefined' && categorias.length) { %>
                 <% categorias.forEach(cat=> { %>
-                  <li><a class="dropdown-item" href="#" data-categoria="<%= cat.nombreCategoria %>">
+                  <!-- Cada item tiene data-id-categoria con el _id (seguro para pasar al JS) -->
+                  <li>
+                    <a class="dropdown-item" href="#" data-id-categoria="<%= cat._id || cat.id || '' %>"
+                      onclick="mostrarProductosPorCategoria(this.dataset.idCategoria)">
                       <%= cat.nombreCategoria %>
-                    </a></li>
-                  <% }) %>
-                    <% } else { %>
-                      <li><span class="dropdown-item text-muted">Sin categorías</span></li>
-                      <% } %>
+                    </a>
+                  </li>
+                <% }) %>
+              <% } else { %>
+                <li><span class="dropdown-item text-muted">Sin categorías</span></li>
+              <% } %>
             </ul>
           </div>
           <!-- Input de búsqueda -->
@@ -128,3 +132,26 @@
 
   </div>
 </nav>
+<!-- Script pequeño: definir función global de reserva para filtrar por categoría
+     Esto asegura que `mostrarProductosPorCategoria` esté disponible en todas las vistas
+     aunque la página no cargue `/js/landing.js`. No sobreescribe si ya existe. -->
+<script>
+  (function () {
+    // Si ya existe, no hacemos nada
+    if (window && window.mostrarProductosPorCategoria) return;
+
+    // Función simple que redirige a la ruta frontend que muestra productos por categoría
+    function mostrarProductosPorCategoria(idCategoria) {
+      try {
+        if (!idCategoria) return;
+        // Redirige al servidor frontend, que renderiza la vista filtrada (SSR)
+        window.location.href = '/productos/categoria/' + idCategoria;
+      } catch (err) {
+        console.error('Error en mostrarProductosPorCategoria (navbar fallback):', err);
+      }
+    }
+
+    // Exponer en window para que los onclick de los links funcionen
+    window.mostrarProductosPorCategoria = mostrarProductosPorCategoria;
+  })();
+</script>
