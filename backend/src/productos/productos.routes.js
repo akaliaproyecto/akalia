@@ -39,6 +39,9 @@ router.get('/filtrar', filtrarProductos);
 // obtener un producto por ID (genérica)
 router.get('/:id', obtenerProductoPorId);
 
+//Obtener productos de una catgeoría específica
+router.get('/categoria/:idCategoria', obtenerProductosPorCategoria);
+
 // crear un nuevo producto
 router.post('/',requireAuth, subirImagen.array('imagenes', 10), crearProducto);
 
