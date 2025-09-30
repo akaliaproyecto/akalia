@@ -261,3 +261,40 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
   }
 };
 
+
+/*Obtener productos de una categoría específica*/
+exports.obtenerProductosPorCategoria = async (req, res) => {
+  const idCategoria = req.params.idCategoria || req.params.id;
+  try {
+    if (!idCategoria) {
+      return res.status(400).json({ mensaje: 'Id o nombre de categoría requerido' });
+    }
+
+    // El campo `categoria` en Producto es un string con el nombre de la categoría.
+    // Si el parámetro es un ObjectId válido, intentamos buscar la categoría por id
+    // y usar su nombre; si no es un ObjectId, lo tratamos como nombre directamente.
+    let nombreCategoria = idCategoria;
+
+    if (mongoose.isValidObjectId(idCategoria)) {
+      const ModeloCategoria = require('../categorias/categorias.model');
+      const categoriaEncontrada = await ModeloCategoria.findById(idCategoria).lean();
+      if (!categoriaEncontrada) {
+        return res.status(404).json({ mensaje: 'Categoría no encontrada' });
+      }
+      nombreCategoria = categoriaEncontrada.nombreCategoria;
+    }
+
+    // Buscar productos cuyo campo `categoria` coincida (case-insensitive)
+    const regex = new RegExp('^' + nombreCategoria.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i');
+
+    const productosEncontrados = await modeloProducto.find({
+      categoria: { $regex: regex },
+      $or: [ { productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' } ]
+    });
+
+    return res.status(200).json(productosEncontrados);
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Error al consultar productos por categoría", detalle: error.message });
+  } 
+};  
+

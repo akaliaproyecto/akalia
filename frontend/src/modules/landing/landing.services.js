@@ -174,3 +174,30 @@ exports.mostrarProductoPorId = async (req, res) => {
     }
   }
 };
+
+/* Mostrar productos filtrados por categoría */
+exports.mostrarProductosPorCategoria = async (req, res) => {
+  try {
+    const idCategoria = req.params.id;
+
+    // Llamada al backend para obtener productos de la categoría
+    const resp = await axios.get(`${API_BASE_URL}/productos/categoria/${idCategoria}`, { headers: HEADERS });
+    let productos = Array.isArray(resp.data) ? resp.data : [];
+
+    // Preparar arreglo de imágenes (si los productos traen campo imagenes)
+    const imagenes = productos.map(prod => {
+      if (!prod) return null;
+      const idProducto = prod._id || prod.idProducto || prod.id;
+      if (idProducto && Array.isArray(prod.imagenes) && prod.imagenes.length > 0) {
+        return { idProducto, urlImagen: prod.imagenes[0] };
+      }
+      return null;
+    }).filter(Boolean);
+
+    // Render simple: la vista `productos-filtros.ejs` mostrará solo los productos filtrados
+    return res.render('pages/productos-filtros.ejs', { productos, imagenes, titulo: `Productos - Categoría` });
+  } catch (error) {
+    console.error('Error al obtener productos por categoría:', error && error.message ? error.message : error);
+    return res.status(500).render('pages/error', { error: 'Error del servidor', message: 'No se pudieron cargar los productos por categoría.' });
+  }
+};
