@@ -353,3 +353,21 @@ Un producto ha sido creado: 68db21b617d48f148a3e348f, información: {
   updatedAt: 2025-09-30T00:17:58.003Z,
   __v: 0
 }  fecha: Mon Sep 29 2025 19:17:58 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68db466da90d427306e26e83, información: {
+  tituloProducto: 'Jabón natural de avena y mandarina',
+  idEmprendimiento: new ObjectId('68db217017d48f148a3e3473'),
+  descripcionProducto: 'Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina',
+  precio: 5000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2330e5dd-28cf-44c9-9f9b-e566613792c2.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5443ed87-af3a-45f4-9787-bfa567e24513.jpg'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [ 'jabones naturales' ],
+  _id: new ObjectId('68db466da90d427306e26e83'),
+  createdAt: 2025-09-30T02:54:37.144Z,
+  updatedAt: 2025-09-30T02:54:37.144Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 21:54:37 GMT-0500 (hora estándar de Colombia)

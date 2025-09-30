@@ -15,11 +15,15 @@
     <main>
       <section class=" py-4 container d-flex align-items-center justify-content-center flex-column gap-3">
         <h2 class="mb-3 fw-semibold">Productos</h2>
+<<<<<<< HEAD
         
         <!-- Caja de filtros  -->
         <%- include('../partials/filtro-productos.ejs'); %>
 
         <div class="row justify-content-center gx-4 mx-auto w-100">
+=======
+        <div class="row col-10 col-md-12 d-flex align-items-center justify-content-center mx-md-5">
+>>>>>>> 74e3d2d (Se genera la conexión de las tarjetas de las categorías del landing page, haciendo que se renderice un listado de productos pertenecientes a la categoría seleccionada)
           <% if (typeof productos !=='undefined' && productos.length) { %>
             <% productos.forEach(producto=> { %>
               <% /* idParaRuta: usar _id o idProducto o id según exista en el objeto */ %>
