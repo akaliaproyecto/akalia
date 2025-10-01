@@ -597,3 +597,32 @@ exports.filtrarProductos = async (req, res) => {
   }
 };
 
+/* Filtrar productos */
+exports.filtrarProductos = async (req, res) => {
+  try {
+    // // query: es el objeto con los filtros de búsqueda y options: es el objeto con opciones de consulta
+    const { query = {}, options = {} } = req.body || {};
+
+    // Construir la consulta a partir del query recibido
+    let consulta = modeloProducto.find(query);
+
+    // Aplicar ordenamiento si viene en options
+    if (options.sort && typeof options.sort === 'object') {
+      consulta = consulta.sort(options.sort);
+    }
+
+    // Aplicar límite si se especifica
+    if (options.limit) {
+      const limite = parseInt(options.limit) || undefined;
+      if (limite) consulta = consulta.limit(limite);
+    }
+
+    // Ejecutar consulta y devolver resultados
+    const resultados = await consulta.exec();
+    return res.status(200).json(resultados);
+  } catch (error) {
+    console.error('Error en filtrarProductos:', error && error.message ? error.message : error);
+    return res.status(500).json({ mensaje: 'Error al filtrar productos', detalle: error.message });
+  }
+};
+
