@@ -261,68 +261,106 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
   }
 };
 
-/*Obtener productos de una categoría específica*/
+/* Obtener productos de una categoría específica (usando aggregation) */
 exports.obtenerProductosPorCategoria = async (req, res) => {
   const idCategoria = req.params.idCategoria || req.params.id;
   try {
-    if (!idCategoria) {
-      return res.status(400).json({ mensaje: 'Id o nombre de categoría requerido' });
-    }
+    // Buscar la categoría en la colección `categorias` 
+    const ModeloCategoria = require('../categorias/categorias.model');
+    let categoriaEncontrada = await ModeloCategoria.findById(idCategoria).lean();
 
-    // El campo `categoria` en Producto es un string con el nombre de la categoría.
-    // Si el parámetro es un ObjectId válido, intentamos buscar la categoría por id
-    // y usar su nombre; si no es un ObjectId, lo tratamos como nombre directamente.
-    let nombreCategoria = idCategoria;
+    const nombreCategoria = String(categoriaEncontrada.nombreCategoria).trim();
 
-    if (mongoose.isValidObjectId(idCategoria)) {
-      const ModeloCategoria = require('../categorias/categorias.model');
-      const categoriaEncontrada = await ModeloCategoria.findById(idCategoria).lean();
-      if (!categoriaEncontrada) {
-        return res.status(404).json({ mensaje: 'Categoría no encontrada' });
+  // Parámetros de filtro desde querystring, El frontend puede enviar valores como 'precio_asc' o 'precio_desc'
+  const ordenarRaw = String(req.query.ordenar || '');
+  // Normalizar cualquier variante que contenga 'asc' o 'desc'
+  let ordenar = null;
+  if (ordenarRaw.includes('asc')) ordenar = 'asc';
+  else if (ordenarRaw.includes('desc')) ordenar = 'desc';
+
+  // Parseo robusto de min/max (acepta '', null o valores no numéricos)
+  let min = null;
+  const valorMin = Number(req.query.min);
+  if (!Number.isNaN(valorMin)) {
+    min = valorMin;
+  } else {
+    // si no es un número válido, mantener null (ignorar filtro)
+    min = null;
+  }
+
+let max = null;
+  const valorMax = Number(req.query.max);
+  if (!Number.isNaN(valorMax)) {
+    max = valorMax;
+  } else {
+    // si no es un número válido, mantener null (ignorar filtro)
+    max = null;
+  }
+
+    // Pipeline de aggregation simple y claro:
+    const pipeline = [];
+    // 1) Match: categoría (comparación case-insensitive usando $expr/$toLower) y productos activos
+    pipeline.push({
+      $match: {
+        $expr: {
+          $eq: [ { $toLower: '$categoria' }, nombreCategoria.toLowerCase() ]
+        },
+        $or: [ { productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' } ]
       }
-      nombreCategoria = categoriaEncontrada.nombreCategoria;
+    });
+
+    // 2) Si hay filtros de precio, aplicarlos
+    if (min !== null || max !== null) {
+      const rangoPrecio = {};
+      if (min !== null && !Number.isNaN(min)) rangoPrecio.$gte = min;
+      if (max !== null && !Number.isNaN(max)) rangoPrecio.$lte = max;
+      if (Object.keys(rangoPrecio).length) {
+        pipeline.push({ $match: { precio: rangoPrecio } });
+      }
     }
 
-    // Buscar productos cuyo campo `categoria` coincida (case-insensitive)
-    const regex = new RegExp('^' + nombreCategoria.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i');
+    // 3) Ordenamiento si se solicita
+    if (ordenar === 'asc' || ordenar === 'desc') {
+      const direccion = ordenar === 'asc' ? 1 : -1;
+      pipeline.push({ $sort: { precio: direccion } });
+    }
 
-    const productosEncontrados = await modeloProducto.find({
-      categoria: { $regex: regex },
-      $or: [ { productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' } ]
-    });
+    // Ejecutar aggregation
+    const productosEncontrados = await modeloProducto.aggregate(pipeline).exec();
 
     return res.status(200).json(productosEncontrados);
   } catch (error) {
+    console.error('Error en obtenerProductosPorCategoria:', error);
     return res.status(500).json({ mensaje: "Error al consultar productos por categoría", detalle: error.message });
-  } 
-};  
-
-/* Filtrar productos */
-exports.filtrarProductos = async (req, res) => {
-  try {
-    // // query: es el objeto con los filtros de búsqueda y options: es el objeto con opciones de consulta
-    const { query = {}, options = {} } = req.body || {};
-
-    // Construir la consulta a partir del query recibido
-    let consulta = modeloProducto.find(query);
-
-    // Aplicar ordenamiento si viene en options
-    if (options.sort && typeof options.sort === 'object') {
-      consulta = consulta.sort(options.sort);
-    }
-
-    // Aplicar límite si se especifica
-    if (options.limit) {
-      const limite = parseInt(options.limit) || undefined;
-      if (limite) consulta = consulta.limit(limite);
-    }
-
-    // Ejecutar consulta y devolver resultados
-    const resultados = await consulta.exec();
-    return res.status(200).json(resultados);
-  } catch (error) {
-    console.error('Error en filtrarProductos:', error && error.message ? error.message : error);
-    return res.status(500).json({ mensaje: 'Error al filtrar productos', detalle: error.message });
   }
 };
+
+/* Filtrar productos */
+// exports.filtrarProductos = async (req, res) => {
+//   try {
+//     // // query: es el objeto con los filtros de búsqueda y options: es el objeto con opciones de consulta
+//     const { query = {}, options = {} } = req.body || {};
+
+//     // Construir la consulta a partir del query recibido
+//     let consulta = modeloProducto.find(query);
+
+//     // Aplicar ordenamiento si viene en options
+//     if (options.sort && typeof options.sort === 'object') {
+//       consulta = consulta.sort(options.sort);
+//     }
+
+//     // Aplicar límite si se especifica
+//     if (options.limit) {
+//       const limite = parseInt(options.limit) || undefined;
+//       if (limite) consulta = consulta.limit(limite);
+//     }
+
+//     // Ejecutar consulta y devolver resultados
+//     const resultados = await consulta.exec();
+//     return res.status(200).json(resultados);
+//   } catch (error) {
+//     console.error('Error en filtrarProductos:', error && error.message ? error.message : error);
+//     return res.status(500).json({ mensaje: 'Error al filtrar productos', detalle: error.message });
+//   }
+// };
 

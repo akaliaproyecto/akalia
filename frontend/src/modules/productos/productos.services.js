@@ -349,3 +349,44 @@ exports.procesarEliminarProducto = async (req, res) => {
     return res.status(500).render('pages/error', { error: 'Error al eliminar producto', message: error.message || String(error) });
   }
 };
+
+/* Mostrar productos por categoría (SSR) */
+exports.mostrarProductosPorCategoria = async (req, res) => {
+  try {
+    const idCategoria = req.params.id;
+    // Construir URL con posibles query params
+    const qs = [];
+    if (req.query.ordenar) qs.push(`ordenar=${encodeURIComponent(req.query.ordenar)}`);
+    if (req.query.min) qs.push(`min=${encodeURIComponent(req.query.min)}`);
+    if (req.query.max) qs.push(`max=${encodeURIComponent(req.query.max)}`);
+    const ruta = `${API_BASE_URL}/productos/categoria/${idCategoria}${qs.length ? ('?' + qs.join('&')) : ''}`;
+    //explicacion: Si req.query = { ordenar: 'precio_desc', min: '10' } y API_BASE_URL = 'http://localhost:4006' y idCategoria = '68a6b7', ruta será: http://localhost:4006/productos/categoria/68a6b7?ordenar=precio_desc&min=10
+
+    // Llamada al backend
+    const resp = await axios.get(ruta, { headers: HEADERS });
+
+    const productos = Array.isArray(resp.data) ? resp.data : [];
+
+    // Construir arreglo mínimo de imagenes para la vista: se espera un array de objetos { idProducto, urlImagen }
+    const imagenes = [];
+    productos.forEach(p => {
+      if (Array.isArray(p.imagenes) && p.imagenes.length) {
+        // tomar la primera imagen disponible
+        imagenes.push({ idProducto: String(p._id || p.id || ''), urlImagen: p.imagenes[0] });
+      }
+    });
+
+    // Preparamos los valores actuales de filtros para que la vista los mantenga
+    const filtrosValores = {
+      ordenar: req.query.ordenar || '',
+      min: req.query.min || '',
+      max: req.query.max || ''
+    };
+
+    // Render SSR: la vista `productos-filtros.ejs` espera `productos`, `imagenes` y `filtrosValores`
+    return res.render('pages/productos-filtros', { productos, imagenes, filtrosValores });
+  } catch (error) {
+    console.error('Error en mostrarProductosPorCategoria (frontend):', error.message || error);
+    return res.status(500).render('pages/error', { error: 'Error al obtener productos', message: error.message || String(error) });
+  }
+};

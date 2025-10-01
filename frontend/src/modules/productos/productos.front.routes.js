@@ -16,7 +16,8 @@ const {
   procesarCrearProducto,
   mostrarEditarProducto,
   procesarEditarProducto,
-  procesarEliminarProducto
+  procesarEliminarProducto,
+  mostrarProductosPorCategoria
 } = require('./productos.services');
 
 
@@ -40,5 +41,8 @@ router.post('/productos/usuario-productos/editar/:id', uploadMemory.array('image
 
 // Ruta POST para procesar la eliminación de un producto
 router.post('/productos/usuario-productos/eliminar/:id', procesarEliminarProducto);
+
+// Ruta SSR: mostrar productos filtrados por categoría
+router.get('/productos/categoria/:id', mostrarProductosPorCategoria);
 
 module.exports = router;

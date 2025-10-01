@@ -34,7 +34,7 @@ router.get('/nombre/:nombre', obtenerProductoPorNombre);
 router.get('/categoria/:idCategoria', obtenerProductosPorCategoria);
 
 // Endpoint para filtrar productos mediante payload { query, options }
-router.post('/filtrar', express.json(), filtrarProductos);
+//router.post('/filtrar', express.json(), filtrarProductos);
 
 // obtener un producto por ID (genérica)
 router.get('/:id', obtenerProductoPorId);
