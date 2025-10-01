@@ -45,6 +45,62 @@ function inicializarBusquedaNavbar() {
 }
 inicializarBusquedaNavbar()
 
+/* Lógica de filtros en el partial filtro-productos.ejs */
+// Construye query string a partir de los campos del partial y redirige
+function construirQueryFiltros() {
+    const ordenar = document.getElementById('ordenPrecio')?.value || '';
+    const min = document.getElementById('precioMin')?.value || '';
+    const max = document.getElementById('precioMax')?.value || '';
+    const params = new URLSearchParams();
+    if (ordenar) params.set('ordenar', ordenar);
+    if (min) params.set('min', min);
+    if (max) params.set('max', max);
+    return params.toString();
+}
+
+function inicializarFiltrosCliente() {
+    const btnAplicar = document.getElementById('btnAplicarFiltros');
+    const btnLimpiar = document.getElementById('btnLimpiarFiltros');
+    if (!btnAplicar) return; // no existe el partial en esta página
+
+    // Al aplicar: si estamos en una página de categoria o búsqueda, redirigimos
+    // a la misma ruta y agregamos los filtros en querystring, para que el
+    // servidor aplique los filtros sobre el subconjunto actual.
+    btnAplicar.addEventListener('click', function () {
+        const qs = construirQueryFiltros();
+        // Ruta actual
+        const pathname = window.location.pathname || '';
+        let destino = '';
+
+        // Si estamos en /productos/categoria/:id mantenemos esa ruta
+        if (/^\/productos\/categoria\//.test(pathname)) {
+            destino = pathname + (qs ? `?${qs}` : '');
+        }
+        // Si estamos en /productos/buscar/:termino mantenemos esa ruta
+        else if (/^\/productos\/buscar\//.test(pathname)) {
+            destino = pathname + (qs ? `?${qs}` : '');
+        }
+        // Si no estamos en una ruta específica, usamos el endpoint general de filtrar
+        else {
+            const base = '/productos/filtrar';
+            destino = qs ? `${base}?${qs}` : base;
+        }
+
+        window.location.href = destino;
+    });
+
+    // Limpiar: volver a productos sin query
+    btnLimpiar.addEventListener('click', function () {
+        // limpiar inputs del formulario
+        const form = document.getElementById('filtroForm');
+        if (form) form.reset();
+        // volver a la lista principal
+        window.location.href = '/productos';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', inicializarFiltrosCliente);
+
 /* Cargar departamentos en el select de filtro de ubicación */
 document.addEventListener('DOMContentLoaded', function () {
     if (window.ubicacionesService && typeof window.ubicacionesService.obtenerDepartamentos === 'function') {

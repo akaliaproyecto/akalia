@@ -13,7 +13,8 @@ const {
   eliminarProducto,
   obtenerProductosEmprendimiento,
   obtenerProductosPorUsuario,
-  obtenerProductosPorCategoria
+  obtenerProductosPorCategoria,
+  filtrarProductos,
 } = require('./productos.controller');
 
 
@@ -29,11 +30,14 @@ router.get('/usuarios/:id', obtenerProductosPorUsuario);
 // obtener por nombre 
 router.get('/nombre/:nombre', obtenerProductoPorNombre);
 
+// Obtener productos de una categoría específica (poner antes de '/:id')
+router.get('/categoria/:idCategoria', obtenerProductosPorCategoria);
+
+// Endpoint para filtrar productos mediante payload { query, options }
+router.post('/filtrar', express.json(), filtrarProductos);
+
 // obtener un producto por ID (genérica)
 router.get('/:id', obtenerProductoPorId);
-
-//Obtener productos de una catgeoría específica
-router.get('/categoria/:idCategoria', obtenerProductosPorCategoria);
 
 // crear un nuevo producto
 router.post('/', subirImagen.array('imagenes', 10), crearProducto);

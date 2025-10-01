@@ -65,6 +65,8 @@ exports.categoriasProductosLanding = async (req, res) => {
 /* listar productos en la ruta /productos */
 exports.mostrarProductos = async (req, res) => {
   try {
+    // Leer valores de filtros desde querystring para mantener selección tras recarga
+    const { ordenar = '', min = '', max = '' } = req.query || {};
     // Obtener productos desde el API
     const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
     let productos = [];
@@ -85,8 +87,11 @@ exports.mostrarProductos = async (req, res) => {
       return null;
     }).filter(Boolean);
 
-    // Renderizar la vista de productos
-    return res.render('pages/productos.ejs', { productos, imagenes, titulo: 'Productos' });
+    // Preparar objeto con valores actuales de filtros (se usa en el partial)
+    const filtrosValores = { ordenar, min, max };
+
+    // Renderizar la vista de productos y pasar filtrosValores para mantener inputs
+    return res.render('pages/productos.ejs', { productos, imagenes, filtrosValores, titulo: 'Productos' });
   } catch (error) {
     return res.status(500).render('pages/error', { error: 'Error del servidor', message: 'No se pudieron cargar los productos.' });
   }

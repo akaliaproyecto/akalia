@@ -6,7 +6,8 @@ const router = express.Router();
 const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 
 const {
-    mostrarProductosPorCategoria
+    mostrarProductosPorCategoria,
+    mostrarProductosFiltrados
 } = require('./filtros.services');
 
 // Importar la nueva función de búsqueda por término
@@ -17,6 +18,9 @@ router.get('/productos/categoria/:id', mostrarProductosPorCategoria)
 
 // Ruta para buscar productos por término (muestra productos-filtros.ejs)
 router.get('/productos/buscar/:termino', mostrarProductosPorBusqueda);
+
+// Ruta que acepta query params y renderiza productos filtrados (SSR)
+router.get('/productos/filtrar', mostrarProductosFiltrados);
 
 
 module.exports = router;

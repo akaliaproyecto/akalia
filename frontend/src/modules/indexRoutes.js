@@ -9,7 +9,7 @@ const emprendimientoRoutes = require('../modules/emprendimientos/emprendimientos
 const productoRoutes = require('../modules/productos/productos.front.routes');
 const captchaRoutes = require('./captcha/captcha.front.routes');
 const pedidosRoutes = require('../modules/pedidos/pedidos.front.routes');
-const filtrosRoutes = require('../modules/filtros/landing.front.routes');
+const filtrosRoutes = require('./filtros/filtros.front.routes');
 //const productoRoutes = require('./productos/producto.front.routes');
 //const contactanosRoutes = require('./contacto.routes');
 
