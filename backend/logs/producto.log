@@ -465,3 +465,37 @@ Un producto ha sido creado: 68dc987504acdf48435fc1bb, información: {
   updatedAt: 2025-10-01T02:56:53.422Z,
   __v: 0
 }  fecha: Tue Sep 30 2025 21:56:53 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68dc97a904acdf48435fc188'),
+  tituloProducto: 'Tejido especial orgánico',
+  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
+  descripcionProducto: 'Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico',
+  precio: 85000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/659da148-fd2e-4415-acae-925d285f0f36.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'macramé' ],
+  createdAt: 2025-10-01T02:53:29.439Z,
+  updatedAt: 2025-10-02T15:09:15.370Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 10:09:15 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68dc97a904acdf48435fc188'),
+  tituloProducto: 'Tejido especial orgánico',
+  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
+  descripcionProducto: 'Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico',
+  precio: 85000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/25a80bcd-df75-41a0-93fc-00187e2ffbd8.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'macramé' ],
+  createdAt: 2025-10-01T02:53:29.439Z,
+  updatedAt: 2025-10-02T15:09:15.360Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 10:09:15 GMT-0500 (hora estándar de Colombia)

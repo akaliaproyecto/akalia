@@ -20,6 +20,8 @@ const {
   mostrarProductosPorCategoria
 } = require('./productos.services');
 
+const { mostrarProductosFiltrados } = require('./productos.services');
+
 
 // Ruta SIN id (muestra los productos para el usuario autenticado o lista vacía)
 router.get('/productos/usuario-productos', listarProductosUsuario);
@@ -32,6 +34,7 @@ router.get('/productos/usuario-productos/ver/:id', mostrarDetalleProducto);
 
 // Ruta POST para crear un nuevo producto (con subida de imágenes)
 router.post('/productos/usuario-productos/crear', uploadMemory.array('imagenes', 10), procesarCrearProducto);
+//uploadMemory.array('imagenes', 10) es un middleware de multer que: espera un campo del formulario llamado "imagenes". acepta hasta 10 archivos en ese campo. guarda cada archivo en memoria (memoryStorage) como Buffer en req.files (no crea archivos en disco).
 
 // Ruta GET para cargar el formulario de edición (se renderiza como modal en el cliente)
 router.get('/productos/usuario-productos/editar/:id', mostrarEditarProducto);
@@ -44,5 +47,8 @@ router.post('/productos/usuario-productos/eliminar/:id', procesarEliminarProduct
 
 // Ruta SSR: mostrar productos filtrados por categoría
 router.get('/productos/categoria/:id', mostrarProductosPorCategoria);
+
+// Ruta SSR alternativa para compatibilidad con el cliente que usa /productos/filtrar
+router.get('/productos/filtrar', mostrarProductosFiltrados);
 
 module.exports = router;

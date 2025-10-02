@@ -350,7 +350,7 @@ exports.procesarEliminarProducto = async (req, res) => {
   }
 };
 
-/* Mostrar productos por categoría (SSR) */
+/* Mostrar productos filtrados por categoría (SSR) */
 exports.mostrarProductosPorCategoria = async (req, res) => {
   try {
     const idCategoria = req.params.id;
@@ -364,7 +364,6 @@ exports.mostrarProductosPorCategoria = async (req, res) => {
 
     // Llamada al backend
     const resp = await axios.get(ruta, { headers: HEADERS });
-
     const productos = Array.isArray(resp.data) ? resp.data : [];
 
     // Construir arreglo mínimo de imagenes para la vista: se espera un array de objetos { idProducto, urlImagen }
@@ -387,6 +386,41 @@ exports.mostrarProductosPorCategoria = async (req, res) => {
     return res.render('pages/productos-filtros', { productos, imagenes, filtrosValores });
   } catch (error) {
     console.error('Error en mostrarProductosPorCategoria (frontend):', error.message || error);
+    return res.status(500).render('pages/error', { error: 'Error al obtener productos', message: error.message || String(error) });
+  }
+};
+
+/* Mostrar todos los productos filtrados */
+exports.mostrarProductosFiltrados = async (req, res) => {
+  try {
+    // Construir querystring para llamar al backend
+    const qs = [];
+    if (req.query.ordenar) qs.push(`ordenar=${encodeURIComponent(req.query.ordenar)}`);
+    if (req.query.min) qs.push(`min=${encodeURIComponent(req.query.min)}`);
+    if (req.query.max) qs.push(`max=${encodeURIComponent(req.query.max)}`);
+
+    const ruta = `${API_BASE_URL}/productos/filtrar${qs.length ? ('?' + qs.join('&')) : ''}`;
+    const resp = await axios.get(ruta, { headers: HEADERS });
+    const productos = Array.isArray(resp.data) ? resp.data : [];
+
+    // Construir arreglo simple de imagenes para la vista (primera imagen si existe)
+    const imagenes = [];
+    productos.forEach(p => {
+      if (Array.isArray(p.imagenes) && p.imagenes.length) {
+        imagenes.push({ idProducto: String(p._id || p.id || ''), urlImagen: p.imagenes[0] });
+      }
+    });
+
+    const filtrosValores = {
+      ordenar: req.query.ordenar || '',
+      min: req.query.min || '',
+      max: req.query.max || ''
+    };
+
+    // Render SSR: productos.ejs espera `productos` e `imagenes`
+    return res.render('pages/productos', { productos, imagenes, filtrosValores });
+  } catch (error) {
+    console.error('Error en mostrarProductosFiltrados (frontend):', error.message || error);
     return res.status(500).render('pages/error', { error: 'Error al obtener productos', message: error.message || String(error) });
   }
 };

@@ -33,6 +33,11 @@ router.get('/nombre/:nombre', obtenerProductoPorNombre);
 // Obtener productos de una categoría específica (poner antes de '/:id')
 router.get('/categoria/:idCategoria', obtenerProductosPorCategoria);
 
+// Obtener todos los productos aplicando filtros por querystring (ordenar,min,max)
+// Obtener todos los productos aplicando filtros por querystring (ordenar,min,max)
+// Aseguramos que /filtrar use la función filtrarProductos (no obtenerProductosPorCategoria)
+router.get('/filtrar', filtrarProductos);
+
 // Endpoint para filtrar productos mediante payload { query, options }
 //router.post('/filtrar', express.json(), filtrarProductos);
 

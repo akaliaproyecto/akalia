@@ -267,7 +267,15 @@ exports.obtenerProductosPorCategoria = async (req, res) => {
   try {
     // Buscar la categoría en la colección `categorias` 
     const ModeloCategoria = require('../categorias/categorias.model');
-    let categoriaEncontrada = await ModeloCategoria.findById(idCategoria).lean();
+    let categoriaEncontrada = null;
+    if (idCategoria) {
+      categoriaEncontrada = await ModeloCategoria.findById(idCategoria).lean();
+    }
+
+    if (!categoriaEncontrada || !categoriaEncontrada.nombreCategoria) {
+      // Si no existe la categoría solicitada, devolvemos 404 en lugar de provocar un error
+      return res.status(404).json({ mensaje: 'Categoría no encontrada' });
+    }
 
     const nombreCategoria = String(categoriaEncontrada.nombreCategoria).trim();
 
@@ -335,32 +343,69 @@ let max = null;
   }
 };
 
-/* Filtrar productos */
-// exports.filtrarProductos = async (req, res) => {
-//   try {
-//     // // query: es el objeto con los filtros de búsqueda y options: es el objeto con opciones de consulta
-//     const { query = {}, options = {} } = req.body || {};
+/* Filtrar listado de todos los productos */
+exports.filtrarProductos = async (req, res) => {
+  try {
+    // Leer parámetros desde querystring: ordenar, min, max
+    const ordenarRaw = String(req.query.ordenar || '').toLowerCase();
+    let ordenar = null;
+    if (ordenarRaw.includes('asc')) ordenar = 'asc';
+    else if (ordenarRaw.includes('desc')) ordenar = 'desc';
 
-//     // Construir la consulta a partir del query recibido
-//     let consulta = modeloProducto.find(query);
+    // Parseo seguro de min/max
+    let min = null;
+    if (req.query.min !== undefined && req.query.min !== '') {
+      const v = Number(req.query.min);
+      if (!Number.isNaN(v)) min = v;
+    }
+    let max = null;
+    if (req.query.max !== undefined && req.query.max !== '') {
+      const v2 = Number(req.query.max);
+      if (!Number.isNaN(v2)) max = v2;
+    }
 
-//     // Aplicar ordenamiento si viene en options
-//     if (options.sort && typeof options.sort === 'object') {
-//       consulta = consulta.sort(options.sort);
-//     }
+    // Pipeline de aggregation para todos los productos activos
+    const pipeline = [];
 
-//     // Aplicar límite si se especifica
-//     if (options.limit) {
-//       const limite = parseInt(options.limit) || undefined;
-//       if (limite) consulta = consulta.limit(limite);
-//     }
+    // 1) Match: productos activos (compatibilidad con ambos esquemas de estado)
+    pipeline.push({
+      $match: {
+        $or: [ { productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' } ]
+      }
+    });
 
-//     // Ejecutar consulta y devolver resultados
-//     const resultados = await consulta.exec();
-//     return res.status(200).json(resultados);
-//   } catch (error) {
-//     console.error('Error en filtrarProductos:', error && error.message ? error.message : error);
-//     return res.status(500).json({ mensaje: 'Error al filtrar productos', detalle: error.message });
-//   }
-// };
+    // 2) Filtrado por rango de precio si aplica
+    if (min !== null || max !== null) {
+      const rango = {};
+      if (min !== null) rango.$gte = min;
+      if (max !== null) rango.$lte = max;
+      if (Object.keys(rango).length) pipeline.push({ $match: { precio: rango } });
+    }
+
+    // 3) Proyección mínima para la vista
+    pipeline.push({
+      $project: {
+        tituloProducto: 1,
+        descripcionProducto: 1,
+        precio: 1,
+        idEmprendimiento: 1,
+        categoria: 1,
+        imagenes: 1,
+        productoActivo: 1
+      }
+    });
+
+    // 4) Ordenamiento si se solicita
+    if (ordenar === 'asc' || ordenar === 'desc') {
+      const dir = ordenar === 'asc' ? 1 : -1;
+      pipeline.push({ $sort: { precio: dir } });
+    }
+
+    const resultados = await modeloProducto.aggregate(pipeline).exec();
+    return res.status(200).json(resultados);
+  } catch (error) {
+    console.error('Error en filtrarProductos (aggregation):', error);
+    return res.status(500).json({ mensaje: 'Error al filtrar productos', detalle: error.message });
+  }
+};
 
