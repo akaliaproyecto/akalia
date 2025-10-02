@@ -87,7 +87,7 @@
                                     </strong></small>
                             </div>
 
-                            <div class="d-flex gap-2 align-items-center mb-3 text-wrap">
+                            <div class="d-flex gap-2 align-items-center mb-2 text-wrap">
                                 <small class="text-muted">Etiquetas: </small>
                                 <% if (Array.isArray(producto.etiquetas) && producto.etiquetas.length>0) { %>
                                     <% producto.etiquetas.forEach(function(et){ %>
@@ -98,6 +98,11 @@
                                             <% } %>
                             </div>
 
+                            <!-- Ubicación -->
+                             <div class="d-flex gap-2 align-items-center mb-3 text-wrap">
+                                <small class="text-muted">Ubicación: </small>
+                                <strong><%= emprendimiento.ubicacionEmprendimiento.departamento && emprendimiento.ubicacionEmprendimiento.ciudad ? `${emprendimiento.ubicacionEmprendimiento.departamento}, ${emprendimiento.ubicacionEmprendimiento.ciudad}` : 'Sin ubicación' %></strong>
+                            </div>
 
                             <!-- botón compartir-->
                             <a href="" class="d-flex align-items-center gap-2 ps-3 text-decoration-none">
