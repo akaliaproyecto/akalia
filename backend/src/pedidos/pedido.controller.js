@@ -5,7 +5,8 @@ const {
   validarIdMongoDB,
   pedidoExistePorId,
   validarDatosCreacionPedido,
-  validarDatosActualizacionPedido
+  validarDatosActualizacionPedido,
+  verificarPedidoActivoExistente
 } = require('./pedidos.validations');
 
 // Consultar/Listar todos los pedidos (panel admin)
@@ -89,6 +90,7 @@ exports.crearPedido = async (req, res) => {
         errores: validacion.errores
       });
     }
+    
     const nuevoPedido = new modeloPedido(datosPedido);
     const pedidoGuardado = await nuevoPedido.save();
 
@@ -114,6 +116,13 @@ exports.editarPedido = async (req, res) => {
       return res.status(404).json({ mensaje: 'Pedido no encontrado' });
     }
 
+    const validacion = validarDatosActualizacionPedido(datosPedido);
+    if (!validacion.valido) {
+      return res.status(400).json({
+        error: 'Datos de pedido inválidos',
+        errores: validacion.errores
+      });
+    }
     // si ya está marcado como eliminado no permitir edición
     if (pedidoExistente.estadoEliminacion === 'eliminado') {
       return res.status(400).json({ mensaje: 'No se puede editar un pedido eliminado' });
@@ -170,6 +179,26 @@ exports.actualizarPedido = async (req, res) => {
     res.json({
       mensaje: 'Dirección del pedido actualizada correctamente',
       pedido: pedidoActualizado
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
+// Verificar si un usuario tiene pedido activo para un producto específico
+exports.verificarPedidoActivo = async (req, res) => {
+  try {
+    const { idUsuario, idProducto } = req.params;
+    
+    if (!validarIdMongoDB(idUsuario) || !validarIdMongoDB(idProducto)) {
+      return res.status(400).json({ mensaje: 'IDs inválidos' });
+    }
+    
+    const tienePedidoActivo = await verificarPedidoActivoExistente(idUsuario, idProducto);
+    
+    res.json({ 
+      tienePedidoActivo,
+      mensaje: tienePedidoActivo ? 'Usuario tiene pedido activo para este producto' : 'No hay pedido activo'
     });
   } catch (error) {
     res.status(500).json({ mensaje: error.message });

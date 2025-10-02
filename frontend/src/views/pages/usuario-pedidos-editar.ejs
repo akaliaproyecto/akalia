@@ -142,7 +142,8 @@
 
                         <div class="flex-grow-1 ">
                           <!-- Select con las direcciones del usuario -->
-                          <input id="direccionEnvio" name="direccionEnvio" value='<%- JSON.stringify(pedido.direccionEnvio) %>' type="hidden" readonly>
+                          <input id="direccionEnvio" name="direccionEnvio"
+                            value='<%- JSON.stringify(pedido.direccionEnvio) %>' type="hidden" readonly>
                           <p>
                             <%= pedido.direccionEnvio.direccion %> — <%= pedido.direccionEnvio.ciudad %>,
                                 <%= pedido.direccionEnvio.departamento %>
@@ -184,11 +185,17 @@
                   <div class="mb-3">
                     <label for="estadoPedido" class="form-label fw-semibold">Estado: </label>
                     <select id="estadoPedido" name="estadoPedido" class="form-select ">
+                      <% if (pedido.estadoPedido === "cancelado") { %>
+                        <option value="cancelado" selected disabled>
+                          cancelado
+                        </option>
+                      <% } else { %>
                       <% estados.forEach(estado=> { %>
-                        <option value='<%= estado %>' <%=pedido.estadoPedido===estado ? "selected" : "" %>>
+                        <option value='<%= estado %>' <%= pedido.estadoPedido === estado ? "selected" : "" %>>
                           <%= estado %>
                         </option>
-                        <% }) %>
+                      <% }); %>
+                      <% }  %>
                     </select>
                   </div>
 
@@ -216,8 +223,8 @@
                       <span class="input-group-text">$</span>
                       <input type="number" class="form-control" id="precioPactado" name="precioPactado"
                         value="<%= pedido.detallePedido.precioPactado %>" onchange="calcularTotal()">
-
                     </div>
+                    <small class="text-muted">Este valor puede cambiar durante el proceso de la compra.</small>
                   </div>
 
                   <!-- Details -->
@@ -241,28 +248,28 @@
                   <!-- Action Buttons -->
                   <div class="d-flex gap-2 justify-content-end">
                     <% if (usuarioComprador.idUsuario !==usuarioAutenticado.idUsuario && pedido.estadoPedido
-                      !=='cancelado' && pedido.estadoPedido !=='completado' ) { %>
-                      <button type="submit" class="btn btn-verde">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="bi bi-check-circle me-1" viewBox="0 0 16 16">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                          <path
-                            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                        </svg>
-                        Actualizar pedido
-                      </button>
+                      !==' cancelado' && pedido.estadoPedido !=='completado' ) { %>
+                          <button type="submit" class="btn btn-verde">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                              class="bi bi-check-circle me-1" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                              <path
+                                d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                            </svg>
+                            Actualizar pedido
+                          </button>
 
-                      <button type="button" class="btn btn-terracota "
-                        onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="bi bi-x-circle me-1" viewBox="0 0 16 16">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                          <path
-                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                        </svg>
-                        Cancelar Pedido
-                      </button>
-                      <% } %>
+                          <button type="button" class="btn btn-terracota "
+                            onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                              class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                              <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                            Cancelar Pedido
+                          </button>
+                          <% } %>
 
                   </div>
                   </form>
@@ -276,22 +283,23 @@
     <!-- Incluir el modal de cancelación -->
     <%- include('../partials/usuario-compras-cancelar.ejs'); %>
 
-    <%- include('../partials/footer.ejs'); %>
-      <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
-      <script>
-        window.API_BASE_URL = '<%= apiBaseUrl %>';
-        window.API_KEY = '<%= apiKey %>';
-      </script>
-      <script src="/js/perfilUsuario.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-      <!-- Cargar la lógica del modal -->
-      <script src="/js/login_signup.js"></script>
-      <script src="/js/ubicaciones.service.js"></script>
-      <script src="/js/pedidos.js"></script>
-      <!-- Bootstrap + FontAwesome -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+      <%- include('../partials/footer.ejs'); %>
+        <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
+        <script>
+          window.API_BASE_URL = '<%= apiBaseUrl %>';
+          window.API_KEY = '<%= apiKey %>';
+        </script>
+        <script src="/js/perfilUsuario.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+          crossorigin="anonymous"></script>
+        <!-- Cargar la lógica del modal -->
+        <script src="/js/login_signup.js"></script>
+        <script src="/js/ubicaciones.service.js"></script>
+        <script src="/js/pedidos.js"></script>
+        <script src="/js/validaciones-pedidos.js"></script>
+        <!-- Bootstrap + FontAwesome -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 
 </html>
