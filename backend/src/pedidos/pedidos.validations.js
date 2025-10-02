@@ -105,11 +105,11 @@ const validarDetallePedido = (detallePedido) => {
     return false;
   }
   
-  // Validar descripción
-  if (!descripcion || typeof descripcion !== 'string' || 
-      descripcion.trim().length < 3 || descripcion.trim().length > 255) {
-    return false;
-  }
+  // // Validar descripción
+  // if (!descripcion || typeof descripcion !== 'string' || 
+  //     descripcion.trim().length < 3 || descripcion.trim().length > 255) {
+  //   return false;
+  // }
   
   // Validar unidades
   if (!validarCantidadProducto(unidades)) {
@@ -155,47 +155,7 @@ const validarDireccionEnvio = (direccionEnvio) => {
   return true;
 };
 
-/**
- * Valida la información de contacto del pedido
- * @param {object} contacto - Información de contacto
- * @returns {boolean} - true si es válido, false si no
- */
-const validarContactoPedido = (contacto) => {
-  if (!contacto || typeof contacto !== 'object') {
-    return false;
-  }
-  
-  const { nombre, telefono, email, direccion } = contacto;
-  
-  // Validar nombre
-  if (!nombre || typeof nombre !== 'string' || nombre.trim().length < 2) {
-    return false;
-  }
-  
-  // Validar teléfono
-  if (!telefono || typeof telefono !== 'string') {
-    return false;
-  }
-  const regexTelefono = /^[\+]?[\d\s\-\(\)]{7,15}$/;
-  if (!regexTelefono.test(telefono.trim())) {
-    return false;
-  }
-  
-  // Validar email (opcional)
-  if (email) {
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regexEmail.test(email.trim())) {
-      return false;
-    }
-  }
-  
-  // Validar dirección
-  if (!direccion || typeof direccion !== 'string' || direccion.trim().length < 5) {
-    return false;
-  }
-  
-  return true;
-};
+
 
 /**
  * Valida las observaciones del pedido
@@ -264,8 +224,8 @@ const validarDatosCreacionPedido = async (datosPedido) => {
     idUsuarioVendedor,
     idEmprendimiento,
     detallePedido,
-    total,
-    direccionEnvio
+    total
+    
   } = datosPedido;
   
   // Validar IDs obligatorios
@@ -292,10 +252,10 @@ const validarDatosCreacionPedido = async (datosPedido) => {
     errores.push('El total del pedido es inválido (debe ser un número positivo)');
   }
   
-  // Validar dirección de envío (requerida)
-  if (!validarDireccionEnvio(direccionEnvio)) {
-    errores.push('La dirección de envío es inválida');
-  }
+  // // Validar dirección de envío (requerida)
+  // if (!validarDireccionEnvio(direccionEnvio)) {
+  //   errores.push('La dirección de envío es inválida');
+  // }
   
   return {
     valido: errores.length === 0,
@@ -356,7 +316,6 @@ module.exports = {
   validarTotalPedido,
   validarDetallePedido,
   validarDireccionEnvio,
-  validarContactoPedido,
   validarObservacionesPedido,
   validarFechaEntregaPedido,
   validarDatosCreacionPedido,

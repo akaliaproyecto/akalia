@@ -14,7 +14,6 @@ const {
   listarProductosUsuario,
   mostrarDetalleProducto,
   procesarCrearProducto,
-  mostrarEditarProducto,
   procesarEditarProducto,
   procesarEliminarProducto
 } = require('./productos.services');
@@ -31,9 +30,6 @@ router.get('/productos/usuario-productos/ver/:id', mostrarDetalleProducto);
 
 // Ruta POST para crear un nuevo producto (con subida de imágenes)
 router.post('/productos/usuario-productos/crear', uploadMemory.array('imagenes', 10), procesarCrearProducto);
-
-// Ruta GET para cargar el formulario de edición (se renderiza como modal en el cliente)
-router.get('/productos/usuario-productos/editar/:id', mostrarEditarProducto);
 
 // Ruta POST para procesar la edición del producto (proxya al backend vía PUT)
 router.post('/productos/usuario-productos/editar/:id', uploadMemory.array('imagenes', 10), procesarEditarProducto);
