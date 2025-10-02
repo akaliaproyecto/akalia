@@ -144,34 +144,60 @@
                                                             d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                                     </svg>
                                                 </span>
-                                                <strong>Dirección:</strong>
+                                                <strong>Dirección del Pedido:</strong>
                                             </label>
-                                            <form id="actualizar-direccion-form" action="/usuario-compras/actualizar-direccion/<%= pedido._id %>" method="POST" >
-                                            <div class="flex-grow-1 ">
-                                                <!-- Select con las direcciones del usuario -->
-                                                <% if (usuarioComprador && Array.isArray(usuarioComprador.direcciones) &&
-                                                    usuarioComprador.direcciones.length> 0) { %>
-                                                    <select id="direccionEnvio" name="direccionEnvio"
-                                                        class="form-select mb-3">
-                                                        <% usuarioComprador.direcciones.forEach(direccion => { %>
-                                                            <option value='<%- JSON.stringify(direccion) %>'
-                                                                <%= (pedido.direccionEnvio && pedido.direccionEnvio._id?.toString() === direccion._id?.toString()) ? "selected" : "" %>>
-                                                                <%= direccion.direccion %> — <%= direccion.ciudad %>,
-                                                                        <%= direccion.departamento %>
-                                                            </option>
-                                                            <% }) %>
-                                                    </select>
-                                                    <% } else { %>
-                                                        <div class="text-muted mb-2">
-                                                            No hay direcciones registradas. Por favor agrega una en tu
-                                                            perfil.
-                                                        </div>
-                                                        <% } %>
 
+                                            <div class="flex-grow-1">
+                                                <!-- Mostrar la dirección actual del pedido -->
+                                                <% if (pedido.direccionEnvio) { %>
+                                                    <div class="p-3 border rounded bg-light mb-3">
+                                                        <div class="d-flex align-items-start gap-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill text-verde mt-1" viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 4zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"/>
+                                                            </svg>
+                                                            <div>
+                                                                <strong>Dirección registrada en el pedido:</strong><br>
+                                                                <span><%= pedido.direccionEnvio.direccion %></span><br>
+                                                                <span class="text-muted"><%= pedido.direccionEnvio.ciudad %>, <%= pedido.direccionEnvio.departamento %></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+
+                                                <!-- Select para cambiar dirección (solo si tiene direcciones disponibles) -->
+                                                <% if (usuarioComprador && Array.isArray(usuarioComprador.direcciones) && usuarioComprador.direcciones.length > 0) { %>
+                                                    <form id="actualizar-direccion-form" action="/usuario-compras/actualizar-direccion/<%= pedido._id %>" method="POST">
+                                                        <label for="direccionEnvio" class="form-label small">
+                                                            <strong>Cambiar a otra dirección:</strong>
+                                                        </label>
+                                                        <select id="direccionEnvio" name="direccionEnvio" class="form-select mb-3">
+                                                            <% usuarioComprador.direcciones.forEach(direccion => { %>
+                                                                <option value='<%- JSON.stringify(direccion) %>'
+                                                                    <%= (pedido.direccionEnvio && pedido.direccionEnvio._id?.toString() === direccion._id?.toString()) ? "selected" : "" %>>
+                                                                    <%= direccion.direccion %> — <%= direccion.ciudad %>, <%= direccion.departamento %>
+                                                                </option>
+                                                            <% }) %>
+                                                        </select>
+                                                    
+                                                <% } else { %>
+                                                    <div class="alert alert-info mt-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-2" viewBox="0 0 16 16">
+                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                                        </svg>
+                                                        <strong>Sin direcciones disponibles:</strong> No tienes direcciones registradas en tu perfil para cambiar.
+                                                        <a href="/usuario-perfil" class="alert-link">Agregar dirección desde mi perfil</a>
+                                                    </div>
+                                                <% } %>
                                             </div>
-                                            </form>
-                                            <% if (usuarioComprador.idUsuario === usuarioAutenticado.idUsuario && pedido.estadoPedido !== 'cancelado' && pedido.estadoPedido !== 'completado') { %>
-                                            <button type="button" onclick="actualizarDireccion('<%= pedido._id %>')" class="btn btn-verde">
+
+                                            <!-- Botón actualizar (solo si tiene direcciones disponibles y permisos) -->
+                                            <% if (usuarioComprador.idUsuario === usuarioAutenticado.idUsuario && 
+                                                   pedido.estadoPedido !== 'cancelado' && 
+                                                   pedido.estadoPedido !== 'completado' &&
+                                                   usuarioComprador.direcciones && 
+                                                   usuarioComprador.direcciones.length > 0) { %>
+                                            <button type="submit"  class="btn btn-verde">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-check-circle me-1"
                                                     viewBox="0 0 16 16">
@@ -182,13 +208,22 @@
                                                 </svg>
                                                 Actualizar dirección
                                             </button>
+                                            </form>
                                             <% } else if (pedido.estadoPedido === 'cancelado' || pedido.estadoPedido === 'completado') { %>
-                                            <div class="text-muted small">
+                                            <div class="text-muted small mt-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-1" viewBox="0 0 16 16">
                                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                                     <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                                                 </svg>
                                                 No se puede actualizar la dirección de un pedido <%= pedido.estadoPedido %>
+                                            </div>
+                                            <% } else if (!usuarioComprador.direcciones || usuarioComprador.direcciones.length === 0) { %>
+                                            <div class="text-muted small mt-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-1" viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                                </svg>
+                                                Para cambiar la dirección, agrega direcciones en tu perfil
                                             </div>
                                             <% } %>
                                         </div>
@@ -310,6 +345,7 @@
                 <script src="/js/login_signup.js"></script>
                 <script src="/js/ubicaciones.service.js"></script>
                 <script src="/js/pedidos.js"></script>
+                <script src="/js/validaciones-pedidos.js"></script>
                 <!-- Bootstrap + FontAwesome -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>

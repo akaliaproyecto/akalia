@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function actualizarDireccion(pedidoId) {
   const selectDireccion = document.getElementById('direccionEnvio');
   const botonActualizar = event.target;
-
   // Mostrar loading en el botón
   const textoOriginal = botonActualizar.innerHTML;
   botonActualizar.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Actualizando...';
@@ -52,7 +51,6 @@ function actualizarDireccion(pedidoId) {
   // Obtener formulario para enviar la actualización
   const form = document.getElementById('actualizar-direccion-form');
 
-  
   // Agregar token CSRF si existe
   const csrfToken = document.querySelector('meta[name="csrf-token"]');
   if (csrfToken) {

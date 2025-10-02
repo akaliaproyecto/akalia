@@ -33,7 +33,85 @@ const pedidoExistePorId = async (id) => {
 };
 
 /**
- * Valida el estado del pedido
+ * Valida que el precio pactado no sea menor al precio base
+ * @param {number} precioBase - Precio base del producto
+ * @param {number} precioPactado - Precio pactado en el pedido
+ * @returns {boolean} - true si es válido, false si no
+ */
+const validarPrecioPactado = (precioBase, precioPactado) => {
+  const precioBaseNum = Number(precioBase);
+  const precioPactadoNum = Number(precioPactado);
+  
+  if (isNaN(precioBaseNum) || isNaN(precioPactadoNum)) {
+    return false;
+  }
+  
+  if (precioPactadoNum < precioBaseNum) {
+    return false;
+  }
+  
+  return true;
+};
+
+/**
+ * Valida que el comprador y vendedor sean diferentes
+ * @param {string} idUsuarioComprador - ID del usuario comprador
+ * @param {string} idUsuarioVendedor - ID del usuario vendedor
+ * @returns {boolean} - true si son diferentes, false si son iguales
+ */
+const validarCompradorVendedorDiferentes = (idUsuarioComprador, idUsuarioVendedor) => {
+  if (!idUsuarioComprador || !idUsuarioVendedor) {
+    return false;
+  }
+  
+  return idUsuarioComprador.toString() !== idUsuarioVendedor.toString();
+};
+
+/**
+ * Verifica si el usuario ya tiene un pedido activo para el mismo producto
+ * @param {string} idUsuarioComprador - ID del usuario comprador
+ * @param {string} idProducto - ID del producto
+ * @returns {Promise<boolean>} - true si tiene pedido activo, false si no
+ */
+const verificarPedidoActivoExistente = async (idUsuarioComprador, idProducto) => {
+  try {
+    const pedidoExistente = await modeloPedido.findOne({
+      idUsuarioComprador,
+      'detallePedido.idProducto': idProducto,
+      estadoPedido: { $nin: ['cancelado', 'completado'] }
+    });
+    
+    return !!pedidoExistente;
+  } catch (error) {
+    throw new Error('Error al verificar pedidos existentes');
+  }
+};
+
+/**
+ * Valida la descripción del detalle del pedido
+ * @param {string} descripcion - Descripción del pedido
+ * @returns {boolean} - true si es válido, false si no
+ */
+const validarDescripcionPedido = (descripcion) => {
+  if (!descripcion || typeof descripcion !== 'string') {
+    return false;
+  }
+  
+  const descripcionTrimmed = descripcion.trim();
+  
+  if (descripcionTrimmed.length < 10) {
+    return false;
+  }
+  
+  if (descripcionTrimmed.length > 500) {
+    return false;
+  }
+  
+  return true;
+};
+
+/**
+ * Valida el estado del pedido con los valores permitidos actualizados
  * @param {string} estado - Estado del pedido
  * @returns {boolean} - true si es válido, false si no
  */
@@ -44,8 +122,8 @@ const validarEstadoPedido = (estado) => {
   
   const estadosValidos = [
     'pendiente',
-    'en proceso',
-    'completado',
+    'aceptado',
+    'completado', 
     'cancelado'
   ];
   
@@ -105,11 +183,10 @@ const validarDetallePedido = (detallePedido) => {
     return false;
   }
   
-  // // Validar descripción
-  // if (!descripcion || typeof descripcion !== 'string' || 
-  //     descripcion.trim().length < 3 || descripcion.trim().length > 255) {
-  //   return false;
-  // }
+  // Validar descripción (ahora es obligatoria)
+  if (!validarDescripcionPedido(descripcion)) {
+    return false;
+  }
   
   // Validar unidades
   if (!validarCantidadProducto(unidades)) {
@@ -225,7 +302,6 @@ const validarDatosCreacionPedido = async (datosPedido) => {
     idEmprendimiento,
     detallePedido,
     total
-    
   } = datosPedido;
   
   // Validar IDs obligatorios
@@ -237,25 +313,61 @@ const validarDatosCreacionPedido = async (datosPedido) => {
     errores.push('ID del usuario vendedor inválido');
   }
   
+  // Validar que comprador y vendedor sean diferentes
+  if (idUsuarioComprador && idUsuarioVendedor && !validarCompradorVendedorDiferentes(idUsuarioComprador, idUsuarioVendedor)) {
+    errores.push('El comprador y vendedor no pueden ser la misma persona');
+  }
+  
   // Validar ID emprendimiento (opcional)
   if (idEmprendimiento && !validarIdMongoDB(idEmprendimiento)) {
     errores.push('ID del emprendimiento inválido');
   }
   
+  const validarDetallePedido = (detallePedido) => {
+  if (!detallePedido || typeof detallePedido !== 'object') {
+    return false;
+  }
+  
+  const { idProducto, unidades, precioPactado } = detallePedido;
+  
+  // Validar ID del producto
+  if (!validarIdMongoDB(idProducto)) {
+    return false;
+  }
+  
+  // Validar unidades
+  if (!validarCantidadProducto(unidades)) {
+    return false;
+  }
+  
+  // Validar precio pactado
+  if (!validarTotalPedido(precioPactado)) {
+    return false;
+  }
+  
+  return true;
+};
   // Validar detalle del pedido (requerido)
   if (!validarDetallePedido(detallePedido)) {
     errores.push('El detalle del pedido es inválido');
   }
-  
+
   // Validar total (requerido)
   if (!validarTotalPedido(total)) {
     errores.push('El total del pedido es inválido (debe ser un número positivo)');
   }
   
-  // // Validar dirección de envío (requerida)
-  // if (!validarDireccionEnvio(direccionEnvio)) {
-  //   errores.push('La dirección de envío es inválida');
-  // }
+  // Verificar si ya existe un pedido activo para el mismo producto
+  if (detallePedido && detallePedido.idProducto && idUsuarioComprador) {
+    try {
+      const tienePedidoActivo = await verificarPedidoActivoExistente(idUsuarioComprador, detallePedido.idProducto);
+      if (tienePedidoActivo) {
+        errores.push('Ya tienes un pedido activo para este producto');
+      }
+    } catch (error) {
+      errores.push('Error al verificar pedidos existentes');
+    }
+  }
   
   return {
     valido: errores.length === 0,
@@ -272,6 +384,7 @@ const validarDatosCreacionPedido = async (datosPedido) => {
 const validarDatosActualizacionPedido = async (datosPedido, idPedido) => {
   const errores = [];
   const {
+    detallePedido,
     estado,
     observaciones,
     fechaEntrega
@@ -289,6 +402,10 @@ const validarDatosActualizacionPedido = async (datosPedido, idPedido) => {
     return { valido: false, errores };
   }
   
+  if (detallePedido !== undefined && !validarDetallePedido(detallePedido)) {
+    errores.push('El detalle del pedido es inválido');
+  }
+
   // Validar campos opcionales solo si se proporcionan
   if (estado !== undefined && !validarEstadoPedido(estado)) {
     errores.push('Estado de pedido inválido');
@@ -319,5 +436,9 @@ module.exports = {
   validarObservacionesPedido,
   validarFechaEntregaPedido,
   validarDatosCreacionPedido,
-  validarDatosActualizacionPedido
+  validarDatosActualizacionPedido,
+  validarPrecioPactado,
+  validarCompradorVendedorDiferentes,
+  verificarPedidoActivoExistente,
+  validarDescripcionPedido
 };

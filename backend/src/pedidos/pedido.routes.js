@@ -12,7 +12,8 @@ const {
   editarPedido,
   actualizarPedido,
   cancelarPedido,
-  eliminarPedido
+  eliminarPedido,
+  verificarPedidoActivo
 } = require('./pedido.controller');
 
 //obtener todos los pedidos
@@ -29,6 +30,9 @@ router.get('/:id', obtenerPedidosPorId);
 
 //crear un nuevo pedido
 router.post('/', crearPedido);
+
+//verificar si un usuario tiene pedido activo para un producto
+router.get('/verificar-activo/:idUsuario/:idProducto', verificarPedidoActivo);
 
 //editar un pedido existente
 router.put('/:id', editarPedido);

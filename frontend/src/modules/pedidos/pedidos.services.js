@@ -112,7 +112,7 @@ exports.crearPedido = async (req, res) => {
 			},
 			total: parseInt(datos.total) || 0,
 		};
-		console.log('Datos a enviar al backend:', pedidoData.direccionEnvio)
+		console.log('Datos a enviar al backend:', pedidoData)
 
 		// Enviar pedido al backend
 		const respuesta = await axios.post(`${API_BASE_URL}/pedidos`, pedidoData, { headers: HEADERS });
