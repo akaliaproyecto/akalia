@@ -27,8 +27,6 @@ exports.obtenerPedidos = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario vendedor
 exports.obtenerVentas = async (req, res) => {
   const idUsuarioVendedor = req.params.id;
-      console.log('session en lista ventas:',req.session)
-
   try {
     let pedidosEncontrados = await modeloPedido.find({idUsuarioVendedor : idUsuarioVendedor})
     .populate('idEmprendimiento')
@@ -43,8 +41,6 @@ exports.obtenerVentas = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario comprador
 exports.obtenerCompras = async (req, res) => {
   const idUsuarioComprador = req.params.id;
-      console.log('session en lista compras:',req.session)
-
   try {
     let comprasEncontrados = await modeloPedido.find({idUsuarioComprador : idUsuarioComprador})
     .populate('idEmprendimiento')
@@ -89,6 +85,7 @@ exports.crearPedido = async (req, res) => {
   
   try {
     const validacion = await validarDatosCreacionPedido(datosPedido);
+    console.log(datosPedido)
 
     if (!validacion.valido) {
       return res.status(400).json({
@@ -96,7 +93,6 @@ exports.crearPedido = async (req, res) => {
         errores: validacion.errores
       });
     }
-    
     const nuevoPedido = new modeloPedido(datosPedido);
     const pedidoGuardado = await nuevoPedido.save();
 
