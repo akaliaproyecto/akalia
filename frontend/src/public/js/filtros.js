@@ -21,17 +21,20 @@ redirigirCategoria();
 
 /* Búsqueda por nombre desde el input del navbar*/
 function inicializarBusquedaNavbar() {
-    // Buscar el input por su atributo name="search" dentro del documento
-    const inputBusqueda = document.querySelector('input[name="search"]');
+    // Buscar el input por su atributo name. Soportamos tanto name="search" como name="q".
+    const inputBusqueda = document.querySelector('input[name="search"]') || document.querySelector('input[name="q"]');
 
-    // Función que redirige a la ruta de búsqueda con el término
+    // Función que redirige a la ruta de búsqueda con el término.
+    // Soportamos dos formatos: 1) ruta frontend `/buscar?q=...` y 2) ruta antigua `/productos/buscar/:termino`.
     function mostrarProductosPorBusqueda(termino) {
         if (!termino) return; // si término vacío no redirigimos
-        // Escapar el término para usarlo en la URL (simple)
         const terminoSeguro = encodeURIComponent(termino.trim());
-        // Redirigimos a la ruta que renderiza productos-filtros.ejs
-        window.location.href = '/productos/buscar/' + terminoSeguro;
+        // Preferimos la ruta simple `/buscar?q=` que es la que usa el servidor frontend actualmente
+        window.location.href = `/buscar?q=${terminoSeguro}`;
     }
+
+    // Si no hay input, salimos
+    if (!inputBusqueda) return;
 
     // Escuchar la tecla Enter en el input para disparar la búsqueda
     inputBusqueda.addEventListener('keydown', function (ev) {
@@ -67,23 +70,38 @@ function inicializarFiltrosCliente() {
     // a la misma ruta y agregamos los filtros en querystring, para que el
     // servidor aplique los filtros sobre el subconjunto actual.
     btnAplicar.addEventListener('click', function () {
-        const qs = construirQueryFiltros();
+        // Construimos params desde los inputs actuales (más robusto que manipular strings)
+        const params = new URLSearchParams();
+        const ordenar = document.getElementById('ordenPrecio')?.value || '';
+        const min = document.getElementById('precioMin')?.value || '';
+        const max = document.getElementById('precioMax')?.value || '';
+        if (ordenar) params.set('ordenar', ordenar);
+        if (min) params.set('min', min);
+        if (max) params.set('max', max);
+
         // Ruta actual
         const pathname = window.location.pathname || '';
+        const currentSearch = new URLSearchParams(window.location.search || '');
         let destino = '';
 
-        // Si estamos en /productos/categoria/:id mantenemos esa ruta
+        // Si estamos en /productos/categoria/:id mantenemos esa ruta y agregamos filtros
         if (/^\/productos\/categoria\//.test(pathname)) {
-            destino = pathname + (qs ? `?${qs}` : '');
+            destino = pathname + (params.toString() ? `?${params.toString()}` : '');
         }
-        // Si estamos en /productos/buscar/:termino mantenemos esa ruta
+        // Si estamos en /productos/buscar/:termino mantenemos esa ruta (el término está en la ruta)
         else if (/^\/productos\/buscar\//.test(pathname)) {
-            destino = pathname + (qs ? `?${qs}` : '');
+            destino = pathname + (params.toString() ? `?${params.toString()}` : '');
+        }
+        // Si estamos en /buscar (ruta actual que usa q en querystring) preservamos q
+        else if (/^\/buscar/.test(pathname)) {
+            const q = currentSearch.get('q');
+            if (q) params.set('q', q);
+            destino = pathname + (params.toString() ? `?${params.toString()}` : '');
         }
         // Si no estamos en una ruta específica, usamos el endpoint general de filtrar
         else {
             const base = '/productos/filtrar';
-            destino = qs ? `${base}?${qs}` : base;
+            destino = params.toString() ? `${base}?${params.toString()}` : base;
         }
 
         window.location.href = destino;

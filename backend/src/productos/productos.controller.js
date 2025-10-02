@@ -45,8 +45,8 @@ exports.obtenerProductoPorId = async (req, res) => {
     // Buscamos el producto por id y aceptamos ambos esquemas de estado
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
-       productoEliminado: false 
-      });
+      productoEliminado: false
+    });
 
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
@@ -60,31 +60,79 @@ exports.obtenerProductoPorId = async (req, res) => {
 
 /*Consultar un producto por su nombre*/
 exports.obtenerProductoPorNombre = async (req, res) => {
+  // Nombre buscado (desde params)
   const nombreProducto = req.params.nombre;
 
-  const escapeRegex = (text) => {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  };
-
   try {
-    const regex = new RegExp(escapeRegex(nombreProducto), 'i'); // 'i': case-insensitive
+    // Normalizamos y creamos regex case-insensitive
+    const regex = new RegExp(String(nombreProducto), 'i');
 
-    // Usamos find para devolver todos los productos que contengan la palabra
-    const productosEncontrados = await modeloProducto.find({
-      tituloProducto: { $regex: regex },
-      $or: [
-        { estadoProducto: 'activo' },
-        { productoActivo: true, productoEliminado: false }
-      ]
+    // Leer filtros desde querystring
+    const ordenarRaw = String(req.query.ordenar || '');
+    let ordenar = null;
+    if (ordenarRaw.includes('asc')) { ordenar = 'asc' }
+    else if (ordenarRaw.includes('desc')) { ordenar = 'desc' }
+
+    let min = null;
+    if (req.query.min !== undefined && req.query.min !== '') {
+      const valorMin = Number(req.query.min); // convertir cadena a número
+      if (!Number.isNaN(valorMin)) min = valorMin; // asignar solo si es un número válido
+    }
+
+    let max = null;
+    if (req.query.max !== undefined && req.query.max !== '') {
+      const valorMax = Number(req.query.max);
+      if (!Number.isNaN(valorMax)) max = valorMax;
+    }
+
+    // Construir pipeline de aggregation para aplicar regex + filtros de precio + orden
+    const pipeline = [];
+
+    // 1) Match por título usando regex y productos activos
+    pipeline.push({
+      $match: {
+        tituloProducto: { $regex: regex },
+        $or: [{ productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' }]
+      }
     });
 
-    if (productosEncontrados && productosEncontrados.length > 0) {
-      res.status(200).json(productosEncontrados);
-    } else {
-      res.status(404).json({ mensaje: "No se encontraron productos con ese nombre/parcial" });
+    // 2) Filtrar por rango de precio si aplica
+    if (min !== null || max !== null) {
+      const rango = {};
+      if (min !== null) rango.$gte = min;
+      if (max !== null) rango.$lte = max;
+      if (Object.keys(rango).length) pipeline.push({ $match: { precio: rango } });
     }
+
+    // 3) Proyección mínima para rendimiento (la vista solo necesita campos básicos)
+    pipeline.push({
+      $project: {
+        tituloProducto: 1,
+        descripcionProducto: 1,
+        precio: 1,
+        idEmprendimiento: 1,
+        categoria: 1,
+        imagenes: 1,
+        productoActivo: 1
+      }
+    });
+
+    // 4) Ordenamiento si se solicita
+    if (ordenar === 'asc' || ordenar === 'desc') {
+      const dir = ordenar === 'asc' ? 1 : -1;
+      pipeline.push({ $sort: { precio: dir } });
+    }
+
+    const productosEncontrados = await modeloProducto.aggregate(pipeline).exec();
+
+    if (productosEncontrados && productosEncontrados.length > 0) {
+      return res.status(200).json(productosEncontrados);
+    }
+
+    // Si no hay resultados, devolver 404 para mantener comportamiento previo
+    return res.status(404).json({ mensaje: "No se encontraron productos con ese nombre/parcial" });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al consultar producto", detalle: error.message });
+    return res.status(500).json({ mensaje: "Error al consultar producto", detalle: error.message });
   }
 };
 
@@ -251,7 +299,7 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
     // Buscar productos cuyos idEmprendimiento estén en la lista
     const productosUsuario = await modeloProducto.find({
       idEmprendimiento: { $in: listaIdsEmpr },
-       productoEliminado: false
+      productoEliminado: false
     });
 
     return res.status(200).json(productosUsuario);
@@ -261,7 +309,7 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
   }
 };
 
-/* Obtener productos de una categoría específica (usando aggregation) */
+/* Obtener productos de una categoría específica  */
 exports.obtenerProductosPorCategoria = async (req, res) => {
   const idCategoria = req.params.idCategoria || req.params.id;
   try {
@@ -279,31 +327,31 @@ exports.obtenerProductosPorCategoria = async (req, res) => {
 
     const nombreCategoria = String(categoriaEncontrada.nombreCategoria).trim();
 
-  // Parámetros de filtro desde querystring, El frontend puede enviar valores como 'precio_asc' o 'precio_desc'
-  const ordenarRaw = String(req.query.ordenar || '');
-  // Normalizar cualquier variante que contenga 'asc' o 'desc'
-  let ordenar = null;
-  if (ordenarRaw.includes('asc')) ordenar = 'asc';
-  else if (ordenarRaw.includes('desc')) ordenar = 'desc';
+    // Parámetros de filtro desde querystring, El frontend puede enviar valores como 'precio_asc' o 'precio_desc'
+    const ordenarRaw = String(req.query.ordenar || '');
+    // Normalizar cualquier variante que contenga 'asc' o 'desc'
+    let ordenar = null;
+    if (ordenarRaw.includes('asc')) ordenar = 'asc';
+    else if (ordenarRaw.includes('desc')) ordenar = 'desc';
 
-  // Parseo robusto de min/max (acepta '', null o valores no numéricos)
-  let min = null;
-  const valorMin = Number(req.query.min);
-  if (!Number.isNaN(valorMin)) {
-    min = valorMin;
-  } else {
-    // si no es un número válido, mantener null (ignorar filtro)
-    min = null;
-  }
+    // Parseo robusto de min/max (acepta '', null o valores no numéricos)
+    let min = null;
+    const valorMin = Number(req.query.min);
+    if (!Number.isNaN(valorMin)) {
+      min = valorMin;
+    } else {
+      // si no es un número válido, mantener null (ignorar filtro)
+      min = null;
+    }
 
-let max = null;
-  const valorMax = Number(req.query.max);
-  if (!Number.isNaN(valorMax)) {
-    max = valorMax;
-  } else {
-    // si no es un número válido, mantener null (ignorar filtro)
-    max = null;
-  }
+    let max = null;
+    const valorMax = Number(req.query.max);
+    if (!Number.isNaN(valorMax)) {
+      max = valorMax;
+    } else {
+      // si no es un número válido, mantener null (ignorar filtro)
+      max = null;
+    }
 
     // Pipeline de aggregation simple y claro:
     const pipeline = [];
@@ -311,9 +359,9 @@ let max = null;
     pipeline.push({
       $match: {
         $expr: {
-          $eq: [ { $toLower: '$categoria' }, nombreCategoria.toLowerCase() ]
+          $eq: [{ $toLower: '$categoria' }, nombreCategoria.toLowerCase()]
         },
-        $or: [ { productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' } ]
+        $or: [{ productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' }]
       }
     });
 
@@ -355,13 +403,13 @@ exports.filtrarProductos = async (req, res) => {
     // Parseo seguro de min/max
     let min = null;
     if (req.query.min !== undefined && req.query.min !== '') {
-      const v = Number(req.query.min);
-      if (!Number.isNaN(v)) min = v;
+      const valorMin = Number(req.query.min);
+      if (!Number.isNaN(valorMin)) min = valorMin;
     }
     let max = null;
     if (req.query.max !== undefined && req.query.max !== '') {
-      const v2 = Number(req.query.max);
-      if (!Number.isNaN(v2)) max = v2;
+      const valorMax = Number(req.query.max);
+      if (!Number.isNaN(valorMax)) max = valorMax;
     }
 
     // Pipeline de aggregation para todos los productos activos
@@ -370,7 +418,7 @@ exports.filtrarProductos = async (req, res) => {
     // 1) Match: productos activos (compatibilidad con ambos esquemas de estado)
     pipeline.push({
       $match: {
-        $or: [ { productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' } ]
+        $or: [{ productoActivo: true, productoEliminado: false }, { estadoProducto: 'activo' }]
       }
     });
 

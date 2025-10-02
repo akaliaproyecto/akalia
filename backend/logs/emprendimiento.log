@@ -235,3 +235,89 @@ Un emprendimiento ha sido editado: {
   updatedAt: 2025-09-30T22:44:53.321Z,
   __v: 0
 }, fecha: Tue Sep 30 2025 17:44:53 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido creado por el usuario 68dc1cf96f88967b52aead52, emprendimiento: {
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  descripcionEmprendimiento: 'emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba)',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2ee14bf1-6720-4750-9c92-aed3290712c7.jpg',
+  _id: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  fechaRegistro: 2025-10-02T18:14:51.582Z,
+  createdAt: 2025-10-02T18:14:51.588Z,
+  updatedAt: 2025-10-02T18:14:51.588Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 13:14:51 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  _id: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  descripcionEmprendimiento: 'emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba)',
+  emprendimientoActivo: false,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2ee14bf1-6720-4750-9c92-aed3290712c7.jpg',
+  fechaRegistro: 2025-10-02T18:14:51.582Z,
+  createdAt: 2025-10-02T18:14:51.588Z,
+  updatedAt: 2025-10-02T18:17:01.957Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 13:17:02 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  _id: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  descripcionEmprendimiento: 'emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba) emprendimiento para borrar (de prueba)',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2ee14bf1-6720-4750-9c92-aed3290712c7.jpg',
+  fechaRegistro: 2025-10-02T18:14:51.582Z,
+  createdAt: 2025-10-02T18:14:51.588Z,
+  updatedAt: 2025-10-02T18:18:12.624Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 13:18:12 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido eliminado: 68dec11b4522e0e4e3687bd9, fecha: Thu Oct 02 2025 13:18:38 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  _id: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  descripcionEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2ee14bf1-6720-4750-9c92-aed3290712c7.jpg',
+  fechaRegistro: 2025-10-02T18:14:51.582Z,
+  createdAt: 2025-10-02T18:14:51.588Z,
+  updatedAt: 2025-10-02T18:21:28.218Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 13:21:28 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  _id: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  descripcionEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  emprendimientoActivo: false,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2ee14bf1-6720-4750-9c92-aed3290712c7.jpg',
+  fechaRegistro: 2025-10-02T18:14:51.582Z,
+  createdAt: 2025-10-02T18:14:51.588Z,
+  updatedAt: 2025-10-02T18:24:39.655Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 13:24:40 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Guainía', ciudad: 'Morichal' },
+  _id: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  usuario: new ObjectId('68dc1cf96f88967b52aead52'),
+  nombreEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  descripcionEmprendimiento: 'emprendimiento para borrar (de prueba)',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2ee14bf1-6720-4750-9c92-aed3290712c7.jpg',
+  fechaRegistro: 2025-10-02T18:14:51.582Z,
+  createdAt: 2025-10-02T18:14:51.588Z,
+  updatedAt: 2025-10-02T18:25:31.830Z,
+  __v: 0
+}, fecha: Thu Oct 02 2025 13:25:32 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido eliminado: 68dec11b4522e0e4e3687bd9, fecha: Thu Oct 02 2025 13:26:03 GMT-0500 (hora estándar de Colombia)

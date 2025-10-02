@@ -424,3 +424,51 @@ exports.mostrarProductosFiltrados = async (req, res) => {
     return res.status(500).render('pages/error', { error: 'Error al obtener productos', message: error.message || String(error) });
   }
 };
+
+/* Mostrar resultados de búsqueda  */
+exports.mostrarResultadosBusqueda = async (req, res) => {
+  try {
+    // Leer término de búsqueda desde querystring (campo 'q' del formulario)
+    const termino = (req.query.q || '').trim();
+
+    // Si no hay término, renderizamos la página de productos vacía
+    if (!termino) {
+      return res.render('pages/productos', { productos: [], imagenes: [], filtrosValores: {} });
+    }
+
+  // Construir querystring con filtros opcionales (ordenar, min, max)
+  const qs = [];
+  if (req.query.ordenar) qs.push(`ordenar=${encodeURIComponent(req.query.ordenar)}`);
+  if (req.query.min) qs.push(`min=${encodeURIComponent(req.query.min)}`);
+  if (req.query.max) qs.push(`max=${encodeURIComponent(req.query.max)}`);
+
+  // Llamada al backend que busca por nombre y aplica filtros: /productos/nombre/:nombre?...
+  const ruta = `${API_BASE_URL}/productos/nombre/${encodeURIComponent(termino)}${qs.length ? ('?' + qs.join('&')) : ''}`;
+  const resp = await axios.get(ruta, { headers: HEADERS });
+
+    // Asegurar que la respuesta sea un array
+    const productos = Array.isArray(resp.data) ? resp.data : [];
+
+    // Crear arreglo mínimo de imágenes (primera imagen si existe)
+    const imagenes = [];
+    productos.forEach(p => {
+      if (Array.isArray(p.imagenes) && p.imagenes.length) {
+        imagenes.push({ idProducto: String(p._id || p.id || ''), urlImagen: p.imagenes[0] });
+      }
+    });
+
+    // Preparar valores de filtros para que la vista mantenga los controles
+    const filtrosValores = {
+      q: termino,
+      ordenar: req.query.ordenar || '',
+      min: req.query.min || '',
+      max: req.query.max || ''
+    };
+
+    // Render simple de la vista de productos con los resultados y filtros actuales
+    return res.render('pages/productos', { productos, imagenes, filtrosValores });
+  } catch (error) {
+    console.error('Error en mostrarResultadosBusqueda (frontend):', error.message || error);
+    return res.status(500).render('pages/error', { error: 'Error al buscar productos', message: error.message || String(error) });
+  }
+};

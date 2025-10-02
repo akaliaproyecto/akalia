@@ -499,3 +499,41 @@ Un producto ha sido actualizado: {
   updatedAt: 2025-10-02T15:09:15.360Z,
   __v: 0
 }, fecha: Thu Oct 02 2025 10:09:15 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dec14d4522e0e4e3687be3, información: {
+  tituloProducto: 'Este producto no debería aparecer',
+  idEmprendimiento: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  descripcionProducto: 'Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer',
+  precio: 50002,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/fe41a45e-a21f-4cbc-aa85-3e44fd0f6aec.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/26aa97f0-fdb2-474a-9d36-4a155a40d79e.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8402390b-a11d-4198-8fa4-ee713d760938.jpg'
+  ],
+  categoria: 'Cerámica y moldeado',
+  etiquetas: [ 'macramé' ],
+  _id: new ObjectId('68dec14d4522e0e4e3687be3'),
+  createdAt: 2025-10-02T18:15:41.324Z,
+  updatedAt: 2025-10-02T18:15:41.324Z,
+  __v: 0
+}  fecha: Thu Oct 02 2025 13:15:41 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dec1684522e0e4e3687beb, información: {
+  tituloProducto: 'Este producto no debería aparecer  tampoco',
+  idEmprendimiento: new ObjectId('68dec11b4522e0e4e3687bd9'),
+  descripcionProducto: 'Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco',
+  precio: 70000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/107b171e-3424-4af9-b9df-ebccf8c3ca98.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/973a1703-883f-4069-86da-443120d9d4d8.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/9f6a3835-3b7a-41f0-bb07-882b08fc2a9c.jpg'
+  ],
+  categoria: 'Pintura',
+  etiquetas: [ 'lanas naturales' ],
+  _id: new ObjectId('68dec1684522e0e4e3687beb'),
+  createdAt: 2025-10-02T18:16:08.737Z,
+  updatedAt: 2025-10-02T18:16:08.737Z,
+  __v: 0
+}  fecha: Thu Oct 02 2025 13:16:08 GMT-0500 (hora estándar de Colombia)

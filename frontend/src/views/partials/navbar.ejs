@@ -9,7 +9,8 @@
 
       <!-- Search Section -->
       <div class="akalia-search-container  flex-grow-1 d-flex align-items-center justify-content-center">
-        <form class="akalia-search-form d-flex align-items-center  col-lg-6 col-md-8" role="search">
+  <!-- Formulario simple de búsqueda: envía GET a /buscar?q=texto -->
+  <form class="akalia-search-form d-flex align-items-center  col-lg-6 col-md-8" role="search" method="GET" action="/buscar">
           <!-- Filtro -->
           <div class="dropdown">
             <button class="btn border-0 px-2 py-2" type="button" id="dropdownFiltro" data-bs-toggle="dropdown"
@@ -60,7 +61,8 @@
                 </defs>
               </svg>
             </span>
-            <input class="form-control border-0 ps-4 py-3" type="text" name="search"
+            <!-- Campo de búsqueda llamado 'q' para enviar la consulta en la querystring -->
+            <input class="form-control border-0 ps-4 py-3" type="text" name="q"
               placeholder="Busca tus artículos de interés" aria-label="Buscar">
           </div>
         </form>

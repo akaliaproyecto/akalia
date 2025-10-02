@@ -17,10 +17,10 @@ const {
   mostrarEditarProducto,
   procesarEditarProducto,
   procesarEliminarProducto,
-  mostrarProductosPorCategoria
+  mostrarProductosPorCategoria,
+  mostrarProductosFiltrados,
+  mostrarResultadosBusqueda
 } = require('./productos.services');
-
-const { mostrarProductosFiltrados } = require('./productos.services');
 
 
 // Ruta SIN id (muestra los productos para el usuario autenticado o lista vacía)
@@ -50,5 +50,8 @@ router.get('/productos/categoria/:id', mostrarProductosPorCategoria);
 
 // Ruta SSR alternativa para compatibilidad con el cliente que usa /productos/filtrar
 router.get('/productos/filtrar', mostrarProductosFiltrados);
+
+// Ruta simple para búsqueda desde el navbar: /buscar?q=termino
+router.get('/buscar', mostrarResultadosBusqueda);
 
 module.exports = router;
