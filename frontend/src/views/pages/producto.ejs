@@ -54,8 +54,8 @@
 
                     <!-- Boton call to actión "iniciar pedido" color terracota #9e2c21  -->
                     <!-- Llama a la función iniciarPedido en /public/js/pedidos.js -->
-                    <button class="btn btn-terracota d-flex align-items-center gap-2 px-4 mb-4" type="button" onclick="iniciarPedido('<%= producto._id %>')">Iniciar
-                        pedido</button>
+                    <a class="btn btn-terracota d-flex align-items-center gap-2 px-4 mb-4" type="button" href="/usuario-pedidos/comprar/<%= producto._id %>">Iniciar
+                        pedido</a>
 
                     <p class="lead text-muted lh-sm mb-3 text-break producto-descripcion"
                         aria-label="Descripción del producto">

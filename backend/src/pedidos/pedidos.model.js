@@ -132,12 +132,12 @@ const PedidoSchema = new mongoose.Schema({
   },
   direccionEnvio: {
     type: DireccionEnvioSchema,
-    required: [true, 'La dirección de envío es obligatoria']
+    required: [false, 'La dirección de envío no es obligatoria para crear el pedido']
   },
   estadoEliminacion: {
-    type: String,
-    enum: ['activo', 'eliminado'],
-    default: 'activo'
+    type: Boolean,
+    default: false,
+    required: true
   },
   detallePedido: {
     type: DetallePedidoSchema,

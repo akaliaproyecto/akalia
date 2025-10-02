@@ -17,7 +17,7 @@ const obtenerComisiones = async (req, res) => {
 const obtenerComisionPorId = async (req, res) => {
   try {
     const comision = await modeloComision.findOne({ _id: req.params.id, activo: true })
-      .populate('idUsuario') //populate para obtener los detalles del usuario y llenar el campo
+      1 //populate para obtener los detalles del usuario y llenar el campo
       .populate('detalles.idPedido');
 
     if (!comision) {

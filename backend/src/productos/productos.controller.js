@@ -45,9 +45,8 @@ exports.obtenerProductoPorId = async (req, res) => {
     // Buscamos el producto por id y aceptamos ambos esquemas de estado
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
-      productoEliminado: false
-    });
-
+       productoEliminado: false 
+      }).populate('idEmprendimiento');
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
     } else {
