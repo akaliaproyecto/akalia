@@ -353,3 +353,30 @@ Un producto ha sido creado: 68db21b617d48f148a3e348f, información: {
   updatedAt: 2025-09-30T00:17:58.003Z,
   __v: 0
 }  fecha: Mon Sep 29 2025 19:17:58 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68cec05336e2753e888a26ea'),
+  tituloProducto: 'Jabones Artesanales',
+  idEmprendimiento: new ObjectId('68cebfa436e2753e888a26dc'),
+  descripcionProducto: 'Jabones artesanales, hechos con mucho amor, en diferentes fragancias y colores.\r\n' +
+    'Lavanda, citronela, naranja, verbena, rosas\r\n' +
+    'Fragancias y olores sujetos a disponibilidad, pregunta por tu preferencia.\r\n' +
+    'Precio por unidad; negociable a partir de 6 unidades.',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/55419706-fa13-40fe-b1bb-ca43191c0f26.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/cfeb5a88-073d-422b-b94f-96791ccb8626.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e803fed-3b86-4bfb-bc1e-aefab0673894.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f7138e22-3aa0-4d48-9b5b-210b71009fa2.webp'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-09-20T14:55:15.982Z,
+  updatedAt: 2025-10-03T17:25:13.681Z,
+  __v: 0
+}, fecha: Fri Oct 03 2025 12:25:13 GMT-0500 (Colombia Standard Time)

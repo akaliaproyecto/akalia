@@ -154,6 +154,11 @@ app.get('/debug-session', (req, res) => {
   res.json(req.session);
 });
 
+app.get('/debug-session', (req, res) => {
+  console.log('Session actual:', req.session);
+  res.json(req.session);
+});
+
 // MUNICIPIOS
 app.get('/api/municipios', (req, res) => {
   res.json(require('./config/municipios_por_departamento.json'));
