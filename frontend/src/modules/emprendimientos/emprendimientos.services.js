@@ -1,4 +1,6 @@
 const axios = require('axios');
+axios.defaults.withCredentials = true;
+
 require('dotenv').config();
 const formData = require('form-data');
 

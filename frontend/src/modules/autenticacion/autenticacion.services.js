@@ -1,6 +1,7 @@
 /* En este archivo se centraliza la lógica del módulo. Los servicios contienen las funciones que procesan los datos, manejan validaciones simples y se comunican con el backend  a través de peticiones HTTP (fetch, axios, etc.). */
 
 const axios = require('axios');
+axios.defaults.withCredentials = true;
 require('dotenv').config();
 
 // Importar helpers
@@ -67,8 +68,9 @@ exports.iniciarSesion = async (req, res) => {
     const datosUsuarioParaCookie = construirDatosUsuarioCookie(usuario);
 
     // Guardar cookie
-    res.cookie('usuario', JSON.stringify(datosUsuarioParaCookie), cookieOpts);
-
+    
+    console.log('USUARIO: ', res.headers)
+    console.log('USUARIO: ', req.headers)
     // Responder con JSON (AJAX)
     return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaCookie });
 
@@ -79,5 +81,31 @@ exports.iniciarSesion = async (req, res) => {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
     return res.status(500).render('pages/index', { error: errorMessage, titulo: 'Error al iniciar sesión. Inténtalo de nuevo más tarde.' });
+  }
+};
+
+exports.verificarAutenticacion = async (req, res, next) => {  
+  try {
+    console.log('🔍 Verificando autenticación para:', req.path);
+    
+    const response = await axios.get(`${API_BASE_URL}/api/auth/verificar-sesion`, {
+      headers: HEADERS
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      req.usuarioAutenticado = data.usuario;
+      res.locals.usuarioAutenticado = data.usuario;
+      res.locals.usuarioActual = data.usuario;
+      
+      console.log('✅ Usuario autenticado:', data.usuario.nombreUsuario);
+      return next();
+    } else {
+      console.log('❌ Usuario no autenticado, redirigiendo...');
+      return res.redirect('/login');
+    }
+  } catch (error) {
+    console.error('❌ Error verificando autenticación:', error.message);
+    return res.redirect('/login');
   }
 };

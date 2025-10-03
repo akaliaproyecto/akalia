@@ -1,4 +1,5 @@
 const axios = require('axios');
+
 require('dotenv').config();
 
 // Base URL de la API (usa variables de entorno o valor por defecto)
@@ -11,7 +12,7 @@ exports.listarPedidosUsuario = async (req, res) => {
 		const idUsuario = req.params.id;
 
 		// Llamada al backend para obtener todos los pedidos
-		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/ventas/${idUsuario}`, { headers: HEADERS, });
+		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/ventas/${idUsuario}`, { headers: HEADERS, }, { withCredentials: true });
 		const pedidos = (respuesta && respuesta.status === 200 && Array.isArray(respuesta.data)) ? respuesta.data : [];
 
 		// Render SSR de la vista
@@ -32,7 +33,7 @@ exports.listarComprasUsuario = async (req, res) => {
 		const idUsuario = req.params.id;
 
 		// Llamada al backend para obtener todos los pedidos
-		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/compras/${idUsuario}`, { headers: HEADERS, });
+		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/compras/${idUsuario}`, { headers: HEADERS, }, { withCredentials: true });
 		const pedidos = (respuesta && respuesta.status === 200 && Array.isArray(respuesta.data)) ? respuesta.data : [];
 
 		// Filtramos los pedidos para mostrar "mis ventas" (idUsuarioComprador === idUsuario)
@@ -56,7 +57,7 @@ exports.iniciarPedido = async (req, res) => {
 		if (!idProducto) return res.status(400).render('pages/error', { error: 'ID producto inválido' });
 
 		// Pedir datos del producto al backend
-		const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
+		const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS }, { withCredentials: true });
 		const producto = respuesta.data;
 
 		const emprendimiento = producto.idEmprendimiento;
@@ -71,7 +72,7 @@ exports.iniciarPedido = async (req, res) => {
 			if (!tieneDirecciones) {
 				// Intentar obtener el usuario completo desde la API 
 
-				const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: HEADERS }).catch(() => null);
+				const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: HEADERS }, { withCredentials: true }).catch(() => null);
 				if (respUsuario && respUsuario.status === 200 && respUsuario.data) {
 					usuario = respUsuario.data.usuario
 				}
@@ -115,7 +116,7 @@ exports.crearPedido = async (req, res) => {
 		console.log('Datos a enviar al backend:', pedidoData)
 
 		// Enviar pedido al backend
-		const respuesta = await axios.post(`${API_BASE_URL}/pedidos`, pedidoData, { headers: HEADERS });
+		const respuesta = await axios.post(`${API_BASE_URL}/pedidos`, pedidoData, { headers: HEADERS }, { withCredentials: true });
 		const pedido = respuesta.data;
 
 		console.log('Pedido creado:', pedido);
@@ -155,7 +156,7 @@ exports.editarPedido = async (req, res) => {
 		console.log('Datos a enviar al backend:', pedidoData.direccionEnvio)
 
 		// Enviar pedido al backend
-		const respuesta = await axios.put(`${API_BASE_URL}/pedidos/${req.params.id}`, pedidoData, { headers: HEADERS });
+		const respuesta = await axios.put(`${API_BASE_URL}/pedidos/${req.params.id}`, pedidoData, { headers: HEADERS }, { withCredentials: true });
 		const pedido = respuesta.data;
 
 		console.log('Pedido editado:', pedido);
@@ -178,7 +179,7 @@ exports.detalleCompra = async (req, res) => {
 		if (!idPedido) return res.status(400).render('pages/error', { error: 'ID pedido inválido' });
 
 		// Pedir datos del pedido al backend
-		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/${idPedido}`, { headers: HEADERS });
+		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/${idPedido}`, { headers: HEADERS }, { withCredentials: true });
 		const pedido = respuesta.data;
 
 		const producto = pedido.detallePedido.idProducto;
@@ -190,7 +191,7 @@ exports.detalleCompra = async (req, res) => {
 		const usuarioAutenticado = req.usuarioAutenticado || {};
 
 		// Intentar obtener el usuario completo desde la API 
-		const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: HEADERS }).catch(() => null);
+		const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: HEADERS }, { withCredentials: true }).catch(() => null);
 		if (respUsuario && respUsuario.status === 200 && respUsuario.data) {
 			usuarioComprador = respUsuario.data.usuario
 		}
@@ -258,6 +259,7 @@ exports.actualizarDireccionPedido = async (req, res) => {
 		await axios.patch(`${API_BASE_URL}/pedidos/${idPedido}/actualizar`,
 			{ direccionEnvio: direccionObj },
 			{ headers: HEADERS }
+			, { withCredentials: true }
 		);
 
 		console.log('Dirección actualizada exitosamente');
@@ -292,7 +294,7 @@ exports.cancelarPedido = async (req, res) => {
 		// Petición PATCH para cambiar estado en el servidor a cancelado
 		await axios.patch(`${API_BASE_URL}/pedidos/${idPedido}/cancelar`,
 			{ pedidoCancelado: pedidoCancelado === 'true' || pedidoCancelado === true },
-			{ headers: HEADERS }
+			{ headers: HEADERS }, { withCredentials: true }
 		);
 		console.log('Pedido cancelado exitosamente');
 

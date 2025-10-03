@@ -4,6 +4,7 @@ const app = express();
 const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const PORT_FRONTEND = process.env.PORT || process.env.PORT_FRONTEND || 4666;
 console.log(`🚀 Frontend - Intentando iniciar servidor en puerto: ${PORT_FRONTEND}`);
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
   res.locals.apiBaseUrl = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
   next();
 });
+
+
 
 // Middleware para obtener datos del usuario logueado desde cookies
 app.use((req, res, next) => {

@@ -1,12 +1,11 @@
 const axios = require('axios');
+axios.defaults.withCredentials = true;
+
 require('dotenv').config();
 
 // Cabeceras y URL base para llamadas al backend
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
-
-console.log('🔍 Landing service - API_BASE_URL:', API_BASE_URL);
-console.log('🔍 Landing service - API_KEY:', process.env.API_KEY ? '✅ Set' : '❌ Missing');
 
 /* Cargar categorías y productos para la página landing */
 exports.categoriasProductosLanding = async (req, res) => {

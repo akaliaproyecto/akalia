@@ -35,10 +35,8 @@ router.put('/desactivar-cuenta-usuario/:id', desactivarCuentaUsuario);
 /* Ruta para obtener detalle de usuario en formato JSON (proxy al backend) */
 router.get('/usuario-detalle/:id', obtenerDetalleUsuario);
 
-<<<<<<< HEAD
 /* Ruta para verificar contraseña actual */
 router.post('/usuario-detalle/verificar-contrasena', verificarContrasenaActual);
-=======
 /* Ruta para obtener municipios por departamento */
 router.get('/municipios-por-departamento', async (req, res) => {
   try {
@@ -49,6 +47,5 @@ router.get('/municipios-por-departamento', async (req, res) => {
     res.status(500).json({ error: 'Error al cargar municipios' });
   }
 });
->>>>>>> 8de145c (Se añade vista de usuario-pedido-editar: Vista del vendedor para modificar el pedido)
 
 module.exports = router;

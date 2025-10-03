@@ -33,7 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (messageInput) {
     messageInput.addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
-        sendMessage();
+         e.preventDefault();  // evita salto de línea
+        form.requestSubmit(); // dispara el submit del formulario
       }
     });
   }

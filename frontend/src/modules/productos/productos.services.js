@@ -22,7 +22,7 @@ exports.listarProductosUsuario = async (req, res) => {
   // Función para convertir respuestas de la API en arrays 
   const obtenerArray = async (ruta) => {
     try {
-      const resp = await axios.get(ruta, { headers: HEADERS });
+      const resp = await axios.get(ruta, { headers: HEADERS }, { withCredentials: true });
       const data = resp.data;
       return data;
     } catch (err) {
@@ -94,7 +94,7 @@ exports.mostrarDetalleProducto = async (req, res) => {
     const usuario = req.usuarioAutenticado;
     
     // Petición al backend para obtener detalle del producto
-    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
+    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS }, { withCredentials: true });
     // Si se obtiene el producto se renderiza la vista      
     if (respuesta && respuesta.status === 200 && respuesta.data) {
       const producto = respuesta.data;
@@ -104,9 +104,9 @@ exports.mostrarDetalleProducto = async (req, res) => {
       const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento._id}`, { headers: HEADERS });
       
       // Pedir listas relacionadas
-      const listaEmprendimientos = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`, { headers: HEADERS });
-      const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
-      const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS });
+      const listaEmprendimientos = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`, { headers: HEADERS }, { withCredentials: true });
+      const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS }, { withCredentials: true });
+      const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS }, { withCredentials: true });
 
       const emprendimientos = listaEmprendimientos.data;
       const categorias = listaCategorias.data;
@@ -177,7 +177,7 @@ exports.procesarEditarProducto = async (req, res) => {
 
     // Petición PUT al backend para actualizar producto
     const ruta = `${API_BASE_URL}/productos/${idProducto}`;
-    const respuesta = await axios.put(ruta, formData, { headers: cabeceras, maxBodyLength: Infinity });
+    const respuesta = await axios.put(ruta, formData, { headers: cabeceras, maxBodyLength: Infinity }, { withCredentials: true });
 
     const producto = respuesta.data
     const emprendimiento = producto.idEmprendimiento
@@ -262,7 +262,7 @@ exports.procesarCrearProducto = async (req, res) => {
 
     // Enviar al backend usando axios.
     const rutaCrearProducto = `${API_BASE_URL}/productos`;
-    const respuestaBackend = await axios.post(rutaCrearProducto, formData, { headers: cabeceras, maxBodyLength: Infinity });
+    const respuestaBackend = await axios.post(rutaCrearProducto, formData, { headers: cabeceras, maxBodyLength: Infinity }, { withCredentials: true });
 
     // Si el backend responde con creado (201) o similar, refrescamos la página actual
     if (respuestaBackend && (respuestaBackend.status === 200 || respuestaBackend.status === 201)) {
@@ -301,7 +301,7 @@ exports.procesarEliminarProducto = async (req, res) => {
     const cabeceras = { ...HEADERS };
 
     // Hacemos la petición PATCH al backend
-    await axios.patch(rutaBackend, payload, { headers: cabeceras });
+    await axios.patch(rutaBackend, payload, { headers: cabeceras }, { withCredentials: true });
 
     // Redirigimos al listado del usuario (SSR)
     return res.redirect('/productos/usuario-productos');

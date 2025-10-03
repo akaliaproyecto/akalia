@@ -9,7 +9,6 @@ const MensajeSchema = new mongoose.Schema({
   contenidoMensaje: {
     type: String,
     required: [true, 'El contenido del mensaje es obligatorio'],
-    trim: true,
     minlength: [1, 'El mensaje no puede estar vacío'],
     maxlength: [1000, 'El mensaje no puede tener más de 1000 caracteres']
   },
@@ -17,6 +16,10 @@ const MensajeSchema = new mongoose.Schema({
     type: Date,
     required: [true, 'La fecha de envío es obligatoria'],
     default: Date.now
+  },
+  leido: {
+    type: Boolean,
+    default: false
   }
 });
 

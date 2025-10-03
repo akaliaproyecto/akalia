@@ -49,6 +49,7 @@ const obtenerEmprendimientoPorId = async (req, res) => {
 
 /* listar emprendimientos por ID de usuario */
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
+  console.log('Session ', req.session)
   const idUsuario = req.params.id;
   try {
     const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false });
@@ -158,7 +159,7 @@ const deshabilitarEmprendimiento = async (req, res) => {
       { idEmprendimiento: idEmprendimiento },
       { $set: { productoEliminado: true, productoActivo: false } }
     );
-    console.log(productos)
+
     //Registrar log
     Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido eliminado: ${idEmprendimiento}, fecha: ${new Date()}`);
 
