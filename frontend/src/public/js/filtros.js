@@ -74,7 +74,15 @@ function inicializarFiltrosCliente() {
         // limpiar inputs del formulario
         const form = document.getElementById('filtroForm');
         if (form) form.reset();
-        // volver a la lista principal
+        // Si estamos en una página de categoría (/productos/categoria/:id) recargar esa misma página sin querystring (mantener contexto de categoría)
+        const pathname = window.location.pathname || '';
+        if (/^\/productos\/categoria\//.test(pathname)) {
+            // redirigir a la misma ruta (sin query)
+            window.location.href = pathname;
+            return;
+        }
+
+        // En otros casos, volver a la lista principal
         window.location.href = '/productos';
     });
 }

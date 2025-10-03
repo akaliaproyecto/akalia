@@ -19,7 +19,7 @@ const {
   procesarEliminarProducto,
   mostrarProductosPorCategoria,
   mostrarProductosFiltrados,
-  mostrarResultadosBusqueda
+ mostrarResultadosBusqueda
 } = require('./productos.services');
 
 

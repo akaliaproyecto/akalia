@@ -459,10 +459,20 @@ exports.mostrarResultadosBusqueda = async (req, res) => {
 
   // Llamada al backend que busca por nombre y aplica filtros: /productos/nombre/:nombre?...
   const ruta = `${API_BASE_URL}/productos/nombre/${encodeURIComponent(termino)}${qs.length ? ('?' + qs.join('&')) : ''}`;
-  const resp = await axios.get(ruta, { headers: HEADERS });
-
+  let productos = [];
+  try {
+    const resp = await axios.get(ruta, { headers: HEADERS });
     // Asegurar que la respuesta sea un array
-    const productos = Array.isArray(resp.data) ? resp.data : [];
+    productos = Array.isArray(resp.data) ? resp.data : [];
+  } catch (err) {
+    // Si la API responde 404 (no encontrado), lo tratamos como 'sin productos' y renderizamos la vista vacía.
+    if (err.response && err.response.status === 404) {
+      productos = [];
+    } else {
+      // Para otros errores, volvemos a lanzar para que el catch externo lo maneje
+      throw err;
+    }
+  }
 
     // Crear arreglo mínimo de imágenes (primera imagen si existe)
     const imagenes = [];
