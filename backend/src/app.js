@@ -49,10 +49,14 @@ app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS
 
 // Configuración de sesiones con MongoDB store para producción
 const sessionConfig = {
-  name: 'session-1',
   secret: process.env.SESSION_SECRET || 'mi_super_secreto_seguro',
   resave: false,
   saveUninitialized: false,
+  store : MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    ttl: 14 * 24 * 60 * 60, // 14 días
+    autoRemove: 'native'
+  }),
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
@@ -60,19 +64,20 @@ const sessionConfig = {
     httpOnly: true, // para que JS en frontend no acceda a la cookie
   }
 };
+const sessionMiddleware = session(sessionConfig);
+app.use(sessionMiddleware);
 
 // Solo usar MongoDB store en producción
-if (process.env.NODE_ENV === 'production') {
-  sessionConfig.store = MongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
-    touchAfter: 24 * 3600 // lazy session update
-  });
-  console.log('✅ Usando MongoDB store para sesiones en producción');
-} else {
-  console.log('⚠️ Usando MemoryStore para sesiones en desarrollo');
-}
+// if (process.env.NODE_ENV === 'production') {
+//   sessionConfig.store = MongoStore.create({
+//     mongoUrl: process.env.MONGO_URI,
+//     touchAfter: 24 * 3600 // lazy session update
+//   });
+//   console.log('✅ Usando MongoDB store para sesiones en producción');
+// } else {
+//   console.log('⚠️ Usando MemoryStore para sesiones en desarrollo');
+// }
 
-app.use(session(sessionConfig));
 
 //Method Override
 app.use(methodOverride('_method'));
@@ -155,8 +160,13 @@ app.use('/comisiones', validateApiKey, comisionesRoutes);
 const captchaRoutes = require('./captcha/captcha.routes.js')
 app.use('/captcha', validateApiKey, captchaRoutes)
 
+app.get('/debug-session', (req, res) => {
+  console.log('Session actual:', req.session);
+  res.json(req.session);
+});
+
 // MUNICIPIOS
 app.get('/api/municipios', (req, res) => {
   res.json(require('./config/municipios_por_departamento.json'));
 });
-module.exports = app;
+module.exports = { app, sessionMiddleware };

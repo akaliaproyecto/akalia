@@ -353,187 +353,30 @@ Un producto ha sido creado: 68db21b617d48f148a3e348f, información: {
   updatedAt: 2025-09-30T00:17:58.003Z,
   __v: 0
 }  fecha: Mon Sep 29 2025 19:17:58 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68db466da90d427306e26e83, información: {
-  tituloProducto: 'Jabón natural de avena y mandarina',
-  idEmprendimiento: new ObjectId('68db217017d48f148a3e3473'),
-  descripcionProducto: 'Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina',
-  precio: 5000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2330e5dd-28cf-44c9-9f9b-e566613792c2.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5443ed87-af3a-45f4-9787-bfa567e24513.jpg'
-  ],
-  categoria: 'Velas, jabones y cosmética',
-  etiquetas: [ 'jabones naturales' ],
-  _id: new ObjectId('68db466da90d427306e26e83'),
-  createdAt: 2025-09-30T02:54:37.144Z,
-  updatedAt: 2025-09-30T02:54:37.144Z,
-  __v: 0
-}  fecha: Mon Sep 29 2025 21:54:37 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dc1dbd6f88967b52aead97, información: {
-  tituloProducto: 'Bandeja de roble pintada a mano',
-  idEmprendimiento: new ObjectId('68dc1d826f88967b52aead86'),
-  descripcionProducto: 'Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano',
-  precio: 50000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/7594f95e-4d02-4469-98e1-b7f1ee78213b.jpg'
-  ],
-  categoria: 'Madera y carpintería',
-  etiquetas: [ 'pintura en madera' ],
-  _id: new ObjectId('68dc1dbd6f88967b52aead97'),
-  createdAt: 2025-09-30T18:13:17.454Z,
-  updatedAt: 2025-09-30T18:13:17.454Z,
-  __v: 0
-}  fecha: Tue Sep 30 2025 13:13:17 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dc5d40f45520e2c00275c8, información: {
-  tituloProducto: 'Esculturas pintadas de madera',
-  idEmprendimiento: new ObjectId('68dc1d826f88967b52aead86'),
-  descripcionProducto: 'Esculturas pintadas de madera Esculturas pintadas de madera Esculturas pintadas de madera Esculturas pintadas de madera Esculturas pintadas de madera',
-  precio: 150000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5b50745d-4f1e-42db-a29a-a1875d60450e.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/44b06ebb-b2e9-4980-9c7e-19e75d915be4.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8cd70ab4-1be7-4333-8ee4-e3c9fc2fcfbe.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8aa5be07-d626-48f5-90e8-595d06ae4401.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/38b81daa-0b72-48f3-965e-b80a04ef411b.jpg'
-  ],
-  categoria: 'Madera y carpintería',
-  etiquetas: [ 'pintura en madera' ],
-  _id: new ObjectId('68dc5d40f45520e2c00275c8'),
-  createdAt: 2025-09-30T22:44:16.419Z,
-  updatedAt: 2025-09-30T22:44:16.419Z,
-  __v: 0
-}  fecha: Tue Sep 30 2025 17:44:16 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dc5df1f45520e2c00275e7, información: {
-  tituloProducto: 'regalo especial',
-  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
-  descripcionProducto: 'regalo especial regalo especial regalo especial regalo especial regalo especial',
-  precio: 8000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5a6c6217-9945-4d72-bec7-1431e0703005.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/719c4d65-243d-44c6-ba5f-cc319fa69ae3.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2782651f-073d-454a-acec-ddd3c028d63a.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/fa2ce2d4-b9ed-4655-9363-50be58b0ddf9.jpg'
-  ],
-  categoria: 'Textiles y costura',
-  etiquetas: [ 'macramé', 'telar' ],
-  _id: new ObjectId('68dc5df1f45520e2c00275e7'),
-  createdAt: 2025-09-30T22:47:13.168Z,
-  updatedAt: 2025-09-30T22:47:13.168Z,
-  __v: 0
-}  fecha: Tue Sep 30 2025 17:47:13 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dc97a904acdf48435fc188, información: {
-  tituloProducto: 'Tejicol',
-  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
-  descripcionProducto: 'Tejicol Tejicol Tejicol Tejicol Tejicol Tejicol',
-  precio: 80000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0ab8ad38-b60a-4379-ad1e-28075deb3c78.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/33d6f606-8a9f-4042-a4ea-9953334e03b0.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/a4f219a4-fb18-40e6-9bf8-0178d08e1c29.jpg'
-  ],
-  categoria: 'Tejido',
-  etiquetas: [ 'macramé' ],
-  _id: new ObjectId('68dc97a904acdf48435fc188'),
-  createdAt: 2025-10-01T02:53:29.439Z,
-  updatedAt: 2025-10-01T02:53:29.439Z,
-  __v: 0
-}  fecha: Tue Sep 30 2025 21:53:29 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dc987504acdf48435fc1bb, información: {
-  tituloProducto: 'mas tejidos',
-  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
-  descripcionProducto: 'mas tejidos mas tejidos mas tejidos mas tejidos',
-  precio: 7400,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/394ed3fa-751e-4d96-8760-b5906343a4e2.jpg'
-  ],
-  categoria: 'Tejido',
-  etiquetas: [ 'bordado' ],
-  _id: new ObjectId('68dc987504acdf48435fc1bb'),
-  createdAt: 2025-10-01T02:56:53.422Z,
-  updatedAt: 2025-10-01T02:56:53.422Z,
-  __v: 0
-}  fecha: Tue Sep 30 2025 21:56:53 GMT-0500 (hora estándar de Colombia)
 Un producto ha sido actualizado: {
-  _id: new ObjectId('68dc97a904acdf48435fc188'),
-  tituloProducto: 'Tejido especial orgánico',
-  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
-  descripcionProducto: 'Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico',
-  precio: 85000,
+  _id: new ObjectId('68cec05336e2753e888a26ea'),
+  tituloProducto: 'Jabones Artesanales',
+  idEmprendimiento: new ObjectId('68cebfa436e2753e888a26dc'),
+  descripcionProducto: 'Jabones artesanales, hechos con mucho amor, en diferentes fragancias y colores.\r\n' +
+    'Lavanda, citronela, naranja, verbena, rosas\r\n' +
+    'Fragancias y olores sujetos a disponibilidad, pregunta por tu preferencia.\r\n' +
+    'Precio por unidad; negociable a partir de 6 unidades.',
+  precio: 12000,
   productoActivo: true,
   productoEliminado: false,
   imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/659da148-fd2e-4415-acae-925d285f0f36.jpg'
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/55419706-fa13-40fe-b1bb-ca43191c0f26.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/cfeb5a88-073d-422b-b94f-96791ccb8626.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e803fed-3b86-4bfb-bc1e-aefab0673894.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f7138e22-3aa0-4d48-9b5b-210b71009fa2.webp'
   ],
   categoria: 'Tejido',
-  etiquetas: [ 'macramé' ],
-  createdAt: 2025-10-01T02:53:29.439Z,
-  updatedAt: 2025-10-02T15:09:15.370Z,
-  __v: 0
-}, fecha: Thu Oct 02 2025 10:09:15 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido actualizado: {
-  _id: new ObjectId('68dc97a904acdf48435fc188'),
-  tituloProducto: 'Tejido especial orgánico',
-  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
-  descripcionProducto: 'Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico Tejido especial orgánico',
-  precio: 85000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/25a80bcd-df75-41a0-93fc-00187e2ffbd8.jpg'
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
   ],
-  categoria: 'Tejido',
-  etiquetas: [ 'macramé' ],
-  createdAt: 2025-10-01T02:53:29.439Z,
-  updatedAt: 2025-10-02T15:09:15.360Z,
+  createdAt: 2025-09-20T14:55:15.982Z,
+  updatedAt: 2025-10-03T17:25:13.681Z,
   __v: 0
-}, fecha: Thu Oct 02 2025 10:09:15 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dec14d4522e0e4e3687be3, información: {
-  tituloProducto: 'Este producto no debería aparecer',
-  idEmprendimiento: new ObjectId('68dec11b4522e0e4e3687bd9'),
-  descripcionProducto: 'Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer  Este producto no debería aparecer',
-  precio: 50002,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/fe41a45e-a21f-4cbc-aa85-3e44fd0f6aec.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/26aa97f0-fdb2-474a-9d36-4a155a40d79e.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8402390b-a11d-4198-8fa4-ee713d760938.jpg'
-  ],
-  categoria: 'Cerámica y moldeado',
-  etiquetas: [ 'macramé' ],
-  _id: new ObjectId('68dec14d4522e0e4e3687be3'),
-  createdAt: 2025-10-02T18:15:41.324Z,
-  updatedAt: 2025-10-02T18:15:41.324Z,
-  __v: 0
-}  fecha: Thu Oct 02 2025 13:15:41 GMT-0500 (hora estándar de Colombia)
-Un producto ha sido creado: 68dec1684522e0e4e3687beb, información: {
-  tituloProducto: 'Este producto no debería aparecer  tampoco',
-  idEmprendimiento: new ObjectId('68dec11b4522e0e4e3687bd9'),
-  descripcionProducto: 'Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco  Este producto no debería aparecer  tampoco',
-  precio: 70000,
-  productoActivo: true,
-  productoEliminado: false,
-  imagenes: [
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/107b171e-3424-4af9-b9df-ebccf8c3ca98.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/973a1703-883f-4069-86da-443120d9d4d8.jpg',
-    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/9f6a3835-3b7a-41f0-bb07-882b08fc2a9c.jpg'
-  ],
-  categoria: 'Pintura',
-  etiquetas: [ 'lanas naturales' ],
-  _id: new ObjectId('68dec1684522e0e4e3687beb'),
-  createdAt: 2025-10-02T18:16:08.737Z,
-  updatedAt: 2025-10-02T18:16:08.737Z,
-  __v: 0
-}  fecha: Thu Oct 02 2025 13:16:08 GMT-0500 (hora estándar de Colombia)
+}, fecha: Fri Oct 03 2025 12:25:13 GMT-0500 (Colombia Standard Time)

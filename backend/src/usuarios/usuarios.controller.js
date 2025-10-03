@@ -61,7 +61,7 @@ exports.obtenerUsuarios = async (req, res) => {
 /*Listar un usuario por su id*/
 exports.obtenerUsuarioPorId = async (req, res) => {
   const idUsuario = req.params.id;   // obtener el parámetro de la URL
-
+  
   try {
     // Validar formato de ID
     if (!validarIdMongoDB(idUsuario)) {
@@ -80,7 +80,8 @@ exports.obtenerUsuarioPorId = async (req, res) => {
     if (!usuarioEncontrado) {
       return res.status(404).json({ mensaje: "Usuario no encontrado" });
     }
-
+    console.log('Session ', req.session)
+    
     // Formateo simple y eliminación de datos sensibles
     const usuarioFormateado = {
       idUsuario: usuarioEncontrado._id,
@@ -100,8 +101,8 @@ exports.obtenerUsuarioPorId = async (req, res) => {
       direcciones: usuarioEncontrado.direcciones || []
       // NOTA: no incluimos contrasena, totpSecret ni campos sensibles
     };
-
-    return res.status(200).json({ usuario: usuarioFormateado });
+    console.log('DIOSSSSS')
+    return res.status(200).json({ usuario: usuarioFormateado, perfil: req.session.usuario });
   } catch (error) {
     res.status(500).json({ mensaje: "Error al consultar usuario", detalle: error.message });
   }

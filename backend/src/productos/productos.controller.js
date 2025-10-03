@@ -35,7 +35,7 @@ exports.obtenerProductos = async (req, res) => {
 /*Consultar un producto por su id*/
 exports.obtenerProductoPorId = async (req, res) => {
   let idProducto = req.params.id;
-
+  console.log('Session ', req.session)
   try {
     // Validar formato de id antes de consultar
     if (!validarIdMongoDB(idProducto)) {

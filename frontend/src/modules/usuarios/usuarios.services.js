@@ -2,6 +2,8 @@
 Módulo que centraliza la lógica del frontend para usuarios: consulta la API (axios) usando la URL y cabeceras desde env, normaliza y formatea los datos para la vista (mi perfil), maneja la actualización del perfil (y actualiza la cookie), valida la contraseña actual contra el endpoint de login y marca la cuenta como inactiva (desactivación). */
 
 const axios = require('axios');
+axios.defaults.withCredentials = true;
+
 require('dotenv').config();
 
 const {
@@ -19,7 +21,7 @@ exports.verificarContrasenaActual = async (req, res) => {
     const response = await axios.post(`${API_BASE_URL}/usuarios/verificar-contrasena`, {
       userId: userId,
       contrasenaActual: contrasenaActual
-    }, { headers: HEADERS });
+    }, { headers: HEADERS }, { withCredentials: true });
     
     res.json(response.data);
   } catch (error) {
@@ -68,13 +70,8 @@ exports.obtenerUsuario = async (req, res) => {
 /* Actualizar perfil del usuario */
 exports.actualizarPerfilUsuario = async (req, res) => {
   const { id } = req.params;
-<<<<<<< HEAD
   const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono, direcciones } = req.body;
   
-=======
-  const { nombreUsuario, apellidoUsuario, email, contrasena, telefono, direcciones } = req.body;
-
->>>>>>> 8de145c (Se añade vista de usuario-pedido-editar: Vista del vendedor para modificar el pedido)
   if (!id) {
     return res.status(400).json({ error: 'Falta id de usuario' });
   }
@@ -86,9 +83,6 @@ exports.actualizarPerfilUsuario = async (req, res) => {
     correo,  // Normalizar: el frontend envía 'email' pero el backend espera 'correo'
     telefono
   };
-<<<<<<< HEAD
-  
-=======
 
   // Manejar direcciones si vienen como string JSON
   if (direcciones) {
@@ -100,7 +94,6 @@ exports.actualizarPerfilUsuario = async (req, res) => {
     }
   }
 
->>>>>>> 8de145c (Se añade vista de usuario-pedido-editar: Vista del vendedor para modificar el pedido)
   // Si se envía nueva contraseña, la mandamos para que el backend la procese 
   if (contrasena) datosParaApi.contrasena = contrasena;
 
@@ -110,7 +103,7 @@ exports.actualizarPerfilUsuario = async (req, res) => {
   }
 
   try {
-    const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS });
+    const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS }, { withCredentials: true });
 
     // Extraer usuario de la respuesta del backend (puede venir en respuesta.data.usuario o directamente)
     const usuarioActualizado = respuesta.data.usuario || respuesta.data;
@@ -169,7 +162,7 @@ exports.validarContrasenaUsuario = async (req, res) => {
       await axios.post(`${API_BASE_URL}/auth/login`, {
         correo: posibleCorreo,
         contrasena: contrasenaIngresada
-      }, { headers: HEADERS });
+      }, { headers: HEADERS }, { withCredentials: true });
 
       return res.status(200).json({ mensaje: 'Contraseña validada correctamente', validacionExitosa: true });
     } catch (errLogin) {
@@ -196,7 +189,7 @@ exports.desactivarCuentaUsuario = async (req, res) => {
   // Verifica que el usuario exista
   try {
     // Usar PATCH para invocar el endpoint de eliminación parcial del backend
-    await axios.patch(`${API_BASE_URL}/usuarios/${id}`, { estadoUsuario: 'inactivo' }, { headers: HEADERS });
+    await axios.patch(`${API_BASE_URL}/usuarios/${id}`, { estadoUsuario: 'inactivo' }, { headers: HEADERS }, { withCredentials: true });
     return res.status(200).json({ mensaje: 'Cuenta desactivada exitosamente', estadoNuevo: 'inactivo' });
 
   } catch (errorDesactivacion) {
@@ -224,6 +217,7 @@ exports.obtenerDetalleUsuario = async (req, res) => {
   if (!id) return res.status(400).json({ error: 'Falta id de usuario' });
   try {
     const usuario = await fetchUsuarioPorId(id);
+    console.log('DIOSSSSS')
     return res.status(200).json({ usuario });
   } catch (err) {
     console.error('obtenerDetalleUsuario error:', err.response?.data || err.message || err);

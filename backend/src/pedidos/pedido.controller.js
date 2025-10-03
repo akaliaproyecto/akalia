@@ -54,17 +54,19 @@ exports.obtenerCompras = async (req, res) => {
 
 // Consultar un pedido por ID 
 exports.obtenerPedidosPorId = async (req, res) => {
+  console.log("Session actual:", req.session);
   const idPedido = req.params.id; // obtener el parámetro de la URL
-
   try {
     // Validar formato de ID
     if (!validarIdMongoDB(idPedido)) {
       return res.status(400).json({ mensaje: 'ID de pedido inválido' });
     }
+
     const pedidoEncontrado = await modeloPedido.findById(idPedido)
     .populate('idEmprendimiento')
-    .populate('detallePedido.idProducto');
-
+    .populate('detallePedido.idProducto')
+    .populate('mensajes.idUsuarioRemitente');
+    
     if (pedidoEncontrado) {
       res.status(200).json(pedidoEncontrado);
     } else {

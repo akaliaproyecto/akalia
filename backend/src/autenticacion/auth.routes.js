@@ -5,7 +5,7 @@ const router = express.Router();
 const {validarCaptcha} = require('../middlewares/validarCaptcha')
 
 const {
-  iniciarSesion, logout, mfaVerify, twoFASetup, twoFAVerifySetup, me
+  iniciarSesion, logout, mfaVerify, twoFASetup, twoFAVerifySetup, me, verificarSesion
 } = require('./auth.controller');
 
 const { requireAuth } = require('../middlewares/auth.middlewares');
@@ -16,6 +16,7 @@ router.post('/logout', requireAuth, logout);
 router.post('/mfa',  requireAuth, mfaVerify);
 router.get('/me', requireAuth, me);
 
+router.get('/verificar-sesion', verificarSesion);
 
 // Setup 2FA
 

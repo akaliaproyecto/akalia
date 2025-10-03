@@ -3,6 +3,7 @@ const qrcode = require('qrcode');
 const User = require('../usuarios/usuarios.model.js');
 const bcrypt = require('bcrypt');
 const Log = require('../middlewares/logs.js')
+const session = require('express-session')
 
 /* Iniciar sesión */
 exports.iniciarSesion = async (req, res) => {
@@ -23,21 +24,32 @@ exports.iniciarSesion = async (req, res) => {
       correo: correoUsuario,
       estadoUsuario: 'activo'
     });
-
+    console.log(usuarioEncontrado)
     if (!usuarioEncontrado) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
 
+    
     if (!usuarioEncontrado.contrasena) {
       return res.status(401).json({ error: 'Error en la cuenta del usuario' });
     }
-
+    
     const contrasenaValida = await bcrypt.compare(contrasena, usuarioEncontrado.contrasena);
-
+    
     if (!contrasenaValida) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
-
+    
+    // Guarda en la sesión
+    req.session.userId = usuarioEncontrado._id.toString();
+    req.session.usuarioooo = {
+      idUsuario: usuarioEncontrado._id,
+      nombreUsuario: usuarioEncontrado.nombreUsuario,
+      apellidoUsuario: usuarioEncontrado.apellidoUsuario,
+      correo: usuarioEncontrado.correo,
+      rolUsuario: usuarioEncontrado.rolUsuario
+    };
+    console.log('Usuario logueado: ', req.session.usuario)
     const datosUsuarioParaSesion = {
       idUsuario: usuarioEncontrado._id,
       nombreUsuario: usuarioEncontrado.nombreUsuario,
@@ -54,7 +66,7 @@ exports.iniciarSesion = async (req, res) => {
       console.error('Error generando log de login:', logErr);
     }
 
-    return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaSesion });
+    return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaSesion});
 
   } catch (error) {
     console.error('Error en función iniciar sesión:', error);
@@ -63,19 +75,40 @@ exports.iniciarSesion = async (req, res) => {
 };
 
 
-// exports.login = async (req, res, next) => {
-//   try {
-//     const { email } = req.body;
-//     const user = await User.findOne({ correo: email });
-//     if (!user) return res.status(401).json({ error: 'Credenciales inválidas' });
+// Función para verificar sesión
+exports.verificarSesion = async (req, res) => {
+  console.log(' Verificando sesión:', {
+    sessionID: req.sessionID,
+    userId: req.session?.userId,
+    hasSession: !!req.session
+  });
 
-//     req.session.userId = user._id;
-//     req.session.mfaPassed = !user.twoFAEnabled; //  si no tiene 2FA, ya pasó
-//     res.json({ ok: true, reqire2FA: user.twoFAEnabled });
-//   } catch (err) {
-//     next(err);
-//   }
-// }
+  if (!req.session?.userId) {
+    return res.status(401).json({ error: 'No hay sesión activa' });
+  }
+
+  try {
+    const usuario = await User.findById(req.session.userId);
+    if (!usuario) {
+      return res.status(401).json({ error: 'Usuario no encontrado' });
+    }
+
+    return res.status(200).json({
+      usuario: {
+        idUsuario: usuario._id,
+        _id: usuario._id,
+        nombreUsuario: usuario.nombreUsuario,
+        apellidoUsuario: usuario.apellidoUsuario,
+        correo: usuario.correo,
+        telefono: usuario.telefono,
+        rolUsuario: usuario.rolUsuario
+      }
+    });
+  } catch (error) {
+    console.error('❌ Error verificando sesión:', error);
+    return res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
 
 exports.mfaVerify = async (req, res, next) => {
   try {
