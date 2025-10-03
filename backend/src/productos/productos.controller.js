@@ -375,13 +375,78 @@ exports.obtenerProductosPorCategoria = async (req, res) => {
       }
     }
 
-    // 3) Ordenamiento si se solicita
+    // 3) FILTRADO POR UBICACIÓN (opcional): departamento y/o ciudad
+    // Si el cliente envía ?ubicacionEmprendimiento.departamento=... o ?ubicacionEmprendimiento.ciudad=...
+    // hacemos un lookup simple a la colección 'emprendimientos' para leer su ubicación
+    const depto = req.query['ubicacionEmprendimiento.departamento'] || req.query['departamento'] || null;
+    const ciudad = req.query['ubicacionEmprendimiento.ciudad'] || req.query['ciudad'] || null;
+
+    if (depto || ciudad) {
+      // helper pequeño para escapar texto en RegExp
+      const escapeRegexLocal = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+      // Agregar lookup para traer la ubicacion del emprendimiento asociado
+      pipeline.push({
+        $lookup: {
+          from: 'emprendimientos',
+          let: { idEmpr: '$idEmprendimiento' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    { $eq: ['$_id', '$$idEmpr'] },
+                    { $eq: [{ $toString: '$_id' }, '$$idEmpr'] }
+                  ]
+                }
+              }
+            },
+            { $project: { ubicacionEmprendimiento: 1 } }
+          ],
+          as: 'emprendimiento'
+        }
+      });
+
+      // Aplanar resultado del lookup
+      pipeline.push({ $unwind: { path: '$emprendimiento', preserveNullAndEmptyArrays: true } });
+
+      // Construir condiciones de match simples y claras para estudiantes
+      const condicionesUbic = [];
+      if (depto && ciudad) {
+        const deptoR = new RegExp('^' + escapeRegexLocal(depto) + '$', 'i');
+        const ciudadR = new RegExp('^' + escapeRegexLocal(ciudad) + '$', 'i');
+        // coincidencia en campos de producto (si existen) o en el emprendimiento
+        condicionesUbic.push({ $and: [ { 'ubicacionEmprendimiento.departamento': deptoR }, { 'ubicacionEmprendimiento.ciudad': ciudadR } ] });
+        condicionesUbic.push({ $and: [ { 'emprendimiento.ubicacionEmprendimiento.departamento': deptoR }, { 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadR } ] });
+        // fallback: buscar "Departamento, Ciudad" dentro de la descripcion del producto
+        try {
+          const textoExacto = `${depto}, ${ciudad}`;
+          condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(textoExacto), 'i') } });
+        } catch (e) { /* si falla el regex, simplemente no usamos el fallback */ }
+      } else if (depto) {
+        const deptoR = new RegExp('^' + escapeRegexLocal(depto) + '$', 'i');
+        condicionesUbic.push({ 'ubicacionEmprendimiento.departamento': deptoR });
+        condicionesUbic.push({ 'emprendimiento.ubicacionEmprendimiento.departamento': deptoR });
+        try { condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(depto), 'i') } }); } catch (e) {}
+      } else if (ciudad) {
+        const ciudadR = new RegExp('^' + escapeRegexLocal(ciudad) + '$', 'i');
+        condicionesUbic.push({ 'ubicacionEmprendimiento.ciudad': ciudadR });
+        condicionesUbic.push({ 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadR });
+        try { condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(ciudad), 'i') } }); } catch (e) {}
+      }
+
+      if (condicionesUbic.length) {
+        pipeline.push({ $match: { $or: condicionesUbic } });
+      }
+    }
+
+    // 4) Ordenamiento si se solicita (ahora viene después de filtros)
     if (ordenar === 'asc' || ordenar === 'desc') {
       const direccion = ordenar === 'asc' ? 1 : -1;
       pipeline.push({ $sort: { precio: direccion } });
     }
 
-    // Ejecutar aggregation
+    // Ejecutar aggregation con los filtros aplicados
     const productosEncontrados = await modeloProducto.aggregate(pipeline).exec();
 
     return res.status(200).json(productosEncontrados);
@@ -394,6 +459,8 @@ exports.obtenerProductosPorCategoria = async (req, res) => {
 /* Filtrar listado de todos los productos */
 exports.filtrarProductos = async (req, res) => {
   try {
+    // Helper pequeño para escapar texto en RegExp
+    const escapeRegex = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     // Leer parámetros desde querystring: ordenar, min, max
     const ordenarRaw = String(req.query.ordenar || '').toLowerCase();
     let ordenar = null;
@@ -430,7 +497,82 @@ exports.filtrarProductos = async (req, res) => {
       if (Object.keys(rango).length) pipeline.push({ $match: { precio: rango } });
     }
 
-    // 3) Proyección mínima para la vista
+    // 2.b) Filtrado por ubicación (departamento/ciudad) si vienen en la query
+    const depto = req.query['ubicacionEmprendimiento.departamento'] || req.query['departamento'] || null;
+    const ciudad = req.query['ubicacionEmprendimiento.ciudad'] || req.query['ciudad'] || null;
+
+    if (depto || ciudad) {
+      // Hacemos lookup a la colección de emprendimientos para leer su ubicación
+      // Usamos pipeline en el $lookup para intentar emparejar aunque id sea string u ObjectId
+      pipeline.push({
+        $lookup: {
+          from: 'emprendimientos',
+          let: { idEmpr: '$idEmprendimiento' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $or: [
+                    // si idEmprendimiento guarda el mismo tipo que _id
+                    { $eq: ['$_id', '$$idEmpr'] },
+                    // o si idEmpr es string, comparamos con toString(_id)
+                    { $eq: [{ $toString: '$_id' }, '$$idEmpr'] }
+                  ]
+                }
+              }
+            },
+            { $project: { ubicacionEmprendimiento: 1 } }
+          ],
+          as: 'emprendimiento'
+        }
+      });
+
+      // Aplanamos el array del lookup para facilitar los matches (puede no existir)
+      pipeline.push({ $unwind: { path: '$emprendimiento', preserveNullAndEmptyArrays: true } });
+
+      // Construir condiciones de match para ubicación
+      const condiciones = [];
+
+      if (depto && ciudad) {
+        // ambos: departamento Y ciudad deben coincidir (en el producto o en el emprendimiento)
+        // Usar RegExp anclado para coincidencia exacta case-insensitive
+        const deptoRegex = new RegExp('^' + escapeRegex(depto) + '$', 'i');
+        const ciudadRegex = new RegExp('^' + escapeRegex(ciudad) + '$', 'i');
+        condiciones.push({ $and: [ { 'ubicacionEmprendimiento.departamento': deptoRegex }, { 'ubicacionEmprendimiento.ciudad': ciudadRegex } ] });
+        condiciones.push({ $and: [ { 'emprendimiento.ubicacionEmprendimiento.departamento': deptoRegex }, { 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadRegex } ] });
+        // Fallback: si la descripción del producto contiene "departamento, ciudad"
+        try {
+          const textoExacto = `${depto}, ${ciudad}`;
+          condiciones.push({ descripcionProducto: { $regex: new RegExp(escapeRegex(textoExacto), 'i') } });
+        } catch (e) {
+          // si Regex falla, ignoramos este fallback
+        }
+      } else if (depto) {
+        // solo departamento
+        const deptoRegexSolo = new RegExp('^' + escapeRegex(depto) + '$', 'i');
+        condiciones.push({ 'ubicacionEmprendimiento.departamento': deptoRegexSolo });
+        condiciones.push({ 'emprendimiento.ubicacionEmprendimiento.departamento': deptoRegexSolo });
+        // Fallback: descripción contiene el departamento
+        try {
+          condiciones.push({ descripcionProducto: { $regex: new RegExp(escapeRegex(depto), 'i') } });
+        } catch (e) { }
+      } else if (ciudad) {
+        // solo ciudad
+        const ciudadRegexSolo = new RegExp('^' + escapeRegex(ciudad) + '$', 'i');
+        condiciones.push({ 'ubicacionEmprendimiento.ciudad': ciudadRegexSolo });
+        condiciones.push({ 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadRegexSolo });
+        // Fallback: descripción contiene la ciudad
+        try {
+          condiciones.push({ descripcionProducto: { $regex: new RegExp(escapeRegex(ciudad), 'i') } });
+        } catch (e) { }
+      }
+
+      if (condiciones.length) {
+        pipeline.push({ $match: { $or: condiciones } });
+      }
+    }
+
+    // 3) Proyección mínima para la vista (se hace después del lookup y matches)
     pipeline.push({
       $project: {
         tituloProducto: 1,

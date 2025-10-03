@@ -1,47 +1,85 @@
-       <!-- Caja de filtros  -->
-        <div class="w-100 mb-3 position-relative">
-          <div style="position:absolute; left:50%; transform:translateX(-50%); top:-12px">
-            <span class="badge bg-white text-terracota rounded-pill border shadow-sm px-3 py-2" style="font-weight:700; font-size:0.95rem; letter-spacing:0.4px;">Filtros de búsqueda</span>
-          </div>
-          <div class="w-100 d-flex justify-content-center align-items-center gap-3 border rounded-3 p-2 bg-white mb-4" style="box-shadow: 0 1px 0 rgba(0,0,0,0.02);">
-          <form id="filtroForm" class="row align-items-center justify-content-center mt-2">
-            <!-- Ordenamiento por precio -->
-            <div class="col-12 col-sm-6 col-md-3">
-              <label for="ordenPrecio" class="form-label small text-muted">Ordenar por precio</label>
+<!-- Caja de filtros  -->
+<div class="w-100 mb-3 position-relative">
+  <div style="position:absolute; left:50%; transform:translateX(-50%); top:-12px">
+    <span class="badge bg-white text-terracota rounded-pill border shadow-sm px-3 py-2"
+      style="font-weight:700; font-size:0.95rem; letter-spacing:0.4px;">Filtros de búsqueda</span>
+  </div>
+  <div class="w-100 d-flex justify-content-center align-items-center gap-3 border rounded-3 p-2 bg-white mb-4"
+    style="box-shadow: 0 1px 0 rgba(0,0,0,0.02);">
+  <form id="filtroForm" class="row align-items-center justify-content-center mt-2" data-filtros='<%- JSON.stringify(filtrosValores || {}) %>'>
+      <!-- Ordenamiento por precio -->
+      <div class="col-12 col-sm-6 col-md-2">
+        <label for="ordenPrecio" class="form-label small text-muted">Ordenar por precio</label>
 
-              <select id="ordenPrecio" name="ordenar" class="form-select form-select-sm" aria-label="Ordenar por precio">
-                <option value="" <%= (typeof filtrosValores === 'undefined' || !filtrosValores.ordenar) ? 'selected' : '' %>>-- Sin ordenar --</option>
-                <option value="precio_asc" <%= (typeof filtrosValores !== 'undefined' && filtrosValores.ordenar === 'precio_asc') ? 'selected' : '' %>>Menor a mayor</option>
-                <option value="precio_desc" <%= (typeof filtrosValores !== 'undefined' && filtrosValores.ordenar === 'precio_desc') ? 'selected' : '' %>>Mayor a menor</option>
-              </select>
-            </div>
+        <select id="ordenPrecio" name="ordenar" class="form-select form-select-sm" aria-label="Ordenar por precio">
+          <option value="" <%=(typeof filtrosValores==='undefined' || !filtrosValores.ordenar) ? 'selected' : '' %>>--
+            Sin ordenar --</option>
+          <option value="precio_asc" <%=(typeof filtrosValores !=='undefined' && filtrosValores.ordenar==='precio_asc' )
+            ? 'selected' : '' %>>Menor a mayor</option>
+          <option value="precio_desc" <%=(typeof filtrosValores !=='undefined' && filtrosValores.ordenar==='precio_desc'
+            ) ? 'selected' : '' %>>Mayor a menor</option>
+        </select>
+      </div>
 
-            <!-- Rango mínimo -->
-            <div class="col-6 col-sm-3 col-md-2">
-              <label for="precioMin" class="form-label small text-muted">Precio mínimo</label>
-              <!-- Mantener valor tras recargar usando filtrosValores.min -->
-              <input id="precioMin" name="min" type="number" min="0" class="form-control form-control-sm" placeholder="0" value="<%= (typeof filtrosValores !== 'undefined' && filtrosValores.min) ? filtrosValores.min : '' %>">
-            </div>
+      <!-- Rango mínimo -->
+      <div class="col-12 col-sm-6 col-md-2">
+        <label for="precioMin" class="form-label small text-muted">Precio mínimo</label>
+        <!-- Mantener valor tras recargar usando filtrosValores.min -->
+        <input id="precioMin" name="min" type="number" min="0" class="form-control form-control-sm" placeholder="Mínimo"
+          value="<%= (typeof filtrosValores !== 'undefined' && filtrosValores.min) ? filtrosValores.min : '' %>">
+      </div>
 
-            <!-- Rango máximo -->
-            <div class="col-6 col-sm-3 col-md-2">
-              <label for="precioMax" class="form-label small text-muted">Precio máximo</label>
-              <!-- Mantener valor tras recargar usando filtrosValores.max -->
-              <input id="precioMax" name="max" type="number" min="0" class="form-control form-control-sm" placeholder="100000" value="<%= (typeof filtrosValores !== 'undefined' && filtrosValores.max) ? filtrosValores.max : '' %>">
-            </div>
+      <!-- Rango máximo -->
+      <div class="col-12 col-sm-6 col-md-2">
+        <label for="precioMax" class="form-label small text-muted">Precio máximo</label>
+        <!-- Mantener valor tras recargar usando filtrosValores.max -->
+        <input id="precioMax" name="max" type="number" min="0" class="form-control form-control-sm" placeholder="Máximo"
+          value="<%= (typeof filtrosValores !== 'undefined' && filtrosValores.max) ? filtrosValores.max : '' %>">
+      </div>
 
-            <!-- Ubicación: departamento -->
-            <div class="col-6 col-sm-3 col-md-2">
-             <label for="ubicacionDepartamento" class="form-label small text-muted">Ubicación</label>
-              <select class="form-select form-select-sm" id="ubicacionDepartamento" name="ubicacionEmprendimiento.departamento">
-                <option value="" disabled selected>Cargando departamentos...</option>
-              </select>
-            </div>
-
-            <!-- Botones aplicar/limpiar  -->
-            <div class="col-12 col-md-2 d-flex flex-column  gap-2">
-              <button type="button" class="btn btn-terracota" id="btnAplicarFiltros">Aplicar filtros</button>
-              <button type="button" class="btn btn-basic" id="btnLimpiarFiltros">Limpiar</button>
-            </div>
-          </form>
+      <!-- Ubicación: departamento -->
+        <div class="col-12 col-sm-6 col-md-2">
+          <label for="ubicacionDepartamento" class="form-label small text-muted">Departamento</label>
+          <select class="form-select form-select-sm" id="ubicacionDepartamento" name="ubicacionEmprendimiento.departamento" required>
+            <option value="" disabled selected>Cargando departamentos...</option>
+          </select>
         </div>
+        <!-- Ubicación: ciudad -->
+        <div class="col-12 col-sm-6 col-md-2">
+          <label for="ubicacionCiudad" class="form-label small text-muted">Ciudad</label>
+          <select class="form-select form-select-sm" id="ubicacionCiudad" name="ubicacionEmprendimiento.ciudad" required disabled>
+            <option value="" disabled selected>Primero selecciona un departamento</option>
+          </select>
+        </div>
+      
+
+      <!-- Botones aplicar/limpiar  -->
+      <div class="col-12 col-md-2 d-flex flex-column  gap-2">
+        <button type="button" class="btn btn-terracota" id="btnAplicarFiltros">Aplicar filtros</button>
+        <button type="button" class="btn btn-basic" id="btnLimpiarFiltros">Limpiar</button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Script simple para preseleccionar departamento/ciudad usando el atributo data-filtros del formulario -->
+  <script>
+    (function() {
+      try {
+        if (typeof window === 'undefined') return;
+        const form = document.getElementById('filtroForm');
+        if (!form) return;
+        const datos = form.getAttribute('data-filtros') || '{}';
+        const filtros = JSON.parse(datos);
+        const depto = filtros['ubicacionEmprendimiento.departamento'] || '';
+        const ciudad = filtros['ubicacionEmprendimiento.ciudad'] || '';
+        if (!depto && !ciudad) return; // nada que preseleccionar
+
+        // Llamar al helper que llena y preselecciona los selects
+        if (typeof window.inicializarSelectorUbicaciones === 'function') {
+          window.inicializarSelectorUbicaciones('ubicacionDepartamento', 'ubicacionCiudad', { departamento: depto, municipio: ciudad });
+        }
+      } catch (err) {
+        console.error('Error preseleccionando filtros de ubicación:', err);
+      }
+    })();
+  </script>

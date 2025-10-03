@@ -359,6 +359,9 @@ exports.mostrarProductosPorCategoria = async (req, res) => {
     if (req.query.ordenar) qs.push(`ordenar=${encodeURIComponent(req.query.ordenar)}`);
     if (req.query.min) qs.push(`min=${encodeURIComponent(req.query.min)}`);
     if (req.query.max) qs.push(`max=${encodeURIComponent(req.query.max)}`);
+  // Incluir filtros de ubicación si vienen desde la querystring
+  if (req.query['ubicacionEmprendimiento.departamento']) qs.push(`ubicacionEmprendimiento.departamento=${encodeURIComponent(req.query['ubicacionEmprendimiento.departamento'])}`);
+  if (req.query['ubicacionEmprendimiento.ciudad']) qs.push(`ubicacionEmprendimiento.ciudad=${encodeURIComponent(req.query['ubicacionEmprendimiento.ciudad'])}`);
     const ruta = `${API_BASE_URL}/productos/categoria/${idCategoria}${qs.length ? ('?' + qs.join('&')) : ''}`;
     //explicacion: Si req.query = { ordenar: 'precio_desc', min: '10' } y API_BASE_URL = 'http://localhost:4006' y idCategoria = '68a6b7', ruta será: http://localhost:4006/productos/categoria/68a6b7?ordenar=precio_desc&min=10
 
@@ -381,6 +384,9 @@ exports.mostrarProductosPorCategoria = async (req, res) => {
       min: req.query.min || '',
       max: req.query.max || ''
     };
+    // Añadir valores de ubicación para que la vista pueda preseleccionar los selects
+    filtrosValores['ubicacionEmprendimiento.departamento'] = req.query['ubicacionEmprendimiento.departamento'] || '';
+    filtrosValores['ubicacionEmprendimiento.ciudad'] = req.query['ubicacionEmprendimiento.ciudad'] || '';
 
     // Render SSR: la vista `productos-filtros.ejs` espera `productos`, `imagenes` y `filtrosValores`
     return res.render('pages/productos-filtros', { productos, imagenes, filtrosValores });
@@ -398,6 +404,9 @@ exports.mostrarProductosFiltrados = async (req, res) => {
     if (req.query.ordenar) qs.push(`ordenar=${encodeURIComponent(req.query.ordenar)}`);
     if (req.query.min) qs.push(`min=${encodeURIComponent(req.query.min)}`);
     if (req.query.max) qs.push(`max=${encodeURIComponent(req.query.max)}`);
+  // Agregar filtros de ubicación cuando existan
+  if (req.query['ubicacionEmprendimiento.departamento']) qs.push(`ubicacionEmprendimiento.departamento=${encodeURIComponent(req.query['ubicacionEmprendimiento.departamento'])}`);
+  if (req.query['ubicacionEmprendimiento.ciudad']) qs.push(`ubicacionEmprendimiento.ciudad=${encodeURIComponent(req.query['ubicacionEmprendimiento.ciudad'])}`);
 
     const ruta = `${API_BASE_URL}/productos/filtrar${qs.length ? ('?' + qs.join('&')) : ''}`;
     const resp = await axios.get(ruta, { headers: HEADERS });
@@ -416,6 +425,9 @@ exports.mostrarProductosFiltrados = async (req, res) => {
       min: req.query.min || '',
       max: req.query.max || ''
     };
+    // Pasar ubicación a la vista para preseleccionar selects
+    filtrosValores['ubicacionEmprendimiento.departamento'] = req.query['ubicacionEmprendimiento.departamento'] || '';
+    filtrosValores['ubicacionEmprendimiento.ciudad'] = req.query['ubicacionEmprendimiento.ciudad'] || '';
 
     // Render SSR: productos.ejs espera `productos` e `imagenes`
     return res.render('pages/productos', { productos, imagenes, filtrosValores });
@@ -441,6 +453,9 @@ exports.mostrarResultadosBusqueda = async (req, res) => {
   if (req.query.ordenar) qs.push(`ordenar=${encodeURIComponent(req.query.ordenar)}`);
   if (req.query.min) qs.push(`min=${encodeURIComponent(req.query.min)}`);
   if (req.query.max) qs.push(`max=${encodeURIComponent(req.query.max)}`);
+  // Añadir ubicación si existe en la query
+  if (req.query['ubicacionEmprendimiento.departamento']) qs.push(`ubicacionEmprendimiento.departamento=${encodeURIComponent(req.query['ubicacionEmprendimiento.departamento'])}`);
+  if (req.query['ubicacionEmprendimiento.ciudad']) qs.push(`ubicacionEmprendimiento.ciudad=${encodeURIComponent(req.query['ubicacionEmprendimiento.ciudad'])}`);
 
   // Llamada al backend que busca por nombre y aplica filtros: /productos/nombre/:nombre?...
   const ruta = `${API_BASE_URL}/productos/nombre/${encodeURIComponent(termino)}${qs.length ? ('?' + qs.join('&')) : ''}`;
@@ -464,6 +479,9 @@ exports.mostrarResultadosBusqueda = async (req, res) => {
       min: req.query.min || '',
       max: req.query.max || ''
     };
+    // Incluir ubicación para la vista
+    filtrosValores['ubicacionEmprendimiento.departamento'] = req.query['ubicacionEmprendimiento.departamento'] || '';
+    filtrosValores['ubicacionEmprendimiento.ciudad'] = req.query['ubicacionEmprendimiento.ciudad'] || '';
 
     // Render simple de la vista de productos con los resultados y filtros actuales
     return res.render('pages/productos', { productos, imagenes, filtrosValores });
