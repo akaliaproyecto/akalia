@@ -19,11 +19,8 @@ module.exports = function (io) {
                 .populate('mensajes.idUsuarioRemitente');
 
                 if(!pedido) return socket.emit('error', 'Pedido no encontrado');
-    
-                // Validar si el usuario pertenece al pedido
-                const userId = socket.user.id.toString();
-                const esParte = [pedido.idUsuarioComprador?.toString(), pedido.idUsuarioVendedor?.toString()].includes(userId);
-                if(!esParte) return socket.emit('error', 'No autorizado para este chat');
+
+               
 
                 const room = `pedido_${pedidoId}`;
                 socket.join(room);
@@ -42,21 +39,25 @@ module.exports = function (io) {
                 // validaciones básicas
                 if (!pedidoId || !contenido) return socket.emit('error', 'Datos incompletos');
                 if (!mongoose.Types.ObjectId.isValid(pedidoId)) return socket.emit('error', 'pedidoId no válido');
-
+                
                 const texto = String(contenido).trim();
                 if (texto.length === 0) return socket.emit('error', 'Mensae vacío');
                 if (texto.length > 1000) return socket.emit('error', 'Mensaje demasiado extenso.');
-
+                
                 // Sanitizar para evitar XSS
                 const clean = sanitizeHtml(texto, { allowedTags: [], allowedAttributes: {} }).trim();
                 if (clean.length === 0) return socket.emit('error', 'Mensaje inválido después de sanitizar');
-
+                console.log(socket.user.id)
+                if (!mongoose.Types.ObjectId.isValid(socket.user.id)) {
+  return socket.emit('error', 'ID de usuario no válido');
+}
                 // Crear el objeto mensaje
                 const mensaje = {
-                    idUsuarioRemitente: mongoose.Types.ObjectId(socket.user.id),
+                    idUsuarioRemitente: new mongoose.Types.ObjectId(socket.user.id),
                     contenidoMensaje: clean,
                     fechaEnvio: new Date()
                 };
+                console.log('PUES AQ')
 
                 // Hacer push al array mensajes y devolver el doc actualizado
                 const updatedPedido = await Pedido.findByIdAndUpdate(
@@ -73,6 +74,7 @@ module.exports = function (io) {
                 // Emitir el nuevo mensaje en el chat
                 io.to(`pedido_${pedidoId}`).emit('newMessage', lastMsg);
             } catch (err) {
+                console.error('Error en sendMessage:', err);
                 socket.emit('error', 'Error al enviar mensaje');
             }
         });

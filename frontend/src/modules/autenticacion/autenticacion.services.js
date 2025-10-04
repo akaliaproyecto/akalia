@@ -3,6 +3,7 @@
 const axios = require('axios');
 axios.defaults.withCredentials = true;
 require('dotenv').config();
+const cookie = require('cookie');
 
 // Importar helpers
 const {
@@ -59,7 +60,17 @@ exports.iniciarSesion = async (req, res) => {
   const { email, contrasena, captcha } = req.body;
 
   try {
+    HEADERS.cookie = req.headers.cookie || "";
     const response = await axios.post(`${API_BASE_URL}/auth/login`, { correo: email, contrasena, captcha }, { headers: HEADERS });
+    if (response.headers["set-cookie"]) {
+                const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));
+                cookies.forEach((c) => {
+                    res.cookie(Object.keys(c)[0], Object.values(c)[0], {
+                        httpOnly: true,
+                        sameSite: 'Strict', // ahora front y back están bajo el mismo host lógico
+                    });
+                });
+            }
 
     // Extraer usuario de la respuesta
     const usuario = extraerUsuario(response);

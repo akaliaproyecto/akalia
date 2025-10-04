@@ -5,7 +5,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   console.error('❌ Socket.IO no está cargado');
 } else {
   
-  const { pedidoId, usuarioId, apiBaseUrl } = window.CHAT_DATA;
+  const { pedidoId, usuarioId, apiBaseUrl, mensajes } = window.CHAT_DATA;
   console.log(apiBaseUrl)
   console.log('🚀 Inicializando chat para pedido:', pedidoId, 'Usuario:', usuarioId);
 
@@ -36,10 +36,14 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   });
 
   // ✅ Recibir mensajes previos
-  socket.on('previousMessages', (msgs) => {
-    console.log('📨 Mensajes previos recibidos:', msgs.length);
-    // No necesitamos renderizar aquí porque ya están en el EJS
+  socket.on('previousMessages', (mensajes) => {
+    mensajes.forEach(msg => {
+        renderMessage(msg);
+    });
+    console.log('📨 Mensajes previos recibidos:', mensajes.length);
   });
+
+
 
   // ✅ Nuevo mensaje en tiempo real
   socket.on('newMessage', (msg) => {
@@ -53,7 +57,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
     alert('Error: ' + error);
   });
 
-  // ✅ Función para renderizar mensajes
+  //  Función para renderizar mensajes
   function renderMessage(msg) {
     const container = document.querySelector('.chat-messages');
     if (!container) {
@@ -66,8 +70,8 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
 
     // Obtener iniciales
     let iniciales = "US";
-    if (msg.idUsuarioRemitente?.nombre) {
-      const nombres = msg.idUsuarioRemitente.nombre.split(" ");
+    if (msg.idUsuarioRemitente?.nombreUsuario) {
+      const nombres = msg.idUsuarioRemitente.nombreUsuario.split(" ");
       iniciales = nombres.map(n => n[0]).join("").substring(0, 2).toUpperCase();
     } else if (esUsuarioActual) {
       iniciales = "YO";
@@ -96,14 +100,14 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
 
     container.appendChild(messageDiv);
 
-    // ✅ Scroll automático
+    // Scroll automático
     const chatBox = container.closest('.chat-container');
     if (chatBox) {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   }
 
-  // ✅ Enviar mensaje
+  //  Enviar mensaje
   const sendMessageForm = document.getElementById('sendMessageForm');
   const messageInput = document.getElementById('messageInput');
 
@@ -122,7 +126,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
       messageInput.value = '';
     });
 
-    // ✅ Indicador de escritura
+    // Indicador de escritura
     const typingIndicator = document.getElementById('typingIndicator');
     let typingTimeout;
 

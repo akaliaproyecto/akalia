@@ -31,54 +31,22 @@
                 <div class="akalia-card-info">
                   <h4 class="akalia-label mb-3">Chat con el Emprendimiento</h4>
 
-  <!-- Chat Messages Container -->
-  <div class="chat-container bg-white border rounded p-3 mb-3"
-       style="height: 400px; overflow-y: auto;">
-    <div id="messages" class="chat-messages">
-      <% if (pedido.mensajes && pedido.mensajes.length) { %>
-        <% pedido.mensajes.forEach(function(m) { 
-             const esMio = m.idUsuarioRemitente?.toString() === usuarioAutenticado.idUsuario?.toString();
-        %>
-          <div class="message mb-3">
-            <div class="d-flex align-items-start <%= esMio ? 'flex-row-reverse' : '' %>">
-              
-              <!-- Avatar -->
-              <div class="avatar <%= esMio ? 'ms-2' : 'me-2' %>">
-                <div class="rounded-circle <%= esMio ? 'bg-verde-light' : 'bg-terracota-light' %> 
-                            d-flex align-items-center justify-content-center"
-                     style="width: 32px; height: 32px;">
-                  <span class="fw-bold small <%= esMio ? 'text-verde' : 'text-terracota' %>">
-                    <%= esMio ? 'YO' : (m.idUsuarioRemitente?.nombre ? 
-                                        m.idUsuarioRemitente.nombre.split(' ')[0][0] + m.idUsuarioRemitente.nombre.split(' ')[1]?.[0] : 'U') %>
-                  </span>
-                </div>
-              </div>
-
-              <!-- Contenido del mensaje -->
-              <div class="message-content <%= esMio ? 'text-end' : '' %>">
-                <div class="p-2 rounded <%= esMio ? 'bg-verde-light' : 'bg-light' %>">
-                  <p class="mb-1 small"><%= m.contenidoMensaje %></p>
-                </div>
-                <small class="text-muted">
-                  <%= esMio ? 'Tú' : (m.idUsuarioRemitente?.nombre || 'Usuario') %> -
-                  <%= new Date(m.fechaEnvio).toLocaleString() %>
-                </small>
-              </div>
-            </div>
-          </div>
-        <% }); %>
-      <% } %>
-    </div>
-  </div>
+                  <!-- Chat Messages Container -->
+                  <div class="chat-container bg-white border rounded p-3 mb-3" style="height: 400px; overflow-y: auto;">
+                    <div id="messages" class="chat-messages">
+                      
+                    </div>
+                  </div>
 
                   <!-- Message Input -->
                   <form id="sendMessageForm" class="chat-input d-flex gap-2">
-                    <input type="text" class="form-control" placeholder="Escribe tu mensaje..."
-                           id="messageInput" maxlength="1000">
+                    <input type="text" class="form-control" placeholder="Escribe tu mensaje..." id="messageInput"
+                      maxlength="1000">
                     <button type="submit" class="btn btn-primary bg-verde text-white border-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                           fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                        <path d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z"/>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-send" viewBox="0 0 16 16">
+                        <path
+                          d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z" />
                       </svg>
                     </button>
                   </form>
@@ -169,17 +137,17 @@
                   <div class="mb-3">
                     <label for="estadoPedido" class="form-label fw-semibold">Estado: </label>
                     <select id="estadoPedido" name="estadoPedido" class="form-select ">
-                      <% if (pedido.estadoPedido === "cancelado") { %>
+                      <% if (pedido.estadoPedido==="cancelado" ) { %>
                         <option value="cancelado" selected disabled>
                           cancelado
                         </option>
-                      <% } else { %>
-                      <% estados.forEach(estado=> { %>
-                        <option value='<%= estado %>' <%= pedido.estadoPedido === estado ? "selected" : "" %>>
-                          <%= estado %>
-                        </option>
-                      <% }); %>
-                      <% }  %>
+                        <% } else { %>
+                          <% estados.forEach(estado=> { %>
+                            <option value='<%= estado %>' <%=pedido.estadoPedido===estado ? "selected" : "" %>>
+                              <%= estado %>
+                            </option>
+                            <% }); %>
+                              <% } %>
                     </select>
                   </div>
 
@@ -233,27 +201,27 @@
                   <div class="d-flex gap-2 justify-content-end">
                     <% if (usuarioComprador.idUsuario !==usuarioAutenticado.idUsuario && pedido.estadoPedido
                       !==' cancelado' && pedido.estadoPedido !=='completado' ) { %>
-                          <button type="submit" class="btn btn-verde">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                              class="bi bi-check-circle me-1" viewBox="0 0 16 16">
-                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                              <path
-                                d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                            </svg>
-                            Actualizar pedido
-                          </button>
+                      <button type="submit" class="btn btn-verde">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-check-circle me-1" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                          <path
+                            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                        </svg>
+                        Actualizar pedido
+                      </button>
 
-                          <button type="button" class="btn btn-terracota "
-                            onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                              class="bi bi-x-circle me-1" viewBox="0 0 16 16">
-                              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                              <path
-                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                            </svg>
-                            Cancelar Pedido
-                          </button>
-                          <% } %>
+                      <button type="button" class="btn btn-terracota "
+                        onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                          class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                          <path
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                        Cancelar Pedido
+                      </button>
+                      <% } %>
 
                   </div>
                   </form>
