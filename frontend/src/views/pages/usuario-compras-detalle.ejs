@@ -36,78 +36,25 @@
                                     <!-- Chat Messages Container -->
                                     <div class="chat-container bg-white border rounded p-3 mb-3"
                                         style="height: 400px; overflow-y: auto;">
-                                        <div class="chat-messages">
-                                            <!-- Message from client -->
-                                            <div class="message mb-3">
-                                                <div class="d-flex align-items-start">
-                                                    <div class="avatar me-2">
-                                                        <div class="rounded-circle bg-terracota-light d-flex align-items-center justify-content-center"
-                                                            style="width: 32px; height: 32px;">
-                                                            <span class="text-terracota fw-bold small">JD</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="message-content">
-                                                        <div class="bg-light p-2 rounded">
-                                                            <p class="mb-1 small">Hola, ¿podrías confirmar si el
-                                                                producto está disponible en color azul?</p>
-                                                        </div>
-                                                        <small class="text-muted">Juan Díaz - Hace 2 horas</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Message from seller -->
-                                            <div class="message mb-3">
-                                                <div class="d-flex align-items-start flex-row-reverse">
-                                                    <div class="avatar ms-2">
-                                                        <div class="rounded-circle bg-verde-light d-flex align-items-center justify-content-center"
-                                                            style="width: 32px; height: 32px;">
-                                                            <span class="text-verde fw-bold small">YO</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="message-content text-end">
-                                                        <div class="bg-verde-light p-2 rounded">
-                                                            <p class="mb-1 small">Sí, tengo disponible en azul. Te
-                                                                actualizo el precio por el color especial.</p>
-                                                        </div>
-                                                        <small class="text-muted">Hace 1 hora</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- Message from client -->
-                                            <div class="message mb-3">
-                                                <div class="d-flex align-items-start">
-                                                    <div class="avatar me-2">
-                                                        <div class="rounded-circle bg-terracota-light d-flex align-items-center justify-content-center"
-                                                            style="width: 32px; height: 32px;">
-                                                            <span class="text-terracota fw-bold small">JD</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="message-content">
-                                                        <div class="bg-light p-2 rounded">
-                                                            <p class="mb-1 small">Perfecto, ¿cuál sería el nuevo precio?
-                                                            </p>
-                                                        </div>
-                                                        <small class="text-muted">Juan Díaz - Hace 30 minutos</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
 
                                     <!-- Message Input -->
-                                    <div class="chat-input d-flex gap-2">
+                                    <form id="sendMessageForm" class="chat-input d-flex gap-2">
                                         <input type="text" class="form-control" placeholder="Escribe tu mensaje..."
-                                            id="messageInput">
-                                        <button class="btn btn-primary bg-verde text-white border-0"
-                                            onclick="sendMessage()">
+                                            id="messageInput" maxlength="1000">
+                                        <button type="submit" class="btn btn-primary bg-verde text-white border-0">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                                                 <path
                                                     d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z" />
                                             </svg>
                                         </button>
+                                    </form>
+
+                                    <!-- typing indicator -->
+                                    <div id="typingIndicator" class="mt-2 text-muted small" style="display:none;">
+                                        Alguien está escribiendo...
                                     </div>
                                 </div>
 
@@ -152,80 +99,118 @@
                                                 <% if (pedido.direccionEnvio) { %>
                                                     <div class="p-3 border rounded bg-light mb-3">
                                                         <div class="d-flex align-items-start gap-2">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-fill text-verde mt-1" viewBox="0 0 16 16">
-                                                                <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 4zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"/>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor"
+                                                                class="bi bi-geo-fill text-verde mt-1"
+                                                                viewBox="0 0 16 16">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 4zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z" />
                                                             </svg>
                                                             <div>
                                                                 <strong>Dirección registrada en el pedido:</strong><br>
-                                                                <span><%= pedido.direccionEnvio.direccion %></span><br>
-                                                                <span class="text-muted"><%= pedido.direccionEnvio.ciudad %>, <%= pedido.direccionEnvio.departamento %></span>
+                                                                <span>
+                                                                    <%= pedido.direccionEnvio.direccion %>
+                                                                </span><br>
+                                                                <span class="text-muted">
+                                                                    <%= pedido.direccionEnvio.ciudad %>, <%=
+                                                                            pedido.direccionEnvio.departamento %>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                <% } %>
+                                                    <% } %>
 
-                                                <!-- Select para cambiar dirección (solo si tiene direcciones disponibles) -->
-                                                <% if (usuarioComprador && Array.isArray(usuarioComprador.direcciones) && usuarioComprador.direcciones.length > 0) { %>
-                                                    <form id="actualizar-direccion-form" action="/usuario-compras/actualizar-direccion/<%= pedido._id %>" method="POST">
-                                                        <label for="direccionEnvio" class="form-label small">
-                                                            <strong>Cambiar a otra dirección:</strong>
-                                                        </label>
-                                                        <select id="direccionEnvio" name="direccionEnvio" class="form-select mb-3">
-                                                            <% usuarioComprador.direcciones.forEach(direccion => { %>
-                                                                <option value='<%- JSON.stringify(direccion) %>'
-                                                                    <%= (pedido.direccionEnvio && pedido.direccionEnvio._id?.toString() === direccion._id?.toString()) ? "selected" : "" %>>
-                                                                    <%= direccion.direccion %> — <%= direccion.ciudad %>, <%= direccion.departamento %>
-                                                                </option>
-                                                            <% }) %>
-                                                        </select>
-                                                    
-                                                <% } else { %>
-                                                    <div class="alert alert-info mt-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-2" viewBox="0 0 16 16">
-                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                                                        </svg>
-                                                        <strong>Sin direcciones disponibles:</strong> No tienes direcciones registradas en tu perfil para cambiar.
-                                                        <a href="/usuario-perfil" class="alert-link">Agregar dirección desde mi perfil</a>
-                                                    </div>
-                                                <% } %>
+                                                        <!-- Select para cambiar dirección (solo si tiene direcciones disponibles) -->
+                                                        <% if (usuarioComprador &&
+                                                            Array.isArray(usuarioComprador.direcciones) &&
+                                                            usuarioComprador.direcciones.length> 0) { %>
+                                                            <form id="actualizar-direccion-form"
+                                                                action="/usuario-compras/actualizar-direccion/<%= pedido._id %>"
+                                                                method="POST">
+                                                                <label for="direccionEnvio" class="form-label small">
+                                                                    <strong>Cambiar a otra dirección:</strong>
+                                                                </label>
+                                                                <select id="direccionEnvio" name="direccionEnvio"
+                                                                    class="form-select mb-3">
+                                                                    <% usuarioComprador.direcciones.forEach(direccion=>
+                                                                        { %>
+                                                                        <option value='<%- JSON.stringify(direccion) %>'
+                                                                            <%=(pedido.direccionEnvio &&
+                                                                            pedido.direccionEnvio._id?.toString()===direccion._id?.toString())
+                                                                            ? "selected" : "" %>>
+                                                                            <%= direccion.direccion %> — <%=
+                                                                                    direccion.ciudad %>, <%=
+                                                                                        direccion.departamento %>
+                                                                        </option>
+                                                                        <% }) %>
+                                                                </select>
+
+                                                                <% } else { %>
+                                                                    <div class="alert alert-info mt-2">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="16" height="16" fill="currentColor"
+                                                                            class="bi bi-info-circle me-2"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                                            <path
+                                                                                d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                                        </svg>
+                                                                        <strong>Sin direcciones disponibles:</strong> No
+                                                                        tienes direcciones registradas en tu perfil para
+                                                                        cambiar.
+                                                                        <a href="/usuario-perfil"
+                                                                            class="alert-link">Agregar dirección desde
+                                                                            mi perfil</a>
+                                                                    </div>
+                                                                    <% } %>
                                             </div>
 
                                             <!-- Botón actualizar (solo si tiene direcciones disponibles y permisos) -->
-                                            <% if (usuarioComprador.idUsuario === usuarioAutenticado.idUsuario && 
-                                                   pedido.estadoPedido !== 'cancelado' && 
-                                                   pedido.estadoPedido !== 'completado' &&
-                                                   usuarioComprador.direcciones && 
-                                                   usuarioComprador.direcciones.length > 0) { %>
-                                            <button type="submit"  class="btn btn-verde">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-check-circle me-1"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                                    <path
-                                                        d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                                                </svg>
-                                                Actualizar dirección
-                                            </button>
-                                            </form>
-                                            <% } else if (pedido.estadoPedido === 'cancelado' || pedido.estadoPedido === 'completado') { %>
-                                            <div class="text-muted small mt-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-1" viewBox="0 0 16 16">
-                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                                                </svg>
-                                                No se puede actualizar la dirección de un pedido <%= pedido.estadoPedido %>
-                                            </div>
-                                            <% } else if (!usuarioComprador.direcciones || usuarioComprador.direcciones.length === 0) { %>
-                                            <div class="text-muted small mt-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle me-1" viewBox="0 0 16 16">
-                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                                                </svg>
-                                                Para cambiar la dirección, agrega direcciones en tu perfil
-                                            </div>
-                                            <% } %>
+                                            <% if (usuarioComprador.idUsuario===usuarioAutenticado.idUsuario &&
+                                                pedido.estadoPedido !=='cancelado' && pedido.estadoPedido
+                                                !=='completado' && usuarioComprador.direcciones &&
+                                                usuarioComprador.direcciones.length> 0) { %>
+                                                <button type="submit" class="btn btn-verde">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-check-circle me-1"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                        <path
+                                                            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                                                    </svg>
+                                                    Actualizar dirección
+                                                </button>
+                                                </form>
+                                                <% } else if (pedido.estadoPedido==='cancelado' ||
+                                                    pedido.estadoPedido==='completado' ) { %>
+                                                    <div class="text-muted small mt-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-info-circle me-1"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                            <path
+                                                                d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                        </svg>
+                                                        No se puede actualizar la dirección de un pedido <%=
+                                                            pedido.estadoPedido %>
+                                                    </div>
+                                                    <% } else if (!usuarioComprador.direcciones ||
+                                                        usuarioComprador.direcciones.length===0) { %>
+                                                        <div class="text-muted small mt-2">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor"
+                                                                class="bi bi-info-circle me-1" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                                <path
+                                                                    d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                            </svg>
+                                                            Para cambiar la dirección, agrega direcciones en tu perfil
+                                                        </div>
+                                                        <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -303,19 +288,21 @@
                                     </div>
                                     <!-- Action Buttons -->
                                     <div class="d-flex gap-2 justify-content-end">
-                                        <% if (usuarioComprador.idUsuario === usuarioAutenticado.idUsuario && pedido.estadoPedido !== 'cancelado' && pedido.estadoPedido !== 'completado') { %>
-                                        <button type="button" class="btn btn-terracota "
-                                            onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'comprador')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-x-circle me-1" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                                <path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                            </svg>
-                                            Cancelar Pedido
-                                        </button>
-                                        <% } %>
+                                        <% if (usuarioComprador.idUsuario===usuarioAutenticado.idUsuario &&
+                                            pedido.estadoPedido !=='cancelado' && pedido.estadoPedido !=='completado' )
+                                            { %>
+                                            <button type="button" class="btn btn-terracota "
+                                                onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'comprador')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                    <path
+                                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                </svg>
+                                                Cancelar Pedido
+                                            </button>
+                                            <% } %>
                                     </div>
                                 </div>
 
@@ -333,9 +320,18 @@
 
             <%- include('../partials/footer.ejs'); %>
                 <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
+
+                <!-- Inyectamos la URL base del API y la API_KEY para que el JS cliente las use -->
                 <script>
                     window.API_BASE_URL = '<%= apiBaseUrl %>';
                     window.API_KEY = '<%= apiKey %>';
+                    window.CHAT_DATA = {
+                        pedidoId: '<%= pedido._id %>',
+                        mensajes: '<%= pedido.mensajes %>',
+                        usuarioId: '<%= usuarioAutenticado.idUsuario %>',
+                        apiBaseUrl: '<%= apiBaseUrl %>',
+                        apiKey: '<%= apiKey %>'
+                    };
                 </script>
                 <script src="/js/perfilUsuario.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
@@ -346,8 +342,13 @@
                 <script src="/js/ubicaciones.service.js"></script>
                 <script src="/js/pedidos.js"></script>
                 <script src="/js/validaciones-pedidos.js"></script>
+
+                <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+                <script src="/js/socket.io.js"></script>
                 <!-- Bootstrap + FontAwesome -->
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+
 </body>
 
 </html>

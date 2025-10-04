@@ -27,19 +27,6 @@ function cancelOrder() {
   }
 }
 
-// Allow Enter key to send message
-document.addEventListener('DOMContentLoaded', function() {
-  const messageInput = document.getElementById('messageInput');
-  if (messageInput) {
-    messageInput.addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-         e.preventDefault();  // evita salto de línea
-        form.requestSubmit(); // dispara el submit del formulario
-      }
-    });
-  }
-});
-
 // Función para actualizar la dirección del pedido
 function actualizarDireccion(pedidoId) {
   const selectDireccion = document.getElementById('direccionEnvio');

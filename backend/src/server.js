@@ -42,7 +42,7 @@ io.use((socket, next) => {
 require('./sockets/chat')(io); 
 
 io.on("connection", (socket) => {
-  console.log("✅ Usuario conectado", socket.id);
+  console.log("✅ Usuario conectado", socket.user.id);
 });
 
 mongoose.connect(process.env.MONGO_URI,)

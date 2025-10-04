@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 
 require('dotenv').config();
 
@@ -12,9 +13,9 @@ exports.listarPedidosUsuario = async (req, res) => {
 		const idUsuario = req.params.id;
 
 		// Llamada al backend para obtener todos los pedidos
-		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/ventas/${idUsuario}`, { headers: HEADERS, }, { withCredentials: true });
+		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/ventas/${idUsuario}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+		setCookie(respuesta,res)
 		const pedidos = (respuesta && respuesta.status === 200 && Array.isArray(respuesta.data)) ? respuesta.data : [];
-
 		// Render SSR de la vista
 		return res.render('pages/usuario-pedidos-listar', {
 			usuario: req.usuarioAutenticado || {},
@@ -33,7 +34,8 @@ exports.listarComprasUsuario = async (req, res) => {
 		const idUsuario = req.params.id;
 
 		// Llamada al backend para obtener todos los pedidos
-		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/compras/${idUsuario}`, { headers: HEADERS, }, { withCredentials: true });
+		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/compras/${idUsuario}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+		setCookie(respuesta,res);
 		const pedidos = (respuesta && respuesta.status === 200 && Array.isArray(respuesta.data)) ? respuesta.data : [];
 
 		// Filtramos los pedidos para mostrar "mis ventas" (idUsuarioComprador === idUsuario)
@@ -156,7 +158,7 @@ exports.editarPedido = async (req, res) => {
 		console.log('Datos a enviar al backend:', pedidoData.direccionEnvio)
 
 		// Enviar pedido al backend
-		const respuesta = await axios.put(`${API_BASE_URL}/pedidos/${req.params.id}`, pedidoData, { headers: HEADERS }, { withCredentials: true });
+		const respuesta = await axios.put(`${API_BASE_URL}/pedidos/${req.params.id}`, pedidoData, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
 		const pedido = respuesta.data;
 
 		console.log('Pedido editado:', pedido);
@@ -179,7 +181,8 @@ exports.detalleCompra = async (req, res) => {
 		if (!idPedido) return res.status(400).render('pages/error', { error: 'ID pedido inválido' });
 
 		// Pedir datos del pedido al backend
-		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/${idPedido}`, { headers: HEADERS }, { withCredentials: true });
+		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/${idPedido}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+		setCookie(respuesta,res);
 		const pedido = respuesta.data;
 
 		const producto = pedido.detallePedido.idProducto;
@@ -189,9 +192,10 @@ exports.detalleCompra = async (req, res) => {
 		const idUsuarioVendedor = pedido.idUsuarioVendedor
 		const estados = ['pendiente', 'aceptado', 'completado']
 		const usuarioAutenticado = req.usuarioAutenticado || {};
-
+		console.log(pedido.mensajes)
 		// Intentar obtener el usuario completo desde la API 
-		const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: HEADERS }, { withCredentials: true }).catch(() => null);
+		const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true }).catch(() => null);
+		setCookie(respUsuario,res);
 		if (respUsuario && respUsuario.status === 200 && respUsuario.data) {
 			usuarioComprador = respUsuario.data.usuario
 		}
@@ -261,7 +265,6 @@ exports.actualizarDireccionPedido = async (req, res) => {
 			{ headers: HEADERS }
 			, { withCredentials: true }
 		);
-
 		console.log('Dirección actualizada exitosamente');
 
 		// Redirigir de vuelta al detalle del pedido con mensaje de éxito
