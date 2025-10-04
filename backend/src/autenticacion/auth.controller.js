@@ -3,7 +3,6 @@ const qrcode = require('qrcode');
 const User = require('../usuarios/usuarios.model.js');
 const bcrypt = require('bcrypt');
 const Log = require('../middlewares/logs.js')
-const session = require('express-session')
 
 /* Iniciar sesión */
 exports.iniciarSesion = async (req, res) => {
