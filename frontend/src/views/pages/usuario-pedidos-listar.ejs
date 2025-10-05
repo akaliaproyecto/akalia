@@ -27,28 +27,30 @@
                                         <h4 class="akalia-label">Pedido N°: <span class="text-muted small">
                                                 <%= pedido._id %>
                                             </span></h4>
-                                            <span class="badge bg-light text-muted">Fecha recibido: <%= new
-                                                    Date(pedido.fechaCreacion || pedido.createdAt).toLocaleString()
-                                                    %></span>
-                                            
-                                        </div>
-                                        <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
-                                            <img src="<%= pedido.detallePedido.idProducto.imagenes[0] %>" alt="Imagen del producto"
-                              class="akalia-img-product" />
+                                        <span class="badge bg-light text-muted">Fecha recibido: <%= new
+                                                Date(pedido.fechaCreacion || pedido.createdAt).toLocaleString() %>
+                                                </span>
+
+                                    </div>
+                                    <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
+                                        <img src="<%= pedido.detallePedido.idProducto.imagenes[0] %>"
+                                            alt="Imagen del producto" class="akalia-img-product" />
 
                                         <!-- Información general del pedido -->
-                                        <div class="d-flex flex-column justify-content-center align-items-start gap-2 col-md-8">
+                                        <div
+                                            class="d-flex flex-column justify-content-center align-items-start gap-2 col-md-8">
                                             <div>
                                                 <strong>Producto:</strong>
                                                 <% if (pedido.detallePedido) { %>
-                                                    <%= pedido.detallePedido.idProducto.tituloProducto %>  
-                                                    
+                                                    <%= pedido.detallePedido.idProducto.tituloProducto %>
+
                                                         <% } else { %>
                                                             <div class="small text-muted">Sin detalles</div>
                                                             <% } %>
                                             </div>
                                             <div class="d-flex gap-1 flex-wrap">
-                                                <strong>Estado:</strong> <span class="badge bg-info text-dark"> <%= pedido.estadoPedido %>
+                                                <strong>Estado:</strong> <span class="badge bg-info text-dark">
+                                                    <%= pedido.estadoPedido %>
                                                 </span>
                                             </div>
                                             <div>
@@ -59,10 +61,10 @@
 
                                         <!-- Acciones y mensajes -->
                                         <div class="d-flex flex-md-column gap-2 align-items-center col-md-3">
-                                                
-                                                <div>
-                                                    <a href="/usuario-compras/detalle/<%= pedido._id %>" class="btn text-vinotinto"
-                                                    title="Ver">
+
+                                            <div>
+                                                <a href="/usuario-compras/detalle/<%= pedido._id %>"
+                                                    class="btn text-vinotinto" title="Ver">
                                                     <!-- ...existing SVG code... -->
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                         viewBox="0 0 28 20" fill="none">
@@ -74,30 +76,10 @@
                                                             fill="currentColor" />
                                                     </svg>
                                                 </a>
-                                                <button class="btn text-vinotinto" title="Editar"
-                                                    onclick="editPedido('<%= usuario.idUsuario %>','<%= pedido._id %>')">
-                                                    <!-- ...existing SVG code... -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
-                                                        fill="none">
-                                                        <g clip-path="url(#clip0_168_47)">
-                                                        <path
-                                                            d="M21.2555 0.255477C21.3368 0.173992 21.4333 0.109342 21.5396 0.0652303C21.6459 0.021119 21.7599 -0.00158691 21.875 -0.00158691C21.9901 -0.00158691 22.1041 0.021119 22.2104 0.0652303C22.3167 0.109342 22.4132 0.173992 22.4945 0.255477L27.7445 5.50548C27.826 5.58676 27.8906 5.68331 27.9347 5.78962C27.9789 5.89592 28.0016 6.00988 28.0016 6.12498C28.0016 6.24007 27.9789 6.35403 27.9347 6.46034C27.8906 6.56664 27.826 6.6632 27.7445 6.74448L10.2445 24.2445C10.1605 24.3279 10.0605 24.3934 9.9505 24.437L1.2005 27.937C1.04148 28.0006 0.867289 28.0162 0.699505 27.9818C0.531722 27.9474 0.377729 27.8645 0.256618 27.7434C0.135506 27.6222 0.0526026 27.4683 0.0181846 27.3005C-0.0162335 27.1327 -0.000652346 26.9585 0.0629963 26.7995L3.563 18.0495C3.60662 17.9395 3.67211 17.8395 3.7555 17.7555L21.2555 0.255477ZM19.6122 4.37498L23.625 8.38773L25.8877 6.12498L21.875 2.11223L19.6122 4.37498ZM22.3877 9.62498L18.375 5.61223L7 16.9872V17.5H7.875C8.10706 17.5 8.32962 17.5922 8.49371 17.7563C8.65781 17.9204 8.75 18.1429 8.75 18.375V19.25H9.625C9.85706 19.25 10.0796 19.3422 10.2437 19.5063C10.4078 19.6704 10.5 19.8929 10.5 20.125V21H11.0127L22.3877 9.62498ZM5.306 18.6812L5.1205 18.8667L2.4465 25.5535L9.13325 22.8795L9.31875 22.694C9.15183 22.6316 9.00793 22.5198 8.9063 22.3734C8.80466 22.2271 8.75013 22.0532 8.75 21.875V21H7.875C7.64293 21 7.42037 20.9078 7.25628 20.7437C7.09218 20.5796 7 20.357 7 20.125V19.25H6.125C5.94681 19.2498 5.77291 19.1953 5.62656 19.0937C5.4802 18.992 5.36836 18.8481 5.306 18.6812Z"
-                                                            fill="currentColor" />
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_168_47">
-                                                            <rect width="28" height="28" fill="white" />
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                    </button>
-                                                </div>
-                                            
-
+                                            </div>
                                             <div class="text-end small">
                                                 Mensajes: <%= Array.isArray(pedido.mensajes) ? pedido.mensajes.length :
                                                     0 %>
-                                                    
                                             </div>
                                         </div>
                                     </div>

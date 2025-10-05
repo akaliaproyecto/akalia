@@ -35,7 +35,7 @@ exports.obtenerProductos = async (req, res) => {
 /*Consultar un producto por su id*/
 exports.obtenerProductoPorId = async (req, res) => {
   let idProducto = req.params.id;
-  console.log('Session ', req.session)
+  console.log('Sessioooon ', req.session)
   try {
     // Validar formato de id antes de consultar
     if (!validarIdMongoDB(idProducto)) {
@@ -179,8 +179,6 @@ exports.crearProducto = async (req, res) => {
 exports.actualizarProducto = async (req, res) => {
   let idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
   const datosProducto = req.body; // datos que llegan con el request
-  console.log('AAAA')
-  console.log(datosProducto)
   try {
 
     let imagenes = [];
@@ -282,6 +280,7 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
 exports.obtenerProductosPorUsuario = async (req, res) => {
   const idUsuario = req.params.id;
   try {
+    console.log('Sesion: ',req.session)
     // Validar idUsuario si es necesario
     // Importamos modelo de emprendimiento dinámicamente para evitar ciclos
     const ModeloEmpr = require('../emprendimientos/emprendimiento.model');

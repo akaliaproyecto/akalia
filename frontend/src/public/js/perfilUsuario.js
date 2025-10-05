@@ -31,7 +31,6 @@ async function verificarContrasenaActual(userId, contrasenaActual) {
 }// Hacer la función disponible globalmente
 window.verificarContrasenaActual = verificarContrasenaActual;
 
-
 // Limpiar estado de validación de campos del modal editar perfil
 function limpiarEstadoValidacion() {
   const campos = ['editarNombre', 'editarApellido', 'editarEmail', 'editarTelefono', 'editarContrasena'];
