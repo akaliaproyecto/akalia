@@ -26,6 +26,7 @@ exports.listarProductosUsuario = async (req, res) => {
       const resp = await axios.get(ruta, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
       setCookie(resp,res);
       const data = resp.data;
+      console.log(resp)
       return data;
     } catch (err) {
       console.error(`Fallo al obtener ${ruta}:`, err.message);
