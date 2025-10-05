@@ -1,6 +1,7 @@
 const axios = require('axios');
 const FormData = require('form-data');
 require('dotenv').config();
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 
 // Base URL de la API (intenta leer de variables de entorno, con fallback)
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
@@ -22,8 +23,10 @@ exports.listarProductosUsuario = async (req, res) => {
   // Función para convertir respuestas de la API en arrays 
   const obtenerArray = async (ruta) => {
     try {
-      const resp = await axios.get(ruta, { headers: HEADERS }, { withCredentials: true });
+      const resp = await axios.get(ruta, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+      setCookie(resp,res);
       const data = resp.data;
+      console.log(resp)
       return data;
     } catch (err) {
       console.error(`Fallo al obtener ${ruta}:`, err.message);
@@ -47,12 +50,10 @@ exports.listarProductosUsuario = async (req, res) => {
     listaEmprendimientos = await obtenerArray(`${API_BASE_URL}/emprendimientos/usuario/${id}`);
     listaProductos = await obtenerArray(`${API_BASE_URL}/productos/usuarios/${id}`);
     // Obtener categorias desde la API del backend
-    const categoriasRespuesta = await obtenerArray(`${API_BASE_URL}/categorias`);
-    // Si la respuesta es un array lo usamos, si no dejamos la lista vacía
+    const categoriasRespuesta = await obtenerArray(`${API_BASE_URL}/categorias`);    // Si la respuesta es un array lo usamos, si no dejamos la lista vacía
     listaCategorias = Array.isArray(categoriasRespuesta) ? categoriasRespuesta : [];
     // Obtener etiquetas desde la API del backend (colección 'etiquetas')
-    const etiquetasRespuesta = await obtenerArray(`${API_BASE_URL}/etiquetas`);
-    // Si la respuesta es un array lo usamos, si no dejamos la lista vacía
+    const etiquetasRespuesta = await obtenerArray(`${API_BASE_URL}/etiquetas`);    // Si la respuesta es un array lo usamos, si no dejamos la lista vacía
     listaEtiquetas = Array.isArray(etiquetasRespuesta) ? etiquetasRespuesta : [];
 
     // Objeto donde key = idEmprendimiento, value = nombre
@@ -94,19 +95,19 @@ exports.mostrarDetalleProducto = async (req, res) => {
     const usuario = req.usuarioAutenticado;
     
     // Petición al backend para obtener detalle del producto
-    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS }, { withCredentials: true });
+    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+    setCookie(respuesta,res);
     // Si se obtiene el producto se renderiza la vista      
     if (respuesta && respuesta.status === 200 && respuesta.data) {
       const producto = respuesta.data;
       
-      
       // obtener nombre del emprendimiento
-      const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento._id}`, { headers: HEADERS });
+      const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento._id}`, { headers: getUpdatedHeaders(req) });
       
       // Pedir listas relacionadas
-      const listaEmprendimientos = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`, { headers: HEADERS }, { withCredentials: true });
-      const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS }, { withCredentials: true });
-      const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS }, { withCredentials: true });
+      const listaEmprendimientos = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+      const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+      const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
 
       const emprendimientos = listaEmprendimientos.data;
       const categorias = listaCategorias.data;
@@ -138,7 +139,7 @@ exports.procesarEditarProducto = async (req, res) => {
     const formData = new FormData(); // objeto para enviar datos al backend
     const usuario = req.usuarioAutenticado;
     // Campos de texto principales
-    console.log(datos)
+    
     const camposTexto = {
       tituloProducto: datos.tituloProducto,
       descripcionProducto: datos.descripcionProducto,
@@ -170,15 +171,16 @@ exports.procesarEditarProducto = async (req, res) => {
         });
       });
     }
-
+    
     // Cabeceras HTTP necesarias para enviar FormData
-    const cabeceras = formData.getHeaders();
-    if (process.env.API_KEY) cabeceras['akalia-api-key'] = process.env.API_KEY;
-
+    const cabeceras = {
+      ... getUpdatedHeaders(req),
+      ... formData.getHeaders()
+    }
     // Petición PUT al backend para actualizar producto
     const ruta = `${API_BASE_URL}/productos/${idProducto}`;
-    const respuesta = await axios.put(ruta, formData, { headers: cabeceras, maxBodyLength: Infinity }, { withCredentials: true });
-
+    const respuesta = await axios.put(ruta, formData, { headers: cabeceras , maxBodyLength: Infinity }, { withCredentials: true });
+    setCookie(respuesta)
     const producto = respuesta.data
     const emprendimiento = producto.idEmprendimiento
     const imagenes = producto.imagenes
@@ -216,7 +218,6 @@ exports.procesarCrearProducto = async (req, res) => {
     const precioProducto = req.body.precio;
     const idEmprendimiento = req.body.idEmprendimiento;
     const categoria = req.body.categoria;
-    console.log(categoria)
     // etiquetas pueden venir como JSON string desde el input hidden
     const etiquetasCampo = req.body.etiquetas || '[]';
 
@@ -253,16 +254,14 @@ exports.procesarCrearProducto = async (req, res) => {
     }
 
     // Obtiene las cabeceras HTTP necesarias (como Content-Type con multipart/form-data y su límite) para enviar correctamente el formData en una petición.
-    const cabeceras = formData.getHeaders();
-
-    // Añadir API KEY 
-    if (process.env.API_KEY) {
-      cabeceras['akalia-api-key'] = process.env.API_KEY;
+  const cabeceras = {
+      ... getUpdatedHeaders(req),
+      ... formData.getHeaders()
     }
-
     // Enviar al backend usando axios.
     const rutaCrearProducto = `${API_BASE_URL}/productos`;
     const respuestaBackend = await axios.post(rutaCrearProducto, formData, { headers: cabeceras, maxBodyLength: Infinity }, { withCredentials: true });
+    setCookie(respuestaBackend,res);
 
     // Si el backend responde con creado (201) o similar, refrescamos la página actual
     if (respuestaBackend && (respuestaBackend.status === 200 || respuestaBackend.status === 201)) {
@@ -293,15 +292,13 @@ exports.procesarEliminarProducto = async (req, res) => {
 
     // Construimos la ruta al backend real
     const rutaBackend = `${API_BASE_URL}/productos/${idProducto}/eliminar`;
+    setCookie(rutaBackend,res);
 
     // Preparar payload simple: { productoEliminado: true }
     const payload = { productoEliminado: productoEliminado === true };
 
-    // Cabeceras: incluimos API_KEY si está disponible en el entorno del servidor frontend
-    const cabeceras = { ...HEADERS };
-
     // Hacemos la petición PATCH al backend
-    await axios.patch(rutaBackend, payload, { headers: cabeceras }, { withCredentials: true });
+    await axios.patch(rutaBackend, payload, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
 
     // Redirigimos al listado del usuario (SSR)
     return res.redirect('/productos/usuario-productos');

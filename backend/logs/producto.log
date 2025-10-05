@@ -380,3 +380,195 @@ Un producto ha sido actualizado: {
   updatedAt: 2025-10-03T17:25:13.681Z,
   __v: 0
 }, fecha: Fri Oct 03 2025 12:25:13 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-04T15:40:17.151Z,
+  __v: 0
+}, fecha: Sat Oct 04 2025 10:40:17 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Textiles y costura',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:18:45.902Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:18:46 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:21:05.148Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:21:05 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanaless',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:22:53.050Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:22:53 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:34:14.898Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:34:15 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanaless',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:34:59.275Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:34:59 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:38:07.679Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:38:07 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanaless',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-05T18:47:08.414Z,
+  __v: 0
+}, fecha: Sun Oct 05 2025 13:47:08 GMT-0500 (Colombia Standard Time)

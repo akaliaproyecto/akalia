@@ -20,7 +20,7 @@ exports.listarEmprendimientosUsuario = async (req, res) => {
 
   try {
     const response = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${id}`, { headers: getUpdatedHeaders(req) });
-    setCookie(response,res)
+    setCookie(response,res);
     if (Array.isArray(response.data)) emprendimientos = response.data;
     // Renderiza la vista con las variables que ya espera el template
     // NOTA: no exponemos la apiKey al cliente para evitar filtración de credenciales.
@@ -64,15 +64,14 @@ exports.agregarEmprendimiento = async (req, res) => {
         contentType: req.file.mimetype
       });
     }
-    // Combinar headers
     const headers = {
-      ...HEADERS,
-      ...formN.getHeaders()
+      ... getUpdatedHeaders(req),
+      ... formData.getHeaders()
     };
 
     // Enviar al backend real 
     const resp = await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
-
+    setCookie(resp,res);
     // Redirigir al listado de emprendimientos del usuario sin exponer el id en la URL.
     // La vista tomará el id desde la sesión (req.usuarioAutenticado) cuando sea necesario.
     res.redirect('/usuario-emprendimientos');
@@ -94,6 +93,7 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
 
   try {
     const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${id}`, { headers: HEADERS, timeout: 5000 });
+    setCookie(resp,res);
     emprendimiento = Array.isArray(resp.data) ? resp.data[0] : (resp.data.emprendimiento || resp.data.data || resp.data);
     
     const usuario = emprendimiento.usuario;
@@ -152,10 +152,9 @@ exports.editarEmprendimiento = async (req, res) => {
         contentType: req.file.mimetype
       });
     }
-    // Combinar headers
     const headers = {
-      ...HEADERS,
-      ...formN.getHeaders()
+      ... getUpdatedHeaders(req),
+      ... formData.getHeaders()
     };
 
     // Enviar al backend real 

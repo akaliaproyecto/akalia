@@ -3,6 +3,7 @@ Módulo que centraliza la lógica del frontend para usuarios: consulta la API (a
 
 const axios = require('axios');
 axios.defaults.withCredentials = true;
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 
 require('dotenv').config();
 
@@ -21,7 +22,7 @@ exports.verificarContrasenaActual = async (req, res) => {
     const response = await axios.post(`${API_BASE_URL}/usuarios/verificar-contrasena`, {
       userId: userId,
       contrasenaActual: contrasenaActual
-    }, { headers: HEADERS }, { withCredentials: true });
+    }, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
     
     res.json(response.data);
   } catch (error) {
@@ -47,11 +48,15 @@ exports.obtenerUsuario = async (req, res) => {
 
   try {
     // Obtener usando helper centralizado
-    const usuarioDesdeApi = await fetchUsuarioPorId(id).catch(() => null);
-    const usuarioPerfil = usuarioDesdeApi || req.usuarioAutenticado;
+    const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
+    setCookie(respuesta,res);
+    const usuario = respuesta.data.usuario;
+    console.log(usuario)
+    // Normalizar campos: garantizar 'email' y 'correo' disponibles
+    
 
     return res.render('pages/usuario-perfil-ver', {
-      usuario: usuarioPerfil,
+      usuario,
       titulo: 'Mi Perfil - Akalia',
       mensajeExito: req.query.exito || null
     });
@@ -103,21 +108,10 @@ exports.actualizarPerfilUsuario = async (req, res) => {
   }
 
   try {
-    const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: HEADERS }, { withCredentials: true });
-
+    const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+    setCookie(respuesta,res);
     // Extraer usuario de la respuesta del backend (puede venir en respuesta.data.usuario o directamente)
     const usuarioActualizado = respuesta.data.usuario || respuesta.data;
-
-    // Reenviar cookies que el backend haya establecido (Set-Cookie) al navegador
-    try {
-      const setCookieHeader = respuesta.headers && (respuesta.headers['set-cookie'] || respuesta.headers['Set-Cookie']);
-      if (setCookieHeader) {
-        // Pasar las cookies tal cual al cliente
-        res.setHeader('Set-Cookie', setCookieHeader);
-      }
-    } catch (e) {
-      console.warn('No se pudieron reenviar cookies del backend al navegador:', e.message || e);
-    }
 
     // NOTA: El backend (actualizarUsuario) es el responsable de escribir la cookie pública 'usuario'.
     // Aquí no volvemos a escribir la cookie desde el frontend para evitar inconsistencia.
@@ -149,8 +143,12 @@ exports.validarContrasenaUsuario = async (req, res) => {
 
   try {
     // Usar helper centralizado para obtener usuario
-    const usuarioFromApi = await fetchUsuarioPorId(idUsuario);
-    const posibleCorreo = usuarioFromApi?.correo || usuarioFromApi?.email;
+    const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
+    setCookie(respuesta,res)
+    const usuario = respuesta.data || data;
+    // Normalizar campos: garantizar 'email' y 'correo' disponibles
+    
+    const posibleCorreo = usuario?.correo || usuario?.email;
 
     if (!posibleCorreo) {
       console.error('validarContrasenaUsuario: no se encontró correo en la respuesta del API', { usuarioFromApi });
@@ -162,7 +160,7 @@ exports.validarContrasenaUsuario = async (req, res) => {
       await axios.post(`${API_BASE_URL}/auth/login`, {
         correo: posibleCorreo,
         contrasena: contrasenaIngresada
-      }, { headers: HEADERS }, { withCredentials: true });
+      }, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
 
       return res.status(200).json({ mensaje: 'Contraseña validada correctamente', validacionExitosa: true });
     } catch (errLogin) {
@@ -189,7 +187,7 @@ exports.desactivarCuentaUsuario = async (req, res) => {
   // Verifica que el usuario exista
   try {
     // Usar PATCH para invocar el endpoint de eliminación parcial del backend
-    await axios.patch(`${API_BASE_URL}/usuarios/${id}`, { estadoUsuario: 'inactivo' }, { headers: HEADERS }, { withCredentials: true });
+    await axios.patch(`${API_BASE_URL}/usuarios/${id}`, { estadoUsuario: 'inactivo' }, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
     return res.status(200).json({ mensaje: 'Cuenta desactivada exitosamente', estadoNuevo: 'inactivo' });
 
   } catch (errorDesactivacion) {
@@ -198,26 +196,18 @@ exports.desactivarCuentaUsuario = async (req, res) => {
   }
 };
 
-// Helper interno para obtener usuario desde el backend y normalizar la respuesta
-async function fetchUsuarioPorId(id) {
-  if (!id) throw new Error('Falta id de usuario');
-  const { data } = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: HEADERS });
-  const usuario = data.usuario || data;
-  // Normalizar campos: garantizar 'email' y 'correo' disponibles
-  if (usuario) {
-    usuario.email = usuario.email || usuario.correo || usuario.correoUsuario || '';
-    usuario.correo = usuario.correo || usuario.email || '';
-  }
-  return usuario;
-}
-
 // Endpoint que devuelve detalle de usuario en formato JSON (proxy al backend)
 exports.obtenerDetalleUsuario = async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ error: 'Falta id de usuario' });
   try {
-    const usuario = await fetchUsuarioPorId(id);
-    console.log('DIOSSSSS')
+    const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
+    setCookie(respuesta,res);
+    
+    const usuario = respuesta.data.usuario;
+    console.log('hola ome',usuario)
+    // Normalizar campos: garantizar 'email' y 'correo' disponibles
+    
     return res.status(200).json({ usuario });
   } catch (err) {
     console.error('obtenerDetalleUsuario error:', err.response?.data || err.message || err);

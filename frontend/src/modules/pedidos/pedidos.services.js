@@ -5,7 +5,6 @@ require('dotenv').config();
 
 // Base URL de la API (usa variables de entorno o valor por defecto)
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
-const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
 /* LISTAR VENTAS: renderiza la vista de "Mis ventas" en el perfil, obtiene los pedidos del usuario autenticado*/
 exports.listarPedidosUsuario = async (req, res) => {
@@ -14,7 +13,7 @@ exports.listarPedidosUsuario = async (req, res) => {
 
 		// Llamada al backend para obtener todos los pedidos
 		const respuesta = await axios.get(`${API_BASE_URL}/pedidos/ventas/${idUsuario}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
-		setCookie(respuesta,res)
+		setCookie(respuesta,res);
 		const pedidos = (respuesta && respuesta.status === 200 && Array.isArray(respuesta.data)) ? respuesta.data : [];
 		// Render SSR de la vista
 		return res.render('pages/usuario-pedidos-listar', {
@@ -59,7 +58,8 @@ exports.iniciarPedido = async (req, res) => {
 		if (!idProducto) return res.status(400).render('pages/error', { error: 'ID producto inválido' });
 
 		// Pedir datos del producto al backend
-		const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS }, { withCredentials: true });
+		const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+		setCookie(respuesta,res);
 		const producto = respuesta.data;
 
 		const emprendimiento = producto.idEmprendimiento;
@@ -74,7 +74,8 @@ exports.iniciarPedido = async (req, res) => {
 			if (!tieneDirecciones) {
 				// Intentar obtener el usuario completo desde la API 
 
-				const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: HEADERS }, { withCredentials: true }).catch(() => null);
+				const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true }).catch(() => null);
+				setCookie(respUsuario,res);
 				if (respUsuario && respUsuario.status === 200 && respUsuario.data) {
 					usuario = respUsuario.data.usuario
 				}
@@ -118,7 +119,8 @@ exports.crearPedido = async (req, res) => {
 		console.log('Datos a enviar al backend:', pedidoData)
 
 		// Enviar pedido al backend
-		const respuesta = await axios.post(`${API_BASE_URL}/pedidos`, pedidoData, { headers: HEADERS }, { withCredentials: true });
+		const respuesta = await axios.post(`${API_BASE_URL}/pedidos`, pedidoData, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+		setCookie(respuesta,res);
 		const pedido = respuesta.data;
 
 		console.log('Pedido creado:', pedido);
@@ -159,6 +161,7 @@ exports.editarPedido = async (req, res) => {
 
 		// Enviar pedido al backend
 		const respuesta = await axios.put(`${API_BASE_URL}/pedidos/${req.params.id}`, pedidoData, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+		setCookie(respuesta,res);
 		const pedido = respuesta.data;
 
 		console.log('Pedido editado:', pedido);
@@ -262,7 +265,7 @@ exports.actualizarDireccionPedido = async (req, res) => {
 		// Petición PATCH para actualizar la dirección en el backend
 		await axios.patch(`${API_BASE_URL}/pedidos/${idPedido}/actualizar`,
 			{ direccionEnvio: direccionObj },
-			{ headers: HEADERS }
+			{ headers: getUpdatedHeaders(req) }
 			, { withCredentials: true }
 		);
 		console.log('Dirección actualizada exitosamente');
@@ -297,7 +300,7 @@ exports.cancelarPedido = async (req, res) => {
 		// Petición PATCH para cambiar estado en el servidor a cancelado
 		await axios.patch(`${API_BASE_URL}/pedidos/${idPedido}/cancelar`,
 			{ pedidoCancelado: pedidoCancelado === 'true' || pedidoCancelado === true },
-			{ headers: HEADERS }, { withCredentials: true }
+			{ headers: getUpdatedHeaders(req) }, { withCredentials: true }
 		);
 		console.log('Pedido cancelado exitosamente');
 
