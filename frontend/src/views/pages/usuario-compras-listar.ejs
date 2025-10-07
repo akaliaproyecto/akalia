@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Mis Ventas | Akalia</title>
+    <title>Mis Compras | Akalia</title>
     <%- include('../partials/head.ejs'); %>
         <link rel="stylesheet" href="/styles/funciones-usuarios.css">
 </head>
@@ -16,28 +16,27 @@
                     <section class="akalia-card overflow-auto">
                         <div
                             class="d-flex flex-md-row flex-column justify-content-between align-items-start pb-3 gap-3">
-                            <h2 class="akalia-title akalia-title--medium m-0">Mis Ventas</h2>
+                            <h2 class="akalia-title akalia-title--medium m-0">Mis Compras</h2>
                         </div>
                         <% if (pedidos && pedidos.length> 0) { %>
                             <!-- Lista de pedidos del usuario (como vendedor) -->
-                            <% pedidos.forEach(pedido=> { %>
+                            <% pedidos.forEach(pedido=> { %>                              
                                 <article class="akalia-card-info d-flex flex-column mb-3">
                                     <div
                                         class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2 col-md-12">
-                                        <h4 class="akalia-label">Pedido N°: <span class="text-muted small">
+                                        <h4 class="akalia-label">N° Compra: <span class="text-muted small">
                                                 <%= pedido._id %>
                                             </span></h4>
-                                            <span class="badge bg-light text-muted">Fecha recibido: <%= new
-                                                    Date(pedido.fechaCreacion || pedido.createdAt).toLocaleString()
+                                            <span class="badge bg-light text-muted">Fecha realizada: <%= new
+                                                    Date(pedido.fechaCreacion || pedido.createdAt).toLocaleDateString()
                                                     %></span>
                                             
                                         </div>
-                                        <div class="d-flex flex-column flex-md-row gap-4 align-items-center">
+                                        <div class="d-flex flex-column justify-content-between flex-lg-row gap-4 align-items-center">
                                             <img src="<%= pedido.detallePedido.idProducto.imagenes[0] %>" alt="Imagen del producto"
                               class="akalia-img-product" />
-
                                         <!-- Información general del pedido -->
-                                        <div class="d-flex flex-column justify-content-center align-items-start gap-2 col-md-8">
+                                        <div class="d-flex flex-column justify-content-center align-items-start gap-2 col-lg-7">
                                             <div>
                                                 <strong>Producto:</strong>
                                                 <% if (pedido.detallePedido) { %>
@@ -52,17 +51,16 @@
                                                 </span>
                                             </div>
                                             <div>
-                                                <strong>Emprendimiento:</strong>
+                                                <strong>Vendido por:</strong>
                                                 <%= pedido.idEmprendimiento.nombreEmprendimiento %>
                                             </div>
                                         </div>
 
                                         <!-- Acciones y mensajes -->
-                                        <div class="d-flex flex-md-column gap-2 align-items-center col-md-3">
+                                        <div class="d-flex flex-lg-column gap-2 align-items-center col-lg-3">
                                                 
-                                                <div>
-                                                    <a href="/usuario-compras/detalle/<%= pedido._id %>" class="btn text-vinotinto"
-                                                    title="Ver">
+                                                <div >
+                                                    <a href="/usuario-compras/detalle/<%= pedido._id %>" class="btn text-vinotinto" title="Ver"> 
                                                     <!-- ...existing SVG code... -->
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                                         viewBox="0 0 28 20" fill="none">
@@ -72,25 +70,9 @@
                                                         <path
                                                             d="M14 5.625C12.8397 5.625 11.7269 6.08594 10.9064 6.90641C10.0859 7.72688 9.625 8.83968 9.625 10C9.625 11.1603 10.0859 12.2731 10.9064 13.0936C11.7269 13.9141 12.8397 14.375 14 14.375C15.1603 14.375 16.2731 13.9141 17.0936 13.0936C17.9141 12.2731 18.375 11.1603 18.375 10C18.375 8.83968 17.9141 7.72688 17.0936 6.90641C16.2731 6.08594 15.1603 5.625 14 5.625ZM7.875 10C7.875 8.37555 8.52031 6.81763 9.66897 5.66897C10.8176 4.52031 12.3755 3.875 14 3.875C15.6245 3.875 17.1824 4.52031 18.331 5.66897C19.4797 6.81763 20.125 8.37555 20.125 10C20.125 11.6245 19.4797 13.1824 18.331 14.331C17.1824 15.4797 15.6245 16.125 14 16.125C12.3755 16.125 10.8176 15.4797 9.66897 14.331C8.52031 13.1824 7.875 11.6245 7.875 10Z"
                                                             fill="currentColor" />
-                                                    </svg>
+                                                    </svg> Ver compra
                                                 </a>
-                                                <button class="btn text-vinotinto" title="Editar"
-                                                    onclick="editPedido('<%= usuario.idUsuario %>','<%= pedido._id %>')">
-                                                    <!-- ...existing SVG code... -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
-                                                        fill="none">
-                                                        <g clip-path="url(#clip0_168_47)">
-                                                        <path
-                                                            d="M21.2555 0.255477C21.3368 0.173992 21.4333 0.109342 21.5396 0.0652303C21.6459 0.021119 21.7599 -0.00158691 21.875 -0.00158691C21.9901 -0.00158691 22.1041 0.021119 22.2104 0.0652303C22.3167 0.109342 22.4132 0.173992 22.4945 0.255477L27.7445 5.50548C27.826 5.58676 27.8906 5.68331 27.9347 5.78962C27.9789 5.89592 28.0016 6.00988 28.0016 6.12498C28.0016 6.24007 27.9789 6.35403 27.9347 6.46034C27.8906 6.56664 27.826 6.6632 27.7445 6.74448L10.2445 24.2445C10.1605 24.3279 10.0605 24.3934 9.9505 24.437L1.2005 27.937C1.04148 28.0006 0.867289 28.0162 0.699505 27.9818C0.531722 27.9474 0.377729 27.8645 0.256618 27.7434C0.135506 27.6222 0.0526026 27.4683 0.0181846 27.3005C-0.0162335 27.1327 -0.000652346 26.9585 0.0629963 26.7995L3.563 18.0495C3.60662 17.9395 3.67211 17.8395 3.7555 17.7555L21.2555 0.255477ZM19.6122 4.37498L23.625 8.38773L25.8877 6.12498L21.875 2.11223L19.6122 4.37498ZM22.3877 9.62498L18.375 5.61223L7 16.9872V17.5H7.875C8.10706 17.5 8.32962 17.5922 8.49371 17.7563C8.65781 17.9204 8.75 18.1429 8.75 18.375V19.25H9.625C9.85706 19.25 10.0796 19.3422 10.2437 19.5063C10.4078 19.6704 10.5 19.8929 10.5 20.125V21H11.0127L22.3877 9.62498ZM5.306 18.6812L5.1205 18.8667L2.4465 25.5535L9.13325 22.8795L9.31875 22.694C9.15183 22.6316 9.00793 22.5198 8.9063 22.3734C8.80466 22.2271 8.75013 22.0532 8.75 21.875V21H7.875C7.64293 21 7.42037 20.9078 7.25628 20.7437C7.09218 20.5796 7 20.357 7 20.125V19.25H6.125C5.94681 19.2498 5.77291 19.1953 5.62656 19.0937C5.4802 18.992 5.36836 18.8481 5.306 18.6812Z"
-                                                            fill="currentColor" />
-                                                        </g>
-                                                        <defs>
-                                                        <clipPath id="clip0_168_47">
-                                                            <rect width="28" height="28" fill="white" />
-                                                        </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                    </button>
+                                                
                                                 </div>
                                             
 
@@ -115,8 +97,8 @@
                                                         d="M3 0a1 1 0 0 0-1 1v14l2-1 2 1 2-1 2 1 2-1 2 1V1a1 1 0 0 0-1-1H3z" />
                                                 </svg>
                                             </div>
-                                            <h4 class="text-muted">Aún no tienes pedidos</h4>
-                                            <p class="text-muted mb-4">Cuando recibas un pedido aparecerá aquí para que
+                                            <h4 class="text-muted">Aún no tienes compras</h4>
+                                            <p class="text-muted mb-4">Cuando realices una compra aparecerá aquí para que
                                                 lo gestiones.</p>
                                         </div>
                                         <% } %>
@@ -137,8 +119,6 @@
                 crossorigin="anonymous"></script>
             <!-- Cargar la lógica del modal -->
             <script src="/js/login_signup.js"></script>
-            <script src="/js/ubicaciones.service.js"></script>
-            <script src="/js/pedidos.js"></script>
             <!-- Bootstrap + FontAwesome -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>

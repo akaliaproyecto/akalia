@@ -250,14 +250,25 @@
 }
 
 .btn-verde {
-  background-color: var(--hover-blanco);
-  color:var(--active-verde);
+  background-color: var(--active-verde);
+  color:var(--normal-blanco);
   border-radius: 0.5rem;
   padding: 0.3rem 0.8rem;
   font-weight: 600;
   font-size: 1rem;
   border: none;
 }
+
+.btn-verde:hover, .btn-verde:focus {
+  background-color: var(--hover-verde);
+  color:var(--hover-blanco);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+}
+
 
 .btn-explorar {
   background: var(--hover-blanco);

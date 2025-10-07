@@ -70,7 +70,6 @@ exports.agregarEmprendimiento = async (req, res) => {
 
     // Enviar al backend real 
     const resp = await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
-    console.log('Respuesta backend:', resp.data);
 
     // Redirigir al listado de emprendimientos del usuario sin exponer el id en la URL.
     // La vista tomará el id desde la sesión (req.usuarioAutenticado) cuando sea necesario.

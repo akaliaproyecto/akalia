@@ -46,8 +46,7 @@ exports.obtenerProductoPorId = async (req, res) => {
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
        productoEliminado: false 
-      });
-
+      }).populate('idEmprendimiento');
     if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
     } else {

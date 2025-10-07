@@ -5,10 +5,11 @@ const {
   validarIdMongoDB,
   pedidoExistePorId,
   validarDatosCreacionPedido,
-  validarDatosActualizacionPedido
+  validarDatosActualizacionPedido,
+  verificarPedidoActivoExistente
 } = require('./pedidos.validations');
 
-//Consultar todos los pedidos (panel admin)
+// Consultar/Listar todos los pedidos (panel admin)
 exports.obtenerPedidos = async (req, res) => {
   try {
     let pedidosEncontrados = await modeloPedido.find();
@@ -23,8 +24,35 @@ exports.obtenerPedidos = async (req, res) => {
   }
 };
 
+// Consultar/Listar todos los pedidos del usuario vendedor
+exports.obtenerVentas = async (req, res) => {
+  const idUsuarioVendedor = req.params.id;
+  try {
+    let pedidosEncontrados = await modeloPedido.find({idUsuarioVendedor : idUsuarioVendedor})
+    .populate('idEmprendimiento')
+    .populate('detallePedido.idProducto');
 
-//Consultar un pedido por ID
+      res.status(200).json(pedidosEncontrados);
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al consultar pedidos", detalle: error.message });
+  }
+};
+
+// Consultar/Listar todos los pedidos del usuario comprador
+exports.obtenerCompras = async (req, res) => {
+  const idUsuarioComprador = req.params.id;
+  try {
+    let comprasEncontrados = await modeloPedido.find({idUsuarioComprador : idUsuarioComprador})
+    .populate('idEmprendimiento')
+    .populate('detallePedido.idProducto');
+
+    res.status(200).json(comprasEncontrados);
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al consultar pedidos", detalle: error.message });
+  }
+};
+
+// Consultar un pedido por ID 
 exports.obtenerPedidosPorId = async (req, res) => {
   const idPedido = req.params.id; // obtener el parámetro de la URL
 
@@ -33,7 +61,9 @@ exports.obtenerPedidosPorId = async (req, res) => {
     if (!validarIdMongoDB(idPedido)) {
       return res.status(400).json({ mensaje: 'ID de pedido inválido' });
     }
-    const pedidoEncontrado = await modeloPedido.findById(idPedido);
+    const pedidoEncontrado = await modeloPedido.findById(idPedido)
+    .populate('idEmprendimiento')
+    .populate('detallePedido.idProducto');
 
     if (pedidoEncontrado) {
       res.status(200).json(pedidoEncontrado);
@@ -46,12 +76,13 @@ exports.obtenerPedidosPorId = async (req, res) => {
 };
 
 
-//Crear nuevo pedido
+// Crear nuevo pedido
 exports.crearPedido = async (req, res) => {
   const datosPedido = req.body;
-
+  
   try {
     const validacion = await validarDatosCreacionPedido(datosPedido);
+    console.log(datosPedido)
 
     if (!validacion.valido) {
       return res.status(400).json({
@@ -85,6 +116,13 @@ exports.editarPedido = async (req, res) => {
       return res.status(404).json({ mensaje: 'Pedido no encontrado' });
     }
 
+    const validacion = validarDatosActualizacionPedido(datosPedido);
+    if (!validacion.valido) {
+      return res.status(400).json({
+        error: 'Datos de pedido inválidos',
+        errores: validacion.errores
+      });
+    }
     // si ya está marcado como eliminado no permitir edición
     if (pedidoExistente.estadoEliminacion === 'eliminado') {
       return res.status(400).json({ mensaje: 'No se puede editar un pedido eliminado' });
@@ -106,6 +144,107 @@ exports.editarPedido = async (req, res) => {
   }
 };
 
+// Actualizar direccion de un pedido (Usuario comprador)
+exports.actualizarPedido = async (req, res) => {
+  try {
+    // Buscar el pedido por ID
+    const pedido = await modeloPedido.findById(req.params.id);
+
+    if (!pedido) {
+      return res.status(404).json({ mensaje: 'Pedido no encontrado' });
+    }
+
+    // Verificar si el pedido está cancelado
+    if (pedido.estadoPedido === 'cancelado') {
+      return res.status(400).json({ mensaje: 'No se puede actualizar un pedido cancelado' });
+    }
+
+    // Extraer la nueva dirección del cuerpo de la petición
+    const { direccionEnvio } = req.body;
+
+    if (!direccionEnvio) {
+      return res.status(400).json({ mensaje: 'Dirección de envío es requerida' });
+    }
+
+    // Realizar actualización de la dirección
+    const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
+      req.params.id,
+      { direccionEnvio },
+      { new: true }
+    );
+
+    //Registrar log
+    Log.generateLog('pedido.log', `La direccion del pedido ha sido actualizada: ${pedidoActualizado._id}, fecha: ${new Date()}`);
+
+    res.json({
+      mensaje: 'Dirección del pedido actualizada correctamente',
+      pedido: pedidoActualizado
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
+// Verificar si un usuario tiene pedido activo para un producto específico
+exports.verificarPedidoActivo = async (req, res) => {
+  try {
+    const { idUsuario, idProducto } = req.params;
+    
+    if (!validarIdMongoDB(idUsuario) || !validarIdMongoDB(idProducto)) {
+      return res.status(400).json({ mensaje: 'IDs inválidos' });
+    }
+    
+    const tienePedidoActivo = await verificarPedidoActivoExistente(idUsuario, idProducto);
+    
+    res.json({ 
+      tienePedidoActivo,
+      mensaje: tienePedidoActivo ? 'Usuario tiene pedido activo para este producto' : 'No hay pedido activo'
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
+
+// Cancelar un pedido (Usuario comprador)
+exports.cancelarPedido = async (req, res) => {
+  try {
+    // Buscar el pedido por ID
+    const pedido = await modeloPedido.findById(req.params.id);
+
+    if (!pedido) {
+      return res.status(404).json({ mensaje: 'Pedido no encontrado' });
+    }
+
+    // Verificar si el pedido ya está eliminado
+    if (pedido.estado === 'cancelado') {
+      return res.status(400).json({ mensaje: 'El pedido ya está cancelado' });
+    }
+
+    // Regla de negocio: No cancelar pedido si su estado es completado
+    if (pedido.estadoPedido === 'completado') {
+      return res.status(400).json({
+        mensaje: 'No se puede cancelar un pedido con estado completado. Estado actual: ' + pedido.estadoPedido
+      });
+    }
+
+    // Realizar eliminación lógica
+    const pedidoCancelado = await modeloPedido.findByIdAndUpdate(
+      req.params.id,
+      { estadoPedido: 'cancelado' },
+      { new: true }
+    );
+
+    //Registrar log
+    Log.generateLog('pedido.log', `Un pedido ha sido cancelado: ${pedidoCancelado}, fecha: ${new Date()}`);
+
+    res.json({
+      mensaje: 'Pedido cancelado correctamente',
+      pedido: pedidoCancelado
+    });
+  } catch (error) {
+    res.status(500).json({ mensaje: error.message });
+  }
+};
 
 // Eliminar lógicamente un pedido (solo si no está activo)
 exports.eliminarPedido = async (req, res) => {
@@ -118,7 +257,7 @@ exports.eliminarPedido = async (req, res) => {
     }
 
     // Verificar si el pedido ya está eliminado
-    if (pedido.estadoEliminacion === 'eliminado') {
+    if (pedido.estadoEliminacion === true) {
       return res.status(400).json({ mensaje: 'El pedido ya está eliminado' });
     }
 
@@ -132,7 +271,7 @@ exports.eliminarPedido = async (req, res) => {
     // Realizar eliminación lógica
     const pedidoEliminado = await modeloPedido.findByIdAndUpdate(
       req.params.id,
-      { estadoEliminacion: 'eliminado' },
+      { estadoEliminacion: true },
       { new: true }
     );
 

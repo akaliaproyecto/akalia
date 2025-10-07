@@ -101,7 +101,7 @@ exports.mostrarDetalleProducto = async (req, res) => {
       
       
       // obtener nombre del emprendimiento
-      const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS });
+      const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento._id}`, { headers: HEADERS });
       
       // Pedir listas relacionadas
       const listaEmprendimientos = await axios.get(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`, { headers: HEADERS });
@@ -127,45 +127,6 @@ exports.mostrarDetalleProducto = async (req, res) => {
     }
   } catch (error) {
     return res.status(500).render('pages/error', { error: 'Error al obtener detalle de producto', message: error.message || String(error) });
-  }
-};
-
-/* Cargar datos de producto desde el backend para mostrarlos en la vista de edición */
-exports.mostrarEditarProducto = async (req, res) => {
-  try {
-    const idProducto = req.params.id; // id del producto a editar
-    const usuario = req.usuarioAutenticado; // usuario que está autenticado
-
-    // Pide datos al backend usando axios
-    const pedirLista = async (url) => {
-      const r = await axios.get(url, { headers: HEADERS });
-      return r.data;
-    };
-
-    // Pedir producto al backend
-    const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
-    if (respuesta.status !== 200 || !respuesta.data) return res.status(404).send('Producto no encontrado');
-
-    const producto = respuesta.data;  // datos del producto recibido
-
-    // Pedir listas relacionadas
-    const listaEmprendimientos = await pedirLista(`${API_BASE_URL}/emprendimientos/usuario/${usuario.idUsuario}`);
-    const listaCategorias = await pedirLista(`${API_BASE_URL}/categorias`);
-    const listaEtiquetas = await pedirLista(`${API_BASE_URL}/etiquetas`);
-
-    // Renderizar el partial que se insertará en el modal
-    return res.render('partials/usuario-producto-editar', {
-      usuario,
-      producto,
-      imagenes: producto.imagenes || [],
-      emprendimientos: listaEmprendimientos,
-      categorias: listaCategorias,
-      etiquetas: listaEtiquetas || []
-    });
-
-  } catch (error) {
-    // Error inesperado
-    return res.status(500).send('Error al obtener datos del producto');
   }
 };
 

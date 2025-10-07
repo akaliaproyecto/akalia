@@ -6,13 +6,24 @@ const router = express.Router();
 const {
   obtenerPedidos,
   obtenerPedidosPorId,
+  obtenerVentas,
+  obtenerCompras,
   crearPedido,
   editarPedido,
-  eliminarPedido
+  actualizarPedido,
+  cancelarPedido,
+  eliminarPedido,
+  verificarPedidoActivo
 } = require('./pedido.controller');
 
 //obtener todos los pedidos
 router.get('/', obtenerPedidos);
+
+//obtener todos los pedidos
+router.get('/ventas/:id', obtenerVentas);
+
+//obtener todos los pedidos
+router.get('/compras/:id', obtenerCompras);
 
 //obtener un pedido por id
 router.get('/:id', obtenerPedidosPorId);
@@ -20,8 +31,17 @@ router.get('/:id', obtenerPedidosPorId);
 //crear un nuevo pedido
 router.post('/', crearPedido);
 
+//verificar si un usuario tiene pedido activo para un producto
+router.get('/verificar-activo/:idUsuario/:idProducto', verificarPedidoActivo);
+
 //editar un pedido existente
 router.put('/:id', editarPedido);
+
+//cancelar un pedido (delete lógico con PATCH)
+router.patch('/:id/cancelar', cancelarPedido);
+
+//actualizar direccion de un pedido (PATCH)
+router.patch('/:id/actualizar', actualizarPedido);
 
 //eliminar un pedido (delete lógico con PATCH)
 router.patch('/:id/eliminar', eliminarPedido);

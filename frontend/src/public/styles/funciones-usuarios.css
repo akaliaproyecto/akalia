@@ -1,6 +1,6 @@
 /* Tarjeta principal de usuario/perfil */
 .akalia-card {
-  max-width: 950px;
+  max-width: 1200px;
   width: 100%;
   background: #FFF9E4;
   border-radius: 12px;
@@ -93,8 +93,8 @@ main{
 }
 
 .akalia-img-product {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 100px;
   object-fit: cover;
   border-radius: 10px;
 }
