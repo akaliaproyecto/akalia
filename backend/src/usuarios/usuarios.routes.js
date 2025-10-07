@@ -1,6 +1,7 @@
 // Importa Express y crea un router para definir las rutas de productos
 const express = require('express');
 const router = express.Router();
+const { requireAuth  } = require('../middlewares/auth.middlewares.js');
 
 // Importa las funciones del controlador que se van a ejecutar cuando se llame cada ruta
 const {
@@ -23,7 +24,7 @@ router.post('/', crearUsuario);
 router.get('/', obtenerUsuarios);
 
 // Ruta para obtener un usuario por ID
-router.get('/:id', obtenerUsuarioPorId);
+router.get('/:id',requireAuth, obtenerUsuarioPorId);
 
 // obtener un usuario por nombre
 router.get('/nombre/:nombre', obtenerUsuarioPorNombre);
@@ -35,10 +36,10 @@ router.get('/verificar-email/:email', verificarEmail);
 router.post('/verificar-contrasena', verificarContrasenaActual);
 
 // editar un usuario existente
-router.put('/:id', actualizarUsuario);
+router.put('/:id',requireAuth, actualizarUsuario);
 
 // eliminar un usuario por ID
-router.patch('/:id', eliminarUsuario);
+router.patch('/:id',requireAuth, eliminarUsuario);
 
 // Ruta para obtener municipios por departamento
 router.get('/municipios-por-departamento', (req, res) => {

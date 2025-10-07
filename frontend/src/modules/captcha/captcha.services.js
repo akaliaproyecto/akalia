@@ -1,6 +1,6 @@
 const axios = require('axios');
 require('dotenv').config();
-const cookie = require('cookie');
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 
 const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
@@ -8,24 +8,13 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 /* Generar el captcha */
 exports.generarCaptcha = async (req, res) => {
     try {
-        HEADERS.cookie = req.headers.cookie || "";
-        const response = await axios.get(`${API_BASE_URL}/captcha/generar`,
-            {
-                responseType: 'text',
-                headers: HEADERS,
-                withCredentials: true,
-                credentials: "include"
-            });
-        //Si el backend manda Set-Cookie, la guarda en el navegador
-        if (response.headers["set-cookie"]) {
-            const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));
-            cookies.forEach((c) => {
-                res.cookie(Object.keys(c)[0], Object.values(c)[0], {
-                    httpOnly: true,
-                    sameSite: 'Strict', // ahora front y back están bajo el mismo host lógico
-                });
-            });
-        }
+        const response = await axios.get(`${API_BASE_URL}/captcha/generar`, { 
+            responseType: 'text', 
+            headers: getUpdatedHeaders(req) 
+        }, { 
+            withCredentials: true 
+        });
+        setCookie(response,res);
         return res.send(response.data);
     } catch (error) {
         console.error('Error obteniendo captcha: ', error);
@@ -40,7 +29,6 @@ exports.validarCaptcha = async (req, res) => {
         const response = await axios.post(`${API_BASE_URL}/captcha/validar`, req.body, {
             headers: HEADERS, withCredentials: true, credentials: "include"
         });
-        console.log(`SessionID ${req.sessionID}`)
         if (response.headers["set-cookie"]) {
             const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));
             cookies.forEach((c) => {

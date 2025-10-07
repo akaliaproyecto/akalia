@@ -3,7 +3,7 @@
 const axios = require('axios');
 axios.defaults.withCredentials = true;
 require('dotenv').config();
-const cookie = require('cookie');
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 
 // Importar helpers
 const {
@@ -25,8 +25,8 @@ exports.registrarUsuario = async (req, res) => {
     const payload = construirPayloadRegistro({ email, nombreUsuario, apellidoUsuario, telefono, contrasena });
 
     // Llamada HTTP al backend para crear el usuario
-    const response = await axios.post(`${API_BASE_URL}/usuarios`, payload, { headers: HEADERS });
-
+    const response = await axios.post(`${API_BASE_URL}/usuarios`, payload, { headers: getUpdatedHeaders(req) });
+    setCookie(response, res);
     // Extraer usuario de la respuesta
     const usuario = extraerUsuario(response);
 
@@ -37,7 +37,7 @@ exports.registrarUsuario = async (req, res) => {
     res.cookie('usuario', JSON.stringify(datosUsuarioParaCookie), cookieOpts);
 
     // Agregar cookie temporal para mostrar toast de éxito
-    res.cookie('registro-exitoso', 'true', { 
+    res.cookie('registro-exitoso', 'true', {
       maxAge: 5000, // Expira en 5 segundos
       httpOnly: false, // Permitir acceso desde JavaScript
       path: '/'
@@ -60,17 +60,8 @@ exports.iniciarSesion = async (req, res) => {
   const { email, contrasena, captcha } = req.body;
 
   try {
-    HEADERS.cookie = req.headers.cookie || "";
-    const response = await axios.post(`${API_BASE_URL}/auth/login`, { correo: email, contrasena, captcha }, { headers: HEADERS });
-    if (response.headers["set-cookie"]) {
-                const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));
-                cookies.forEach((c) => {
-                    res.cookie(Object.keys(c)[0], Object.values(c)[0], {
-                        httpOnly: true,
-                        sameSite: 'Strict', // ahora front y back están bajo el mismo host lógico
-                    });
-                });
-            }
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, { correo: email, contrasena, captcha }, { headers: getUpdatedHeaders(req) });
+    setCookie(response, res);
 
     // Extraer usuario de la respuesta
     const usuario = extraerUsuario(response);
@@ -78,10 +69,6 @@ exports.iniciarSesion = async (req, res) => {
     // Construir datos de la cookie
     const datosUsuarioParaCookie = construirDatosUsuarioCookie(usuario);
 
-    // Guardar cookie
-    
-    console.log('USUARIO: ', res.headers)
-    console.log('USUARIO: ', req.headers)
     // Responder con JSON (AJAX)
     return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaCookie });
 
@@ -95,28 +82,16 @@ exports.iniciarSesion = async (req, res) => {
   }
 };
 
-exports.verificarAutenticacion = async (req, res, next) => {  
-  try {
-    console.log('🔍 Verificando autenticación para:', req.path);
-    
-    const response = await axios.get(`${API_BASE_URL}/api/auth/verificar-sesion`, {
-      headers: HEADERS
-    });
+exports.logout = async (req, res) => {
+  console.log('Se bborro con exito?')
 
-    if (response.ok) {
-      const data = await response.json();
-      req.usuarioAutenticado = data.usuario;
-      res.locals.usuarioAutenticado = data.usuario;
-      res.locals.usuarioActual = data.usuario;
-      
-      console.log('✅ Usuario autenticado:', data.usuario.nombreUsuario);
-      return next();
-    } else {
-      console.log('❌ Usuario no autenticado, redirigiendo...');
-      return res.redirect('/login');
-    }
-  } catch (error) {
-    console.error('❌ Error verificando autenticación:', error.message);
-    return res.redirect('/login');
+  try {
+    const respuesta = await axios.post(`${API_BASE_URL}/auth/logout`, {}, { headers: getUpdatedHeaders(req) });
+    setCookie(respuesta, res);
+    console.log('Se bborro con exito?')
+    res.clearCookie('connect.sid');
+    res.redirect('/');
+  } catch (err) {
+    res.status(500).send('Error al cerrar sesión', err);
   }
 };

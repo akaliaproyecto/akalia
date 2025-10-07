@@ -572,3 +572,54 @@ Un producto ha sido actualizado: {
   updatedAt: 2025-10-05T18:47:08.414Z,
   __v: 0
 }, fecha: Sun Oct 05 2025 13:47:08 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68e2d5fd29b7ae1246aef0f1, información: {
+  tituloProducto: 'lkiwrvvirea',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'ljowerevviw',
+  precio: 7397839873,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/b3f69860-b8ad-4e8f-b178-d249b7bb8955.png'
+  ],
+  categoria: 'Joyería y bisutería',
+  etiquetas: [ 'vajilla artesanal' ],
+  _id: new ObjectId('68e2d5fd29b7ae1246aef0f1'),
+  createdAt: 2025-10-05T20:33:01.407Z,
+  updatedAt: 2025-10-05T20:33:01.407Z,
+  __v: 0
+}  fecha: Sun Oct 05 2025 15:33:01 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68e4a78ee9136734bb3cfc7f, información: {
+  tituloProducto: 'producto borrar',
+  idEmprendimiento: new ObjectId('68e453b1e9136734bb3cfc4c'),
+  descripcionProducto: 'producto borrar producto borrar producto borrar producto borrar',
+  precio: 90000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2f9209e9-8e2f-40e7-ae71-c8ff5df4dc0d.png'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [ 'porcelana fría', 'jabones exfoliantes' ],
+  _id: new ObjectId('68e4a78ee9136734bb3cfc7f'),
+  createdAt: 2025-10-07T05:39:26.417Z,
+  updatedAt: 2025-10-07T05:39:26.417Z,
+  __v: 0
+}  fecha: Tue Oct 07 2025 00:39:26 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e4a78ee9136734bb3cfc7f'),
+  tituloProducto: 'producto borra',
+  idEmprendimiento: new ObjectId('68e453b1e9136734bb3cfc4c'),
+  descripcionProducto: 'producto borrar producto borrar producto borrar producto borrar',
+  precio: 90000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2f9209e9-8e2f-40e7-ae71-c8ff5df4dc0d.png'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [ 'porcelana fría', 'jabones exfoliantes' ],
+  createdAt: 2025-10-07T05:39:26.417Z,
+  updatedAt: 2025-10-07T05:39:56.351Z,
+  __v: 0
+}, fecha: Tue Oct 07 2025 00:39:56 GMT-0500 (Colombia Standard Time)

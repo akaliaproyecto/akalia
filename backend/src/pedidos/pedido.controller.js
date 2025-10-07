@@ -27,7 +27,8 @@ exports.obtenerPedidos = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario vendedor
 exports.obtenerVentas = async (req, res) => {
   const idUsuarioVendedor = req.params.id;
-  console.log('Session ', req.session)
+      console.log('session en lista ventas:',req.session)
+
   try {
     let pedidosEncontrados = await modeloPedido.find({idUsuarioVendedor : idUsuarioVendedor})
     .populate('idEmprendimiento')
@@ -42,6 +43,8 @@ exports.obtenerVentas = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario comprador
 exports.obtenerCompras = async (req, res) => {
   const idUsuarioComprador = req.params.id;
+      console.log('session en lista compras:',req.session)
+
   try {
     let comprasEncontrados = await modeloPedido.find({idUsuarioComprador : idUsuarioComprador})
     .populate('idEmprendimiento')
@@ -55,7 +58,8 @@ exports.obtenerCompras = async (req, res) => {
 
 // Consultar un pedido por ID 
 exports.obtenerPedidosPorId = async (req, res) => {
-  console.log("Session actual:", req.session);
+        console.log('session detalle pedido:',req.session)
+
   const idPedido = req.params.id; // obtener el parámetro de la URL
   try {
     // Validar formato de ID
@@ -85,7 +89,6 @@ exports.crearPedido = async (req, res) => {
   
   try {
     const validacion = await validarDatosCreacionPedido(datosPedido);
-    console.log(datosPedido)
 
     if (!validacion.valido) {
       return res.status(400).json({
@@ -112,14 +115,14 @@ exports.editarPedido = async (req, res) => {
     // id y body recibidos
     const idPedido = req.params.id;
     const datosPedido = req.body;
-
+    console.log('session en editar pedido:',req.session)
     // primero recuperar por id
     const pedidoExistente = await modeloPedido.findById(idPedido).lean();
     if (!pedidoExistente) {
       return res.status(404).json({ mensaje: 'Pedido no encontrado' });
     }
-
-    const validacion = validarDatosActualizacionPedido(datosPedido);
+     const validacion =  await validarDatosActualizacionPedido(datosPedido, idPedido);
+    
     if (!validacion.valido) {
       return res.status(400).json({
         error: 'Datos de pedido inválidos',
@@ -130,7 +133,7 @@ exports.editarPedido = async (req, res) => {
     if (pedidoExistente.estadoEliminacion === 'eliminado') {
       return res.status(400).json({ mensaje: 'No se puede editar un pedido eliminado' });
     }
-
+    
     // realizar la actualización
     const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
       idPedido,
@@ -138,8 +141,10 @@ exports.editarPedido = async (req, res) => {
       { new: true, runValidators: true }
     );
 
+    pedidoLog = pedidoActualizado.detallePedido
+    
     //Registrar log
-    Log.generateLog('pedido.log', `Un pedido ha sido actualizado: ${pedidoActualizado}, fecha: ${new Date()}`);
+    Log.generateLog('pedido.log', `Un pedido ha sido actualizado: ${pedidoActualizado._id},${pedidoLog} fecha: ${new Date()}`);
 
     res.json(pedidoActualizado);
   } catch (error) {

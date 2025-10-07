@@ -10,7 +10,7 @@ const { Server } = require('socket.io');
 
 const io = new Server(server, {
   cors: { 
-    origin: 'http://localhost:4666', 
+    origin: process.env.CLIENT_URL || 'http://localhost:4666', 
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -27,9 +27,7 @@ io.use((socket, next) => {
 // Middleware de autenticacion
 io.use((socket, next) => {
   const req = socket.request;
-  console.log('Verificando autenticación socket...');
-  console.log('Session:', req.session);
-
+  
   if (req.session && req.session.userId) {
     socket.user = { 
       id: req.session.userId.toString() //  Convertir a string
