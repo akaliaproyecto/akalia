@@ -10,7 +10,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   console.log('🚀 Inicializando chat para pedido:', pedidoId, 'Usuario:', usuarioId);
 
   // ✅ Conectar al socket
-  const socket = io('http://localhost:4006', { 
+  const socket = io(apiBaseUrl, { 
     withCredentials: true,
     transports: ['websocket', 'polling'],
     timeout: 20000,

@@ -40,3 +40,4 @@ services:
         value: https://akalia-azbm.onrender.com
       - key: API_BASE_URL
         value: https://akalia-azbm.onrender.com
+
