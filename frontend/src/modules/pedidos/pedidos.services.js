@@ -296,7 +296,6 @@ exports.cancelarPedido = async (req, res) => {
 
 		// Redirigir al listado de compras del usuario
 		return res.redirect(`/usuario-compras/${datosUsuario._id}`);
-
 	} catch (error) {
 		console.error('Error al cancelar pedido:', error.message || error);
 		return res.status(500).render('pages/error', {
