@@ -13,6 +13,8 @@ const bodyParser = require('body-parser')
 
 dotenv.config();
 
+//Sesiones
+app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
 
 /*CONFIGURACIÓN DE MIDDLEWARES*/
 // Parsers
@@ -45,8 +47,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-//Sesiones
-app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
 
 // Configuración de sesiones con MongoDB store para producción
 const sessionConfig = {

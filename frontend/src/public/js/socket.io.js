@@ -1,4 +1,4 @@
-// ✅ Verificar que tenemos todos los datos necesarios
+// Verificar que tenemos todos los datos necesarios
 if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuarioId) {
   console.error('❌ Datos del chat no disponibles');
 } else if (typeof io === 'undefined') {
@@ -9,34 +9,30 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   console.log(apiBaseUrl)
   console.log('🚀 Inicializando chat para pedido:', pedidoId, 'Usuario:', usuarioId);
 
-  // ✅ Conectar al socket
+  // Conectar al socket
   const socket = io(apiBaseUrl, { 
     withCredentials: true,
     transports: ['websocket', 'polling'],
     timeout: 20000,
     forceNew: true
      });
-     console.log('aqui el socket', socket)
-     console.log(apiBaseUrl)
-  // ✅ Manejar conexión
+  // Manejar conexión
   socket.on('connect', () => {
-    console.log('✅ Socket conectado:', socket.id);
-    console.log('✅ Transporte usado:', socket.io.engine.transport.name);
     // Unirse a la sala del pedido
     socket.emit('joinPedido', { pedidoId });
   });
 
-  // ✅ Manejar errores de conexión
+  // Manejar errores de conexión
   socket.on('connect_error', (error) => {
-    console.error('❌ Error de conexión:', error);
-    console.error('❌ Detalles:', {
+    console.error('Error de conexión:', error);
+    console.error('Detalles:', {
       message: error.message,
       type: error.type,
       transport: socket.io.engine?.transport?.name
     });
   });
 
-  // ✅ Recibir mensajes previos
+  // Recibir mensajes previos
   socket.on('previousMessages', (mensajes) => {
     mensajes.forEach(msg => {
         renderMessage(msg);
@@ -46,13 +42,13 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
 
 
 
-  // ✅ Nuevo mensaje en tiempo real
+  // Nuevo mensaje en tiempo real
   socket.on('newMessage', (msg) => {
     console.log('📨 Nuevo mensaje recibido:', msg);
     renderMessage(msg);
   });
 
-  // ✅ Manejar errores del servidor
+  // Manejar errores del servidor
   socket.on('error', (error) => {
     console.error('❌ Error del servidor:', error);
     alert('Error: ' + error);
