@@ -17,6 +17,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
     forceNew: true
      });
      console.log('aqui el socket', socket)
+     console.log(apiBaseUrl)
   // ✅ Manejar conexión
   socket.on('connect', () => {
     console.log('✅ Socket conectado:', socket.id);
