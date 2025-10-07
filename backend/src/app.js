@@ -148,11 +148,14 @@ app.use('/comisiones',  validateApiKey, comisionesRoutes);
 // CAPTCHA
 const captchaRoutes = require('./captcha/captcha.routes.js')
 app.use('/captcha',  validateApiKey, captchaRoutes)
+<<<<<<< HEAD
 
 app.get('/debug-session', (req, res) => {
   console.log('Session actual:', req.session);
   res.json(req.session);
 });
+=======
+>>>>>>> 7e71b1f (Se finaliza el añadir cookies de session a las peticiones del SSR;)
 
 app.get('/debug-session', (req, res) => {
   console.log('Session actual:', req.session);

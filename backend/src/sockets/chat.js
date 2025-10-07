@@ -37,11 +37,11 @@ module.exports = function (io) {
                 // validaciones básicas
                 if (!pedidoId || !contenido) return socket.emit('error', 'Datos incompletos');
                 if (!mongoose.Types.ObjectId.isValid(pedidoId)) return socket.emit('error', 'pedidoId no válido');
-                
+
                 const texto = String(contenido).trim();
                 if (texto.length === 0) return socket.emit('error', 'Mensae vacío');
                 if (texto.length > 1000) return socket.emit('error', 'Mensaje demasiado extenso.');
-                
+
                 // Sanitizar para evitar XSS
                 const clean = sanitizeHtml(texto, { allowedTags: [], allowedAttributes: {} }).trim();
                 if (clean.length === 0) return socket.emit('error', 'Mensaje inválido después de sanitizar');
@@ -56,7 +56,6 @@ module.exports = function (io) {
                     contenidoMensaje: clean,
                     fechaEnvio: new Date()
                 };
-                console.log('PUES AQ')
 
                 // Hacer push al array mensajes y devolver el doc actualizado
                 const updatedPedido = await Pedido.findByIdAndUpdate(

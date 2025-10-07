@@ -189,7 +189,7 @@ exports.detalleCompra = async (req, res) => {
 		const idUsuarioVendedor = pedido.idUsuarioVendedor
 		const estados = ['pendiente', 'aceptado', 'completado']
 		const usuarioAutenticado = req.usuarioAutenticado || {};
-		console.log(pedido.mensajes)
+
 		// Intentar obtener el usuario completo desde la API 
 		const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true }).catch(() => null);
 		setCookie(respUsuario,res);
