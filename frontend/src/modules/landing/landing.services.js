@@ -1,5 +1,6 @@
 const axios = require('axios');
 axios.defaults.withCredentials = true;
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 
 require('dotenv').config();
 
@@ -11,7 +12,8 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 exports.categoriasProductosLanding = async (req, res) => {
   try {
     // Obtener categorías desde el API
-    const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
+    const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: getUpdatedHeaders(req) });
+    setCookie(respCategorias,res);
     let categorias = [];
     if (Array.isArray(respCategorias.data)) {
       categorias = respCategorias.data;
@@ -23,7 +25,8 @@ exports.categoriasProductosLanding = async (req, res) => {
     // Obtener productos desde el API 
     let productos = [];
     try {
-      const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
+      const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: getUpdatedHeaders(req) });
+      setCookie(respProductos,res);
         if (Array.isArray(respProductos.data)) {
         productos = respProductos.data;
       } else {
@@ -67,7 +70,7 @@ exports.mostrarProductos = async (req, res) => {
     // Leer valores de filtros desde querystring para mantener selección tras recarga
     const { ordenar = '', min = '', max = '' } = req.query || {};
     // Obtener productos desde el API
-    const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
+    const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: getUpdatedHeaders(req) });
     let productos = [];
     if (Array.isArray(respProductos.data)) {
       productos = respProductos.data;
@@ -103,7 +106,8 @@ exports.mostrarProductoPorId = async (req, res) => {
     const idProducto = req.params.id;
 
     // Obtener el producto específico desde el API
-    const respProducto = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
+    const respProducto = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: getUpdatedHeaders(req) });
+    setCookie(respProducto,res);
     const producto = respProducto.data;
 
     // Preparar el arreglo de imágenes para la vista del producto
@@ -119,7 +123,8 @@ exports.mostrarProductoPorId = async (req, res) => {
     let emprendimiento = {};
     try {
       if (producto.idEmprendimiento) {
-        const respEmprendimiento = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: HEADERS });
+        const respEmprendimiento = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: getUpdatedHeaders(req) });
+        setCookie(respEmprendimiento,res);
         emprendimiento = respEmprendimiento.data || {};
       }
     } catch (errEmprendimiento) {
@@ -145,7 +150,8 @@ exports.mostrarProductoPorId = async (req, res) => {
 
         if (posibleId) {
           // obtener la categoría por id
-          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${posibleId}`, { headers: HEADERS });
+          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${posibleId}`, { headers: getUpdatedHeaders(req) });
+          setCookie(respCategoria,res);
           categoriaP = [respCategoria.data] || [];
           producto.categoriaNombre = respCategoria.data && respCategoria.data.nombreCategoria ? respCategoria.data.nombreCategoria : '';
         } else if (typeof valorCategoria === 'string') {

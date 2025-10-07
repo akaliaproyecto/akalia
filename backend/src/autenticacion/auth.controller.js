@@ -41,7 +41,7 @@ exports.iniciarSesion = async (req, res) => {
     
     // Guarda en la sesión
     req.session.userId = usuarioEncontrado._id.toString();
-    req.session.usuarioooo = {
+    req.session.usuario = {
       idUsuario: usuarioEncontrado._id,
       nombreUsuario: usuarioEncontrado.nombreUsuario,
       apellidoUsuario: usuarioEncontrado.apellidoUsuario,
@@ -77,7 +77,7 @@ exports.iniciarSesion = async (req, res) => {
 // Función para verificar sesión
 exports.verificarSesion = async (req, res) => {
   console.log(' Verificando sesión:', {
-    sessionID: req.sessionID,
+  
     userId: req.session?.userId,
     hasSession: !!req.session
   });
@@ -130,11 +130,34 @@ exports.mfaVerify = async (req, res, next) => {
   }
 };
 
-exports.logout = (req, res) => {
-  req.session.destroy(() => {
-    res.clearCookie('sid');
-    res.json({ ok: true });
-  });
+exports.logout = async (req, res) => {
+      console.log('Se bborro con exito?')
+
+  try {
+   if (!req.session) {
+     // nada que destruir
+     res.clearCookie('connect.sid', { path: '/' });
+     return res.json({ ok: true });
+   }
+    console.log('Se bborro con exito?')
+
+   req.session.destroy((err) => {
+     if (err) {
+       console.error('Error destruyendo sesión:', err);
+       // intentar limpiar cookie de todas formas
+       res.clearCookie('connect.sid', { path: '/' });
+       return res.status(500).json({ error: 'Error cerrando sesión' });
+     }
+    console.log('Se bborro con exito?2')
+
+     // limpiar cookie con el mismo nombre que la sesión
+     res.clearCookie('connect.sid', { path: '/' });
+     return res.json({ ok: true });
+   });
+  } catch (err) {
+   console.error('Excepción en logout:', err);
+   return res.status(500).json({ error: 'Error interno al cerrar sesión' });
+ }
 };
 
 exports.me = async (req, res, next) => {

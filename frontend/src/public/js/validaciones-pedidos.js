@@ -255,7 +255,7 @@ function validarEstado() {
 /**
  * Validar todo el formulario de creación de pedido
  */
-async function validarFormularioPedido() {
+async function validarFormularioPedido(formularioPedido) {
     let esValido = true;
 
     // Validaciones síncronas
@@ -265,9 +265,8 @@ async function validarFormularioPedido() {
     if (!validarPrecios()) esValido = false;
     if (!validarDetalles()) esValido = false;
     if (!validarEstado()) esValido = false;
-
     // Validación asíncrona - verificar pedido existente
-    if (esValido) {
+    if (esValido && (formularioPedido !== document.getElementById('editar-pedido-form'))) {
         const idProducto = document.getElementById('idProducto')?.value;
         const idUsuarioComprador = document.getElementById('idUsuarioComprador')?.value;
 
@@ -370,7 +369,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Validando formulario de pedido...');
 
-            const esValido = await validarFormularioPedido();
+            if (formularioPedido !== document.getElementById('editar-pedido-form')){
+
+            }
+            const esValido = await validarFormularioPedido(formularioPedido);
 
             if (esValido) {
                 console.log('Formulario válido, enviando...');
@@ -410,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
         </svg>
         <strong>¡Atención!</strong> Necesitas agregar una dirección desde tu perfil antes de poder crear un pedido.
-        <a href="/usuario-perfil" class="alert-link">Ir a Mi Perfil</a>
+        <a href="/mi-perfil" class="alert-link">Ir a Mi Perfil</a>
       `;
 
             // Insertar después del elemento de dirección

@@ -22,10 +22,10 @@ const {
 router.get('/', obtenerProductos);
 
 // obtener productos por emprendimiento 
-router.get('/emprendimiento/:idEmprendimiento', obtenerProductosEmprendimiento);
+router.get('/emprendimiento/:idEmprendimiento',requireAuth, obtenerProductosEmprendimiento);
 
 // obtener productos por usuario (todos los productos de sus emprendimientos)
-router.get('/usuarios/:id', obtenerProductosPorUsuario);
+router.get('/usuarios/:id',requireAuth, obtenerProductosPorUsuario);
 
 // obtener por nombre 
 router.get('/nombre/:nombre', obtenerProductoPorNombre);
@@ -40,12 +40,12 @@ router.get('/filtrar', filtrarProductos);
 router.get('/:id', obtenerProductoPorId);
 
 // crear un nuevo producto
-router.post('/', subirImagen.array('imagenes', 10), crearProducto);
+router.post('/',requireAuth, subirImagen.array('imagenes', 10), crearProducto);
 
 // editar un producto existente
-router.put('/:id', subirImagen.array('imagenes', 10), actualizarProducto);
+router.put('/:id',requireAuth, subirImagen.array('imagenes', 10), actualizarProducto);
 
 // borrado lógico de un producto por ID 
-router.patch('/:id/eliminar', eliminarProducto);
+router.patch('/:id/eliminar',requireAuth, eliminarProducto);
 
 module.exports = router;

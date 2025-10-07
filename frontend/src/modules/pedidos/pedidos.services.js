@@ -101,7 +101,6 @@ exports.iniciarPedido = async (req, res) => {
 exports.crearPedido = async (req, res) => {
 	try {
 		const datos = req.body;
-		console.log('Datos recibidos del formulario:', datos);
 
 		// Preparar datos para enviar al backend
 		const pedidoData = {
@@ -116,7 +115,6 @@ exports.crearPedido = async (req, res) => {
 			},
 			total: parseInt(datos.total) || 0,
 		};
-		console.log('Datos a enviar al backend:', pedidoData)
 
 		// Enviar pedido al backend
 		const respuesta = await axios.post(`${API_BASE_URL}/pedidos`, pedidoData, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
@@ -140,7 +138,6 @@ exports.crearPedido = async (req, res) => {
 exports.editarPedido = async (req, res) => {
 	try {
 		const datos = req.body;
-		console.log('Datos recibidos del formulario:', datos);
 
 		// Preparar datos para enviar al backend
 		const pedidoData = {
@@ -157,14 +154,11 @@ exports.editarPedido = async (req, res) => {
 			},
 			total: parseInt(datos.total) || 0,
 		};
-		console.log('Datos a enviar al backend:', pedidoData.direccionEnvio)
 
 		// Enviar pedido al backend
 		const respuesta = await axios.put(`${API_BASE_URL}/pedidos/${req.params.id}`, pedidoData, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
 		setCookie(respuesta,res);
 		const pedido = respuesta.data;
-
-		console.log('Pedido editado:', pedido);
 
 		// Redirigir a la lista de compras del usuario
 		return res.redirect(`/usuario-compras/detalle/${pedido._id}`);
@@ -195,7 +189,7 @@ exports.detalleCompra = async (req, res) => {
 		const idUsuarioVendedor = pedido.idUsuarioVendedor
 		const estados = ['pendiente', 'aceptado', 'completado']
 		const usuarioAutenticado = req.usuarioAutenticado || {};
-		console.log(pedido.mensajes)
+
 		// Intentar obtener el usuario completo desde la API 
 		const respUsuario = await axios.get(`${API_BASE_URL}/usuarios/${idUsuarioComprador}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true }).catch(() => null);
 		setCookie(respUsuario,res);
@@ -234,9 +228,7 @@ exports.actualizarDireccionPedido = async (req, res) => {
 	try {
 		const idPedido = req.params.id;
 		const { direccionEnvio } = req.body;
-		
-		console.log('Actualizando dirección del pedido:', { idPedido, direccionEnvio });
-		
+				
 		if (!idPedido) {
 			return res.status(400).render('pages/error', { 
 				error: 'ID de pedido inválido',
@@ -268,7 +260,6 @@ exports.actualizarDireccionPedido = async (req, res) => {
 			{ headers: getUpdatedHeaders(req) }
 			, { withCredentials: true }
 		);
-		console.log('Dirección actualizada exitosamente');
 
 		// Redirigir de vuelta al detalle del pedido con mensaje de éxito
 		return res.redirect(`/usuario-compras/detalle/${idPedido}?actualizado=true`);
@@ -302,7 +293,6 @@ exports.cancelarPedido = async (req, res) => {
 			{ pedidoCancelado: pedidoCancelado === 'true' || pedidoCancelado === true },
 			{ headers: getUpdatedHeaders(req) }, { withCredentials: true }
 		);
-		console.log('Pedido cancelado exitosamente');
 
 		// Redirigir al listado de compras del usuario
 		return res.redirect(`/usuario-compras/${datosUsuario._id}`);

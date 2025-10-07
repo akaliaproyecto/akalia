@@ -5,7 +5,7 @@ const router = express.Router();
 
 const {
   registrarUsuario,
-  iniciarSesion
+  iniciarSesion, logout
 } = require('./autenticacion.services')
 
 /* ruta post para registrar un nuevo usuario */
@@ -13,5 +13,8 @@ router.post('/registro', registrarUsuario);
 
 /* ruta post para iniciar sesión */
 router.post('/login', iniciarSesion);
+
+/* ruta post para iniciar sesión */
+router.post('/logout', logout);
 
 module.exports = router;

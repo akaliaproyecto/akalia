@@ -1,6 +1,7 @@
 const express = require('express');
 const subirImagen = require('../middlewares/manejadorImg.js');
 const router = express.Router();
+const { requireAuth  } = require('../middlewares/auth.middlewares.js');
 
 const {
   obtenerEmprendimientos,
@@ -19,16 +20,16 @@ router.get('/', obtenerEmprendimientos);
 router.get('/:id', obtenerEmprendimientoPorId);
 
 // obtener emprendimientos por ID de usuario
-router.get('/usuario/:id', obtenerEmprendimientoPorIdUsuario);
+router.get('/usuario/:id',requireAuth, obtenerEmprendimientoPorIdUsuario);
 
 // crear un nuevo emprendimiento
-router.post('/', subirImagen.single('logo'), crearEmprendimiento);
+router.post('/', requireAuth,subirImagen.single('logo'), crearEmprendimiento);
 
 // actualizar un emprendimiento
-router.put('/:id', subirImagen.single('logo'), actualizarEmprendimiento);
+router.put('/:id', requireAuth,subirImagen.single('logo'), actualizarEmprendimiento);
 
 // deshabilitar un emprendimiento
-router.patch('/:id', deshabilitarEmprendimiento);
+router.patch('/:id', requireAuth,deshabilitarEmprendimiento);
 
 // verificar si un emprendimiento está activo
 router.get('/verificar-activo/:id', verificarEmprendimientoActivo);

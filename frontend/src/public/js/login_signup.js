@@ -50,17 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const registroExitoso = document.cookie
       .split('; ')
       .find(fila => fila.startsWith('registro-exitoso='));
-    
+
     if (registroExitoso) {
       // Extraer el valor de la cookie
       const valor = registroExitoso.split('=')[1];
-      
+
       if (valor === 'true') {
         // Mostrar toast de éxito
         setTimeout(() => {
           mostrarToast('¡Registro exitoso! Bienvenido a Akalia', 'success');
         }, 500); // Pequeño delay para que la página termine de cargar
-        
+
         // Eliminar la cookie inmediatamente para evitar mostrar el toast repetidamente
         document.cookie = 'registro-exitoso=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
       }
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       eventoEnvio.preventDefault(); // Evitar envío tradicional del formulario
 
       // Obtener datos del formulario
-            // Realizar autenticación
+      // Realizar autenticación
       try {
         // Validar captcha antes de proceder
         if (typeof validarCaptchaAntesDeEnviar === 'function') {

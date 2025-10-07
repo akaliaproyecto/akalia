@@ -91,7 +91,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
             <p class="mb-1 small">${msg.contenidoMensaje}</p>
           </div>
           <small class="text-muted">
-            ${msg.idUsuarioRemitente?.nombre || (esUsuarioActual ? 'Tú' : 'Usuario')} - 
+            ${ (esUsuarioActual ? 'Tú' : msg.idUsuarioRemitente?.nombreUsuario)} - 
             ${new Date(msg.fechaEnvio).toLocaleString()}
           </small>
         </div>

@@ -25,42 +25,134 @@
                 Volver
               </button>
             </div>
+            <form id="editar-pedido-form" action="/usuario-pedidos/actualizar/<%= pedido._id %>" method="POST">
 
-            <div class="row g-4">
-              <div class="col-lg-6">
-                <div class="akalia-card-info">
-                  <h4 class="akalia-label mb-3">Chat con el Comprandor</h4>
+              <div class="row g-4">
+                <!-- Order Details Section (Derecha) -->
+                <div class="col-lg-6">
+                  <div class="akalia-card-info">
+                    <h4 class="akalia-label mb-3">Detalles del Pedido</h4>
 
-                  <!-- Chat Messages Container -->
-                  <div class="chat-container bg-white border rounded p-3 mb-3" style="height: 400px; overflow-y: auto;">
-                    <div id="messages" class="chat-messages">
-                      
+                    <!-- Product Info -->
+                    <div class="mb-4 p-3 border rounded bg-light">
+                      <div class="d-flex align-items-center gap-3">
+                        <img src="<%= producto.imagenes[0] %>" alt="Imagen del producto" class="akalia-img-product" />
+                        <div>
+                          <h6 class="mb-1">
+                            <%= pedido.idEmprendimiento.nombreEmprendimiento %>
+                          </h6>
+                          <p class="mb-0 text-muted small">
+                            <%= producto.tituloProducto %>
+                          </p>
+                          <input type="hidden" name="idEmprendimiento" id="idEmprendimiento"
+                            value="<%= pedido.idEmprendimiento._id %>">
+                          <input type="hidden" name="idUsuarioVendedor" id="idUsuarioVendedor"
+                            value="<%= pedido.idUsuarioVendedor %>">
+                          <input type="hidden" name="idUsuarioComprador" id="idUsuarioComprador"
+                            value="<%= pedido.idUsuarioComprador %>">
+                          <input type="hidden" name="idProducto" id="idProducto" value="<%= producto._id %>">
+                        </div>
+                      </div>
                     </div>
+
+                    <!-- Order Status -->
+                    <div class="mb-3">
+                      <label for="estadoPedido" class="form-label fw-semibold">Estado: </label>
+                      <select id="estadoPedido" name="estadoPedido" class="form-select ">
+                        <% if (pedido.estadoPedido==="cancelado" ) { %>
+                          <option value="cancelado" selected disabled>
+                            cancelado
+                          </option>
+                          <% } else { %>
+                            <% estados.forEach(estado=> { %>
+                              <option value='<%= estado %>' <%=pedido.estadoPedido===estado ? "selected" : "" %>>
+                                <%= estado %>
+                              </option>
+                              <% }); %>
+                                <% } %>
+                      </select>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="mb-3">
+                      <label for="unidades" class="form-label fw-semibold">Cantidad</label>
+                      <input type="number" class="form-control" id="unidades" name="unidades"
+                        value="<%= pedido.detallePedido.unidades %>" min="1" onchange="calcularTotal()">
+                    </div>
+
+                    <!-- Base Price -->
+                    <div class="mb-3">
+                      <label for="basePrice" class="form-label fw-semibold">Precio Base por Unidad</label>
+                      <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="precio" name="precio"
+                          value="<%= producto.precio %>" disabled>
+                      </div>
+                    </div>
+
+                    <!-- New Price -->
+                    <div class="mb-3">
+                      <label for="precioPactado" class="form-label fw-semibold">Precio Nuevo por Unidad</label>
+                      <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" id="precioPactado" name="precioPactado"
+                          value="<%= pedido.detallePedido.precioPactado %>" onchange="calcularTotal()">
+                      </div>
+                      <small class="text-muted">Este valor puede cambiar durante el proceso de la compra.</small>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="mb-3">
+                      <label for="descripcion" class="form-label fw-semibold">Detalles</label>
+                      <textarea class="form-control" id="descripcion" name="descripcion" rows="3"
+                        placeholder="Especificaciones: tamaño, color, materiales especiales, etc."><%= pedido.detallePedido.descripcion %></textarea>
+                    </div>
+
+                    <!-- Total -->
+                    <div class="mb-4">
+                      <div class="p-3 bg-verde-light rounded">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="fw-semibold">Total pedido:</span>
+                          <span class="h5 mb-0 text-verde fw-bold" id="totalVisible"></span>
+                          <input class="d-none" id="total" name="total" value="">
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex gap-2 justify-content-end">
+                      <% if (usuarioComprador.idUsuario !==usuarioAutenticado.idUsuario && pedido.estadoPedido
+                        !==' cancelado' && pedido.estadoPedido !=='completado' ) { %>
+                        <button type="submit" class="btn btn-verde">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-check-circle me-1" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                              d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                          </svg>
+                          Actualizar pedido
+                        </button>
+
+                        <button type="button" class="btn btn-terracota "
+                          onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                          </svg>
+                          Cancelar Pedido
+                        </button>
+                        <% } %>
+
+                    </div>
+
                   </div>
 
-                  <!-- Message Input -->
-                  <form id="sendMessageForm" class="chat-input d-flex gap-2">
-                    <input type="text" class="form-control" placeholder="Escribe tu mensaje..." id="messageInput"
-                      maxlength="1000">
-                    <button type="submit" class="btn btn-primary bg-verde text-white border-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="bi bi-send" viewBox="0 0 16 16">
-                        <path
-                          d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z" />
-                      </svg>
-                    </button>
-                  </form>
-
-                  <!-- typing indicator -->
-                  <div id="typingIndicator" class="mt-2 text-muted small" style="display:none;">
-                    Alguien está escribiendo...
-                  </div>
                 </div>
-
-
-                <form id="editar-pedido-form" action="/usuario-pedidos/actualizar/<%= pedido._id %>" method="POST">
+                <div class="col-lg-6">
                   <!-- Customer Information -->
-                  <div class="akalia-card-info mt-3">
+                  <div class="akalia-card-info mb-3">
                     <h4 class="akalia-label mb-3">Información de Envío</h4>
 
                     <div class="mb-3">
@@ -100,136 +192,42 @@
                             <%= pedido.direccionEnvio.direccion %> — <%= pedido.direccionEnvio.ciudad %>,
                                 <%= pedido.direccionEnvio.departamento %>
                           </p>
-
                         </div>
                       </div>
                     </div>
                   </div>
+            </form>
+            <div class="akalia-card-info">
+              <h4 class="akalia-label mb-3">Chat con el Comprandor</h4>
+
+              <!-- Chat Messages Container -->
+              <div class="chat-container bg-white border rounded p-3 mb-3" style="height: 400px; overflow-y: auto;">
+                <div id="messages" class="chat-messages"> </div>
               </div>
-              <!-- Order Details Section (Derecha) -->
-              <div class="col-lg-6">
-                <div class="akalia-card-info">
-                  <h4 class="akalia-label mb-3">Detalles del Pedido</h4>
 
-                  <!-- Product Info -->
-                  <div class="mb-4 p-3 border rounded bg-light">
-                    <div class="d-flex align-items-center gap-3">
-                      <img src="<%= producto.imagenes[0] %>" alt="Imagen del producto" class="akalia-img-product" />
-                      <div>
-                        <h6 class="mb-1">
-                          <%= pedido.idEmprendimiento.nombreEmprendimiento %>
-                        </h6>
-                        <p class="mb-0 text-muted small">
-                          <%= producto.tituloProducto %>
-                        </p>
-                        <input type="hidden" name="idEmprendimiento" id="idEmprendimiento"
-                          value="<%= pedido.idEmprendimiento._id %>">
-                        <input type="hidden" name="idUsuarioVendedor" id="idUsuarioVendedor"
-                          value="<%= pedido.idUsuarioVendedor %>">
-                        <input type="hidden" name="idUsuarioComprador" id="idUsuarioComprador"
-                          value="<%= pedido.idUsuarioComprador %>">
-                        <input type="hidden" name="idProducto" id="idProducto" value="<%= producto._id %>">
-                      </div>
-                    </div>
-                  </div>
+              <!-- Message Input -->
+              <form id="sendMessageForm" class="chat-input d-flex gap-2">
+                <input type="text" class="form-control" placeholder="Escribe tu mensaje..." id="messageInput"
+                  maxlength="1000">
+                <button type="submit" class="btn btn-primary bg-verde text-white border-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
+                    viewBox="0 0 16 16">
+                    <path
+                      d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z" />
+                  </svg>
+                </button>
+              </form>
 
-                  <!-- Order Status -->
-                  <div class="mb-3">
-                    <label for="estadoPedido" class="form-label fw-semibold">Estado: </label>
-                    <select id="estadoPedido" name="estadoPedido" class="form-select ">
-                      <% if (pedido.estadoPedido==="cancelado" ) { %>
-                        <option value="cancelado" selected disabled>
-                          cancelado
-                        </option>
-                        <% } else { %>
-                          <% estados.forEach(estado=> { %>
-                            <option value='<%= estado %>' <%=pedido.estadoPedido===estado ? "selected" : "" %>>
-                              <%= estado %>
-                            </option>
-                            <% }); %>
-                              <% } %>
-                    </select>
-                  </div>
-
-                  <!-- Quantity -->
-                  <div class="mb-3">
-                    <label for="unidades" class="form-label fw-semibold">Cantidad</label>
-                    <input type="number" class="form-control" id="unidades" name="unidades"
-                      value="<%= pedido.detallePedido.unidades %>" min="1" onchange="calcularTotal()">
-                  </div>
-
-                  <!-- Base Price -->
-                  <div class="mb-3">
-                    <label for="basePrice" class="form-label fw-semibold">Precio Base por Unidad</label>
-                    <div class="input-group">
-                      <span class="input-group-text">$</span>
-                      <input type="number" class="form-control" id="precio" name="precio" value="<%= producto.precio %>"
-                        disabled>
-                    </div>
-                  </div>
-
-                  <!-- New Price -->
-                  <div class="mb-3">
-                    <label for="precioPactado" class="form-label fw-semibold">Precio Nuevo por Unidad</label>
-                    <div class="input-group">
-                      <span class="input-group-text">$</span>
-                      <input type="number" class="form-control" id="precioPactado" name="precioPactado"
-                        value="<%= pedido.detallePedido.precioPactado %>" onchange="calcularTotal()">
-                    </div>
-                    <small class="text-muted">Este valor puede cambiar durante el proceso de la compra.</small>
-                  </div>
-
-                  <!-- Details -->
-                  <div class="mb-3">
-                    <label for="descripcion" class="form-label fw-semibold">Detalles</label>
-                    <textarea class="form-control" id="descripcion" name="descripcion" rows="3"
-                      placeholder="Especificaciones: tamaño, color, materiales especiales, etc."><%= pedido.detallePedido.descripcion %></textarea>
-                  </div>
-
-                  <!-- Total -->
-                  <div class="mb-4">
-                    <div class="p-3 bg-verde-light rounded">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <span class="fw-semibold">Total pedido:</span>
-                        <span class="h5 mb-0 text-verde fw-bold" id="totalVisible"></span>
-                        <input class="d-none" id="total" name="total" value="">
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Action Buttons -->
-                  <div class="d-flex gap-2 justify-content-end">
-                    <% if (usuarioComprador.idUsuario !==usuarioAutenticado.idUsuario && pedido.estadoPedido
-                      !==' cancelado' && pedido.estadoPedido !=='completado' ) { %>
-                      <button type="submit" class="btn btn-verde">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="bi bi-check-circle me-1" viewBox="0 0 16 16">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                          <path
-                            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                        </svg>
-                        Actualizar pedido
-                      </button>
-
-                      <button type="button" class="btn btn-terracota "
-                        onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                          class="bi bi-x-circle me-1" viewBox="0 0 16 16">
-                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                          <path
-                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                        </svg>
-                        Cancelar Pedido
-                      </button>
-                      <% } %>
-
-                  </div>
-                  </form>
-                </div>
+              <!-- typing indicator -->
+              <div id="typingIndicator" class="mt-2 text-muted small" style="display:none;">
+                Alguien está escribiendo...
               </div>
             </div>
-          </section>
-        </main>
+
+    </div>
+    </div>
+    </section>
+    </main>
     </div>
 
     <!-- Incluir el modal de cancelación -->

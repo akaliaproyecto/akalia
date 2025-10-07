@@ -66,9 +66,10 @@ exports.agregarEmprendimiento = async (req, res) => {
     }
     const headers = {
       ... getUpdatedHeaders(req),
-      ... formData.getHeaders()
+      ... formN.getHeaders()
     };
 
+    console.log(headers)
     // Enviar al backend real 
     const resp = await axios.post(`${API_BASE_URL}/emprendimientos`, formN, { headers });
     setCookie(resp,res);
@@ -92,16 +93,20 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
   let emprendimiento = null;
 
   try {
-    const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${id}`, { headers: HEADERS, timeout: 5000 });
+    const resp = await axios.get(`${API_BASE_URL}/emprendimientos/${id}`, { headers: getUpdatedHeaders(req) });
     setCookie(resp,res);
     emprendimiento = Array.isArray(resp.data) ? resp.data[0] : (resp.data.emprendimiento || resp.data.data || resp.data);
     
     const usuario = emprendimiento.usuario;
-    const respProd = await axios.get(`${API_BASE_URL}/productos/emprendimiento/${id}`, { headers: HEADERS, timeout: 5000 });
-    const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: HEADERS, timeout: 5000 });
+    const respProd = await axios.get(`${API_BASE_URL}/productos/emprendimiento/${id}`, { headers: getUpdatedHeaders(req) });
+    setCookie(respProd,res);
+    const listaEtiquetas = await axios.get(`${API_BASE_URL}/etiquetas`, { headers: getUpdatedHeaders(req) });
+    setCookie(listaEtiquetas,res);
     const etiquetas = listaEtiquetas.data
 
-    const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS, timeout: 5000 });
+    const listaCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: getUpdatedHeaders(req) });
+    setCookie(listaCategorias,res);
+
     const categorias = listaCategorias.data
     let productos = [];
     if (respProd && respProd.data) {
@@ -154,7 +159,7 @@ exports.editarEmprendimiento = async (req, res) => {
     }
     const headers = {
       ... getUpdatedHeaders(req),
-      ... formData.getHeaders()
+      ... formN.getHeaders()
     };
 
     // Enviar al backend real 

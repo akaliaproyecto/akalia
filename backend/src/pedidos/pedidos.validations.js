@@ -389,9 +389,8 @@ const validarDatosActualizacionPedido = async (datosPedido, idPedido) => {
     observaciones,
     fechaEntrega
   } = datosPedido;
-  
   // Validar ID
-  if (!validarIdMongoDB(idPedido)) {
+  if (! (validarIdMongoDB(idPedido))) {
     errores.push('ID de pedido inválido');
     return { valido: false, errores };
   }
@@ -405,7 +404,7 @@ const validarDatosActualizacionPedido = async (datosPedido, idPedido) => {
   if (detallePedido !== undefined && !validarDetallePedido(detallePedido)) {
     errores.push('El detalle del pedido es inválido');
   }
-
+  
   // Validar campos opcionales solo si se proporcionan
   if (estado !== undefined && !validarEstadoPedido(estado)) {
     errores.push('Estado de pedido inválido');

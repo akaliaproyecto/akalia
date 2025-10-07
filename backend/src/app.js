@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const app = express();
 const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
+const { requireAuth  } = require('./middlewares/auth.middlewares.js');
 
 const bodyParser = require('body-parser')
 
@@ -67,18 +68,6 @@ const sessionConfig = {
 const sessionMiddleware = session(sessionConfig);
 app.use(sessionMiddleware);
 
-// Solo usar MongoDB store en producción
-// if (process.env.NODE_ENV === 'production') {
-//   sessionConfig.store = MongoStore.create({
-//     mongoUrl: process.env.MONGO_URI,
-//     touchAfter: 24 * 3600 // lazy session update
-//   });
-//   console.log('✅ Usando MongoDB store para sesiones en producción');
-// } else {
-//   console.log('⚠️ Usando MemoryStore para sesiones en desarrollo');
-// }
-
-
 //Method Override
 app.use(methodOverride('_method'));
 
@@ -130,11 +119,11 @@ app.use("/productos", validateApiKey, productosRouter);
 
 // PEDIDOS
 const pedidosRouter = require('./pedidos/pedido.routes.js');
-app.use("/pedidos", validateApiKey, pedidosRouter);
+app.use("/pedidos", requireAuth, validateApiKey, pedidosRouter);
 
 // USUARIOS RUTA
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
-app.use('/usuarios', validateApiKey, usuariosRoutes);
+app.use('/usuarios',  validateApiKey, usuariosRoutes);
 app.use('/api/usuarios', usuariosRoutes); // Para validaciones JavaScript (sin API key requerida)
 
 const departamentos = require('./usuarios/usuarios.routes.js');
@@ -154,11 +143,11 @@ app.use('/emprendimientos', validateApiKey, emprendimientosRoutes);
 
 // COMISIONES
 const comisionesRoutes = require('./comisiones/comision.routes.js');
-app.use('/comisiones', validateApiKey, comisionesRoutes);
+app.use('/comisiones',  validateApiKey, comisionesRoutes);
 
 // CAPTCHA
 const captchaRoutes = require('./captcha/captcha.routes.js')
-app.use('/captcha', validateApiKey, captchaRoutes)
+app.use('/captcha',  validateApiKey, captchaRoutes)
 
 app.get('/debug-session', (req, res) => {
   console.log('Session actual:', req.session);

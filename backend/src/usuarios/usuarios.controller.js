@@ -80,7 +80,7 @@ exports.obtenerUsuarioPorId = async (req, res) => {
     if (!usuarioEncontrado) {
       return res.status(404).json({ mensaje: "Usuario no encontrado" });
     }
-    console.log('Session ', req.session)
+    console.log('Session obtener usuario', req.session)
     
     // Formateo simple y eliminación de datos sensibles
     const usuarioFormateado = {
@@ -196,6 +196,7 @@ exports.crearUsuario = async (req, res, next) => {
 exports.actualizarUsuario = async (req, res) => {
   const idUsuario = req.params.idUsuario || req.params.id;  // leer el id desde la URL 
   const datosRecibidos = req.body; // datos que llegan con el request
+    console.log('Session obtener usuario', req.session)
 
   try {
     // Validar datos antes de procesarlos

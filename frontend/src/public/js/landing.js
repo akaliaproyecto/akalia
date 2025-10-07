@@ -90,3 +90,10 @@ function iniciarSplideProducto() {
   }
 }
 iniciarSplideProducto();
+
+const badge = document.getElementById('badgeAviso');
+  document.getElementById('btnCompartir').addEventListener('click', async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    badge.style.opacity = '1';
+    setTimeout(() => badge.style.opacity = '0', 1500);
+  });
