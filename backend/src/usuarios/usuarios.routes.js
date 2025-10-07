@@ -40,21 +40,6 @@ router.put('/:id',requireAuth, actualizarUsuario);
 
 // eliminar un usuario por ID
 router.patch('/:id',requireAuth, eliminarUsuario);
-<<<<<<< HEAD
-
-// Ruta para obtener municipios por departamento
-router.get('/municipios-por-departamento', (req, res) => {
-  try {
-    const municipiosPath = path.join(__dirname, '..', 'servicios', 'municipios_por_departamento.json');
-    const municipiosData = require(municipiosPath);
-    res.json(municipiosData);
-  } catch (error) {
-    console.error('Error cargando municipios:', error);
-    res.status(500).json({ error: 'Error al cargar municipios' });
-  }
-});
-=======
->>>>>>> 7e71b1f (Se finaliza el añadir cookies de session a las peticiones del SSR;)
 
 // Ruta para obtener municipios por departamento
 router.get('/municipios-por-departamento', (req, res) => {

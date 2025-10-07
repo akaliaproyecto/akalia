@@ -138,36 +138,10 @@
 
   </div>
 </nav>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 <script src="/js/filtros.js"></script>
-=======
+
 <!-- Script pequeño: definir función global de reserva para filtrar por categoría
      Esto asegura que `mostrarProductosPorCategoria` esté disponible en todas las vistas
      aunque la página no cargue `/js/landing.js`. No sobreescribe si ya existe. -->
-<script>
-  (function () {
-    // Si ya existe, no hacemos nada
-    if (window && window.mostrarProductosPorCategoria) return;
-
-    // Función simple que redirige a la ruta frontend que muestra productos por categoría
-    function mostrarProductosPorCategoria(idCategoria) {
-      try {
-        if (!idCategoria) return;
-        // Redirige al servidor frontend, que renderiza la vista filtrada (SSR)
-        window.location.href = '/productos/categoria/' + idCategoria;
-      } catch (err) {
-        console.error('Error en mostrarProductosPorCategoria (navbar fallback):', err);
-      }
-    }
-
-    // Exponer en window para que los onclick de los links funcionen
-    window.mostrarProductosPorCategoria = mostrarProductosPorCategoria;
-  })();
-</script>
->>>>>>> d34a102 (Se genera la conexión del dropdown del navbar con las categorías, se conecta correctamente cada categoría a la lista de productos asociado a ella)
-=======
-
-<script src="/js/filtros.js"></script>
->>>>>>> b84cf98 (Se realiza funcionalidad de la barra de búsqueda y al dropdown del navba, es posible buscar productos por categoría a través del dropdown y productos según criterios de búsqueda en el input de búsqueda)

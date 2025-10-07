@@ -15,9 +15,10 @@
     <main>
       <section class=" py-4 container d-flex align-items-center justify-content-center flex-column gap-3">
         <h2 class="mb-3 fw-semibold">Productos</h2>
-   
+        
         <!-- Caja de filtros  -->
         <%- include('../partials/filtro-productos.ejs'); %>
+
 
         <div class="row justify-content-center gx-4 mx-auto w-100">
           <% if (typeof productos !=='undefined' && productos.length) { %>
@@ -71,13 +72,7 @@
       <!-- Script para cargar departamentos/ciudades -->
       <script src="/js/ubicaciones.service.js"></script>
       <script src="/js/filtros.js"></script>
-
       <script src="/js/landing.js"></script>
-
-      <script src="/js/login_signup.js"></script>
-      <script src="/js/captcha.js"></script>
-      <script src="/js/validaciones-login-signup.js"></script>
-
 
 </body>
 <%- include('../partials/modal-login.ejs'); %>

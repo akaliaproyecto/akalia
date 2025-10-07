@@ -1,19 +1,18 @@
 const axios = require('axios');
-axios.defaults.withCredentials = true;
-const { setCookie, getUpdatedHeaders } = require('../helpers');
-
 require('dotenv').config();
 
 // Cabeceras y URL base para llamadas al backend
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
+console.log('🔍 Landing service - API_BASE_URL:', API_BASE_URL);
+console.log('🔍 Landing service - API_KEY:', process.env.API_KEY ? '✅ Set' : '❌ Missing');
+
 /* Cargar categorías y productos para la página landing */
 exports.categoriasProductosLanding = async (req, res) => {
   try {
     // Obtener categorías desde el API
-    const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: getUpdatedHeaders(req) });
-    setCookie(respCategorias,res);
+    const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
     let categorias = [];
     if (Array.isArray(respCategorias.data)) {
       categorias = respCategorias.data;
@@ -25,8 +24,7 @@ exports.categoriasProductosLanding = async (req, res) => {
     // Obtener productos desde el API 
     let productos = [];
     try {
-      const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: getUpdatedHeaders(req) });
-      setCookie(respProductos,res);
+      const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
         if (Array.isArray(respProductos.data)) {
         productos = respProductos.data;
       } else {
@@ -70,7 +68,7 @@ exports.mostrarProductos = async (req, res) => {
     // Leer valores de filtros desde querystring para mantener selección tras recarga
     const { ordenar = '', min = '', max = '' } = req.query || {};
     // Obtener productos desde el API
-    const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: getUpdatedHeaders(req) });
+    const respProductos = await axios.get(`${API_BASE_URL}/productos`, { headers: HEADERS });
     let productos = [];
     if (Array.isArray(respProductos.data)) {
       productos = respProductos.data;
@@ -106,8 +104,7 @@ exports.mostrarProductoPorId = async (req, res) => {
     const idProducto = req.params.id;
 
     // Obtener el producto específico desde el API
-    const respProducto = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: getUpdatedHeaders(req) });
-    setCookie(respProducto,res);
+    const respProducto = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: HEADERS });
     const producto = respProducto.data;
 
     // Preparar el arreglo de imágenes para la vista del producto
@@ -120,8 +117,8 @@ exports.mostrarProductoPorId = async (req, res) => {
     }
 
     // Obtener datos del emprendimiento usando el ID del emprendimiento del producto
-    const emprendimiento = producto.idEmprendimiento
-    
+    const emprendimiento = producto.idEmprendimiento;
+
     // Obtener categorías del producto
     let categoriaP = [];
     try {
@@ -141,8 +138,7 @@ exports.mostrarProductoPorId = async (req, res) => {
 
         if (posibleId) {
           // obtener la categoría por id
-          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${posibleId}`, { headers: getUpdatedHeaders(req) });
-          setCookie(respCategoria,res);
+          const respCategoria = await axios.get(`${API_BASE_URL}/categorias/${posibleId}`, { headers: HEADERS });
           categoriaP = [respCategoria.data] || [];
           producto.categoriaNombre = respCategoria.data && respCategoria.data.nombreCategoria ? respCategoria.data.nombreCategoria : '';
         } else if (typeof valorCategoria === 'string') {
