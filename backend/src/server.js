@@ -10,7 +10,7 @@ const { Server } = require('socket.io');
 
 const io = new Server(server, {
   cors: { 
-    origin: process.env.CLIENT_URL || 'http://localhost:4666', 
+    origin: process.env.CLIENT_URL || 'https://akalia-app.onrender.com', 
     credentials: true,
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -27,10 +27,11 @@ io.use((socket, next) => {
 // Middleware de autenticacion
 io.use((socket, next) => {
   const req = socket.request;
-  
+  console.log('aqui io.use user session: ',req.session)
   if (req.session && req.session.userId) {
     socket.user = { 
       id: req.session.userId.toString() //  Convertir a string
+
     };
     return next();
   }
