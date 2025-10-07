@@ -19,8 +19,6 @@ async obtenerMunicipios() {
         }
         
         const response = await fetch(`${this.API_BASE_URL}/api/municipios`);
-        console.log('API_BASE_URL')
-                console.log(response)
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
