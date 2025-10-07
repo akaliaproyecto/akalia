@@ -1,7 +1,3 @@
-
-// landing.js
-// Archivo con funciones DOM simples para la landing (SSR).
-
 /* Redirigir a la ruta que muestra la lista de productos*/
 function showListProducts() {
   try {
@@ -12,7 +8,7 @@ function showListProducts() {
   }
 }
 
-// Redirigir a la página de detalle de producto*/
+/* Redirigir a la página de detalle de producto */
 function showProductDetail(idProducto) {
   try {
     if (!idProducto) return;
@@ -22,9 +18,10 @@ function showProductDetail(idProducto) {
   }
 }
 
-// Exponer funciones en el objeto global para que puedan llamarse desde los
+/* Exponer funciones en el objeto global para que puedan llamarse desde los botones */
 window.showListProducts = showListProducts;
 window.showProductDetail = showProductDetail;
+
 
 /* Inicializar Splide para la vista de producto */
 function iniciarSplideProducto() {

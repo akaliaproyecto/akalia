@@ -4,6 +4,7 @@ const app = express();
 const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
+const axios = require('axios'); // peticiones HTTP simples
 
 const PORT_FRONTEND = process.env.PORT || process.env.PORT_FRONTEND || 4666;
 console.log(`🚀 Frontend - Intentando iniciar servidor en puerto: ${PORT_FRONTEND}`);
@@ -24,6 +25,20 @@ app.use(cookieParser()); // Middleware para manejar cookies
 app.use((req, res, next) => {
   res.locals.apiKey = process.env.API_KEY;
   res.locals.apiBaseUrl = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
+  next();
+});
+
+// Middleware para cargar categorías y exponerlas a todas las vistas (navbar)
+app.use(async (req, res, next) => {
+
+  // URL base de la API (igual que en otros módulos)
+  const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
+  const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
+
+    // Petición simple a la API de categorías
+    const resp = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
+    res.locals.categorias = Array.isArray(resp.data) ? resp.data : [];
+
   next();
 });
 

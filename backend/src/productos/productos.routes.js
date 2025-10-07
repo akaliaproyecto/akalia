@@ -1,8 +1,6 @@
 // Importa Express y crea un router para definir las rutas de productos
 const express = require('express');
 const router = express.Router();
-
-// ...existing code...
 const subirImagen = require('../middlewares/manejadorImg.js'); // Importa el middleware de subida de imágenes
 
 // Importa las funciones del controlador que se van a ejecutar cuando se llame cada ruta
@@ -14,7 +12,9 @@ const {
   actualizarProducto,
   eliminarProducto,
   obtenerProductosEmprendimiento,
-  obtenerProductosPorUsuario
+  obtenerProductosPorUsuario,
+  obtenerProductosPorCategoria,
+  filtrarProductos,
 } = require('./productos.controller');
 
 
@@ -29,6 +29,12 @@ router.get('/usuarios/:id', obtenerProductosPorUsuario);
 
 // obtener por nombre 
 router.get('/nombre/:nombre', obtenerProductoPorNombre);
+
+// Obtener productos de una categoría específica (poner antes de '/:id')
+router.get('/categoria/:idCategoria', obtenerProductosPorCategoria);
+
+// Endpoint para filtrar productos mediante payload { query, options }
+router.post('/filtrar', express.json(), filtrarProductos);
 
 // obtener un producto por ID (genérica)
 router.get('/:id', obtenerProductoPorId);

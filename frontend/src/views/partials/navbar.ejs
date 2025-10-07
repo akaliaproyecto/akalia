@@ -30,13 +30,17 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownFiltro">
               <% if (typeof categorias !=='undefined' && categorias.length) { %>
                 <% categorias.forEach(cat=> { %>
-                  <li><a class="dropdown-item" href="#" data-categoria="<%= cat.nombreCategoria %>">
+                  <!-- Cada item tiene data-id-categoria con el _id (seguro para pasar al JS) -->
+                  <li>
+                    <a class="dropdown-item" href="#" data-id-categoria="<%= cat._id || cat.id || '' %>"
+                      onclick="mostrarProductosPorCategoria(this.dataset.idCategoria)">
                       <%= cat.nombreCategoria %>
-                    </a></li>
-                  <% }) %>
-                    <% } else { %>
-                      <li><span class="dropdown-item text-muted">Sin categorías</span></li>
-                      <% } %>
+                    </a>
+                  </li>
+                <% }) %>
+              <% } else { %>
+                <li><span class="dropdown-item text-muted">Sin categorías</span></li>
+              <% } %>
             </ul>
           </div>
           <!-- Input de búsqueda -->
@@ -129,3 +133,5 @@
 
   </div>
 </nav>
+
+<script src="/js/filtros.js"></script>
