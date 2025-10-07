@@ -2,11 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const { requireAuth  } = require('../middlewares/auth.middlewares.js');
-<<<<<<< HEAD
-=======
-
-// ...existing code...
->>>>>>> 7e71b1f (Se finaliza el añadir cookies de session a las peticiones del SSR;)
 const subirImagen = require('../middlewares/manejadorImg.js'); // Importa el middleware de subida de imágenes
 
 // Importa las funciones del controlador que se van a ejecutar cuando se llame cada ruta

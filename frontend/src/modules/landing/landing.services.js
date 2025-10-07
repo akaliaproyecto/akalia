@@ -120,22 +120,8 @@ exports.mostrarProductoPorId = async (req, res) => {
     }
 
     // Obtener datos del emprendimiento usando el ID del emprendimiento del producto
-<<<<<<< HEAD
     const emprendimiento = producto.idEmprendimiento
     
-=======
-    let emprendimiento = {};
-    try {
-      if (producto.idEmprendimiento) {
-        const respEmprendimiento = await axios.get(`${API_BASE_URL}/emprendimientos/${producto.idEmprendimiento}`, { headers: getUpdatedHeaders(req) });
-        setCookie(respEmprendimiento,res);
-        emprendimiento = respEmprendimiento.data || {};
-      }
-    } catch (errEmprendimiento) {
-      emprendimiento = { nombreEmprendimiento: 'Emprendimiento no disponible' };
-    }
-
->>>>>>> 7e71b1f (Se finaliza el añadir cookies de session a las peticiones del SSR;)
     // Obtener categorías del producto
     let categoriaP = [];
     try {
