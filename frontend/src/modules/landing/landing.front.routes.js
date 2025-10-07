@@ -8,7 +8,8 @@ const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 const {
   categoriasProductosLanding,
   mostrarProductos,
-  mostrarProductoPorId } = require('./landing.services');
+  mostrarProductoPorId,
+} = require('./landing.services');
 
 /* Ruta que renderiza la landing con categorías, productos e imágenes.*/
 router.get('/', categoriasProductosLanding);
