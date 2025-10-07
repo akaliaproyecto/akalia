@@ -88,11 +88,11 @@ exports.listarProductosUsuario = async (req, res) => {
 
 /* mostrarDetalleProducto */
 exports.mostrarDetalleProducto = async (req, res) => {
+  console.log('hola soy yo otra vez')
   try {
     // Obtener id del producto desde la URL y usuario autenticado
     const idProducto = req.params.id;
     const usuario = req.usuarioAutenticado;
-    
     // Petición al backend para obtener detalle del producto
     const respuesta = await axios.get(`${API_BASE_URL}/productos/${idProducto}`, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
     setCookie(respuesta,res);
@@ -114,7 +114,7 @@ exports.mostrarDetalleProducto = async (req, res) => {
 
       const imagenes = producto.imagenes
       const emprendimiento = resp.data.nombreEmprendimiento
-      
+      console.log(emprendimiento)
 
       // muestra la página “usuario-producto-ver” y le pasa los datos del producto y del usuario para que la plantilla los muestre dinámicamente.
       if (req.headers.accept && req.headers.accept.includes('application/json')) {
