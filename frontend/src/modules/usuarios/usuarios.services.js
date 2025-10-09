@@ -12,7 +12,6 @@ const {
 } = require('./usuarios.utils')
 
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
-const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
 /* Verificar contraseña actual del usuario - Middleware de Express */
 exports.verificarContrasenaActual = async (req, res) => {
@@ -56,6 +55,7 @@ exports.obtenerUsuario = async (req, res) => {
 
     return res.render('pages/usuario-perfil-ver', {
       usuario,
+      apiBaseUrl: API_BASE_URL,
       titulo: 'Mi Perfil - Akalia',
       mensajeExito: req.query.exito || null
     });
@@ -205,7 +205,7 @@ exports.obtenerDetalleUsuario = async (req, res) => {
     const usuario = respuesta.data.usuario;
     // Normalizar campos: garantizar 'email' y 'correo' disponibles
 
-    return res.status(200).json({ usuario });
+    return res.status(200).json({ usuario, apiBaseUrl: API_BASE_URL });
   } catch (err) {
     console.error('obtenerDetalleUsuario error:', err.response?.data || err.message || err);
     const status = err.response?.status || 500;

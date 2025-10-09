@@ -6,7 +6,6 @@ require('dotenv').config();
 const formData = require('form-data');
 
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
-const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 /* Listar emprendimientos de un usuario y renderizar la vista */
 exports.listarEmprendimientosUsuario = async (req, res) => {
   // Preferir id desde sesión/autenticación. Si se pasa en params, lo usamos solo para mostrar

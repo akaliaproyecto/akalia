@@ -106,34 +106,36 @@
                         </div>
                       </div>
                     </div>
-                    
+
                     <!-- Sección de direcciones -->
                     <div class="row mb-4">
                       <div class="col-12">
                         <strong class="akalia-label">Direcciones</strong>
                         <div class="mt-2">
-                          <% if (usuario.direcciones && usuario.direcciones.length > 0) { %>
-                            <% usuario.direcciones.forEach((direccion, index) => { %>
+                          <% if (usuario.direcciones && usuario.direcciones.length> 0) { %>
+                            <% usuario.direcciones.forEach((direccion, index)=> { %>
                               <div class="d-flex align-items-center mb-2 p-2 border rounded">
                                 <div class="flex-grow-1">
-                                  <strong><%= direccion.direccion %></strong><br>
+                                  <strong>
+                                    <%= direccion.direccion %>
+                                  </strong><br>
                                   <small class="text-muted">
                                     <%= direccion.ciudad %>, <%= direccion.departamento %>
                                   </small>
                                 </div>
                                 <i class="fas fa-map-marker-alt text-terracota"></i>
                               </div>
-                            <% }); %>
-                          <% } else { %>
-                            <div class="text-muted">
-                              <i class="fas fa-info-circle me-2"></i>
-                              No hay direcciones registradas aún
-                            </div>
-                          <% } %>
+                              <% }); %>
+                                <% } else { %>
+                                  <div class="text-muted">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    No hay direcciones registradas aún
+                                  </div>
+                                  <% } %>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div class="row">
                       <div class="col-md-8"></div>
                       <div class="col-md-4 d-flex flex-column align-items-md-end gap-2">
@@ -196,14 +198,17 @@
           data-nombre-usuario="<%= usuario.nombreUsuario || '' %>"
           data-apellido-usuario="<%= usuario.apellidoUsuario || '' %>" data-email="<%= usuario.email || '' %>"
           data-telefono="<%= usuario.telefono || '' %>" data-estado-usuario="<%= usuario.estadoUsuario || '' %>"
-          data-direcciones="<%= JSON.stringify(usuario.direcciones || []) %>"
-          style="display: none;">
+          data-direcciones="<%= JSON.stringify(usuario.direcciones || []) %>" style="display: none;">
         </div>
         <% } %>
 
 
           <%- include('../partials/usuario-perfil-editar.ejs'); %>
             <%- include('../partials/usuario-perfil-eliminar.ejs'); %>
+
+              <script>
+                window.API_BASE_URL = '<%= apiBaseUrl %>';
+              </script>
 
               <script src="/js/perfilUsuario.js"></script>
               <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
