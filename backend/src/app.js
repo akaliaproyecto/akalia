@@ -149,11 +149,6 @@ app.use('/comisiones',  validateApiKey, comisionesRoutes);
 const captchaRoutes = require('./captcha/captcha.routes.js')
 app.use('/captcha',  validateApiKey, captchaRoutes)
 
-app.get('/debug-session', (req, res) => {
-  console.log('Session actual:', req.session);
-  res.json(req.session);
-});
-
 // MUNICIPIOS
 app.get('/api/municipios', (req, res) => {
   res.json(require('./config/municipios_por_departamento.json'));

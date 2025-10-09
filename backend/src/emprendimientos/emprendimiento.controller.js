@@ -35,9 +35,10 @@ const obtenerEmprendimientoPorId = async (req, res) => {
     if (!validarIdMongoDB(idEmprendimiento)) {
       return res.status(400).json({ mensaje: 'ID de emprendimiento inválido' });
     }
+
     const emprendimiento = await modeloEmprendimiento.findById(idEmprendimiento);
 
-    if (emprendimiento) {
+    if (emprendimiento && (req.session.userId === emprendimiento.usuario.toString())) {
       res.status(200).json(emprendimiento);
     } else {
       res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
@@ -49,11 +50,18 @@ const obtenerEmprendimientoPorId = async (req, res) => {
 
 /* listar emprendimientos por ID de usuario */
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
-  console.log('Session ', req.session)
   const idUsuario = req.params.id;
   try {
     const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false });
+    const tienePermiso = emprendimientos.some(emprendimiento =>
+      emprendimiento.usuario?.toString() === req.session.userId
+    );
+
+    if (tienePermiso) {
       res.status(200).json(emprendimientos);
+    } else {
+      res.status(404).json({ mensaje: "Lista no autorizada" });
+    }
   } catch (error) {
     console.error("Error al consultar emprendimientos por usuario:", error);
     res.status(500).json({ mensaje: "Error en la base de datos", detalle: error.message });
@@ -71,7 +79,7 @@ const crearEmprendimiento = async (req, res) => {
       descripcionEmprendimiento: payload.descripcionEmprendimiento,
       ubicacionEmprendimiento: payload.ubicacionEmprendimiento
     };
-    
+
     // Si se subió un archivo (multer lo deja en req.file)
     if (req.file) {
       datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
@@ -79,7 +87,7 @@ const crearEmprendimiento = async (req, res) => {
 
     const nuevoEmprendimiento = new modeloEmprendimiento(datosEmprendimiento);
     const emprendimientoGuardado = await nuevoEmprendimiento.save();
-        //Registrar log
+    //Registrar log
     Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido creado por el usuario ${datosEmprendimiento.usuario}, emprendimiento: ${emprendimientoGuardado}, fecha: ${new Date()}`);
 
     res.status(201).json(emprendimientoGuardado);
@@ -92,43 +100,44 @@ const crearEmprendimiento = async (req, res) => {
 const actualizarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   try {
-    payload = JSON.parse(req.body.payload)
-    let datosEmprendimiento = {
-      nombreEmprendimiento: payload.nombreEmprendimiento,
-      descripcionEmprendimiento: payload.descripcionEmprendimiento,
-      emprendimientoActivo: payload.emprendimientoActivo,
-      ubicacionEmprendimiento: payload.ubicacionEmprendimiento
+    const emp = await modeloEmprendimiento.findById(idEmprendimiento);
+    const tienePermiso = emp.usuario.toString() === req.session.userId;
+    if (tienePermiso) {
+      payload = JSON.parse(req.body.payload)
+      let datosEmprendimiento = {
+        nombreEmprendimiento: payload.nombreEmprendimiento,
+        descripcionEmprendimiento: payload.descripcionEmprendimiento,
+        emprendimientoActivo: payload.emprendimientoActivo,
+        ubicacionEmprendimiento: payload.ubicacionEmprendimiento
       }
-    
-    if (req.file) {
-      datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
-    }
-    
-    const emprendimientoActualizado = await modeloEmprendimiento.findByIdAndUpdate(
-      idEmprendimiento,
-      datosEmprendimiento,
-      { new: true }
-    );
-    let updateProductos = {};
 
-    if (emprendimientoActualizado.emprendimientoActivo === false) {
-      updateProductos = { $set: { productoActivo: false } };
+      if (req.file) {
+        datosEmprendimiento.logo = await uploadImage(req.file, "emprendimientos");
+      }
+
+      const emprendimientoActualizado = await modeloEmprendimiento.findByIdAndUpdate(
+        idEmprendimiento,
+        datosEmprendimiento,
+        { new: true }
+      );
+      let updateProductos = {};
+
+      if (emprendimientoActualizado.emprendimientoActivo === false) {
+        updateProductos = { $set: { productoActivo: false } };
+      } else {
+        updateProductos = { $set: { productoActivo: true } };
+      }
+
+      const productosActualizados = await modeloProducto.updateMany(
+        { idEmprendimiento: idEmprendimiento },
+        updateProductos
+      );
+      Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido editado: ${emprendimientoActualizado}, fecha: ${new Date()}`);
+      return res.status(200).json(emprendimientoActualizado, productosActualizados);
     } else {
-      updateProductos = { $set: { productoActivo: true } };
-    }
-
-    const productosActualizados = await modeloProducto.updateMany(
-      { idEmprendimiento: idEmprendimiento },
-      updateProductos
-    );
-
-    if (!emprendimientoActualizado) {
-      return res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
+      return res.status(404).json({ mensaje: "Emprendimiento no actualizado" });
     }
     //Registrar log
-    Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido editado: ${emprendimientoActualizado}, fecha: ${new Date()}`);
-
-    res.status(200).json(emprendimientoActualizado,productosActualizados);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al actualizar emprendimiento", detalle: error.message });
   }
@@ -146,24 +155,25 @@ const deshabilitarEmprendimiento = async (req, res) => {
       const v = req.body.emprendimientoEliminado;
       nuevoEstado = (v === true || v === 'true' || v === '1' || v === 1);
     }
-    
-    const emprendimiento = await modeloEmprendimiento.findByIdAndUpdate(
-      idEmprendimiento,
-      { emprendimientoEliminado: true,
-        emprendimientoActivo: false
-       },
-      { new: true }
-    );
-    
-    const productos = await modeloProducto.updateMany(
-      { idEmprendimiento: idEmprendimiento },
-      { $set: { productoEliminado: true, productoActivo: false } }
-    );
+    const emp = await modeloEmprendimiento.findById(idEmprendimiento);
+    const tienePermiso = emp.usuario.toString() === req.session.userId;
+    if (tienePermiso) {
+      const emprendimiento = await modeloEmprendimiento.findByIdAndUpdate(
+        idEmprendimiento,
+        {
+          emprendimientoEliminado: true,
+          emprendimientoActivo: false
+        },
+        { new: true }
+      );
+      // Actualizamos el estado de los productos pertenecientes al emprendimiento
+      const productos = await modeloProducto.updateMany(
+        { idEmprendimiento: idEmprendimiento },
+        { $set: { productoEliminado: true, productoActivo: false } }
+      );
 
-    //Registrar log
-    Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido eliminado: ${idEmprendimiento}, fecha: ${new Date()}`);
-
-    if (emprendimiento) {
+      //Registrar log
+      Log.generateLog('emprendimiento.log', `Un emprendimiento ha sido eliminado: ${idEmprendimiento}, fecha: ${new Date()}`);
       res.status(200).json({ mensaje: "Estado de emprendimiento actualizado correctamente", emprendimiento });
     } else {
       res.status(404).json({ mensaje: "Emprendimiento no encontrado" });
@@ -177,7 +187,7 @@ const deshabilitarEmprendimiento = async (req, res) => {
 const verificarEmprendimientoActivo = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     if (!id) {
       return res.status(400).json({ mensaje: "ID de emprendimiento es requerido" });
     }
@@ -197,9 +207,9 @@ const verificarEmprendimientoActivo = async (req, res) => {
       return res.status(200).json({ activo: false, mensaje: "El emprendimiento está eliminado" });
     }
 
-    return res.status(200).json({ 
-      activo: emprendimiento.emprendimientoActivo, 
-      mensaje: emprendimiento.emprendimientoActivo ? "Emprendimiento activo" : "Emprendimiento inactivo" 
+    return res.status(200).json({
+      activo: emprendimiento.emprendimientoActivo,
+      mensaje: emprendimiento.emprendimientoActivo ? "Emprendimiento activo" : "Emprendimiento inactivo"
     });
   } catch (error) {
     return res.status(500).json({ mensaje: "Error al verificar estado del emprendimiento", detalle: error.message });

@@ -41,7 +41,6 @@ app.use((req, res, next) => {
       const datosUsuarioDecodificados = typeof req.cookies.usuario === 'string'
         ? JSON.parse(req.cookies.usuario)
         : req.cookies.usuario;
-
       req.usuarioAutenticado = datosUsuarioDecodificados;
       res.locals.usuarioActual = datosUsuarioDecodificados;
 

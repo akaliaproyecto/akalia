@@ -27,14 +27,22 @@ exports.obtenerPedidos = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario vendedor
 exports.obtenerVentas = async (req, res) => {
   const idUsuarioVendedor = req.params.id;
-      console.log('session en lista ventas:',req.session)
+  console.log('session en lista ventas:', req.session)
 
   try {
-    let pedidosEncontrados = await modeloPedido.find({idUsuarioVendedor : idUsuarioVendedor})
-    .populate('idEmprendimiento')
-    .populate('detallePedido.idProducto');
+    let pedidosEncontrados = await modeloPedido.find({ idUsuarioVendedor: idUsuarioVendedor })
+      .populate('idEmprendimiento')
+      .populate('detallePedido.idProducto');
 
+    const tienePermiso = pedidosEncontrados.some(pedido =>
+      pedido.idUsuarioVendedor?.toString() === req.session.userId
+    );
+
+    if (tienePermiso) {
       res.status(200).json(pedidosEncontrados);
+    } else {
+      res.status(404).json({ mensaje: "Lista no autorizada" });
+    }
   } catch (error) {
     res.status(500).json({ mensaje: "Error al consultar pedidos", detalle: error.message });
   }
@@ -43,14 +51,22 @@ exports.obtenerVentas = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario comprador
 exports.obtenerCompras = async (req, res) => {
   const idUsuarioComprador = req.params.id;
-      console.log('session en lista compras:',req.session)
-
+  console.log('session en lista compras:', req.session)
   try {
-    let comprasEncontrados = await modeloPedido.find({idUsuarioComprador : idUsuarioComprador})
-    .populate('idEmprendimiento')
-    .populate('detallePedido.idProducto');
+    let comprasEncontradas = await modeloPedido.find({ idUsuarioComprador: idUsuarioComprador })
+      .populate('idEmprendimiento')
+      .populate('detallePedido.idProducto');
 
-    res.status(200).json(comprasEncontrados);
+    // Verificar que el usuario autenticado tenga permiso (sea comprador o vendedor)
+    const tienePermiso = comprasEncontradas.some(pedido =>
+      pedido.idUsuarioComprador?.toString() === req.session.userId
+    );
+
+    if (tienePermiso) {
+      res.status(200).json(comprasEncontradas);
+    } else {
+      res.status(404).json({ mensaje: "Lista no autorizada" });
+    }
   } catch (error) {
     res.status(500).json({ mensaje: "Error al consultar pedidos", detalle: error.message });
   }
@@ -58,7 +74,6 @@ exports.obtenerCompras = async (req, res) => {
 
 // Consultar un pedido por ID 
 exports.obtenerPedidosPorId = async (req, res) => {
-        console.log('session detalle pedido:',req.session)
 
   const idPedido = req.params.id; // obtener el parámetro de la URL
   try {
@@ -66,13 +81,12 @@ exports.obtenerPedidosPorId = async (req, res) => {
     if (!validarIdMongoDB(idPedido)) {
       return res.status(400).json({ mensaje: 'ID de pedido inválido' });
     }
-
     const pedidoEncontrado = await modeloPedido.findById(idPedido)
-    .populate('idEmprendimiento')
-    .populate('detallePedido.idProducto')
-    .populate('mensajes.idUsuarioRemitente');
-    
-    if (pedidoEncontrado) {
+      .populate('idEmprendimiento')
+      .populate('detallePedido.idProducto')
+      .populate('mensajes.idUsuarioRemitente');
+
+    if (pedidoEncontrado && (req.session.userId === pedidoEncontrado.idUsuarioComprador.toString() || req.session.userId === pedidoEncontrado.idUsuarioVendedor.toString())) {
       res.status(200).json(pedidoEncontrado);
     } else {
       res.status(404).json({ mensaje: "Pedido no encontrado" });
@@ -86,7 +100,7 @@ exports.obtenerPedidosPorId = async (req, res) => {
 // Crear nuevo pedido
 exports.crearPedido = async (req, res) => {
   const datosPedido = req.body;
-  
+
   try {
     const validacion = await validarDatosCreacionPedido(datosPedido);
 
@@ -96,7 +110,7 @@ exports.crearPedido = async (req, res) => {
         errores: validacion.errores
       });
     }
-    
+
     const nuevoPedido = new modeloPedido(datosPedido);
     const pedidoGuardado = await nuevoPedido.save();
 
@@ -115,14 +129,15 @@ exports.editarPedido = async (req, res) => {
     // id y body recibidos
     const idPedido = req.params.id;
     const datosPedido = req.body;
-    console.log('session en editar pedido:',req.session)
+
     // primero recuperar por id
     const pedidoExistente = await modeloPedido.findById(idPedido).lean();
+    const tienePermiso = pedidoExistente.idUsuarioVendedor.toString() === req.session.userId;
     if (!pedidoExistente) {
       return res.status(404).json({ mensaje: 'Pedido no encontrado' });
     }
-     const validacion =  await validarDatosActualizacionPedido(datosPedido, idPedido);
-    
+    const validacion = await validarDatosActualizacionPedido(datosPedido, idPedido);
+
     if (!validacion.valido) {
       return res.status(400).json({
         error: 'Datos de pedido inválidos',
@@ -133,20 +148,22 @@ exports.editarPedido = async (req, res) => {
     if (pedidoExistente.estadoEliminacion === 'eliminado') {
       return res.status(400).json({ mensaje: 'No se puede editar un pedido eliminado' });
     }
-    
-    // realizar la actualización
-    const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
-      idPedido,
-      datosPedido,
-      { new: true, runValidators: true }
-    );
 
-    pedidoLog = pedidoActualizado.detallePedido
-    
-    //Registrar log
-    Log.generateLog('pedido.log', `Un pedido ha sido actualizado: ${pedidoActualizado._id},${pedidoLog} fecha: ${new Date()}`);
+    if (tienePermiso) {
+      // realizar la actualización
+      const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
+        idPedido,
+        datosPedido,
+        { new: true, runValidators: true }
+      );
 
-    res.json(pedidoActualizado);
+      pedidoLog = pedidoActualizado.detallePedido
+
+      //Registrar log
+      Log.generateLog('pedido.log', `Un pedido ha sido actualizado: ${pedidoActualizado._id},${pedidoLog} fecha: ${new Date()}`);
+
+      return res.json(pedidoActualizado);
+    }
   } catch (error) {
     res.status(400).json({ mensaje: error.message });
   }
@@ -157,6 +174,7 @@ exports.actualizarPedido = async (req, res) => {
   try {
     // Buscar el pedido por ID
     const pedido = await modeloPedido.findById(req.params.id);
+    const tienePermiso = pedido.idUsuarioComprador.toString() === req.session.userId;
 
     if (!pedido) {
       return res.status(404).json({ mensaje: 'Pedido no encontrado' });
@@ -173,21 +191,23 @@ exports.actualizarPedido = async (req, res) => {
     if (!direccionEnvio) {
       return res.status(400).json({ mensaje: 'Dirección de envío es requerida' });
     }
+    if (tienePermiso) {
+      // Realizar actualización de la dirección
+      const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
+        req.params.id,
+        { direccionEnvio },
+        { new: true }
+      );
+      //Registrar log
+      Log.generateLog('pedido.log', `La direccion del pedido ha sido actualizada: ${pedidoActualizado._id}, fecha: ${new Date()}`);
 
-    // Realizar actualización de la dirección
-    const pedidoActualizado = await modeloPedido.findByIdAndUpdate(
-      req.params.id,
-      { direccionEnvio },
-      { new: true }
-    );
-
-    //Registrar log
-    Log.generateLog('pedido.log', `La direccion del pedido ha sido actualizada: ${pedidoActualizado._id}, fecha: ${new Date()}`);
-
-    res.json({
-      mensaje: 'Dirección del pedido actualizada correctamente',
-      pedido: pedidoActualizado
-    });
+      return res.json({
+        mensaje: 'Dirección del pedido actualizada correctamente',
+        pedido: pedidoActualizado
+      });
+    } else {
+      return res.status(404).json({ mensaje: "Direccion de pedido no actualizada, sin permisos." });
+    }
   } catch (error) {
     res.status(500).json({ mensaje: error.message });
   }
@@ -197,14 +217,14 @@ exports.actualizarPedido = async (req, res) => {
 exports.verificarPedidoActivo = async (req, res) => {
   try {
     const { idUsuario, idProducto } = req.params;
-    
+
     if (!validarIdMongoDB(idUsuario) || !validarIdMongoDB(idProducto)) {
       return res.status(400).json({ mensaje: 'IDs inválidos' });
     }
-    
+
     const tienePedidoActivo = await verificarPedidoActivoExistente(idUsuario, idProducto);
-    
-    res.json({ 
+
+    res.json({
       tienePedidoActivo,
       mensaje: tienePedidoActivo ? 'Usuario tiene pedido activo para este producto' : 'No hay pedido activo'
     });
@@ -218,6 +238,7 @@ exports.cancelarPedido = async (req, res) => {
   try {
     // Buscar el pedido por ID
     const pedido = await modeloPedido.findById(req.params.id);
+    const tienePermiso = (pedido.idUsuarioComprador.toString() === req.session.userId) ||  (pedido.idUsuarioVendedor.toString() === req.session.userId);
 
     if (!pedido) {
       return res.status(404).json({ mensaje: 'Pedido no encontrado' });
@@ -234,7 +255,7 @@ exports.cancelarPedido = async (req, res) => {
         mensaje: 'No se puede cancelar un pedido con estado completado. Estado actual: ' + pedido.estadoPedido
       });
     }
-
+    if (tienePermiso) {
     // Realizar eliminación lógica
     const pedidoCancelado = await modeloPedido.findByIdAndUpdate(
       req.params.id,
@@ -243,12 +264,13 @@ exports.cancelarPedido = async (req, res) => {
     );
 
     //Registrar log
-    Log.generateLog('pedido.log', `Un pedido ha sido cancelado: ${pedidoCancelado}, fecha: ${new Date()}`);
+    Log.generateLog('pedido.log', `Un pedido ha sido cancelado: ${pedidoCancelado.detallePedido}, fecha: ${new Date()}`);
 
-    res.json({
+    return res.json({
       mensaje: 'Pedido cancelado correctamente',
       pedido: pedidoCancelado
     });
+    }
   } catch (error) {
     res.status(500).json({ mensaje: error.message });
   }

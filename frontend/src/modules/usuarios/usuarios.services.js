@@ -18,12 +18,12 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 exports.verificarContrasenaActual = async (req, res) => {
   try {
     const { userId, contrasenaActual } = req.body;
-    
+
     const response = await axios.post(`${API_BASE_URL}/usuarios/verificar-contrasena`, {
       userId: userId,
       contrasenaActual: contrasenaActual
     }, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
-    
+
     res.json(response.data);
   } catch (error) {
     // Evitar referencias circulares al loggear el error
@@ -34,7 +34,7 @@ exports.verificarContrasenaActual = async (req, res) => {
       message: error.message
     };
     console.error('Error al verificar contraseña:', errorInfo);
-    
+
     // Responder con el error de forma segura
     const errorMessage = error.response?.data?.mensaje || error.response?.data?.error || error.message || 'Error al verificar contraseña';
     res.status(500).json({ error: errorMessage });
@@ -49,11 +49,10 @@ exports.obtenerUsuario = async (req, res) => {
   try {
     // Obtener usando helper centralizado
     const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
-    setCookie(respuesta,res);
+    setCookie(respuesta, res);
     const usuario = respuesta.data.usuario;
-    console.log(usuario)
     // Normalizar campos: garantizar 'email' y 'correo' disponibles
-    
+
 
     return res.render('pages/usuario-perfil-ver', {
       usuario,
@@ -76,7 +75,7 @@ exports.obtenerUsuario = async (req, res) => {
 exports.actualizarPerfilUsuario = async (req, res) => {
   const { id } = req.params;
   const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono, direcciones } = req.body;
-  
+
   if (!id) {
     return res.status(400).json({ error: 'Falta id de usuario' });
   }
@@ -106,10 +105,10 @@ exports.actualizarPerfilUsuario = async (req, res) => {
   if (direcciones && Array.isArray(direcciones)) {
     datosParaApi.direcciones = direcciones;
   }
-
+ 
   try {
     const respuesta = await axios.put(`${API_BASE_URL}/usuarios/${id}`, datosParaApi, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
-    setCookie(respuesta,res);
+    
     // Extraer usuario de la respuesta del backend (puede venir en respuesta.data.usuario o directamente)
     const usuarioActualizado = respuesta.data.usuario || respuesta.data;
 
@@ -123,7 +122,7 @@ exports.actualizarPerfilUsuario = async (req, res) => {
     }
 
     // Reenviamos al cliente la respuesta que devolvió el backend
-    return res.status(respuesta.status).json(respuesta.data);
+    return res.status(respuesta.status).json(usuarioActualizado);
   } catch (err) {
     console.error('frontend actualizarPerfilUsuario:', err.message || err);
     const status = err.response?.status || 500;
@@ -137,21 +136,21 @@ exports.actualizarPerfilUsuario = async (req, res) => {
 exports.validarContrasenaUsuario = async (req, res) => {
   const { id: idUsuario } = req.params;
   const { contrasenaIngresada } = req.body;
-
+  
   if (!idUsuario) return res.status(400).json({ error: 'Falta id de usuario' });
   if (!contrasenaIngresada) return res.status(400).json({ error: 'Debes ingresar tu contraseña actual' });
-
+  
   try {
     // Usar helper centralizado para obtener usuario
-    const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
-    setCookie(respuesta,res)
-    const usuario = respuesta.data || data;
+    const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${idUsuario}`, { headers: getUpdatedHeaders(req) });
+    setCookie(respuesta, res)
+    const usuario = respuesta.data.usuario || data;
     // Normalizar campos: garantizar 'email' y 'correo' disponibles
     
     const posibleCorreo = usuario?.correo || usuario?.email;
 
     if (!posibleCorreo) {
-      console.error('validarContrasenaUsuario: no se encontró correo en la respuesta del API', { usuarioFromApi });
+      console.error('validarContrasenaUsuario: no se encontró correo en la respuesta del API', { posibleCorreo });
       return res.status(500).json({ error: 'No se pudo obtener el correo del usuario' });
     }
 
@@ -202,12 +201,10 @@ exports.obtenerDetalleUsuario = async (req, res) => {
   if (!id) return res.status(400).json({ error: 'Falta id de usuario' });
   try {
     const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
-    setCookie(respuesta,res);
-    
+    setCookie(respuesta, res);
     const usuario = respuesta.data.usuario;
-    console.log('hola ome',usuario)
     // Normalizar campos: garantizar 'email' y 'correo' disponibles
-    
+
     return res.status(200).json({ usuario });
   } catch (err) {
     console.error('obtenerDetalleUsuario error:', err.response?.data || err.message || err);

@@ -14,7 +14,6 @@ const {
 } = require('./autenticacion.utils');
 
 const API_BASE_URL = process.env.API_BASE_URL || process.env.URL_BASE || 'http://localhost:4006';
-const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' }; // Configuración de headers para las peticiones HTTP
 
 /*Registrar usuario*/
 exports.registrarUsuario = async (req, res) => {
@@ -83,13 +82,12 @@ exports.iniciarSesion = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
-  console.log('Se bborro con exito?')
 
   try {
     const respuesta = await axios.post(`${API_BASE_URL}/auth/logout`, {}, { headers: getUpdatedHeaders(req) });
     setCookie(respuesta, res);
-    console.log('Se bborro con exito?')
-    res.clearCookie('connect.sid');
+    res.clearCookie('usuario');
+    console.log(res.cookie)
     res.redirect('/');
   } catch (err) {
     res.status(500).send('Error al cerrar sesión', err);

@@ -15,7 +15,7 @@
         <main class="flex-grow-1 d-flex flex-column justify-content-center align-content-center py-5">
           <section class="akalia-card overflow-auto">
             <div class="d-flex flex-md-row flex-column justify-content-between align-items-start pb-4 gap-3">
-              <h2 class="akalia-title akalia-title--medium m-0">Detalle Compra</h2>
+              <h2 class="akalia-title akalia-title--medium m-0">Detalle de la venta</h2>
               <button class="btn btn-outline-secondary" onclick="history.back()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                   class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -134,7 +134,7 @@
                         </button>
 
                         <button type="button" class="btn btn-terracota "
-                          onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'vendedor')">
+                          onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioAutenticado.idUsuario %>', 'vendedor')">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-x-circle me-1" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />

@@ -73,7 +73,7 @@
 
                     <!-- Acciones -->
                     <div
-                      class="d-flex flex-column flex-lg-column gap-2 justify-content-center my-auto align-items-center w-100 ">
+                      class="d-flex flex-column flex-lg-row gap-2 justify-content-center my-auto align-items-center w-100 ">
                       <div class="d-flex align-items-center gap-2">
                         <% if (emprendimiento.emprendimientoActivo==true) { %>
                           <span class="badge bg-success">Activo</span>
@@ -98,7 +98,7 @@
                         </a>
 
                         <button class="btn text-vinotinto" title="Editar"
-                          onclick="editEmprendimiento('<%= usuario.idUsuario %>','<%= emprendimiento._id %>')">
+                          onclick="editEmprendimiento('<%= emprendimiento.usuario %>','<%= emprendimiento._id %>')">
                           <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"
                             fill="none">
                             <g clip-path="url(#clip0_168_47)">

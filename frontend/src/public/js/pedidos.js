@@ -56,6 +56,7 @@ function actualizarDireccion(pedidoId) {
 
 function abrirModalCancelarPedido(pedidoId, usuarioId, rol) {
   const advertencias = document.getElementById("advertencias");
+  console.log('ayudapls',usuarioId)
   if(rol === "vendedor") {
     advertencias.innerHTML = `
       <li>No podrás continuar con la venta</li>
@@ -79,7 +80,7 @@ function abrirModalCancelarPedido(pedidoId, usuarioId, rol) {
   modal.show();
 }
 
-function cancelarPedidoConfirmado(usuarioId) {
+function cancelarPedidoConfirmado(pedidoId,usuarioId) {
   // Mostrar loading en el botón
   const btnConfirmar = document.getElementById('btnConfirmarCancelacion');
   const textoOriginal = btnConfirmar.innerHTML;
@@ -92,6 +93,8 @@ function cancelarPedidoConfirmado(usuarioId) {
   inputUsuario.type = 'hidden';
   inputUsuario.name = 'usuario';
   inputUsuario.value = JSON.stringify({ _id: usuarioId });
+    console.log('ayudapls',usuarioId)
+
   form.appendChild(inputUsuario);
 
   // Agregar flag de cancelación

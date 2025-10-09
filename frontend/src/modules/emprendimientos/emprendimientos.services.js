@@ -134,6 +134,7 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
 exports.editarEmprendimiento = async (req, res) => {
   try {
     const { usuario, idEmprendimiento, nombreEmprendimiento, descripcionEmprendimiento, emprendimientoActivo } = req.body;
+    
     const ciudad = req.body['ubicacionEmprendimiento.ciudad']
     const departamento = req.body['ubicacionEmprendimiento.departamento']
 
@@ -161,7 +162,7 @@ exports.editarEmprendimiento = async (req, res) => {
       ... getUpdatedHeaders(req),
       ... formN.getHeaders()
     };
-
+    
     // Enviar al backend real 
     await axios.put(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`, formN, { headers });
 
@@ -184,13 +185,10 @@ exports.eliminarEmprendimiento = async (req, res) => {
   const { usuario, emprendimientoEliminado } = req.body;
   try {
     // Petición PATCH para cambiar estado en el servidor a eliminado:true
-    await axios.patch(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`,
+    const resp= await axios.patch(`${API_BASE_URL}/emprendimientos/${idEmprendimiento}`,
       { emprendimientoEliminado },
-      { headers: HEADERS }
+      { headers: getUpdatedHeaders(req) }
     );
-
-    
-
     // Redirigir al listado sin exponer id de usuario
     res.redirect('/usuario-emprendimientos');
   } catch (error) {
@@ -214,7 +212,7 @@ exports.verificarEmprendimientoActivo = async (req, res) => {
     
     // Hacer proxy al backend
     const response = await axios.get(`${API_BASE_URL}/emprendimientos/verificar-activo/${id}`, { 
-      headers: HEADERS 
+      headers: getUpdatedHeaders(req) 
     });
     
     // Devolver la respuesta del backend

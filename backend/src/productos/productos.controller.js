@@ -45,9 +45,10 @@ exports.obtenerProductoPorId = async (req, res) => {
     // Buscamos el producto por id y aceptamos ambos esquemas de estado
     const productoEncontrado = await modeloProducto.findOne({
       _id: idProducto,
-       productoEliminado: false 
-      }).populate('idEmprendimiento');
-    if (productoEncontrado) {
+      productoEliminado: false
+    }).populate('idEmprendimiento');
+    const tienePermiso = productoEncontrado.idEmprendimiento.usuario.toString() === req.session.userId;
+    if (tienePermiso) {
       res.status(200).json(productoEncontrado);
     } else {
       res.status(404).json({ mensaje: "Producto no encontrado" });
@@ -178,33 +179,34 @@ exports.crearProducto = async (req, res) => {
 /*editar un producto por su id*/
 exports.actualizarProducto = async (req, res) => {
   let idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
-  const datosProducto = req.body; // datos que llegan con el request
   try {
-
-    let imagenes = [];
-    //Si hay nuevas imagenes en la request
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
-        const url = await uploadImage(file, "productos");
-        imagenes.push(url);
+    const prod = await modeloProducto.findById(idProducto).populate('idEmprendimiento');
+    const tienePermiso = prod.idEmprendimiento.usuario.toString() === req.session.userId;
+    if (tienePermiso) {
+      const datosProducto = req.body; // datos que llegan con el request
+      let imagenes = [];
+      //Si hay nuevas imagenes en la request
+      if (req.files && req.files.length > 0) {
+        for (const file of req.files) {
+          const url = await uploadImage(file, "productos");
+          imagenes.push(url);
+        }
+        datosProducto.imagenes = imagenes; // reemplazar completamente
       }
-      datosProducto.imagenes = imagenes; // reemplazar completamente
-    }
-    // Validar id antes de actualizar
-    if (!mongoose.isValidObjectId(idProducto)) {
-      return res.status(400).json({ mensaje: 'Id de producto inválido' });
-    }
+      // Validar id antes de actualizar
+      if (!mongoose.isValidObjectId(idProducto)) {
+        return res.status(400).json({ mensaje: 'Id de producto inválido' });
+      }
 
-    // actualizar y devolver el documento actualizado (new:true)
-    const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
+      // actualizar y devolver el documento actualizado (new:true)
+      const productoActualizado = await modeloProducto.findByIdAndUpdate(idProducto, datosProducto, { new: true });
 
-    //Registrar log
-    Log.generateLog('producto.log', `Un producto ha sido actualizado: ${productoActualizado}, fecha: ${new Date()}`);
+      //Registrar log
+      Log.generateLog('producto.log', `Un producto ha sido actualizado: ${productoActualizado}, fecha: ${new Date()}`);
 
-    if (productoActualizado) {
-      res.status(200).json(productoActualizado);
+      return res.status(200).json(productoActualizado);
     } else {
-      res.status(404).json({ mensaje: "Producto no encontrado" });
+      res.status(404).json({ mensaje: "Producto no actualizado" });
     }
   } catch (error) {
     try {
@@ -225,23 +227,24 @@ exports.actualizarProducto = async (req, res) => {
 exports.eliminarProducto = async (req, res) => {
   let idProducto = req.params.id;
   try {
-    if (!mongoose.isValidObjectId(idProducto)) {
-      return res.status(400).json({ mensaje: 'Id de producto inválido' });
-    }
-    // En lugar de eliminar físicamente, marcamos el producto como 'eliminado'.
-    // Actualizamos ambos formatos: añadimos/actualizamos `estadoProducto` y
-    // también `productoActivo`/`productoEliminado` para contemplar ambos esquemas.
-    const productoActualizado = await modeloProducto.findByIdAndUpdate(
-      idProducto,
-      {
-        estadoProducto: 'eliminado',
-        productoActivo: false,
-        productoEliminado: true
-      },
-      { new: true }
-    );
-
-    if (productoActualizado) {
+    const prod = await modeloProducto.findById(idProducto).populate('idEmprendimiento');
+    const tienePermiso = prod.idEmprendimiento.usuario.toString() === req.session.userId;
+    if (tienePermiso) {
+      if (!mongoose.isValidObjectId(idProducto)) {
+        return res.status(400).json({ mensaje: 'Id de producto inválido' });
+      }
+      // En lugar de eliminar físicamente, marcamos el producto como 'eliminado'.
+      // Actualizamos ambos formatos: añadimos/actualizamos `estadoProducto` y
+      // también `productoActivo`/`productoEliminado` para contemplar ambos esquemas.
+      const productoActualizado = await modeloProducto.findByIdAndUpdate(
+        idProducto,
+        {
+          estadoProducto: 'eliminado',
+          productoActivo: false,
+          productoEliminado: true
+        },
+        { new: true }
+      );
       //Registrar log solo si existe el producto actualizado
       Log.generateLog('producto.log', `Un producto ha sido eliminado: ${productoActualizado._id}, fecha: ${new Date()}`);
 
@@ -267,9 +270,15 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
 
     const productosDelEmprendimiento = await modeloProducto.find({
       idEmprendimiento: idEmprendimiento,
-    });
+      productoEliminado: false
+    }).populate('idEmprendimiento');
 
-    return res.status(200).json(productosDelEmprendimiento);
+    const tienePermiso = productosDelEmprendimiento.some(producto =>
+      producto.idEmprendimiento.usuario?.toString() === req.session.userId
+    );
+    if (tienePermiso) {
+      return res.status(200).json(productosDelEmprendimiento);
+    }
   } catch (error) {
     console.error('Error al obtener productos por emprendimiento:', error);
     return res.status(500).json({ mensaje: 'Error al obtener productos del emprendimiento', detalle: error.message });
@@ -280,7 +289,9 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
 exports.obtenerProductosPorUsuario = async (req, res) => {
   const idUsuario = req.params.id;
   try {
-    console.log('Sesion lista productis: ',req.session)
+    const tienePermiso = idUsuario === req.session.userId;
+    if (tienePermiso) {
+    console.log('Sesion lista productis: ', req.session)
     // Validar idUsuario si es necesario
     // Importamos modelo de emprendimiento dinámicamente para evitar ciclos
     const ModeloEmpr = require('../emprendimientos/emprendimiento.model');
@@ -301,6 +312,7 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
     });
 
     return res.status(200).json(productosUsuario);
+    }
   } catch (error) {
     console.error('Error al obtener productos por usuario:', error);
     return res.status(500).json({ mensaje: 'Error al obtener productos por usuario', detalle: error.message });
@@ -414,8 +426,8 @@ exports.obtenerProductosPorCategoria = async (req, res) => {
         const deptoR = new RegExp('^' + escapeRegexLocal(depto) + '$', 'i');
         const ciudadR = new RegExp('^' + escapeRegexLocal(ciudad) + '$', 'i');
         // coincidencia en campos de producto (si existen) o en el emprendimiento
-        condicionesUbic.push({ $and: [ { 'ubicacionEmprendimiento.departamento': deptoR }, { 'ubicacionEmprendimiento.ciudad': ciudadR } ] });
-        condicionesUbic.push({ $and: [ { 'emprendimiento.ubicacionEmprendimiento.departamento': deptoR }, { 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadR } ] });
+        condicionesUbic.push({ $and: [{ 'ubicacionEmprendimiento.departamento': deptoR }, { 'ubicacionEmprendimiento.ciudad': ciudadR }] });
+        condicionesUbic.push({ $and: [{ 'emprendimiento.ubicacionEmprendimiento.departamento': deptoR }, { 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadR }] });
         // fallback: buscar "Departamento, Ciudad" dentro de la descripcion del producto
         try {
           const textoExacto = `${depto}, ${ciudad}`;
@@ -425,12 +437,12 @@ exports.obtenerProductosPorCategoria = async (req, res) => {
         const deptoR = new RegExp('^' + escapeRegexLocal(depto) + '$', 'i');
         condicionesUbic.push({ 'ubicacionEmprendimiento.departamento': deptoR });
         condicionesUbic.push({ 'emprendimiento.ubicacionEmprendimiento.departamento': deptoR });
-        try { condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(depto), 'i') } }); } catch (e) {}
+        try { condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(depto), 'i') } }); } catch (e) { }
       } else if (ciudad) {
         const ciudadR = new RegExp('^' + escapeRegexLocal(ciudad) + '$', 'i');
         condicionesUbic.push({ 'ubicacionEmprendimiento.ciudad': ciudadR });
         condicionesUbic.push({ 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadR });
-        try { condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(ciudad), 'i') } }); } catch (e) {}
+        try { condicionesUbic.push({ descripcionProducto: { $regex: new RegExp(escapeRegexLocal(ciudad), 'i') } }); } catch (e) { }
       }
 
       if (condicionesUbic.length) {
@@ -536,8 +548,8 @@ exports.filtrarProductos = async (req, res) => {
         // Usar RegExp anclado para coincidencia exacta case-insensitive
         const deptoRegex = new RegExp('^' + escapeRegex(depto) + '$', 'i');
         const ciudadRegex = new RegExp('^' + escapeRegex(ciudad) + '$', 'i');
-        condiciones.push({ $and: [ { 'ubicacionEmprendimiento.departamento': deptoRegex }, { 'ubicacionEmprendimiento.ciudad': ciudadRegex } ] });
-        condiciones.push({ $and: [ { 'emprendimiento.ubicacionEmprendimiento.departamento': deptoRegex }, { 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadRegex } ] });
+        condiciones.push({ $and: [{ 'ubicacionEmprendimiento.departamento': deptoRegex }, { 'ubicacionEmprendimiento.ciudad': ciudadRegex }] });
+        condiciones.push({ $and: [{ 'emprendimiento.ubicacionEmprendimiento.departamento': deptoRegex }, { 'emprendimiento.ubicacionEmprendimiento.ciudad': ciudadRegex }] });
         // Fallback: si la descripción del producto contiene "departamento, ciudad"
         try {
           const textoExacto = `${depto}, ${ciudad}`;

@@ -235,3 +235,88 @@ Un emprendimiento ha sido editado: {
   updatedAt: 2025-09-30T22:44:53.321Z,
   __v: 0
 }, fecha: Tue Sep 30 2025 17:44:53 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Cundinamarca', ciudad: 'Bogotá, D.C.' },
+  _id: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: 'Laura Zapatera Gold',
+  descripcionEmprendimiento: 'Emprendimiento familiar que nace del oro ancestral de la guajira, y llega a Antioquia para deleitarlos. Amen herman',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2c86c953-01a1-4fba-a433-7af1d3fbc946.jpg',
+  fechaRegistro: 2025-09-24T01:23:56.918Z,
+  createdAt: 2025-09-24T01:23:56.926Z,
+  updatedAt: 2025-10-08T18:45:51.992Z,
+  __v: 0
+}, fecha: Wed Oct 08 2025 13:45:52 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Cundinamarca', ciudad: 'Bogotá, D.C.' },
+  _id: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: 'Laura Zapatera Gol',
+  descripcionEmprendimiento: 'Emprendimiento familiar que nace del oro ancestral de la guajira, y llega a Antioquia para deleitarlos. Amen herman',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2c86c953-01a1-4fba-a433-7af1d3fbc946.jpg',
+  fechaRegistro: 2025-09-24T01:23:56.918Z,
+  createdAt: 2025-09-24T01:23:56.926Z,
+  updatedAt: 2025-10-08T18:46:12.440Z,
+  __v: 0
+}, fecha: Wed Oct 08 2025 13:46:12 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido eliminado: 68e2d68829b7ae1246aef0f9, fecha: Wed Oct 08 2025 18:00:15 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido eliminado: 68d419a94c7780da8b33b5f9, fecha: Wed Oct 08 2025 18:01:01 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Cundinamarca', ciudad: 'Bogotá, D.C.' },
+  _id: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: 'Laura Zapatera Gold',
+  descripcionEmprendimiento: 'Emprendimiento familiar que nace del oro ancestral de la guajira, y llega a Antioquia para deleitarlos. Amen herman',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2c86c953-01a1-4fba-a433-7af1d3fbc946.jpg',
+  fechaRegistro: 2025-09-24T01:23:56.918Z,
+  createdAt: 2025-09-24T01:23:56.926Z,
+  updatedAt: 2025-10-08T23:09:28.460Z,
+  __v: 0
+}, fecha: Wed Oct 08 2025 18:09:28 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Cundinamarca', ciudad: 'Bogotá, D.C.' },
+  _id: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: 'Laura Zapatera Gold',
+  descripcionEmprendimiento: 'Emprendimiento familiar que nace del oro ancestral de la guajira, y llega a Antioquia para deleitarlos. Amen herman',
+  emprendimientoActivo: false,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2c86c953-01a1-4fba-a433-7af1d3fbc946.jpg',
+  fechaRegistro: 2025-09-24T01:23:56.918Z,
+  createdAt: 2025-09-24T01:23:56.926Z,
+  updatedAt: 2025-10-08T23:17:57.948Z,
+  __v: 0
+}, fecha: Wed Oct 08 2025 18:17:58 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Cundinamarca', ciudad: 'Bogotá, D.C.' },
+  _id: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: 'Laura Zapatera Gold',
+  descripcionEmprendimiento: 'Emprendimiento familiar que nace del oro ancestral de la guajira, y llega a Antioquia para deleitarlos. Amen herman',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/2c86c953-01a1-4fba-a433-7af1d3fbc946.jpg',
+  fechaRegistro: 2025-09-24T01:23:56.918Z,
+  createdAt: 2025-09-24T01:23:56.926Z,
+  updatedAt: 2025-10-08T23:18:15.276Z,
+  __v: 0
+}, fecha: Wed Oct 08 2025 18:18:15 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Cauca', ciudad: 'El Tambo' },
+  _id: new ObjectId('68d377706574aae4acefe9e9'),
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: 'Funcion Amigurumi',
+  descripcionEmprendimiento: '',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  fechaRegistro: 2025-09-24T04:45:36.664Z,
+  createdAt: 2025-09-24T04:45:36.670Z,
+  updatedAt: 2025-10-08T23:18:33.315Z,
+  __v: 0
+}, fecha: Wed Oct 08 2025 18:18:33 GMT-0500 (Colombia Standard Time)

@@ -24,20 +24,12 @@ exports.generarCaptcha = async (req, res) => {
 
 exports.validarCaptcha = async (req, res) => {
     try {
-        console.log(req.headers)
-        HEADERS.cookie = req.headers.cookie || ""
+        console.log('console.log de captcha:',req.headers.cookie)
+        // HEADERS.cookie = req.headers.cookie || ""
         const response = await axios.post(`${API_BASE_URL}/captcha/validar`, req.body, {
-            headers: HEADERS, withCredentials: true, credentials: "include"
+            headers: getUpdatedHeaders(req)
         });
-        if (response.headers["set-cookie"]) {
-            const cookies = response.headers['set-cookie'].map((c) => cookie.parse(c));
-            cookies.forEach((c) => {
-                res.cookie(Object.keys(c)[0], Object.values(c)[0], {
-                    httpOnly: true,
-                    sameSite: 'Strict',
-                });
-            });
-        }
+        setCookie(response,res);
         res.json(response.data); // 
     } catch (error) {
         console.error('Error validando captcha: ', error);

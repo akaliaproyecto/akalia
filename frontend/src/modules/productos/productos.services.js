@@ -1,4 +1,6 @@
 const axios = require('axios');
+axios.defaults.withCredentials = true;
+
 const FormData = require('form-data');
 require('dotenv').config();
 const { setCookie, getUpdatedHeaders } = require('../helpers');
@@ -88,7 +90,6 @@ exports.listarProductosUsuario = async (req, res) => {
 
 /* mostrarDetalleProducto */
 exports.mostrarDetalleProducto = async (req, res) => {
-  console.log('hola soy yo otra vez')
   try {
     // Obtener id del producto desde la URL y usuario autenticado
     const idProducto = req.params.id;
@@ -114,7 +115,6 @@ exports.mostrarDetalleProducto = async (req, res) => {
 
       const imagenes = producto.imagenes
       const emprendimiento = resp.data.nombreEmprendimiento
-      console.log(emprendimiento)
 
       // muestra la página “usuario-producto-ver” y le pasa los datos del producto y del usuario para que la plantilla los muestre dinámicamente.
       if (req.headers.accept && req.headers.accept.includes('application/json')) {
@@ -287,17 +287,14 @@ exports.procesarEliminarProducto = async (req, res) => {
   try {
     const idProducto = req.params.id; // id del producto a eliminar
     // Campos enviados desde el formulario
-    const { usuario, productoEliminado } = req.body;
-
-    // Construimos la ruta al backend real
-    const rutaBackend = `${API_BASE_URL}/productos/${idProducto}/eliminar`;
-    setCookie(rutaBackend,res);
-
+    const { usuario, datosProductoEliminado } = req.body;
+    
     // Preparar payload simple: { productoEliminado: true }
-    const payload = { productoEliminado: productoEliminado === true };
-
+    const payload = { datosProductoEliminado: datosProductoEliminado === true };
+    
     // Hacemos la petición PATCH al backend
-    await axios.patch(rutaBackend, payload, { headers: getUpdatedHeaders(req) }, { withCredentials: true });
+    productoEliminado = await axios.patch(`${API_BASE_URL}/productos/${idProducto}/eliminar`, payload, { headers: getUpdatedHeaders(req) });
+    setCookie(productoEliminado,res);
 
     // Redirigimos al listado del usuario (SSR)
     return res.redirect('/productos/usuario-productos');

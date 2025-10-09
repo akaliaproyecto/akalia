@@ -31,7 +31,6 @@ io.use((socket, next) => {
   if (req.session && req.session.userId) {
     socket.user = { 
       id: req.session.userId.toString() //  Convertir a string
-
     };
     return next();
   }
@@ -41,13 +40,13 @@ io.use((socket, next) => {
 require('./sockets/chat')(io); 
 
 io.on("connection", (socket) => {
-  console.log("✅ Usuario conectado", socket.user.id);
+  console.log("Usuario conectado", socket.user.id);
 });
 
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {
     server.listen(PORT, '0.0.0.0', () => {
-      console.log(`✅ API backend iniciada exitosamente en puerto ${PORT}`);
+      console.log(`API backend iniciada exitosamente en puerto ${PORT}`);
     });
   })
   .catch(err => console.error(' Error conectando a Mongo:', err));

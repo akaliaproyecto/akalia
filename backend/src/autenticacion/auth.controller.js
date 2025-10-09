@@ -131,15 +131,17 @@ exports.mfaVerify = async (req, res, next) => {
 };
 
 exports.logout = async (req, res) => {
-      console.log('Se bborro con exito?')
-
   try {
-   if (!req.session) {
+   if (!req.session || req.session) {
      // nada que destruir
-     res.clearCookie('connect.sid', { path: '/' });
+     res.clearCookie('connect.sid', {
+          path: '/',
+          httpOnly: true,
+          sameSite: 'lax',
+          secure: false, // cambia a true si usas https
+        });
      return res.json({ ok: true });
    }
-    console.log('Se bborro con exito?')
 
    req.session.destroy((err) => {
      if (err) {
@@ -148,8 +150,6 @@ exports.logout = async (req, res) => {
        res.clearCookie('connect.sid', { path: '/' });
        return res.status(500).json({ error: 'Error cerrando sesión' });
      }
-    console.log('Se bborro con exito?2')
-
      // limpiar cookie con el mismo nombre que la sesión
      res.clearCookie('connect.sid', { path: '/' });
      return res.json({ ok: true });
