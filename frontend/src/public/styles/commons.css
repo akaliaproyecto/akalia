@@ -6,6 +6,34 @@ body {
   background-color: var(--normal-lights-blanco-light);
   width: 100%;
 }
+/*  condiciones-uso */
+.bg-white {
+  background-color: #ffffff !important;
+}
+.text-negro {
+  color: var(--normal-negro) !important;
+}
+.akalia-logo-square{
+  width:56px;
+  height:56px;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(135deg,var(--normal-vinotinto),var(--normal-terracota));
+  color:#ffffff;
+  font-weight:700;
+}
+.akalia-card-cream{
+  background: var(--normal-blanco);
+  border:1px solid rgba(0,0,0,0.04);
+}
+.akalia-note{
+  background: rgba(48,93,83,0.06);
+}
+.akalia-note-terracota{
+  background: rgba(188,65,33,0.06);
+}
 /* NAVBAR */
 .akalia-navbar {
   background-color: #FFF9E4;
