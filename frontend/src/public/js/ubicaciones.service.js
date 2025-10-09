@@ -7,7 +7,6 @@ class UbicacionesService {
   constructor() {
     this.municipiosData = null;
     this.API_BASE_URL = window.API_BASE || 'http://localhost:4006';
-    console.log(API_BASE_URL)
 }
 /**
  * Obtiene todos los datos de municipios por departamento
@@ -20,6 +19,7 @@ async obtenerMunicipios() {
         }
         
         const response = await fetch(`${this.API_BASE_URL}/api/municipios`);
+        console.log('aqui estoy imp api base', this.API_BASE_URL)
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
