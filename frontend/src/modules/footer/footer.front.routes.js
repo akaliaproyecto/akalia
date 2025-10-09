@@ -8,7 +8,9 @@ const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 const {
   condicionesUso,
   politicasPrivacidad, 
-  politicasCookies
+  politicasCookies,
+  preguntasFrecuentes,
+  contacto
 } = require('./footer.services');
 
 
@@ -20,5 +22,11 @@ router.get('/politicas-privacidad', politicasPrivacidad);
 
 /* Ruta que renderiza la política de cookies */
 router.get('/politicas-cookies', politicasCookies);
+
+/* Ruta que renderiza la vista de preguntas frecuentes */
+router.get('/preguntas-frecuentes', preguntasFrecuentes);
+
+/* Ruta que renderiza la vista de contacto */
+router.get('/contactanos', contacto);
 
 module.exports = router;

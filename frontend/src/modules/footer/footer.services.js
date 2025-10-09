@@ -19,3 +19,13 @@ exports.politicasPrivacidad = async (req, res) => {
 exports.politicasCookies = async (req, res) => {
   res.render('pages/footer-politicas-cookies');
 };
+
+/* Cargar preguntas frecuentes */
+exports.preguntasFrecuentes = async (req, res) => {
+  res.render('pages/footer-preguntas-frecuentes');
+};
+
+/* Cargar contacto */
+exports.contacto = async (req, res) => {
+  res.render('pages/footer-contactanos');
+};
