@@ -10,3 +10,8 @@ exports.condicionesUso = async (req, res) => {
 	res.render('pages/condiciones-uso');
 };
 
+/* Cargar política de privacidad */
+exports.politicasPrivacidad = async (req, res) => {
+  res.render('pages/politicas-privacidad');
+};
+
