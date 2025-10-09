@@ -7,11 +7,15 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 
 /* Cargar condiciones de uso */
 exports.condicionesUso = async (req, res) => {
-	res.render('pages/condiciones-uso');
+	res.render('pages/footer-condiciones-uso');
 };
 
 /* Cargar política de privacidad */
 exports.politicasPrivacidad = async (req, res) => {
-  res.render('pages/politicas-privacidad');
+  res.render('pages/footer-politicas-privacidad');
 };
 
+/* Cargar política de cookies */
+exports.politicasCookies = async (req, res) => {
+  res.render('pages/footer-politicas-cookies');
+};
