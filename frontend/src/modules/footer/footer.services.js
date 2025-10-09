@@ -1,0 +1,12 @@
+const axios = require('axios');
+require('dotenv').config();
+
+// Cabeceras y URL base para llamadas al backend
+const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
+const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
+
+/* Cargar condiciones de uso */
+exports.condicionesUso = async (req, res) => {
+	res.render('pages/condiciones-uso');
+};
+
