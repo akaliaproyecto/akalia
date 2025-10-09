@@ -7,7 +7,8 @@ const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 // Importamos los controladores que preparan los datos para las vistas del footer
 const {
   condicionesUso,
-  politicasPrivacidad
+  politicasPrivacidad, 
+  politicasCookies
 } = require('./footer.services');
 
 
@@ -16,5 +17,8 @@ router.get('/condiciones-uso', condicionesUso);
 
 /* Ruta que renderiza la vista de política de privacidad */
 router.get('/politicas-privacidad', politicasPrivacidad);
+
+/* Ruta que renderiza la política de cookies */
+router.get('/politicas-cookies', politicasCookies);
 
 module.exports = router;
