@@ -5,6 +5,7 @@
   <title>Contáctanos | Akalia</title>
   <%- include('../partials/head.ejs'); %>
 </head>
+
 <body class="h-100 m-0 d-flex flex-column vh-100">
   <%- include('../partials/navbar.ejs'); %>
   <main class="flex-grow-1 d-flex flex-column justify-content-start">
@@ -13,7 +14,7 @@
       <form class="w-100" style="max-width:400px;">
         <div class="mb-3">
           <label for="mensaje" class="form-label text-negro">Mensaje</label>
-          <input type="text" class="form-control" id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí">
+          <textarea class="form-control" id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí"></textarea>
         </div>
         <div class="mb-3">
           <label for="correo" class="form-label text-negro">Correo electrónico</label>
@@ -28,7 +29,8 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"></script>
     <script src="/js/login_signup.js"></script>
-    <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/captcha.js"></script>
     <!-- Bootstrap + FontAwesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 

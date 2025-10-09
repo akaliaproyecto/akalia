@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Preguntas Frecuentes | Akalia</title>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body class="bg-white text-negro">
+<%- include('../partials/navbar.ejs'); %>
+  <div class="container py-5">
+    <header class="d-flex align-items-center gap-3 mb-4">
+      <div class="akalia-logo-square">A</div>
+      <div>
+        <h1 class="h4 mb-0 text-negro">Preguntas Frecuentes — Akalia</h1>
+        <div class="small text-muted">Centro de ayuda para usuarios y emprendedores</div>
+      </div>
+    </header>
+
+    <main class="card p-4 akalia-card-cream">
+      <div class="row">
+        <div class="col-12">
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Qué es Akalia?</summary>
+            <p>Akalia es una plataforma digital que conecta a emprendedores colombianos con compradores interesados en productos artesanales, promoviendo la economía local y la visibilidad de los talentos regionales.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Quiénes pueden registrarse en Akalia?</summary>
+            <p>Pueden registrarse tanto <strong>usuarios compradores</strong> como <strong>emprendedores</strong>. Los emprendedores pueden crear perfiles para mostrar y gestionar sus productos, mientras que los compradores pueden explorar, realizar pedidos y dejar reseñas.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Cómo puedo registrarme?</summary>
+            <p>Desde la página principal, haz clic en “Registrarse”. Completa los campos requeridos. Una vez validada la cuenta, podrás acceder a tu panel personal.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Puedo modificar o eliminar mi cuenta?</summary>
+            <p>Sí. Desde el menú de perfil puedes editar tu información personal o solicitar la eliminación de la cuenta. Akalia conservará los datos mínimos necesarios por motivos legales y de seguridad, conforme a la Política de Privacidad.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Cómo funcionan las categorías de productos?</summary>
+            <p>Las categorías agrupan productos artesanales similares (por ejemplo: tejido, pintura o cerámica). El sistema solo mostrará categorías activas; si alguna se deshabilita, los productos asociados permanecerán en el historial pero no serán visibles en el catálogo público.</p>
+          </details>
+
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Cómo se gestionan los reportes de usuarios?</summary>
+            <p>Los reportes generados por los usuarios son revisados por el equipo de administración. Cada reporte tiene un estado (pendiente, revisado o archivado) y puede visualizarse o editarse según su progreso.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Qué métodos de pago se aceptan?</summary>
+            <p>Actualmente Akalia permite pagos seguros a través de pasarelas certificadas, garantizando la protección de los datos del usuario. Las opciones disponibles se muestran durante el proceso de compra.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Akalia cobra comisión a los emprendedores?</summary>
+            <p>Sí, se aplica una comisión razonable por cada venta completada. El monto total de comisiones generadas se puede visualizar desde el dashboard del emprendedor.</p>
+          </details>
+
+          <details class="mb-3">
+            <summary class="fw-semibold">¿Cómo contacto con el soporte de Akalia?</summary>
+            <p>Puedes comunicarte mediante el formulario de contacto disponible en la plataforma o enviando un mensaje al correo de atención <strong>akaliaproyecto@gmail.com</strong>. Nuestro equipo responderá en un máximo de 48 horas hábiles.</p>
+          </details>
+
+          <footer class="mt-4">
+            <p class="mb-0 small text-muted">Akalia © 2025 — Innovación artesanal colombiana</p>
+          </footer>
+
+        </div>
+      </div>
+    </main>
+  </div>
+<%- include('../partials/footer.ejs'); %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"></script>
+    <script src="/js/login_signup.js"></script>
+  <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/captcha.js"></script>
+    <!-- Bootstrap + FontAwesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+</body>
+<%- include('../partials/modal-login.ejs'); %>
+<%- include('../partials/modal-signup.ejs'); %>
+</html>
