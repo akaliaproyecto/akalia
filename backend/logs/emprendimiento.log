@@ -333,3 +333,16 @@ Un emprendimiento ha sido creado por el usuario 68d32c90c6943afdfd675d85, empren
   updatedAt: 2025-10-10T03:52:48.991Z,
   __v: 0
 }, fecha: Thu Oct 09 2025 22:52:49 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido creado por el usuario 68e88330908bdbeffdc8ab27, emprendimiento: {
+  usuario: new ObjectId('68e88330908bdbeffdc8ab27'),
+  nombreEmprendimiento: 'ererjlkn',
+  descripcionEmprendimiento: '',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Córdoba', ciudad: 'Moñitos' },
+  _id: new ObjectId('68e8893e1e2f9dd475b092b7'),
+  fechaRegistro: 2025-10-10T04:19:10.660Z,
+  createdAt: 2025-10-10T04:19:10.663Z,
+  updatedAt: 2025-10-10T04:19:10.663Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 23:19:10 GMT-0500 (Colombia Standard Time)
