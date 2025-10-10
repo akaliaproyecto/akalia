@@ -5,27 +5,46 @@ require('dotenv').config();
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
-/* Cargar condiciones de uso */
+// Función auxiliar simple: obtiene categorías desde la API y devuelve un arreglo (o vacío)
+async function obtenerCategorias() {
+  try {
+    const resp = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
+    if (Array.isArray(resp.data)) return resp.data;
+    return [];
+  } catch (err) {
+    // En caso de error devolvemos arreglo vacío para no romper la vista
+    console.warn('No se pudieron obtener categorías para el navbar:', err && err.message ? err.message : err);
+    return [];
+  }
+}
+
+/* Cargar condiciones de uso (pasa categorias para el navbar) */
 exports.condicionesUso = async (req, res) => {
-	res.render('pages/footer-condiciones-uso');
+  const categorias = await obtenerCategorias(); // obtener categorias para el dropdown
+  // Render simple: pasar 'categorias' para que el partial navbar los use
+  res.render('pages/footer-condiciones-uso', { categorias });
 };
 
-/* Cargar política de privacidad */
+/* Cargar política de privacidad (pasa categorias) */
 exports.politicasPrivacidad = async (req, res) => {
-  res.render('pages/footer-politicas-privacidad');
+  const categorias = await obtenerCategorias();
+  res.render('pages/footer-politicas-privacidad', { categorias });
 };
 
-/* Cargar política de cookies */
+/* Cargar política de cookies (pasa categorias) */
 exports.politicasCookies = async (req, res) => {
-  res.render('pages/footer-politicas-cookies');
+  const categorias = await obtenerCategorias();
+  res.render('pages/footer-politicas-cookies', { categorias });
 };
 
-/* Cargar preguntas frecuentes */
+/* Cargar preguntas frecuentes (pasa categorias) */
 exports.preguntasFrecuentes = async (req, res) => {
-  res.render('pages/footer-preguntas-frecuentes');
+  const categorias = await obtenerCategorias();
+  res.render('pages/footer-preguntas-frecuentes', { categorias });
 };
 
-/* Cargar contacto */
+/* Cargar contacto (pasa categorias) */
 exports.contacto = async (req, res) => {
-  res.render('pages/footer-contactanos');
+  const categorias = await obtenerCategorias();
+  res.render('pages/footer-contactanos', { categorias });
 };
