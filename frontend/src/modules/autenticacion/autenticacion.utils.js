@@ -33,8 +33,8 @@ function construirDatosUsuarioCookie(usuario) {
 /* Opciones de configuración de cookies */
 const cookieOpts = {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
-  httpOnly: false, // accesible por JavaScript en frontend
-  secure: process.env.NODE_ENV === 'production'   // en producción -> true y HTTPS
+  httpOnly: true, // accesible por JavaScript en frontend
+  secure: true   // en producción -> true y HTTPS
 };
 
 module.exports = {
