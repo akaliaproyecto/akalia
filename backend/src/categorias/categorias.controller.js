@@ -2,13 +2,20 @@
 const modeloCategoria = require("./categorias.model");
 const uploadImage = require('../servicios/subirImagen')
 const Log = require('../middlewares/logs')
+const cookie = require('cookie');
 
 //Listar todas las categorías
 // Esta función responde con un arreglo JSON de todas las categorías almacenadas en MongoDB
 exports.obtenerCategorias = async (req, res) => {
   try {
     const categoriasEncontradas = await modeloCategoria.find();
-
+    
+    res.cookie('categorias', categoriasEncontradas, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // necesario si front y back en dominios distintos
+          maxAge: 7 * 24 * 60 * 60 * 1000
+        });
     if (categoriasEncontradas && categoriasEncontradas.length > 0) {
       res.status(200).json(categoriasEncontradas); // <-- Respuesta en formato JSON
     } else {

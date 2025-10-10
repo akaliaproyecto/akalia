@@ -26,7 +26,7 @@ exports.iniciarSesion = async (req, res) => {
       correo: correoUsuario,
       estadoUsuario: 'activo'
     });
-    console.log(usuarioEncontrado)
+    // Token
     const payload = { id: usuarioEncontrado._id, email: correoUsuario };
     const accessToken = signAccessToken(payload);
     const refreshToken = signRefreshToken(payload);
