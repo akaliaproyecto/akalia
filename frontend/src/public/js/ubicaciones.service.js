@@ -6,7 +6,7 @@
 class UbicacionesService {
   constructor() {
     this.municipiosData = null;
-    this.API_BASE_URL = window.API_BASE || 'http://localhost:4006';
+    this.API_BASE_URL = window.API_BASE_URL;
 }
 /**
  * Obtiene todos los datos de municipios por departamento

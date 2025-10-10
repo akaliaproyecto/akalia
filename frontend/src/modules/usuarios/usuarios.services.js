@@ -11,7 +11,7 @@ const {
   verificarUsuarioLogueado,
 } = require('./usuarios.utils')
 
-const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
+const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL ;
 
 /* Verificar contraseña actual del usuario - Middleware de Express */
 exports.verificarContrasenaActual = async (req, res) => {
@@ -44,7 +44,7 @@ exports.verificarContrasenaActual = async (req, res) => {
 exports.obtenerUsuario = async (req, res) => {
   const id = req.usuarioAutenticado?.idUsuario;
   if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
-
+  
   try {
     // Obtener usando helper centralizado
     const respuesta = await axios.get(`${API_BASE_URL}/usuarios/${id}`, { headers: getUpdatedHeaders(req) });
