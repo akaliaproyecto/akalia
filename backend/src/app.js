@@ -9,6 +9,8 @@ const app = express();
 const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
 const { requireAuth  } = require('./middlewares/auth.middlewares.js');
 
+const cookieParser = require('cookie-parser');
+
 const bodyParser = require('body-parser')
 
 dotenv.config();
@@ -22,6 +24,7 @@ app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS
 app.use(bodyParser.json());
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 //CORS (Frontend y backend en orígenes distintos)
 const corsOptions = {

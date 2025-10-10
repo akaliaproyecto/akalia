@@ -5,12 +5,13 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   console.error('❌ Socket.IO no está cargado');
 } else {
   
-  const { pedidoId, usuarioId, apiBaseUrl, mensajes } = window.CHAT_DATA;
+  const { pedidoId, usuarioId, apiBaseUrl, mensajes, token } = window.CHAT_DATA;
   console.log(apiBaseUrl)
   console.log('🚀 Inicializando chat para pedido:', pedidoId, 'Usuario:', usuarioId);
 
   // Conectar al socket
   const socket = io(apiBaseUrl, { 
+    auth: { token },
     withCredentials: true,
     transports: ['websocket', 'polling'],
     timeout: 20000,

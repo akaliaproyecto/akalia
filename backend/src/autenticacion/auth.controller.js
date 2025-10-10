@@ -4,12 +4,15 @@ const User = require('../usuarios/usuarios.model.js');
 const bcrypt = require('bcrypt');
 const Log = require('../middlewares/logs.js')
 
+const cookie = require('cookie');
+const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../servicios/jwt.utils.js');
+
 /* Iniciar sesión */
 exports.iniciarSesion = async (req, res) => {
   // Aceptar 'correo' o 'email' en el cuerpo
-  const correoUsuario = (req.body.correo || req.body.email || '').toLowerCase();
+  const correoUsuario = (req.body.correo).toLowerCase();
   const contrasena = req.body.contrasena;
-
+  console.log(req.body)
   // Validar que lleguen los datos requeridos
   if (!correoUsuario || !contrasena) {
     return res.status(400).json({
@@ -23,22 +26,33 @@ exports.iniciarSesion = async (req, res) => {
       correo: correoUsuario,
       estadoUsuario: 'activo'
     });
-    
+    console.log(usuarioEncontrado)
+    const payload = { id: usuarioEncontrado._id, email: correoUsuario };
+    const accessToken = signAccessToken(payload);
+    const refreshToken = signRefreshToken(payload);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // necesario si front y back en dominios distintos
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
     if (!usuarioEncontrado) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
 
-    
+
     if (!usuarioEncontrado.contrasena) {
       return res.status(401).json({ error: 'Error en la cuenta del usuario' });
     }
-    
+
     const contrasenaValida = await bcrypt.compare(contrasena, usuarioEncontrado.contrasena);
-    
+
     if (!contrasenaValida) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }
-    
+
     // Guarda en la sesión
     req.session.userId = usuarioEncontrado._id.toString();
     req.session.usuario = {
@@ -58,14 +72,10 @@ exports.iniciarSesion = async (req, res) => {
       rolUsuario: usuarioEncontrado.rolUsuario
     };
 
-    // Registrar log de forma segura
-    try {
-      Log.generateLog('usuario.log', `Un usuario inició sesión: ${correoUsuario}, fecha: ${new Date()}`);
-    } catch (logErr) {
-      console.error('Error generando log de login:', logErr);
-    }
+    // Registrar log
+    Log.generateLog('usuario.log', `Un usuario inició sesión: ${correoUsuario}, fecha: ${new Date()}`);
 
-    return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaSesion});
+    return res.status(200).json({ mensaje: 'Inicio de sesión exitoso', usuario: datosUsuarioParaSesion, accessToken });
 
   } catch (error) {
     console.error('Error en función iniciar sesión:', error);
@@ -77,7 +87,7 @@ exports.iniciarSesion = async (req, res) => {
 // Función para verificar sesión
 exports.verificarSesion = async (req, res) => {
   console.log(' Verificando sesión:', {
-  
+
     userId: req.session?.userId,
     hasSession: !!req.session
   });
@@ -132,32 +142,37 @@ exports.mfaVerify = async (req, res, next) => {
 
 exports.logout = async (req, res) => {
   try {
-   if (!req.session || req.session) {
-     // nada que destruir
-     res.clearCookie('connect.sid', {
-          path: '/',
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+    if (!req.session || req.session) {
+      // nada que destruir
+      res.clearCookie('connect.sid', {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
-        });
-     return res.json({ ok: true });
-   }
+      });
+      res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'None',
+      });
+      return res.json({ ok: true });
+    }
 
-   req.session.destroy((err) => {
-     if (err) {
-       console.error('Error destruyendo sesión:', err);
-       // intentar limpiar cookie de todas formas
-       res.clearCookie('connect.sid', { path: '/' });
-       return res.status(500).json({ error: 'Error cerrando sesión' });
-     }
-     // limpiar cookie con el mismo nombre que la sesión
-     res.clearCookie('connect.sid', { path: '/' });
-     return res.json({ ok: true });
-   });
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('Error destruyendo sesión:', err);
+        // intentar limpiar cookie de todas formas
+        res.clearCookie('connect.sid', { path: '/' });
+        return res.status(500).json({ error: 'Error cerrando sesión' });
+      }
+      // limpiar cookie con el mismo nombre que la sesión
+      res.clearCookie('connect.sid', { path: '/' });
+      return res.json({ ok: true });
+    });
   } catch (err) {
-   console.error('Excepción en logout:', err);
-   return res.status(500).json({ error: 'Error interno al cerrar sesión' });
- }
+    console.error('Excepción en logout:', err);
+    return res.status(500).json({ error: 'Error interno al cerrar sesión' });
+  }
 };
 
 exports.me = async (req, res, next) => {

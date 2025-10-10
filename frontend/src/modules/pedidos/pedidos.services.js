@@ -196,6 +196,8 @@ exports.detalleCompra = async (req, res) => {
 		if (respUsuario && respUsuario.status === 200 && respUsuario.data) {
 			usuarioComprador = respUsuario.data.usuario
 		}
+		const { refreshToken } = req.cookies;
+		console.log(refreshToken)
 		if (idUsuarioComprador === usuarioAutenticado.idUsuario) {
 			// Renderizamos la vista de inicio de pedido con usuario (posiblemente actualizado) y producto
 			return res.render('pages/usuario-compras-detalle', {
@@ -204,6 +206,7 @@ exports.detalleCompra = async (req, res) => {
 				producto,
 				estados,
 				usuarioAutenticado,
+				refreshToken,
 				apiBaseUrl: API_BASE_URL
 			});
 		} else {
@@ -212,6 +215,7 @@ exports.detalleCompra = async (req, res) => {
 				usuarioComprador,
 				producto,
 				estados,
+				refreshToken,
 				usuarioAutenticado,
 				apiBaseUrl: API_BASE_URL
 			});

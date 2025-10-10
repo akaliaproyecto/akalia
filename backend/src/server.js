@@ -7,7 +7,7 @@ const PORT = process.env.PORT || process.env.PORT_BACKEND || 4006;
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
-
+const jwt = require('jsonwebtoken');
 const io = new Server(server, {
   cors: { 
     origin: process.env.CLIENT_URL || 'https://akalia-app.onrender.com', 
@@ -21,20 +21,21 @@ const io = new Server(server, {
 
 // convertir para socket
 io.use((socket, next) => {
-  sessionMiddleware(socket.request, socket.request.res || {}, next);
-});
-
-// Middleware de autenticacion
-io.use((socket, next) => {
-  const req = socket.request;
-  console.log('aqui io.use user session: ',req.session)
-  if (req.session && req.session.userId) {
-    socket.user = { 
-      id: req.session.userId.toString() //  Convertir a string
-    };
-    return next();
+  const token = socket.handshake.auth.token;
+  if (!token) {
+    return next(new Error('Token requerido'));
   }
-  next(new Error('Unauthorized'));
+  
+  try {
+    console.log(token)
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    console.log('Token decodificado:', decoded); 
+    socket.user = decoded; // guardamos info del usuario
+  
+    next();
+  } catch (err) {
+    next(new Error('Token inválido'));
+  }
 });
 
 require('./sockets/chat')(io); 

@@ -2,8 +2,6 @@
 const express = require('express');
 const router = express.Router();
 
-const {validarCaptcha} = require('../middlewares/validarCaptcha')
-
 const {
   iniciarSesion, logout, mfaVerify, twoFASetup, twoFAVerifySetup, me, verificarSesion
 } = require('./auth.controller');

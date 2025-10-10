@@ -160,7 +160,6 @@ exports.crearUsuario = async (req, res, next) => {
     // Remover la contraseña antes de responder
     const usuario = usuarioGuardado.toObject();
     delete usuario.contrasena;
-    console.log(usuario)
     //Registrar log
     req.session.userId = usuarioGuardado._id.toString();
     req.session.usuario = {
