@@ -47,8 +47,8 @@ exports.obtenerProductoPorId = async (req, res) => {
       _id: idProducto,
       productoEliminado: false
     }).populate('idEmprendimiento');
-    const tienePermiso = productoEncontrado.idEmprendimiento.usuario.toString() === req.session.userId;
-    if (tienePermiso) {
+
+    if (productoEncontrado) {
       res.status(200).json(productoEncontrado);
     } else {
       res.status(404).json({ mensaje: "Producto no encontrado" });
