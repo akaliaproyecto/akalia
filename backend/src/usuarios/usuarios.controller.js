@@ -156,17 +156,30 @@ exports.crearUsuario = async (req, res, next) => {
 
     const nuevoUsuario = new modeloUsuario(datosUsuario);
     const usuarioGuardado = await nuevoUsuario.save();
-
+    
     // Remover la contraseña antes de responder
-    const { contrasena: _, ...usuarioSinContrasena } = usuarioGuardado.toObject();
-    const usuario = usuarioSinContrasena
+    const { contrasena: _, ...usuarioSinContrasena } = usuarioGuardado;
+    const usuario = usuarioSinContrasena._doc
     //Registrar log
     Log.generateLog('usuario.log', `Un usuario se ha registrado: ${usuario}, fecha: ${new Date()}`);
-
+    const cookieUsuario = {
+        idUsuario: usuarioGuardado.idUsuario,
+        nombreUsuario: usuarioGuardado.nombreUsuario,
+        apellidoUsuario: usuarioGuardado.apellidoUsuario,
+        correo: usuarioGuardado.email,
+        rolUsuario: usuarioGuardado.rolUsuario
+      };
+    res.cookie('usuario', JSON.stringify(cookieUsuario), {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' 
+      });
     return res.status(201).json({
       message: 'Usuario registrado exitosamente',
       usuario
     });
+    
   } catch (err) {
     console.error("Error al registrar usuario:", err);
 

@@ -23,7 +23,7 @@ exports.iniciarSesion = async (req, res) => {
       correo: correoUsuario,
       estadoUsuario: 'activo'
     });
-    console.log(usuarioEncontrado)
+    
     if (!usuarioEncontrado) {
       return res.status(401).json({ error: 'Credenciales incorrectas' });
     }

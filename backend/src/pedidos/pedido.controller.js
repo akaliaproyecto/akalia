@@ -30,19 +30,27 @@ exports.obtenerVentas = async (req, res) => {
   console.log('session en lista ventas:', req.session)
 
   try {
-    let pedidosEncontrados = await modeloPedido.find({ idUsuarioVendedor: idUsuarioVendedor })
+    let pedidosEncontrados = await modeloPedido.find({
+      idUsuarioVendedor
+    })
       .populate('idEmprendimiento')
       .populate('detallePedido.idProducto');
 
-    const tienePermiso = pedidosEncontrados.some(pedido =>
-      pedido.idUsuarioVendedor?.toString() === req.session.userId
+    // Si el usuario no tiene compras, devolver lista vacía
+    if (!pedidosEncontrados.length) {
+      return res.status(200).json([]);
+    }
+
+    // Validar permiso (que sea su propia lista)
+    const tienePermiso = pedidosEncontrados.some(
+      pedido => pedido.idUsuarioVendedor?.toString() === req.session.userId
     );
 
-    if (tienePermiso) {
-      res.status(200).json(pedidosEncontrados);
-    } else {
-      res.status(404).json({ mensaje: "Lista no autorizada" });
+    if (!tienePermiso) {
+      return res.status(403).json({ mensaje: 'Lista no autorizada' });
     }
+
+    return res.status(200).json(pedidosEncontrados);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al consultar pedidos", detalle: error.message });
   }
@@ -51,24 +59,33 @@ exports.obtenerVentas = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario comprador
 exports.obtenerCompras = async (req, res) => {
   const idUsuarioComprador = req.params.id;
-  console.log('session en lista compras:', req.session)
+
   try {
-    let comprasEncontradas = await modeloPedido.find({ idUsuarioComprador: idUsuarioComprador })
+    let comprasEncontradas = await modeloPedido.find({
+      idUsuarioComprador
+    })
       .populate('idEmprendimiento')
       .populate('detallePedido.idProducto');
 
-    // Verificar que el usuario autenticado tenga permiso (sea comprador o vendedor)
-    const tienePermiso = comprasEncontradas.some(pedido =>
-      pedido.idUsuarioComprador?.toString() === req.session.userId
+    // Si el usuario no tiene compras, devolver lista vacía
+    if (!comprasEncontradas.length) {
+      return res.status(200).json([]);
+    }
+
+    // Validar permiso (que sea su propia lista)
+    const tienePermiso = comprasEncontradas.some(
+      pedido => pedido.idUsuarioComprador?.toString() === req.session.userId
     );
 
-    if (tienePermiso) {
-      res.status(200).json(comprasEncontradas);
-    } else {
-      res.status(404).json({ mensaje: "Lista no autorizada" });
+    if (!tienePermiso) {
+      return res.status(403).json({ mensaje: 'Lista no autorizada' });
     }
+
+    return res.status(200).json(comprasEncontradas);
+
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al consultar pedidos", detalle: error.message });
+    console.error('Error al obtener compras:', error);
+    return res.status(500).json({ mensaje: 'Error al consultar pedidos', detalle: error.message });
   }
 };
 

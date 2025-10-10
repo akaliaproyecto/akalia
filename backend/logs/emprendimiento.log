@@ -320,3 +320,16 @@ Un emprendimiento ha sido editado: {
   updatedAt: 2025-10-08T23:18:33.315Z,
   __v: 0
 }, fecha: Wed Oct 08 2025 18:18:33 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido creado por el usuario 68d32c90c6943afdfd675d85, emprendimiento: {
+  usuario: new ObjectId('68d32c90c6943afdfd675d85'),
+  nombreEmprendimiento: '5h5rtyh',
+  descripcionEmprendimiento: '65h564h',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Cundinamarca', ciudad: 'Bojacá' },
+  _id: new ObjectId('68e88310908bdbeffdc8ab1e'),
+  fechaRegistro: 2025-10-10T03:52:48.990Z,
+  createdAt: 2025-10-10T03:52:48.991Z,
+  updatedAt: 2025-10-10T03:52:48.991Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 22:52:49 GMT-0500 (Colombia Standard Time)

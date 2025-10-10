@@ -263,22 +263,33 @@ exports.eliminarProducto = async (req, res) => {
 /* obtener Productos por Emprendimiento */
 exports.obtenerProductosEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.idEmprendimiento || req.params.id;
+
   try {
     if (!idEmprendimiento || !mongoose.isValidObjectId(idEmprendimiento)) {
       return res.status(400).json({ mensaje: 'Id de emprendimiento inválido' });
     }
 
     const productosDelEmprendimiento = await modeloProducto.find({
-      idEmprendimiento: idEmprendimiento,
+      idEmprendimiento,
       productoEliminado: false
     }).populate('idEmprendimiento');
 
-    const tienePermiso = productosDelEmprendimiento.some(producto =>
-      producto.idEmprendimiento.usuario?.toString() === req.session.userId
-    );
-    if (tienePermiso) {
-      return res.status(200).json(productosDelEmprendimiento);
+    // Si no hay productos, devolver array vacío
+    if (!productosDelEmprendimiento.length) {
+      return res.status(200).json([]);
     }
+
+    // Validar permiso
+    const tienePermiso = productosDelEmprendimiento.some(
+      p => p.idEmprendimiento?.usuario?.toString() === req.session.userId
+    );
+
+    if (!tienePermiso) {
+      return res.status(403).json({ error: 'No tienes permiso para ver estos productos' });
+    }
+
+    return res.status(200).json(productosDelEmprendimiento);
+
   } catch (error) {
     console.error('Error al obtener productos por emprendimiento:', error);
     return res.status(500).json({ mensaje: 'Error al obtener productos del emprendimiento', detalle: error.message });
@@ -288,31 +299,36 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
 /* Obtener productos por usuario (todos los productos de los emprendimientos del usuario) */
 exports.obtenerProductosPorUsuario = async (req, res) => {
   const idUsuario = req.params.id;
+
   try {
+    // Validar sesión
     const tienePermiso = idUsuario === req.session.userId;
-    if (tienePermiso) {
-    console.log('Sesion lista productis: ', req.session)
-    // Validar idUsuario si es necesario
-    // Importamos modelo de emprendimiento dinámicamente para evitar ciclos
+    if (!tienePermiso) {
+      return res.status(403).json({ error: 'No autorizado' });
+    }
+
     const ModeloEmpr = require('../emprendimientos/emprendimiento.model');
     const mongoose = require('mongoose');
 
-    // Obtener emprendimientos del usuario
-    const emprendimientosUsuario = await ModeloEmpr.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false });
-    const listaIdsEmpr = emprendimientosUsuario.map(e => e._id ? String(e._id) : null).filter(Boolean);
+    // Buscar emprendimientos del usuario
+    const emprendimientosUsuario = await ModeloEmpr.find({
+      usuario: new mongoose.Types.ObjectId(idUsuario),
+      emprendimientoEliminado: false
+    });
 
-    if (listaIdsEmpr.length === 0) {
-      return res.status(200).json([]); // el usuario no tiene emprendimientos
+    if (!emprendimientosUsuario.length) {
+      // Usuario válido, pero sin emprendimientos
+      return res.status(200).json([]);
     }
 
-    // Buscar productos cuyos idEmprendimiento estén en la lista
+    // Buscar productos asociados a esos emprendimientos
+    const listaIdsEmpr = emprendimientosUsuario.map(e => String(e._id));
     const productosUsuario = await modeloProducto.find({
       idEmprendimiento: { $in: listaIdsEmpr },
       productoEliminado: false
     });
 
     return res.status(200).json(productosUsuario);
-    }
   } catch (error) {
     console.error('Error al obtener productos por usuario:', error);
     return res.status(500).json({ mensaje: 'Error al obtener productos por usuario', detalle: error.message });

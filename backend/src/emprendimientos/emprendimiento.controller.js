@@ -52,16 +52,22 @@ const obtenerEmprendimientoPorId = async (req, res) => {
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
   const idUsuario = req.params.id;
   try {
-    const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false });
-    const tienePermiso = emprendimientos.some(emprendimiento =>
-      emprendimiento.usuario?.toString() === req.session.userId
+    const emprendimientos = await modeloEmprendimiento.find({ usuario: new mongoose.Types.ObjectId(idUsuario), emprendimientoEliminado: false }) ; 
+    if (!emprendimientos || emprendimientos.length === 0) {
+      return res.status(200).json([]); // Usuario válido, pero sin emprendimientos
+    }
+      // Si sí tiene emprendimientos, validar permisos
+    const tienePermiso = emprendimientos.some(
+      e => e.usuario?.toString() === req.session.userId
     );
 
-    if (tienePermiso) {
-      res.status(200).json(emprendimientos);
-    } else {
-      res.status(404).json({ mensaje: "Lista no autorizada" });
+    if (!tienePermiso) {
+      return res.status(403).json({ error: 'No tienes permiso para acceder a estos emprendimientos' });
     }
+
+    // Todo correcto
+    return res.status(200).json(emprendimientos);
+    
   } catch (error) {
     console.error("Error al consultar emprendimientos por usuario:", error);
     res.status(500).json({ mensaje: "Error en la base de datos", detalle: error.message });

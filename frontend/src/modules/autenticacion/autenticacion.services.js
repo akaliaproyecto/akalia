@@ -31,7 +31,7 @@ exports.registrarUsuario = async (req, res) => {
 
     // Construir datos de la cookie
     const datosUsuarioParaCookie = construirDatosUsuarioCookie(usuario);
-
+    console.log(response)
     // Guardar cookie
     res.cookie('usuario', JSON.stringify(datosUsuarioParaCookie), cookieOpts);
 
