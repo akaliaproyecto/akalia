@@ -158,10 +158,10 @@ exports.crearUsuario = async (req, res, next) => {
     const usuarioGuardado = await nuevoUsuario.save();
     
     // Remover la contraseña antes de responder
-    const { contrasena: _, ...usuarioSinContrasena } = usuarioGuardado.toObject();
-    const usuario = usuarioSinContrasena._doc
+    const usuario = usuarioGuardado.toObject();
+    delete usuario.contrasena;
+    console.log(usuario)
     //Registrar log
-    Log.generateLog('usuario.log', `Un usuario se ha registrado: ${usuario}, fecha: ${new Date()}`);
     req.session.userId = usuarioGuardado._id.toString();
     req.session.usuario = {
       idUsuario: usuarioGuardado._id,
@@ -170,6 +170,7 @@ exports.crearUsuario = async (req, res, next) => {
       correo: usuarioGuardado.correo,
       rolUsuario: usuarioGuardado.rolUsuario
     };
+    Log.generateLog('usuario.log', `Un usuario se ha registrado: ${usuario._id}, fecha: ${new Date()}`);
     return res.status(201).json({
       message: 'Usuario registrado exitosamente',
       usuario
