@@ -1,6 +1,8 @@
 const axios = require('axios');
 require('dotenv').config();
+axios.defaults.withCredentials = true;
 
+const { setCookie, getUpdatedHeaders } = require('../helpers');
 // Cabeceras y URL base para llamadas al backend
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
@@ -12,8 +14,10 @@ console.log('🔍 Landing service - API_KEY:', process.env.API_KEY ? '✅ Set' :
 exports.categoriasProductosLanding = async (req, res) => {
   try {
     // Obtener categorías desde el API
-    const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: HEADERS });
+    const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: getUpdatedHeaders(req) });
     let categorias = [];
+    setCookie(respCategorias, res);
+    console.log(respCategorias)
     if (Array.isArray(respCategorias.data)) {
       categorias = respCategorias.data;
     } else {

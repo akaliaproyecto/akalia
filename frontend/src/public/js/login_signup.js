@@ -84,6 +84,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function obtenerCategorias() {
+    const categorias = document.cookie.split('; ').find(f => f.startsWith('categorias='));
+    if (!categorias) return null;
+    try {
+      const valor = categorias.split('=')[1];
+      return JSON.parse(decodeURIComponent(valor));
+    } catch (e) {
+      console.log('Error al leer datos del usuario:', e);
+      return null;
+    }
+  }
+  console.log('categorias: ',obtenerCategorias())
   // Esta variable se define desde el servidor via template
   const API_BASE = window.API_BASE_URL || 'http://localhost:4006';
   /**

@@ -4,10 +4,8 @@ const app = express();
 const router = require('./modules/indexRoutes.js');
 require('dotenv').config();
 const path = require('path');
-const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const PORT_FRONTEND = process.env.PORT || process.env.PORT_FRONTEND || 4666;
-console.log(`🚀 Frontend - Intentando iniciar servidor en puerto: ${PORT_FRONTEND}`);
 
 // Motor de vistas
 app.set('view engine', 'ejs');
