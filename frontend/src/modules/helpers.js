@@ -13,6 +13,7 @@ exports.setCookie = (response, res) => {
             res.cookie(Object.keys(c)[0], Object.values(c)[0], {
                 httpOnly: false,
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // ahora front y back están bajo el mismo host lógico
+                secure: process.env.NODE_ENV === 'production'
             });
         });
     }
