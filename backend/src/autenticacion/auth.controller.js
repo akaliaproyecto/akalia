@@ -137,8 +137,8 @@ exports.logout = async (req, res) => {
      res.clearCookie('connect.sid', {
           path: '/',
           httpOnly: true,
-          sameSite: 'lax',
-          secure: false, // cambia a true si usas https
+          sameSite: 'none',
+          secure: true, // cambia a true si usas https
         });
      return res.json({ ok: true });
    }
