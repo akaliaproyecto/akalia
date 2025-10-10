@@ -34,7 +34,7 @@ function construirDatosUsuarioCookie(usuario) {
 const cookieOpts = {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
   httpOnly: false, // accesible por JavaScript en frontend
-  secure: false   // en producción -> true y HTTPS
+  secure: process.env.NODE_ENV === 'production'   // en producción -> true y HTTPS
 };
 
 module.exports = {
