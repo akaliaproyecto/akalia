@@ -6,6 +6,8 @@ const Log = require('../middlewares/logs.js')
 
 const cookie = require('cookie');
 const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../servicios/jwt.utils.js');
+const jwt = require('jsonwebtoken');
+const { configEmail } = require('../servicios/mailer');
 
 /* Iniciar sesión */
 exports.iniciarSesion = async (req, res) => {
@@ -214,4 +216,61 @@ exports.twoFAVerifySetup = async (req, res, next) => {
     await user.validate();
     res.json({ ok: true });
   } catch (err) { next(err); }
+};
+
+// --- Recuperación de contraseña (forgot / reset)
+exports.forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email requerido' });
+
+  try {
+    const user = await User.findOne({ correo: email.toLowerCase() });
+    if (!user) return res.status(200).json({ mensaje: 'Si el correo existe, se ha enviado un enlace de recuperación' });
+
+    const secret = process.env.JWT_RESET_SECRET || process.env.SESSION_SECRET || 'secret_reset_key';
+    const token = jwt.sign({ userId: user._id.toString() }, secret, { expiresIn: 300 });
+
+    const frontendUrl = process.env.FRONTEND_URL || process.env.CLIENT_URL || 'https://akalia-app.onrender.com';
+    const resetLink = `${frontendUrl.replace(/\/$/, '')}/usuario-reset-password?token=${encodeURIComponent(token)}&id=${user._id}`;
+
+    
+    const infoCorreo = {
+      to: user.correo, 
+      subject:'AKALIA | Recuperar contraseñ', 
+       html: `<p>Hola ${user.nombreUsuario || ''},</p>
+             <p>Hemos recibido una solicitud para restablecer la contraseña de tu cuenta. Haz clic en el siguiente enlace para crear una nueva contraseña (válido 1 hora):</p>
+             <p><a href="${resetLink}">${resetLink}</a></p>
+             <p>Si no solicitaste esto, ignora este correo.</p>`
+    }
+    
+    configEmail( infoCorreo )
+    
+    return res.status(200).json({ mensaje: 'Si el correo existe, se ha enviado un enlace de recuperación' });
+  } catch (error) {
+    console.error('Error forgotPassword:', error);
+    return res.status(500).json({ error: 'Error interno al procesar recuperación' });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  const { token, id, password } = req.body;
+  if (!token || !id || !password) return res.status(400).json({ error: 'Datos incompletos' });
+
+  try {
+    const secret = process.env.JWT_RESET_SECRET || process.env.SESSION_SECRET || 'secret_reset_key';
+    const decoded = jwt.verify(token, secret);
+    if (!decoded || decoded.userId !== id) return res.status(401).json({ error: 'Token inválido' });
+
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    const saltRounds = 10;
+    user.contrasena = await bcrypt.hash(password, saltRounds);
+    await user.save();
+
+    return res.status(200).json({ mensaje: 'Contraseña actualizada correctamente' });
+  } catch (error) {
+    console.error('Error resetPassword:', error);
+    return res.status(500).json({ error: 'Error interno al resetear contraseña' });
+  }
 };

@@ -81,6 +81,32 @@ exports.iniciarSesion = async (req, res) => {
   }
 };
 
+exports.recuperarContrasena = async (req, res) => {
+  try {
+    const { email } = req.body;
+    await axios.post(`${API_BASE_URL}/auth/forgot-password`, { email });
+    // Mostrar mensaje simple y redirigir
+    return res.render('pages/index', { titulo: 'Inicio', mensaje: 'Si el correo existe, se ha enviado el enlace de recuperación.' });
+  } catch (error) {
+    console.error('Error frontend forgot:', error?.response?.data || error.message || error);
+    return res.status(500).render('pages/index', { error: 'Error enviando email de recuperación' });
+  }
+};
+
+
+exports.resetearContrasena = async (req, res) => {
+  try {
+    const { token, id, password, passwordConfirm } = req.body;
+    if (!token || !id || !password || !passwordConfirm) return res.status(400).render('pages/error', { error: 'Datos incompletos' });
+    if (password !== passwordConfirm) return res.status(400).render('pages/error', { error: 'Las contraseñas no coinciden' });
+    await axios.post(`${API_BASE_URL}/auth/reset-password`, { token, id, password });
+    return res.render('pages/index', { titulo: 'Inicio', mensaje: 'Contraseña actualizada correctamente' });
+  } catch (error) {
+    console.error('Error frontend reset:', error?.response?.data || error.message || error);
+    return res.status(500).render('pages/error', { error: 'Error actualizando contraseña' });
+  }
+}
+
 exports.logout = async (req, res) => {
 
   try {

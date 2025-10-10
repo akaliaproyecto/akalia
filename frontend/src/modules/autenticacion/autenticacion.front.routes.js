@@ -5,7 +5,7 @@ const router = express.Router();
 
 const {
   registrarUsuario,
-  iniciarSesion, logout
+  iniciarSesion, logout, resetearContrasena, recuperarContrasena
 } = require('./autenticacion.services')
 
 /* ruta post para registrar un nuevo usuario */
@@ -16,5 +16,19 @@ router.post('/login', iniciarSesion);
 
 /* ruta post para iniciar sesión */
 router.post('/logout', logout);
+
+// Page to request password recovery (GET shows form, POST sends email)
+router.get('/usuario-recuperar-contrasena', (req, res) => {
+  return res.render('pages/usuario-recuperar-contrasena');
+});
+
+router.post('/usuario-recuperar-contrasena', recuperarContrasena);
+
+router.get('/usuario-reset-password', (req, res) => {
+  const { token, id } = req.query;
+  return res.render('pages/usuario-reset-password', { token: token || '', id: id || '' });
+});
+  
+router.post('/usuario-reset-password', resetearContrasena);
 
 module.exports = router;

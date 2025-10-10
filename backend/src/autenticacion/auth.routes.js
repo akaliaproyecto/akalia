@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  iniciarSesion, logout, mfaVerify, twoFASetup, twoFAVerifySetup, me, verificarSesion
+  iniciarSesion, logout, mfaVerify, twoFASetup, twoFAVerifySetup, me, verificarSesion,
+  forgotPassword, resetPassword
 } = require('./auth.controller');
 
 const { requireAuth } = require('../middlewares/auth.middlewares');
@@ -11,6 +12,8 @@ const { requireAuth } = require('../middlewares/auth.middlewares');
 router.post('/login',  iniciarSesion);
 //router.post('/login', login);
 router.post('/logout', requireAuth, logout);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 router.post('/mfa',  requireAuth, mfaVerify);
 router.get('/me', requireAuth, me);
 

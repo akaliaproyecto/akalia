@@ -10,6 +10,8 @@ const {
   validarDatosActualizacionUsuario
 } = require('./usuarios.validations');
 
+const { configEmail } = require('../servicios/mailer');
+
 /*Listar todos los usuarios*/
 exports.obtenerUsuarios = async (req, res) => {
   try {
@@ -170,6 +172,17 @@ exports.crearUsuario = async (req, res, next) => {
       rolUsuario: usuarioGuardado.rolUsuario
     };
     Log.generateLog('usuario.log', `Un usuario se ha registrado: ${usuario._id}, fecha: ${new Date()}`);
+
+    const infoCorreo = {
+      to: usuarioGuardado.correo, 
+      subject:'AKALIA | Registro Exitoso', 
+      html: `<p>Hola ${usuarioGuardado.nombreUsuario || ''},</p>
+             <p>Bienvenido a Akalia</p>
+             <p>Tu registro ha sido exitoso</p>`
+    }
+
+    configEmail( infoCorreo )
+
     return res.status(201).json({
       message: 'Usuario registrado exitosamente',
       usuario

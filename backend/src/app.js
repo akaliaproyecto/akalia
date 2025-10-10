@@ -114,7 +114,7 @@ app.get('/', (req, res) => {
 
 //AUTENTICACIÓN
 const authRoutes = require('./autenticacion/auth.routes.js');
-app.use("/auth", validateApiKey, authRoutes);
+app.use("/auth", authRoutes);
 
 //PRODUCTOS
 const productosRouter = require("./productos/productos.routes.js");

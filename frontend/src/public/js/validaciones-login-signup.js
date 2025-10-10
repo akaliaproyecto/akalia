@@ -90,15 +90,18 @@ function validarEmailUsuario(campo, elementoError, verificarExistencia = false) 
 
     if (verificarExistencia) {
       try {
+        const form = document.getElementById('recuperarForm')
+        if (form) {
+          return;
+        }
         // Verificar si el email ya existe
         const respuesta = await fetch(`${API_BASE_URL}/api/usuarios/verificar-email/${encodeURIComponent(email)}`);
         const datos = await respuesta.json();
-
-        if (datos.existe) {
+        if (datos.existe)  {
           mostrarError(campo, elementoError, 'Este correo ya está registrado');
           resolve(false);
           return;
-        }
+        } 
       } catch (error) {
         console.error('Error al verificar email:', error);
         mostrarError(campo, elementoError, 'Error verificando email, pruebe nuevamente');

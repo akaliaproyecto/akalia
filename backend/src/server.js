@@ -8,6 +8,9 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
+const backup = require('./config/backup')
+const cron = require('node-cron');
+
 const io = new Server(server, {
   cors: { 
     origin: process.env.CLIENT_URL || 'https://akalia-app.onrender.com', 
@@ -43,6 +46,14 @@ require('./sockets/chat')(io);
 io.on("connection", (socket) => {
   console.log("Usuario conectado", socket.user.id);
 });
+
+
+cron.schedule('0 0 1,15 * *', async () => {
+    console.log('Realizando Backup de la Base de datos');
+    backup.backupDatabase();
+});
+
+
 
 mongoose.connect(process.env.MONGO_URI,)
   .then(() => {
