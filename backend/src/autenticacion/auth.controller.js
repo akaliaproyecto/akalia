@@ -137,8 +137,8 @@ exports.logout = async (req, res) => {
      res.clearCookie('connect.sid', {
           path: '/',
           httpOnly: true,
-          sameSite: 'none',
-          secure: true, // cambia a true si usas https
+          secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
         });
      return res.json({ ok: true });
    }

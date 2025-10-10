@@ -302,8 +302,8 @@ exports.actualizarUsuario = async (req, res) => {
       res.cookie('usuario', JSON.stringify(cookieUsuario), {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        secure: true,
-        sameSite: 'none' 
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' 
       });
       console.log('sesion en actualizar user', req.session)
       return res.status(200).json({ mensaje: 'Perfil actualizado exitosamente', usuario: usuarioFormateado });

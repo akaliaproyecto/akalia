@@ -38,7 +38,7 @@ exports.registrarUsuario = async (req, res) => {
     // Agregar cookie temporal para mostrar toast de éxito
     res.cookie('registro-exitoso', 'true', {
       maxAge: 5000, // Expira en 5 segundos
-      httpOnly: false, // Permitir acceso desde JavaScript
+      httpOnly: true, // Permitir acceso desde JavaScript
       path: '/'
     });
 
