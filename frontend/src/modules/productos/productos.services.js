@@ -115,7 +115,7 @@ exports.mostrarDetalleProducto = async (req, res) => {
 
       const imagenes = producto.imagenes
       const emprendimiento = resp.data.nombreEmprendimiento
-
+      
       // muestra la página “usuario-producto-ver” y le pasa los datos del producto y del usuario para que la plantilla los muestre dinámicamente.
       if (req.headers.accept && req.headers.accept.includes('application/json')) {
         return res.json({ producto, usuario, emprendimiento, emprendimientos, categorias, etiquetas, imagenes });

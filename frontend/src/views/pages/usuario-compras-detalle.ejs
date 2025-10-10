@@ -28,40 +28,103 @@
                         </div>
 
                         <div class="row g-4">
-                            <!-- Chat Section (Izquierda) -->
+                            <!-- Order Details Section (Derecha) -->
                             <div class="col-lg-6">
                                 <div class="akalia-card-info">
-                                    <h4 class="akalia-label mb-3">Chat con el Emprendimiento</h4>
+                                    <h4 class="akalia-label mb-3">Detalles del Pedido</h4>
 
-                                    <!-- Chat Messages Container -->
-                                    <div class="chat-container bg-white border rounded p-3 mb-3"
-                                        style="height: 400px; overflow-y: auto;">
-                                        <div id="messages" class="chat-messages">
-                                        
+
+                                    <!-- Product Info -->
+                                    <div
+                                        class="d-flex justify-content-center align-items-start gap-2 mb-4 p-3 border rounded bg-light">
+                                        <img src="<%= producto.imagenes[0] %>" alt="Imagen del producto"
+                                            class="akalia-img-product" />
+                                        <div class="d-flex flex-column align-items-start gap-1">
+                                            <p class="mb-1 fw-semibold small">Vendido por: <%=
+                                                    pedido.idEmprendimiento.nombreEmprendimiento %>
+                                            </p>
+                                            <p class="mb-0 text-muted small fw-semibold">
+                                                <%= producto.tituloProducto %>
+                                            </p>
+                                            <p class="mb-0 text-muted small fw-semibold">Pedido N°: <%= pedido._id %>
+                                            </p>
                                         </div>
                                     </div>
+                                    <!-- Order Status -->
+                                    <div class="mb-3">
+                                        <p class="badge-info"> <strong>Estado del Pedido:</strong>
+                                            <%= pedido.estadoPedido %>
+                                        </p>
+                                    </div>
 
-                                    <!-- Message Input -->
-                                    <form id="sendMessageForm" class="chat-input d-flex gap-2">
-                                        <input type="text" class="form-control" placeholder="Escribe tu mensaje..."
-                                            id="messageInput" maxlength="1000">
-                                        <button type="submit" class="btn btn-primary bg-verde text-white border-0">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                    <!-- Quantity -->
+                                    <div class="mb-3">
+                                        <p> <strong>Cantidad:</strong>
+                                            <%= pedido.detallePedido.unidades %>
+                                        </p>
+                                    </div>
 
-                                    <!-- typing indicator -->
-                                    <div id="typingIndicator" class="mt-2 text-muted small" style="display:none;">
-                                        Alguien está escribiendo...
+                                    <!-- Base Price -->
+                                    <div class="mb-3">
+                                        <p> <strong>Precio Base por Unidad:</strong> $ <%= producto.precio %>
+                                        </p>
+                                    </div>
+
+                                    <!-- New Price -->
+                                    <div class="mb-3">
+                                        <p class="mb-0"> <strong>Precio Nuevo por Unidad:</strong> $ <%=
+                                                pedido.detallePedido.precioPactado %>
+                                        </p>
+                                        <small class="text-muted">Nota: Este valor puede cambiar durante el proceso de
+                                            la compra.</small>
+                                    </div>
+
+                                    <!-- Details -->
+                                    <div class="mb-3">
+                                        <p class="mb-0"> <strong>Descripcion: </strong> </p>
+                                        <p>
+                                            <%= pedido.detallePedido.descripcion %>
+                                        </p>
+                                    </div>
+
+                                    <!-- Total -->
+                                    <div class="mb-4">
+                                        <div class="p-3 bg-verde-light rounded">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="fw-semibold">Total a Pagar:</span>
+                                                <span class="h5 mb-0 text-verde fw-bold" id="totalAmount">
+                                                    <%= pedido.total %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Action Buttons -->
+                                    <div class="d-flex gap-2 justify-content-end">
+                                        <% if (usuarioComprador.idUsuario===usuarioAutenticado.idUsuario &&
+                                            pedido.estadoPedido !=='cancelado' && pedido.estadoPedido !=='completado' )
+                                            { %>
+                                            <button type="button" class="btn btn-terracota "
+                                                onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'comprador')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                    <path
+                                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                                                </svg>
+                                                Cancelar Pedido
+                                            </button>
+                                            <% } %>
                                     </div>
                                 </div>
 
+
+
+                            </div>
+                            <!-- Chat Section (Izquierda) -->
+                            <div class="col-lg-6">
                                 <!-- Customer Information -->
-                                <div class="akalia-card-info mt-3">
+                                <div class="akalia-card-info mb-3">
                                     <h4 class="akalia-label mb-3">Información de Envío</h4>
 
                                     <div class="mb-3">
@@ -216,100 +279,37 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Order Details Section (Derecha) -->
-                            <div class="col-lg-6">
                                 <div class="akalia-card-info">
-                                    <h4 class="akalia-label mb-3">Detalles del Pedido</h4>
+                                    <h4 class="akalia-label mb-3">Chat con el Emprendimiento</h4>
 
-
-                                    <!-- Product Info -->
-                                    <div
-                                        class="d-flex justify-content-center align-items-start gap-2 mb-4 p-3 border rounded bg-light">
-                                        <img src="<%= producto.imagenes[0] %>" alt="Imagen del producto"
-                                            class="akalia-img-product" />
-                                        <div class="d-flex flex-column align-items-start gap-1">
-                                            <p class="mb-1 fw-semibold small">Vendido por: <%=
-                                                    pedido.idEmprendimiento.nombreEmprendimiento %>
-                                            </p>
-                                            <p class="mb-0 text-muted small fw-semibold">
-                                                <%= producto.tituloProducto %>
-                                            </p>
-                                            <p class="mb-0 text-muted small fw-semibold">Pedido N°: <%= pedido._id %>
-                                            </p>
+                                    <!-- Chat Messages Container -->
+                                    <div class="chat-container bg-white border rounded p-3 mb-3"
+                                        style="height: 400px; overflow-y: auto;">
+                                        <div id="messages" class="chat-messages">
+                                        
                                         </div>
                                     </div>
-                                    <!-- Order Status -->
-                                    <div class="mb-3">
-                                        <p class="badge-info"> <strong>Estado del Pedido:</strong>
-                                            <%= pedido.estadoPedido %>
-                                        </p>
-                                    </div>
 
-                                    <!-- Quantity -->
-                                    <div class="mb-3">
-                                        <p> <strong>Cantidad:</strong>
-                                            <%= pedido.detallePedido.unidades %>
-                                        </p>
-                                    </div>
+                                    <!-- Message Input -->
+                                    <form id="sendMessageForm" class="chat-input d-flex gap-2">
+                                        <input type="text" class="form-control" placeholder="Escribe tu mensaje..."
+                                            id="messageInput" maxlength="1000">
+                                        <button type="submit" class="btn btn-primary bg-verde text-white border-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.03a.5.5 0 0 1-.862-.237L12.5 5.5l-8.646 8.646a.5.5 0 0 1-.708-.708L11.5 4.5l-2.293-.336a.5.5 0 0 1-.237-.862L13.686.256a.5.5 0 0 1 .54.11z" />
+                                            </svg>
+                                        </button>
+                                    </form>
 
-                                    <!-- Base Price -->
-                                    <div class="mb-3">
-                                        <p> <strong>Precio Base por Unidad:</strong> $ <%= producto.precio %>
-                                        </p>
-                                    </div>
-
-                                    <!-- New Price -->
-                                    <div class="mb-3">
-                                        <p class="mb-0"> <strong>Precio Nuevo por Unidad:</strong> $ <%=
-                                                pedido.detallePedido.precioPactado %>
-                                        </p>
-                                        <small class="text-muted">Nota: Este valor puede cambiar durante el proceso de
-                                            la compra.</small>
-                                    </div>
-
-                                    <!-- Details -->
-                                    <div class="mb-3">
-                                        <p class="mb-0"> <strong>Descripcion: </strong> </p>
-                                        <p>
-                                            <%= pedido.detallePedido.descripcion %>
-                                        </p>
-                                    </div>
-
-                                    <!-- Total -->
-                                    <div class="mb-4">
-                                        <div class="p-3 bg-verde-light rounded">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <span class="fw-semibold">Total a Pagar:</span>
-                                                <span class="h5 mb-0 text-verde fw-bold" id="totalAmount">
-                                                    <%= pedido.total %>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Action Buttons -->
-                                    <div class="d-flex gap-2 justify-content-end">
-                                        <% if (usuarioComprador.idUsuario===usuarioAutenticado.idUsuario &&
-                                            pedido.estadoPedido !=='cancelado' && pedido.estadoPedido !=='completado' )
-                                            { %>
-                                            <button type="button" class="btn btn-terracota "
-                                                onclick="abrirModalCancelarPedido('<%= pedido._id %>', '<%= usuarioComprador.idUsuario %>', 'comprador')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-x-circle me-1" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                                    <path
-                                                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                                                </svg>
-                                                Cancelar Pedido
-                                            </button>
-                                            <% } %>
+                                    <!-- typing indicator -->
+                                    <div id="typingIndicator" class="mt-2 text-muted small" style="display:none;">
+                                        Alguien está escribiendo...
                                     </div>
                                 </div>
 
-
-
+                                
                             </div>
                         </div>
         </div>
