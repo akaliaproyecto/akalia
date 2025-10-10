@@ -9,8 +9,8 @@ const cookie = require('cookie');
 exports.obtenerCategorias = async (req, res) => {
   try {
     const categoriasEncontradas = await modeloCategoria.find();
-    
-    res.cookie('categorias', categoriasEncontradas, {
+    const nombresCategorias = categoriasEncontradas.map(cat => ({nombreCategoria : cat.nombreCategoria, id: cat._id}));
+    res.cookie('categorias', JSON.stringify(nombresCategorias), {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
           sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // necesario si front y back en dominios distintos

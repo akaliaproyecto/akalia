@@ -13,7 +13,7 @@
   <form class="akalia-search-form d-flex align-items-center  col-lg-6 col-md-8" role="search" method="GET" action="/buscar">
           <!-- Filtro -->
           <div class="dropdown">
-            <button class="btn border-0 px-2 py-2" type="button" id="dropdownFiltro" data-bs-toggle="dropdown"
+            <button class="btn border-0 px-2 py-2" type="button" id="dropdownFiltro" onclick="llenarDropdownCategorias()" data-bs-toggle="dropdown"
               aria-expanded="false">
               <!-- Filtro SVG -->
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -28,21 +28,8 @@
                   fill="#1C1C1C" />
               </svg>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownFiltro">
-              <% if (typeof categorias !=='undefined' && categorias.length) { %>
-                <% categorias.forEach(cat=> { %>
-                  <!-- Cada item tiene data-id-categoria con el _id (seguro para pasar al JS) -->
-                  <li>
-                    <a class="dropdown-item" href="#" data-id-categoria="<%= cat._id || cat.id || '' %>"
-                      onclick="mostrarProductosPorCategoria(this.dataset.idCategoria)">
-                      <%= cat.nombreCategoria %>
-                    </a>
-                  </li>
-                <% }) %>
-              <% } else { %>
-                <li><span class="dropdown-item text-muted">Sin categorías</span></li>
-              <% } %>
-            </ul>
+            <ul class="dropdown-menu-cat dropdown-menu" aria-labelledby="dropdownFiltro">
+  </ul>
           </div>
           <!-- Input de búsqueda -->
           <div class="akalia-search-input d-flex align-items-center flex-grow-1 position-relative">

@@ -85,17 +85,47 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function obtenerCategorias() {
-    const categorias = document.cookie.split('; ').find(f => f.startsWith('categorias='));
-    if (!categorias) return null;
-    try {
-      const valor = categorias.split('=')[1];
-      return JSON.parse(decodeURIComponent(valor));
-    } catch (e) {
-      console.log('Error al leer datos del usuario:', e);
-      return null;
-    }
+  const cookie = document.cookie.split('; ').find(f => f.startsWith('categorias='));
+  if (!cookie) return null;
+
+  try {
+    const valorCodificado = cookie.split('=')[1];
+    const valorDecodificado = decodeURIComponent(valorCodificado);
+    const categorias = JSON.parse(valorDecodificado);
+    return categorias;
+  } catch (e) {
+    console.error('Error al leer categorías:', e);
+    return null;
   }
+}
   console.log('categorias: ',obtenerCategorias())
+ async function llenarDropdownCategorias() {
+    const categorias = await obtenerCategorias();
+ const dropdownMenu = document.querySelector('.dropdown-menu-cat');
+    if (!dropdownMenu) return;
+
+    dropdownMenu.innerHTML = '';
+
+    if (!categorias.length) {
+      dropdownMenu.innerHTML = `<li><span class="dropdown-item text-muted">Sin categorías</span></li>`;
+      return;
+    }
+
+    categorias.forEach(cat => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a class="dropdown-item" href="#"
+           data-id-categoria="${cat.id }"
+           onclick="mostrarProductosPorCategoria(this.dataset.idCategoria)">
+           ${cat.nombreCategoria}
+        </a>
+      `;
+      dropdownMenu.appendChild(li);
+    });
+  }
+
+   window.llenarDropdownCategorias = llenarDropdownCategorias;
+
   // Esta variable se define desde el servidor via template
   const API_BASE = window.API_BASE_URL || 'http://localhost:4006';
   /**

@@ -17,7 +17,7 @@ exports.categoriasProductosLanding = async (req, res) => {
     const respCategorias = await axios.get(`${API_BASE_URL}/categorias`, { headers: getUpdatedHeaders(req) });
     let categorias = [];
     setCookie(respCategorias, res);
-    console.log(respCategorias)
+
     if (Array.isArray(respCategorias.data)) {
       categorias = respCategorias.data;
     } else {
