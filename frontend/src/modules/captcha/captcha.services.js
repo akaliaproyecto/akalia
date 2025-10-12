@@ -8,13 +8,13 @@ const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.
 /* Generar el captcha */
 exports.generarCaptcha = async (req, res) => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/captcha/generar`, { 
-            responseType: 'text', 
-            headers: getUpdatedHeaders(req) 
-        }, { 
-            withCredentials: true 
+        const response = await axios.get(`${API_BASE_URL}/captcha/generar`, {
+            responseType: 'text',
+            headers: getUpdatedHeaders(req)
+        }, {
+            withCredentials: true
         });
-        setCookie(response,res);
+        setCookie(response, res);
         return res.send(response.data);
     } catch (error) {
         console.error('Error obteniendo captcha: ', error);
@@ -24,12 +24,12 @@ exports.generarCaptcha = async (req, res) => {
 
 exports.validarCaptcha = async (req, res) => {
     try {
-        console.log('console.log de captcha:',req.headers.cookie)
+        console.log('console.log de captcha:', req.headers.cookie)
         // HEADERS.cookie = req.headers.cookie || ""
         const response = await axios.post(`${API_BASE_URL}/captcha/validar`, req.body, {
             headers: getUpdatedHeaders(req)
         });
-        setCookie(response,res);
+        setCookie(response, res);
         res.json(response.data); // 
     } catch (error) {
         console.error('Error validando captcha: ', error);

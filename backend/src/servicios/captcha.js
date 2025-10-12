@@ -18,7 +18,7 @@ function validarCaptcha(inputCaptcha, sessionCaptcha) {
     if (!inputCaptcha || !sessionCaptcha) {
         return false;
     }
-    return inputCaptcha.toLowerCase() === sessionCaptcha.toLowerCase();
+    return inputCaptcha === sessionCaptcha;
 }
 
 module.exports = {
