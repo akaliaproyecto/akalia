@@ -11,7 +11,8 @@ const {
     crearPedido,
     cancelarPedido,
     actualizarDireccionPedido,
-    listarComprasUsuario
+    listarComprasUsuario,
+    pagarPedido
 } = require('./pedidos.services');
 
 // Rutas para listar pedidos del usuario.
@@ -37,5 +38,10 @@ router.post('/usuario-compras/actualizar-direccion/:id', actualizarDireccionPedi
 
 // Ruta para iniciar un pedido a partir de un producto
 router.get('/usuario-pedidos/comprar/:productoId', iniciarPedido);
+
+router.post('/pagar', pagarPedido)
+
+
+
 
 module.exports = router;

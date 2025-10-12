@@ -309,3 +309,30 @@ exports.cancelarPedido = async (req, res) => {
 		});
 	}
 };
+
+
+exports.pagarPedido = async (req, res) => {
+	try {
+		const producto = req.body.items;
+
+		if (!producto || !Array.isArray(producto)) {
+			return res.status(400).json({ error: 'Datos del carrito inválidos.' });
+		}
+
+		// Transformar los datos al formato que MercadoPago espera
+		const item = {
+			title: producto.nombre,
+			quantity: parseInt(producto.cantidad),
+			unit_price: parseFloat(producto.precio)
+		};
+
+		// Llamar al backend para crear la preferencia
+		const respuesta = await axios.post(`${URL_BACKEND}/crear`, { item});
+
+		// Redirigir al checkout de MercadoPago
+		res.redirect(respuesta.data.init_point);
+	} catch (error) {
+		console.error('Error al crear preferencia desde el frontend:', error.message);
+		res.status(500).render('error', { mensaje: 'No se pudo iniciar el pago.' });
+	}
+};
