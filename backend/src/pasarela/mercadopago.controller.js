@@ -18,9 +18,9 @@ const nuevaOrden = async (req, res) => {
       body: {
         item,
         back_urls: {
-          success: "https://akalia-app.onrender.com/",
-          failure: "https://akalia-app.onrender.com/",
-          pending: "https://akalia-app.onrender.com/",
+          success: "https://akalia-app.onrender.com/success",
+          failure: "https://akalia-app.onrender.com/failure",
+          pending: "https://akalia-app.onrender.com/pending",
         },
         auto_return: "approved",
       },
