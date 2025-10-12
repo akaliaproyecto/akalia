@@ -1,5 +1,7 @@
 // SDK de Mercado Pago
-import { MercadoPagoConfig, Preference } from 'mercadopago';
+// Controlador de Mercado Pago (CommonJS)
+// Usamos la librería oficial en modo CommonJS para compatibilidad con el resto del proyecto
+const { MercadoPagoConfig, Preference} = require('mercadopago');
 // Agrega credenciales
 const client = new MercadoPagoConfig({ accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN });
 
@@ -18,13 +20,13 @@ const nuevaOrden = async (req, res) => {
       body: {
         item,
         back_urls: {
-          success: "https://akalia-app.onrender.com/success",
-          failure: "https://akalia-app.onrender.com/failure",
-          pending: "https://akalia-app.onrender.com/pending",
-        },
-        auto_return: "approved",
+        success: process.env.CLIENT_URL ? `${process.env.CLIENT_URL}/success` : 'https://akalia-app.onrender.com/success',
+        failure: process.env.CLIENT_URL ? `${process.env.CLIENT_URL}/failure` : 'https://akalia-app.onrender.com/failure',
+        pending: process.env.CLIENT_URL ? `${process.env.CLIENT_URL}/pending` : 'https://akalia-app.onrender.com/pending'
       },
-    });
+      auto_return: "approved",
+    }
+  });
 
     // Devolver la URL al frontend
     return res.json({ init_point: result.init_point });
