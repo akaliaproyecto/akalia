@@ -39,7 +39,21 @@ router.post('/usuario-compras/actualizar-direccion/:id', actualizarDireccionPedi
 // Ruta para iniciar un pedido a partir de un producto
 router.get('/usuario-pedidos/comprar/:productoId', iniciarPedido);
 
+// Ruta para procesar el pago de un pedido
 router.post('/pagar', pagarPedido)
+
+// Rutas de retorno desde MercadoPago
+router.get('/success', (req, res) => {
+  res.render('success', { datos: req.query });
+});
+
+router.get('/failure', (req, res) => {
+  res.render('failure', { datos: req.query });
+});
+
+router.get('/pending', (req, res) => {
+  res.render('pending', { datos: req.query });
+});
 
 
 
