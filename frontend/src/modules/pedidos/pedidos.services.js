@@ -313,7 +313,9 @@ exports.cancelarPedido = async (req, res) => {
 
 exports.pagarPedido = async (req, res) => {
 	try {
-		const producto = req.body.items;
+		const producto = req.body;
+
+		console.log(producto)
 
 		if (!producto) {
 			return res.status(400).json({ error: 'Datos inválidos.' });
@@ -326,8 +328,11 @@ exports.pagarPedido = async (req, res) => {
 			unit_price: parseFloat(producto.precio)
 		};
 
+	console.log(item)
+
 		// Llamar al backend para crear la preferencia
-		const respuesta = await axios.post(`${URL_BACKEND}/crear`, { item});
+		const respuesta = await axios.post(`${API_BASE_URL}/crear`, { item});
+	
 
 		// Redirigir al checkout de MercadoPago
 		res.redirect(respuesta.data.init_point);
