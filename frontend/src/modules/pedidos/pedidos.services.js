@@ -315,8 +315,8 @@ exports.pagarPedido = async (req, res) => {
 	try {
 		const producto = req.body.items;
 
-		if (!producto || !Array.isArray(producto)) {
-			return res.status(400).json({ error: 'Datos del carrito inválidos.' });
+		if (!producto) {
+			return res.status(400).json({ error: 'Datos inválidos.' });
 		}
 
 		// Transformar los datos al formato que MercadoPago espera
