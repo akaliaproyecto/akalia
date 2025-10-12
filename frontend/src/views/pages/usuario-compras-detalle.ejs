@@ -117,7 +117,7 @@
 
                                             <form action="/pagar" method="POST">
                                                 <input type="hidden" name="id" value="<%= pedido._id %>">
-                                                <input type="hidden" name="nombre" value="<%= pedido.tituloProducto %>">
+                                                <input type="hidden" name="nombre" value="<%= producto.tituloProducto %>">
                                                 <input type="hidden" name="cantidad"
                                                     value="<%= pedido.detallePedido.unidades %>">
                                                 <input type="hidden" name="precio" value="<%= pedido.total %>">
