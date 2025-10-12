@@ -156,8 +156,7 @@ app.use('/captcha', validateApiKey, captchaRoutes)
 // Montamos las rutas de pasarela para crear preferencia y callbacks
 // Usamos validateApiKey por consistencia y seguridad ligera
 const mercadopagoRoutes = require('./pasarela/mercadopago.routes.js');
-// Prefijo /pasarela para agrupar endpoints de pago
-app.use('/pasarela', mercadopagoRoutes);
+app.use('/pasarela', validateApiKey, mercadopagoRoutes);
 
 
 // MUNICIPIOS
