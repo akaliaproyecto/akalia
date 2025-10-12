@@ -44,12 +44,9 @@
                             <p class="mb-0 text-muted small">
                               <%= producto.tituloProducto %>
                             </p>
-                            <input type="hidden" name="idEmprendimiento" id="idEmprendimiento" 
-                              value="<%= emprendimiento._id %>">
-                            <input type="hidden" name="idUsuarioVendedor" id="idUsuarioVendedor" 
-                              value="<%= emprendimiento.usuario %>">
-                            <input type="hidden" name="idUsuarioComprador" id="idUsuarioComprador" 
-                              value="<%= usuario.idUsuario %>">
+                            <input type="hidden" name="idEmprendimiento" id="idEmprendimiento" value="<%= emprendimiento._id %>">
+                            <input type="hidden" name="idUsuarioVendedor" id="idUsuarioVendedor" value="<%= emprendimiento.usuario %>">
+                            <input type="hidden" name="idUsuarioComprador" id="idUsuarioComprador" value="<%= usuario.idUsuario %>">
                             <input type="hidden" name="idProducto" id="idProducto" 
                               value="<%= producto._id %>">
                           </div>
