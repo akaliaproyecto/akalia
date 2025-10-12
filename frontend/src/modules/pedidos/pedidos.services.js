@@ -331,7 +331,7 @@ exports.pagarPedido = async (req, res) => {
 	console.log(item)
 
 		// Llamar al backend para crear la preferencia
-		const respuesta = await axios.post(`${API_BASE_URL}/crear`, { item});
+		const respuesta = await axios.post(`${API_BASE_URL}/pasarela/crear`, { item});
 	
 
 		// Redirigir al checkout de MercadoPago

@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const app = express();
 const { validateApiKey } = require('./middlewares/apiKey.Middlewares.js');
-const { requireAuth  } = require('./middlewares/auth.middlewares.js');
+const { requireAuth } = require('./middlewares/auth.middlewares.js');
 
 const cookieParser = require('cookie-parser');
 
@@ -31,13 +31,13 @@ const corsOptions = {
   origin: function (origin, callback) {
     // Permitir requests sin origin (mobile apps, postman, etc.)
     if (!origin) return callback(null, true);
-    
+
     const allowedOrigins = [
       process.env.CLIENT_URL,
       'https://akalia-app.onrender.com',
       'http://localhost:4666'
     ].filter(Boolean);
-    
+
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
@@ -56,7 +56,7 @@ const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'mi_super_secreto_seguro',
   resave: false,
   saveUninitialized: false,
-  store : MongoStore.create({
+  store: MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
     ttl: 14 * 24 * 60 * 60, // 14 días
     autoRemove: 'native'
@@ -95,8 +95,8 @@ app.use((err, req, res, next) => {
 
 // RUTA DE SALUD (health check)
 app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
+  res.status(200).json({
+    status: 'OK',
     message: 'Backend is running',
     timestamp: new Date().toISOString(),
     port: process.env.PORT || 'unknown'
@@ -105,7 +105,7 @@ app.get('/health', (req, res) => {
 
 // RUTA RAÍZ
 app.get('/', (req, res) => {
-  res.status(200).json({ 
+  res.status(200).json({
     message: 'Akalia Backend API',
     version: '1.0.0',
     status: 'running'
@@ -126,7 +126,7 @@ app.use("/pedidos", requireAuth, validateApiKey, pedidosRouter);
 
 // USUARIOS RUTA
 const usuariosRoutes = require('./usuarios/usuarios.routes.js');
-app.use('/usuarios',  validateApiKey, usuariosRoutes);
+app.use('/usuarios', validateApiKey, usuariosRoutes);
 app.use('/api/usuarios', usuariosRoutes); // Para validaciones JavaScript (sin API key requerida)
 
 const departamentos = require('./usuarios/usuarios.routes.js');
@@ -146,11 +146,19 @@ app.use('/emprendimientos', validateApiKey, emprendimientosRoutes);
 
 // COMISIONES
 const comisionesRoutes = require('./comisiones/comision.routes.js');
-app.use('/comisiones',  validateApiKey, comisionesRoutes);
+app.use('/comisiones', validateApiKey, comisionesRoutes);
 
 // CAPTCHA
 const captchaRoutes = require('./captcha/captcha.routes.js')
-app.use('/captcha',  validateApiKey, captchaRoutes)
+app.use('/captcha', validateApiKey, captchaRoutes)
+
+// PASARELA (MercadoPago)
+// Montamos las rutas de pasarela para crear preferencia y callbacks
+// Usamos validateApiKey por consistencia y seguridad ligera
+const mercadopagoRoutes = require('./pasarela/mercadopago.routes.js');
+// Prefijo /pasarela para agrupar endpoints de pago
+app.use('/pasarela', mercadopagoRoutes);
+
 
 // MUNICIPIOS
 app.get('/api/municipios', (req, res) => {
