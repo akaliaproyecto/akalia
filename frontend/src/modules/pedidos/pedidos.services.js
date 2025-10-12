@@ -328,11 +328,14 @@ exports.pagarPedido = async (req, res) => {
 			unit_price: parseFloat(producto.precio)
 		};
 
-	console.log(item)
+			console.log("hola1")
+console.log({item})
+console.log('itemeeee:', item)
 
 		// Llamar al backend para crear la preferencia
-		const respuesta = await axios.post(`${API_BASE_URL}/pasarela/crear`, { item});
+		const respuesta = await axios.post(`${API_BASE_URL}/pasarela/crear`, item);
 	
+			console.log("hola2")
 
 		// Redirigir al checkout de MercadoPago
 		res.redirect(respuesta.data.init_point);
