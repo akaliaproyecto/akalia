@@ -310,7 +310,7 @@ exports.cancelarPedido = async (req, res) => {
 	}
 };
 
-
+/* PAGAR PEDIDO: redirige al checkout de MercadoPago */
 exports.pagarPedido = async (req, res) => {
 	try {
 		const producto = req.body;
@@ -328,19 +328,26 @@ exports.pagarPedido = async (req, res) => {
 			unit_price: parseFloat(producto.precio)
 		};
 
-			console.log("hola1")
-console.log({item})
 console.log('itemeeee:', item)
 
 		// Llamar al backend para crear la preferencia
-		const respuesta = await axios.post(`${API_BASE_URL}/pasarela/crear`, item);
+		// Enviamos headers y withCredentials para que el middleware de backend (validateApiKey)
+		// y la sesión/cookies funcione correctamente.
+		const respuesta = await axios.post(
+			`${API_BASE_URL}/pasarela/crear`,
+			{ item },
+			{ headers: getUpdatedHeaders(req), withCredentials: true }
+		);
 	
 			console.log("hola2")
 
 		// Redirigir al checkout de MercadoPago
 		res.redirect(respuesta.data.init_point);
 	} catch (error) {
-		console.error('Error al crear preferencia desde el frontend:', error.message);
-		res.status(500).render('error', { mensaje: 'No se pudo iniciar el pago.' });
+		console.error('Error al crear preferencia desde el frontend:', error.message || error);
+		return res.status(500).render('pages/error', { 
+			error: 'No se pudo iniciar el pago.',
+			message: error.message || String(error)
+		});
 	}
 };
