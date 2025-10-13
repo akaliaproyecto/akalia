@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* Obtener datos del usuario desde la cookie 'usuario' */
   function obtenerDatosUsuarioDesdeCookie() {
     const fila = document.cookie.split('; ').find(f => f.startsWith('usuario='));
-    console.log('datos de la cookie', fila)
     if (!fila) return null;
     try {
       const valor = fila.split('=')[1];
