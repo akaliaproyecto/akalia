@@ -30,7 +30,6 @@ io.use((socket, next) => {
   }
   
   try {
-    console.log(token)
     const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
     console.log('Token decodificado:', decoded); 
     socket.user = decoded; // guardamos info del usuario
