@@ -44,15 +44,15 @@ router.post('/pagar', pagarPedido)
 
 // Rutas de retorno desde MercadoPago
 router.get('/success', (req, res) => {
-  res.render('success', { datos: req.query });
+  res.render('pages/pago-success', { datos: req.query });
 });
 
 router.get('/failure', (req, res) => {
-  res.render('failure', { datos: req.query });
+  res.render('pages/pago-failure', { datos: req.query });
 });
 
 router.get('/pending', (req, res) => {
-  res.render('pending', { datos: req.query });
+  res.render('pages/pago-pending', { datos: req.query });
 });
 
 
