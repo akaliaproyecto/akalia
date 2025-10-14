@@ -2,3 +2,4 @@ node_modules
 
 *.log
 *.metadata.json.gz
+*.bson.gz
