@@ -8,7 +8,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   const { pedidoId, usuarioId, apiBaseUrl, mensajes, token } = window.CHAT_DATA;
   console.log(apiBaseUrl)
   console.log('🚀 Inicializando chat para pedido:', pedidoId, 'Usuario:', usuarioId);
-
+  console.log('token user',token)
   // Conectar al socket
   const socket = io(apiBaseUrl, { 
     auth: { token },
