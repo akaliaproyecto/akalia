@@ -33,10 +33,10 @@ const {
 
 // Log para debug de rutas admin
 router.use((req, res, next) => {
-  console.log('🔗 Admin Route:', req.method, req.path);
-  console.log('🍪 Cookies:', req.cookies);
-  console.log('📋 Session ID:', req.session?.id);
-  console.log('👤 Usuario en sesión:', req.session?.usuario);
+  console.log('Admin Route:', req.method, req.path);
+  console.log('Cookies:', req.cookies);
+  console.log('Session ID:', req.session?.id);
+  console.log(' Usuario en sesión:', req.session?.usuario);
   next();
 });
 

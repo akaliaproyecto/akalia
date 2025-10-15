@@ -83,7 +83,7 @@ const verificarPedidoActivoExistente = async (idUsuarioComprador, idProducto) =>
     
     const pedidoExistente = await modeloPedido.findOne(query);
     
-    console.log('📦 [BACKEND] Resultado de búsqueda:', {
+    console.log('[BACKEND] Resultado de búsqueda:', {
       encontrado: !!pedidoExistente,
       pedido: pedidoExistente ? {
         _id: pedidoExistente._id,

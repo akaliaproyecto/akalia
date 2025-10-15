@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 }
-  console.log('categorias: ',obtenerCategorias())
  async function llenarDropdownCategorias() {
     const categorias = await obtenerCategorias();
  const dropdownMenu = document.querySelector('.dropdown-menu-cat');

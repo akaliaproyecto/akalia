@@ -27,7 +27,6 @@ exports.obtenerPedidos = async (req, res) => {
 // Consultar/Listar todos los pedidos del usuario vendedor
 exports.obtenerVentas = async (req, res) => {
   const idUsuarioVendedor = req.params.id;
-  console.log('session en lista ventas:', req.session)
 
   try {
     let pedidosEncontrados = await modeloPedido.find({

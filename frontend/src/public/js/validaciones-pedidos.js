@@ -40,7 +40,6 @@ async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
     try {
         console.log('Validando pedido existente')
         const response = await fetch(`/pedidos/verificar-activo/${idUsuarioComprador}/${idProducto}`);
-        console.log(response)
         if (!response.ok) {
             console.error('Error al verificar pedidos existentes');
             return false;
@@ -446,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const actualizarDireccion = document.getElementById('actualizar-direccion-form');
     if (actualizarDireccion) {
-        console.log('aqui si estoy entrando 1')
         // Crear elementos de error si no existen
         const crearElementoError = (inputId, errorId) => {
             const input = document.getElementById(inputId);

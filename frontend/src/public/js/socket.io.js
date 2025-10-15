@@ -6,7 +6,6 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
 } else {
   
   const { pedidoId, usuarioId, apiBaseUrl, mensajes, token } = window.CHAT_DATA;
-  console.log(apiBaseUrl)
   console.log('🚀 Inicializando chat para pedido:', pedidoId, 'Usuario:', usuarioId);
   console.log('token user',token)
   // Conectar al socket
@@ -38,7 +37,6 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
     mensajes.forEach(msg => {
         renderMessage(msg);
     });
-    console.log('📨 Mensajes previos recibidos:', mensajes.length);
   });
 
 
