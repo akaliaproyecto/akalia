@@ -1,3 +1,8 @@
+/**
+ * @file Controlador de autenticación
+ * @description Maneja la lógica de inicio de sesión, 2FA, recuperación y verificación de sesión.
+ * Los comentarios aquí están redactados en español y pensados para estudiantes.
+ */
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
 const User = require('../usuarios/usuarios.model.js');
@@ -10,6 +15,14 @@ const jwt = require('jsonwebtoken');
 const { configEmail } = require('../servicios/mailer');
 
 /* Iniciar sesión */
+/**
+ * Inicia sesión un usuario con correo y contraseña.
+ * @summary Valida credenciales, genera tokens y crea la sesión en el servidor.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} req.body - Datos enviados en el cuerpo (correo, contrasena, captcha opcional).
+ * @param {Object} res - Objeto de respuesta Express.
+ * @returns {Object} Respuesta JSON con mensaje, usuario y accessToken en caso de éxito.
+ */
 exports.iniciarSesion = async (req, res) => {
   // Aceptar 'correo' o 'email' en el cuerpo
   const correoUsuario = (req.body.correo).toLowerCase();
@@ -87,6 +100,12 @@ exports.iniciarSesion = async (req, res) => {
 
 
 // Función para verificar sesión
+/**
+ * Verifica si existe una sesión activa en el servidor.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} res - Objeto de respuesta Express.
+ * @returns {Object} 200 si está activa, 401 si no hay sesión.
+ */
 exports.verificarSesion = async (req, res) => {
   console.log(' Verificando sesión:', {
 
@@ -121,6 +140,13 @@ exports.verificarSesion = async (req, res) => {
   }
 };
 
+/**
+ * Verifica código de 2FA (MFA) enviado por el usuario.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} res - Objeto de respuesta Express.
+ * @param {Function} next - Siguiente middleware.
+ * @returns {Object} Respuesta JSON indicando si el código es válido.
+ */
 exports.mfaVerify = async (req, res, next) => {
   try {
     const { token } = req.body;
@@ -142,6 +168,12 @@ exports.mfaVerify = async (req, res, next) => {
   }
 };
 
+/**
+ * Cierra la sesión del usuario y elimina cookies relacionadas.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} res - Objeto de respuesta Express.
+ * @returns {Object} Respuesta JSON confirmando cierre de sesión.
+ */
 exports.logout = async (req, res) => {
   try {
     if (!req.session || req.session) {
@@ -177,6 +209,13 @@ exports.logout = async (req, res) => {
   }
 };
 
+/**
+ * Devuelve información del usuario actualmente autenticado.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} res - Objeto de respuesta Express.
+ * @param {Function} next - Siguiente middleware.
+ * @returns {Object} Datos básicos del usuario en sesión.
+ */
 exports.me = async (req, res, next) => {
   try {
     const user = await User.findById(req.session.userId).select('email twoFAEnabled');
@@ -186,6 +225,13 @@ exports.me = async (req, res, next) => {
   }
 }
 
+/**
+ * Inicia el proceso de configuración de 2FA para el usuario.
+ * Genera un secreto y un QR para que el usuario lo registre en su app autenticadora.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} res - Objeto de respuesta Express.
+ * @param {Function} next - Siguiente middleware.
+ */
 exports.twoFASetup = async (req, res, next) => {
   try {
     const secret = speakeasy.generateSecret({
@@ -203,6 +249,12 @@ exports.twoFASetup = async (req, res, next) => {
   }
 };
 
+/**
+ * Verifica el código de 2FA durante la configuración y guarda el secreto si es válido.
+ * @param {Object} req - Objeto de petición Express.
+ * @param {Object} res - Objeto de respuesta Express.
+ * @param {Function} next - Siguiente middleware.
+ */
 exports.twoFAVerifySetup = async (req, res, next) => {
   try {
     const { token } = req.body;
@@ -219,6 +271,12 @@ exports.twoFAVerifySetup = async (req, res, next) => {
 };
 
 // --- Recuperación de contraseña (forgot / reset)
+/**
+ * Inicia el flujo de recuperación de contraseña (forgot).
+ * Envía un correo con token si el email existe.
+ * @param {Object} req - Objeto de petición Express con { email } en el body.
+ * @param {Object} res - Objeto de respuesta Express.
+ */
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email) return res.status(400).json({ error: 'Email requerido' });
@@ -252,6 +310,11 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
+/**
+ * Restablece la contraseña usando token y id del usuario.
+ * @param {Object} req - Objeto de petición Express con { token, id, password } en el body.
+ * @param {Object} res - Objeto de respuesta Express.
+ */
 exports.resetPassword = async (req, res) => {
   const { token, id, password } = req.body;
   if (!token || !id || !password) return res.status(400).json({ error: 'Datos incompletos' });

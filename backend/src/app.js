@@ -1,3 +1,7 @@
+/**
+ * @file Configuración principal de la aplicación backend
+ * @description Configura middlewares, sesiones, CORS y monta rutas del backend.
+ */
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
@@ -16,17 +20,25 @@ const bodyParser = require('body-parser')
 dotenv.config();
 
 //Sesiones
-app.set('trust proxy', 1); // Para habilitar el uso de cookies en HTTPS 
+// Para habilitar el uso de cookies en HTTPS
+app.set('trust proxy', 1);
 
 /*CONFIGURACIÓN DE MIDDLEWARES*/
 // Parsers
 
+/**
+ * Middleware para parsear JSON en las peticiones.
+ * Usado por todo el backend para leer bodies en formato JSON.
+ */
 app.use(bodyParser.json());
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 //CORS (Frontend y backend en orígenes distintos)
+/**
+ * Opciones de CORS. Permite orígenes controlados y credenciales.
+ */
 const corsOptions = {
   origin: function (origin, callback) {
     // Permitir requests sin origin (mobile apps, postman, etc.)
@@ -52,6 +64,9 @@ app.use(cors(corsOptions));
 
 
 // Configuración de sesiones con MongoDB store para producción
+/**
+ * Configuración de sesión usando MongoDB como store. Guarda sesiones en la base de datos.
+ */
 const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'mi_super_secreto_seguro',
   resave: false,
@@ -68,6 +83,7 @@ const sessionConfig = {
     httpOnly: true, // para que JS en frontend no acceda a la cookie
   }
 };
+// Crear y usar middleware de sesiones
 const sessionMiddleware = session(sessionConfig);
 app.use(sessionMiddleware);
 

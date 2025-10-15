@@ -1,3 +1,7 @@
+/**
+ * @file Servidor HTTP y configuración de sockets
+ * @description Arranca el servidor, configura Socket.IO, cron y la conexión a MongoDB.
+ */
 const mongoose = require('mongoose');
 const { app, sessionMiddleware } = require('./app');
 const dotenv = require('dotenv');
@@ -23,6 +27,10 @@ const io = new Server(server, {
 })
 
 // convertir para socket
+/**
+ * Middleware de Socket.IO para validar token enviado en el handshake.
+ * Verifica JWT y añade info del usuario a `socket.user`.
+ */
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
   if (!token) {
@@ -41,6 +49,7 @@ io.use((socket, next) => {
   }
 });
 
+// Cargar lógica de sockets (chat)
 require('./sockets/chat')(io); 
 
 io.on("connection", (socket) => {

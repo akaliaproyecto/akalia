@@ -1,3 +1,7 @@
+/**
+ * @file Servidor frontend (Express)
+ * @description Configura vistas, middlewares y rutas que renderizan las páginas del frontend.
+ */
 const express = require('express');
 const cookieParser = require('cookie-parser'); // Middleware para manejar cookies
 const app = express();
@@ -20,6 +24,9 @@ app.use(express.json());
 app.use(cookieParser()); // Middleware para manejar cookies
 
 // Middleware para pasar la API Key y URL base a todas las vistas
+/**
+ * Middleware que añade la API Key y la URL base a las vistas (res.locals).
+ */
 app.use((req, res, next) => {
   res.locals.apiKey = process.env.API_KEY;
   res.locals.apiBaseUrl = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';

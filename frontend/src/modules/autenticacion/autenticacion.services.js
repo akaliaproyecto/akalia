@@ -15,7 +15,12 @@ const {
 
 const API_BASE_URL = process.env.API_BASE_URL || process.env.URL_BASE || 'http://localhost:4006';
 
-/*Registrar usuario*/
+/**
+ * Registra un nuevo usuario llamando al backend.
+ * @param {Object} req - Request del servidor frontend con los datos en req.body.
+ * @param {Object} res - Response del servidor frontend para setear cookies y redirigir.
+ * @returns {Promise<void>}
+ */
 exports.registrarUsuario = async (req, res) => {
   const { email, nombreUsuario, apellidoUsuario, telefono, contrasena } = req.body;
 
@@ -54,7 +59,12 @@ exports.registrarUsuario = async (req, res) => {
   }
 };
 
-/*Inicio de sesión*/
+/**
+ * Inicia sesión enviando las credenciales al endpoint del backend.
+ * @param {Object} req - Request que contiene email y contrasena en req.body.
+ * @param {Object} res - Response para devolver JSON o renderizar vistas.
+ * @returns {Promise<Object>} Respuesta JSON con mensaje y datos de usuario.
+ */
 exports.iniciarSesion = async (req, res) => {
   const { email, contrasena, captcha } = req.body;
 
@@ -81,6 +91,12 @@ exports.iniciarSesion = async (req, res) => {
   }
 };
 
+/**
+ * Solicita la recuperación de contraseña al backend (forgot password).
+ * @param {Object} req - Request con { email } en body.
+ * @param {Object} res - Response para renderizar la página con mensaje.
+ * @returns {Promise<void>}
+ */
 exports.recuperarContrasena = async (req, res) => {
   try {
     const { email } = req.body;
@@ -94,6 +110,13 @@ exports.recuperarContrasena = async (req, res) => {
 };
 
 
+/**
+ * Envía token y nueva contraseña al backend para restablecer la contraseña.
+ * Valida en frontend que los campos estén completos y coincidan.
+ * @param {Object} req - Request con { token, id, password, passwordConfirm } en body.
+ * @param {Object} res - Response para renderizar resultados.
+ * @returns {Promise<void>}
+ */
 exports.resetearContrasena = async (req, res) => {
   try {
     const { token, id, password, passwordConfirm } = req.body;
@@ -107,6 +130,12 @@ exports.resetearContrasena = async (req, res) => {
   }
 }
 
+/**
+ * Cierra la sesión del usuario en el backend y limpia cookies en el frontend.
+ * @param {Object} req - Request del servidor frontend.
+ * @param {Object} res - Response para redirigir al usuario.
+ * @returns {Promise<void>}
+ */
 exports.logout = async (req, res) => {
 
   try {
