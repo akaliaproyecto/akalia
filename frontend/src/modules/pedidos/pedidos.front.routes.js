@@ -12,7 +12,8 @@ const {
     cancelarPedido,
     actualizarDireccionPedido,
     listarComprasUsuario,
-    pagarPedido
+    pagarPedido,
+    verificarPedidoActivo
 } = require('./pedidos.services');
 
 // Rutas para listar pedidos del usuario.
@@ -38,6 +39,9 @@ router.post('/usuario-compras/actualizar-direccion/:id', actualizarDireccionPedi
 
 // Ruta para iniciar un pedido a partir de un producto
 router.get('/usuario-pedidos/comprar/:productoId', iniciarPedido);
+
+// Ruta para verificar un pedido existente
+router.get('/pedidos/verificar-activo/:idUsuario/:idProducto', verificarPedidoActivo);
 
 // Ruta para procesar el pago de un pedido
 router.post('/pagar', pagarPedido)
