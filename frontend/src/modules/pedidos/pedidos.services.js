@@ -127,6 +127,19 @@ exports.crearPedido = async (req, res) => {
 		return res.redirect(`/usuario-compras/detalle/${pedido._id}`);
 	} catch (error) {
 		console.error('Error creando pedido:', error.message || error);
+		
+		// Verificar si el error es porque ya existe un pedido activo
+		const errorMsg = error.response?.data?.errores || error.response?.data?.error || error.message;
+		const isPedidoExistente = typeof errorMsg === 'string' && errorMsg.toLowerCase().includes('pedido activo');
+		const erroresArray = Array.isArray(errorMsg) ? errorMsg : [];
+		const tienePedidoActivo = erroresArray.some(err => err.toLowerCase().includes('pedido activo'));
+		
+		if (isPedidoExistente || tienePedidoActivo) {
+			// Redirigir de vuelta al formulario con mensaje de error
+			const idProducto = datos.idProducto;
+			return res.redirect(`/usuario-pedidos/iniciar/${idProducto}?error=${encodeURIComponent('Ya tienes un pedido activo para este producto. Por favor, completa o cancela el pedido existente antes de crear uno nuevo.')}`);
+		}
+		
 		return res.status(500).render('pages/error', {
 			error: 'Error al crear pedido',
 			message: error.message || String(error)
