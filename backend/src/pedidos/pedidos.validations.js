@@ -75,12 +75,23 @@ const validarCompradorVendedorDiferentes = (idUsuarioComprador, idUsuarioVendedo
  */
 const verificarPedidoActivoExistente = async (idUsuarioComprador, idProducto) => {
   try {
-    const pedidoExistente = await modeloPedido.findOne({
+    const query = {
       idUsuarioComprador,
       'detallePedido.idProducto': idProducto,
       estadoPedido: { $nin: ['cancelado', 'completado'] }
-    });
+    };
     
+    const pedidoExistente = await modeloPedido.findOne(query);
+    
+    console.log('📦 [BACKEND] Resultado de búsqueda:', {
+      encontrado: !!pedidoExistente,
+      pedido: pedidoExistente ? {
+        _id: pedidoExistente._id,
+        estadoPedido: pedidoExistente.estadoPedido,
+        detallePedido: pedidoExistente.detallePedido
+      } : null
+    });
+
     return !!pedidoExistente;
   } catch (error) {
     throw new Error('Error al verificar pedidos existentes');

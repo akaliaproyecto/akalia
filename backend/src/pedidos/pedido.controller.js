@@ -246,6 +246,7 @@ exports.verificarPedidoActivo = async (req, res) => {
       mensaje: tienePedidoActivo ? 'Usuario tiene pedido activo para este producto' : 'No hay pedido activo'
     });
   } catch (error) {
+    console.error('[CONTROLLER] Error:', error);
     res.status(500).json({ mensaje: error.message });
   }
 };

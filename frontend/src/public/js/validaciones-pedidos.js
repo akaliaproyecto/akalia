@@ -39,9 +39,10 @@ function mostrarExito(campo, elementoError) {
 async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
     try {
         const url = `${window.API_BASE_URL}/pedidos/verificar-activo/${idUsuarioComprador}/${idProducto}`;
-        console.log('🔍 Verificando pedido existente:', { idProducto, idUsuarioComprador, url });
         
         const response = await fetch(url, {
+            method: 'GET',
+            credentials: 'include', // ⭐ IMPORTANTE: Enviar cookies de sesión
             headers: {
                 'Accept': 'application/json',
                 'akalia-api-key': window.API_KEY
@@ -49,15 +50,14 @@ async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
         });
 
         if (!response.ok) {
-            console.error('❌ Error al verificar pedidos existentes. Status:', response.status);
+            console.error('Error al verificar pedidos existentes');
             return false;
         }
 
         const data = await response.json();
-        console.log('📦 Respuesta de verificación:', data);
         return data.tienePedidoActivo;
     } catch (error) {
-        console.error('❌ Error al verificar pedidos existentes:', error);
+        console.error('Error al verificar pedidos existentes:', error);
         return false;
     }
 }
@@ -287,25 +287,17 @@ async function validarFormularioPedido(formularioPedido) {
         const idProducto = document.getElementById('idProducto')?.value;
         const idUsuarioComprador = document.getElementById('idUsuarioComprador')?.value;
 
-        console.log('🔄 Iniciando verificación de pedido existente...');
-        
         if (idProducto && idUsuarioComprador) {
             const tienePedidoEnCurso = await verificarPedidoExistente(idProducto, idUsuarioComprador);
-            console.log('✅ Resultado verificación:', tienePedidoEnCurso);
 
             if (tienePedidoEnCurso) {
-                console.log('⚠️ Usuario ya tiene un pedido activo para este producto');
                 if (typeof mostrarToast !== 'undefined') {
                     mostrarToast('Ya tienes un pedido en curso para este producto. No puedes crear otro hasta que el actual sea completado o cancelado.', 'error');
                 } else {
                     alert('Ya tienes un pedido en curso para este producto. No puedes crear otro hasta que el actual sea completado o cancelado.');
                 }
                 esValido = false;
-            } else {
-                console.log('✅ No hay pedidos activos, se puede continuar');
             }
-        } else {
-            console.warn('⚠️ Faltan datos para verificar pedido:', { idProducto, idUsuarioComprador });
         }
     }
 
