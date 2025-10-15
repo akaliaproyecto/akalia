@@ -38,7 +38,10 @@ function mostrarExito(campo, elementoError) {
  */
 async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
     try {
-        const response = await fetch(`${window.API_BASE_URL}/pedidos/verificar-activo/${idUsuarioComprador}/${idProducto}`, {
+        const url = `${window.API_BASE_URL}/pedidos/verificar-activo/${idUsuarioComprador}/${idProducto}`;
+        console.log('🔍 Verificando pedido existente:', { idProducto, idUsuarioComprador, url });
+        
+        const response = await fetch(url, {
             headers: {
                 'Accept': 'application/json',
                 'akalia-api-key': window.API_KEY
@@ -46,14 +49,15 @@ async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
         });
 
         if (!response.ok) {
-            console.error('Error al verificar pedidos existentes');
+            console.error('❌ Error al verificar pedidos existentes. Status:', response.status);
             return false;
         }
 
         const data = await response.json();
+        console.log('📦 Respuesta de verificación:', data);
         return data.tienePedidoActivo;
     } catch (error) {
-        console.error('Error al verificar pedidos existentes:', error);
+        console.error('❌ Error al verificar pedidos existentes:', error);
         return false;
     }
 }
@@ -166,11 +170,23 @@ function validarCantidad() {
  * Validar precios
  */
 function validarPrecios() {
-    const campoBasePrice = document.getElementById('basePrice');
+    // En editar el campo base se llama 'precio' en lugar de 'basePrice'
+    const campoBasePrice = document.getElementById('basePrice') || document.getElementById('precio');
     const campoPrecioPactado = document.getElementById('precioPactado');
     const errorPrecio = document.getElementById('precioError');
 
-    if (!campoBasePrice || !campoPrecioPactado) return true;
+    if (!campoPrecioPactado) return true;
+    
+    // Si no hay campo base, solo validar que el precio pactado sea válido
+    if (!campoBasePrice) {
+        const precioPactado = parseFloat(campoPrecioPactado.value);
+        if (isNaN(precioPactado) || precioPactado <= 0) {
+            mostrarError(campoPrecioPactado, errorPrecio, 'El precio debe ser un número mayor a 0');
+            return false;
+        }
+        mostrarExito(campoPrecioPactado, errorPrecio);
+        return true;
+    }
 
     const precioBase = parseFloat(campoBasePrice.value);
     const precioPactado = parseFloat(campoPrecioPactado.value);
@@ -201,8 +217,9 @@ function validarPrecios() {
  * Validar detalles del pedido
  */
 function validarDetalles() {
-    const campoDetalles = document.getElementById('orderDetails');
-    const errorDetalles = document.getElementById('detallesError');
+    // Buscar tanto 'orderDetails' (crear) como 'descripcion' (editar)
+    const campoDetalles = document.getElementById('orderDetails') || document.getElementById('descripcion');
+    const errorDetalles = document.getElementById('detallesError') || document.getElementById('descripcionError');
 
     if (!campoDetalles) return true;
 
@@ -270,15 +287,25 @@ async function validarFormularioPedido(formularioPedido) {
         const idProducto = document.getElementById('idProducto')?.value;
         const idUsuarioComprador = document.getElementById('idUsuarioComprador')?.value;
 
+        console.log('🔄 Iniciando verificación de pedido existente...');
+        
         if (idProducto && idUsuarioComprador) {
             const tienePedidoEnCurso = await verificarPedidoExistente(idProducto, idUsuarioComprador);
+            console.log('✅ Resultado verificación:', tienePedidoEnCurso);
 
             if (tienePedidoEnCurso) {
+                console.log('⚠️ Usuario ya tiene un pedido activo para este producto');
                 if (typeof mostrarToast !== 'undefined') {
                     mostrarToast('Ya tienes un pedido en curso para este producto. No puedes crear otro hasta que el actual sea completado o cancelado.', 'error');
+                } else {
+                    alert('Ya tienes un pedido en curso para este producto. No puedes crear otro hasta que el actual sea completado o cancelado.');
                 }
                 esValido = false;
+            } else {
+                console.log('✅ No hay pedidos activos, se puede continuar');
             }
+        } else {
+            console.warn('⚠️ Faltan datos para verificar pedido:', { idProducto, idUsuarioComprador });
         }
     }
 
@@ -325,7 +352,8 @@ document.addEventListener('DOMContentLoaded', () => {
         crearElementoError('direccionEnvio', 'direccionError');
         crearElementoError('unidades', 'unidadesError');
         crearElementoError('precioPactado', 'precioError');
-        crearElementoError('orderDetails', 'detallesError');
+        crearElementoError('orderDetails', 'detallesError'); // Para formulario de creación
+        crearElementoError('descripcion', 'descripcionError'); // Para formulario de edición
         crearElementoError('estadoPedido', 'estadoError');
 
         // Validaciones en tiempo real
@@ -353,9 +381,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const campoDetalles = document.getElementById('orderDetails');
+        const campoDetalles = document.getElementById('orderDetails') || document.getElementById('descripcion');
         if (campoDetalles) {
             campoDetalles.addEventListener('blur', validarDetalles);
+            campoDetalles.addEventListener('input', function () {
+                // Actualizar contador de caracteres si existe
+                const contador = document.getElementById('contadorCaracteres');
+                if (contador) {
+                    contador.textContent = `${campoDetalles.value.length}/500`;
+                }
+            });
         }
 
         const selectDireccionValidacion = document.getElementById('direccionEnvio');

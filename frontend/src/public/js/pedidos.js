@@ -12,6 +12,18 @@ function calcularTotal() {
 // Calcular total al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
   calcularTotal();
+  
+  // Verificar si hay un mensaje de error en la URL (pedido existente)
+  const urlParams = new URLSearchParams(window.location.search);
+  const errorMsg = urlParams.get('error');
+  
+  if (errorMsg && typeof mostrarToast === 'function') {
+    mostrarToast(decodeURIComponent(errorMsg), 'error');
+    
+    // Limpiar el parámetro de la URL sin recargar la página
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+  }
 });
 
 // Save order function
