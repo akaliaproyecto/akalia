@@ -313,7 +313,7 @@ function inicializarValidacionesEditar() {
   const formularioEditarProducto = document.getElementById('form-editar-producto');
   
   if (!formularioEditarProducto) {
-    console.error('❌ Formulario de editar producto no encontrado');
+    console.error('Formulario de editar producto no encontrado');
     return;
   }
     
@@ -328,11 +328,11 @@ function inicializarValidacionesEditar() {
   const campoEstadoEdit = document.getElementById('me-activo');
   
   // Log detallado de elementos faltantes
-  if (!campoTituloEdit) console.error('❌ Campo título no encontrado');
-  if (!campoDescripcionEdit) console.error('❌ Campo descripción no encontrado');
-  if (!campoPrecioEdit) console.error('❌ Campo precio no encontrado');
-  if (!campoEmprendimientoEdit) console.error('❌ Campo emprendimiento no encontrado');
-  if (!campoCategoriaEdit) console.error('❌ Campo categoría no encontrado');
+  if (!campoTituloEdit) console.error('Campo título no encontrado');
+  if (!campoDescripcionEdit) console.error('Campo descripción no encontrado');
+  if (!campoPrecioEdit) console.error('Campo precio no encontrado');
+  if (!campoEmprendimientoEdit) console.error('Campo emprendimiento no encontrado');
+  if (!campoCategoriaEdit) console.error('Campo categoría no encontrado');
   
   // Crear elementos de error para el formulario de editar
   const errorTituloEdit = crearElementoError(campoTituloEdit, 'tituloEditError');

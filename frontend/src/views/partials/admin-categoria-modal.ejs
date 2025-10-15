@@ -1,0 +1,70 @@
+<!-- Modal Crear/Editar Categoría -->
+<div class="modal fade" id="modalCategoria" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCategoriaTitle">Nueva Categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="formCategoria" enctype="multipart/form-data">
+        <div class="modal-body">
+          <input type="hidden" id="categoriaId">
+          
+          <div class="mb-3">
+            <label for="nombreCategoria" class="form-label">Nombre de la Categoría</label>
+            <input type="text" class="form-control" id="nombreCategoria" required>
+            <div id="nombreCategoriaError" class="invalid-feedback"></div>
+          </div>
+
+          <!-- Vista previa de imagen actual (solo en edición) -->
+          <div class="mb-3" id="imagenActualContainer" style="display: none;">
+            <label class="form-label">Imagen Actual</label>
+            <div class="border rounded p-2 text-center">
+              <img id="imagenActualPreview" src="" alt="Imagen actual" 
+                   style="max-width: 200px; max-height: 200px; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Opción para subir imagen desde dispositivo -->
+          <div class="mb-3">
+            <label for="imagenCategoriaFile" class="form-label">
+              <span id="labelImagenFile">Subir Imagen</span>
+            </label>
+            <input type="file" class="form-control" id="imagenCategoriaFile" accept="image/*">
+            <small class="text-muted">Formatos permitidos: JPG, PNG, GIF, WebP, SVG (máx. 5MB)</small>
+            <div id="imagenCategoriaFileError" class="invalid-feedback"></div>
+          </div>
+
+          <!-- Vista previa de nueva imagen -->
+          <div class="mb-3" id="nuevaImagenPreviewContainer" style="display: none;">
+            <label class="form-label">Vista Previa</label>
+            <div class="border rounded p-2 text-center">
+              <img id="nuevaImagenPreview" src="" alt="Vista previa" 
+                   style="max-width: 200px; max-height: 200px; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Opción alternativa: URL de imagen -->
+          <div class="mb-3">
+            <label for="imagenCategoriaURL" class="form-label">O ingresar URL de Imagen</label>
+            <input type="text" class="form-control" id="imagenCategoriaURL" placeholder="https://...">
+            <small class="text-muted">Ingresa la URL de una imagen existente en internet</small>
+            <div id="imagenCategoriaURLError" class="invalid-feedback"></div>
+          </div>
+
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <small>Puedes subir una imagen desde tu dispositivo O ingresar una URL. Si proporcionas ambas, se usará la imagen subida.</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-terracota">
+            <span class="spinner-border spinner-border-sm d-none" id="spinnerGuardarCategoria"></span>
+            <span id="textoGuardarCategoria">Guardar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

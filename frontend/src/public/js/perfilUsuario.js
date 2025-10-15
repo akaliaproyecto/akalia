@@ -171,7 +171,7 @@ async function editUsuario(idUsuario) {
     if (typeof inicializarDireccionesDinamicas === 'function') {
       inicializarDireccionesDinamicas(usuario.direcciones || []);
     } else {
-      console.warn('❌ Función inicializarDireccionesDinamicas no disponible');
+      console.warn('Función inicializarDireccionesDinamicas no disponible');
     }
 
     const form = get('formEditarPerfil');
@@ -185,10 +185,10 @@ async function editUsuario(idUsuario) {
     // Inicializar validaciones dinámicamente DESPUÉS de cargar los datos y mostrar el modal
     setTimeout(() => {
       if (typeof window.inicializarValidacionesEditarPerfil === 'function') {
-        console.log('✅ Inicializando validaciones para editar perfil...');
+        console.log(' Inicializando validaciones para editar perfil...');
         window.inicializarValidacionesEditarPerfil();
       } else {
-        console.warn('❌ Función inicializarValidacionesEditarPerfil no disponible');
+        console.warn('Función inicializarValidacionesEditarPerfil no disponible');
       }
     }, 300);
 

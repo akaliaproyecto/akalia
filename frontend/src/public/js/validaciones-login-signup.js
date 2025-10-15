@@ -208,7 +208,7 @@ function inicializarValidacionesEditarPerfil() {
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');
 
   if (!formularioEditarPerfil) {
-    console.error('❌ Formulario de editar perfil no encontrado');
+    console.error('Formulario de editar perfil no encontrado');
     return;
   }
 
@@ -656,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      console.log('✅ Validaciones pasaron, enviando formulario...');
+      console.log(' Validaciones pasaron, enviando formulario...');
 
       // Si todas las validaciones pasaron, mostrar mensaje de procesamiento
       if (typeof window.mostrarToast === 'function') {

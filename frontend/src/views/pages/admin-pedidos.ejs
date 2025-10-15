@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Akalia</title>
+  <%- include('../partials/head.ejs'); %>
+  <link rel="stylesheet" href="/styles/funciones-usuarios.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-blanco-light">
+  <%- include('../partials/navbar.ejs'); %>
+  
+  <div class="d-flex flex-row flex-grow-1">
+    <%- include('../partials/admin-sidebar.ejs'); %>
+    
+    <main class="flex-grow-1 p-4 overflow-auto">
+      <div class="container-fluid ">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1 class="akalia-title akalia-title--large">Gestión de Pedidos</h1>
+          <span class="badge bg-terracota fs-6"><%= total %> pedidos</span>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <form method="GET" action="/admin/pedidos" class="row g-3">
+              <div class="col-md-10">
+                <label class="form-label">Estado del Pedido</label>
+                <select class="form-select" name="estado">
+                  <option value="">Todos los estados</option>
+                  <option value="pendiente" <%= estado === 'pendiente' ? 'selected' : '' %>>Pendiente</option>
+                  <option value="en_proceso" <%= estado === 'en_proceso' ? 'selected' : '' %>>En Proceso</option>
+                  <option value="completado" <%= estado === 'completado' ? 'selected' : '' %>>Completado</option>
+                  <option value="cancelado" <%= estado === 'cancelado' ? 'selected' : '' %>>Cancelado</option>
+                </select>
+              </div>
+              <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-terracota w-100">
+                  <i class="fas fa-search"></i> Filtrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="card">
+          <div class="card-body">
+            <% if (pedidos && pedidos.length > 0) { %>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Comprador</th>
+                      <th>Vendedor</th>
+                      <th>Producto</th>
+                      <th>Total</th>
+                      <th>Estado</th>
+                      <th>Fecha</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% pedidos.forEach(p => { %>
+                      <tr>
+                        <td><%= p.idUsuarioComprador?.nombreUsuario %> <%= p.idUsuarioComprador?.apellidoUsuario %></td>
+                        <td><%= p.idEmprendimiento?.nombreEmprendimiento %> </td>
+                        <td><%= p.detallePedido.idProducto.tituloProducto || 'N/A' %></td>
+                        <td>$<%= p.total || (p.idProducto?.precio * p.cantidad) || 'N/A' %></td>
+                        <td>
+                          <span class="badge bg-<%= 
+                            p.estadoPedido === 'completado' ? 'success' : 
+                            p.estadoPedido === 'pendiente' ? 'warning' : 
+                            p.estadoPedido === 'en_proceso' ? 'info' : 'secondary' 
+                          %>">
+                            <%= p.estadoPedido %>
+                          </span>
+                        </td>
+                        <td><%= new Date(p.createdAt).toLocaleDateString('es-ES') %></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-primary" 
+                                  onclick="verDetallePedido('<%= p._id %>')">
+                            <i class="fas fa-eye"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Paginación -->
+              <% if (totalPaginas > 1) { %>
+                <nav class="mt-4">
+                  <ul class="pagination justify-content-center">
+                    <% for(let i = 1; i <= totalPaginas; i++) { %>
+                      <li class="page-item <%= i === parseInt(paginaActual) ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>&estado=<%= estado %>">
+                          <%= i %>
+                        </a>
+                      </li>
+                    <% } %>
+                  </ul>
+                </nav>
+              <% } %>
+            <% } else { %>
+              <div class="text-center py-5">
+                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No se encontraron pedidos</p>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <%- include('../partials/footer.ejs'); %>
+  
+  <script>
+    const apiBaseUrl = '<%= apiBaseUrl %>';
+    const apiKey = '<%= apiKey %>';
+  </script>
+  <script src="/js/admin-pedidos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+  <script src="/js/login_signup.js"></script>
+  <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/captcha.js"></script>
+</body>
+</html>

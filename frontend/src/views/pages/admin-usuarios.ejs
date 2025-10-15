@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Akalia</title>
+  <%- include('../partials/head.ejs'); %>
+  <link rel="stylesheet" href="/styles/funciones-usuarios.css">
+  
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-blanco-light">
+  <%- include('../partials/navbar.ejs'); %>
+  
+  <div class="d-flex flex-row flex-grow-1">
+    <%- include('../partials/admin-sidebar.ejs'); %>
+    
+    <main class="flex-grow-1 p-4 overflow-auto">
+      <div class="container-fluid">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <h1 class="akalia-title akalia-title--large mb-0">Gestión de Usuarios</h1>
+          <span class="badge bg-terracota fs-6"><%= total %> usuarios</span>
+        </div>
+
+        <!-- Tabla -->
+        <div class="card">
+          <div class="card-body">
+            <% if (usuarios && usuarios.length > 0) { %>
+              <div class="table-responsive">
+                <table id="tablaUsuarios" class="table table-hover align-middle table-sm" style="width:100%">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Email</th>
+                      <th>Teléfono</th>
+                      <th>Rol</th>
+                      <th>Estado</th>
+                      <th>Fecha</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% usuarios.forEach(u => { %>
+                      <tr>
+                        <td><%= u.nombreUsuario %> <%= u.apellidoUsuario %></td>
+                        <td><%= u.correo %></td>
+                        <td><%= u.telefono || 'N/A' %></td>
+                        <td>
+                          <span class="badge bg-<%= u.rol === 'admin' ? 'danger' : 'primary' %>">
+                            <%= u.rol || 'usuario' %>
+                          </span>
+                        </td>
+                        <td>
+                          <span class="badge bg-<%= u.estadoUsuario === 'activo' ? 'success' : 'secondary' %>">
+                            <%= u.estadoUsuario %>
+                          </span>
+                        </td>
+                        <td><%= new Date(u.createdAt).toLocaleDateString('es-ES') %></td>
+                        <td>
+                          <div class="btn-group btn-group-sm" role="group">
+                            <button class="btn btn-outline-primary" 
+                                    onclick="verDetalleUsuario('<%= u._id %>')" 
+                                    title="Ver detalles">
+                              <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-warning" 
+                                    onclick="editarUsuario('<%= u._id %>')" 
+                                    title="Editar">
+                              <i class="fas fa-edit"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            <% } else { %>
+              <div class="text-center py-5">
+                <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No se encontraron usuarios</p>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <%- include('../partials/footer.ejs'); %>
+  
+  <!-- Modales -->
+  <%- include('../partials/admin-usuario-detalle.ejs'); %>
+  <%- include('../partials/admin-usuario-editar.ejs'); %>
+
+  <script>
+    const apiBaseUrl = '<%= apiBaseUrl %>';
+    const apiKey = '<%= apiKey %>';
+  </script>
+  
+  <!-- jQuery (requerido por DataTables) -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+  
+  <script>
+    // Inicializar DataTables
+    $(document).ready(function() {
+      if ($('#tablaUsuarios').length) {
+        $('#tablaUsuarios').DataTable({
+          responsive: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+          },
+          pageLength: 10,
+          order: [[5, 'desc']], // Ordenar por fecha descendente
+          columnDefs: [
+            { 
+              responsivePriority: 1, 
+              targets: 0 // Nombre siempre visible
+            },
+            { 
+              responsivePriority: 2, 
+              targets: -1 // Acciones siempre visible
+            },
+            { 
+              orderable: false, 
+              targets: -1 // Acciones no ordenables
+            }
+          ]
+        });
+      }
+    });
+  </script>
+  
+  <script src="/js/admin-usuarios.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+  <script src="/js/login_signup.js"></script>
+  <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/captcha.js"></script>
+</body>
+</html>

@@ -312,7 +312,7 @@ window.editProducto = async function (idUsuario, idProducto) {
       if (typeof window.inicializarValidacionesEditar === 'function') {
         window.inicializarValidacionesEditar();
       } else {
-        console.error('❌ Función inicializarValidacionesEditar no disponible');
+        console.error('Función inicializarValidacionesEditar no disponible');
       }
     }, 200);
     const modal = new bootstrap.Modal(document.getElementById('modalEditarProducto'));

@@ -147,18 +147,18 @@ window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
             'me-ubic-ciudad',
             valoresUbicacion
           );
-          console.log('✅ Ubicaciones inicializadas correctamente');
+          console.log(' Ubicaciones inicializadas correctamente');
         } catch (error) {
-          console.error('❌ Error al inicializar ubicaciones:', error);
+          console.error('Error al inicializar ubicaciones:', error);
         }
       }
 
       // Inicializar validaciones
       if (typeof window.inicializarValidacionesEditarEmprendimiento === 'function') {
-        console.log('✅ Inicializando validaciones para editar emprendimiento...');
+        console.log(' Inicializando validaciones para editar emprendimiento...');
         window.inicializarValidacionesEditarEmprendimiento();
       } else {
-        console.warn('❌ Función inicializarValidacionesEditarEmprendimiento no disponible');
+        console.warn('Función inicializarValidacionesEditarEmprendimiento no disponible');
       }
     }, 300);
 
