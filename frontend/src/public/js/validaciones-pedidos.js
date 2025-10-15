@@ -38,17 +38,9 @@ function mostrarExito(campo, elementoError) {
  */
 async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
     try {
-        const url = `${window.API_BASE_URL}/pedidos/verificar-activo/${idUsuarioComprador}/${idProducto}`;
-        
-        const response = await fetch(url, {
-            method: 'GET',
-            credentials: 'include', // ⭐ IMPORTANTE: Enviar cookies de sesión
-            headers: {
-                'Accept': 'application/json',
-                'akalia-api-key': window.API_KEY
-            }
-        });
-
+        console.log('Validando pedido existente')
+        const response = await fetch(`/pedidos/verificar-activo/${idUsuarioComprador}/${idProducto}`);
+        console.log(response)
         if (!response.ok) {
             console.error('Error al verificar pedidos existentes');
             return false;

@@ -51,6 +51,33 @@ exports.listarComprasUsuario = async (req, res) => {
 	}
 };
 
+/* Verificar si un emprendimiento está activo (proxy al backend) */
+exports.verificarPedidoActivo = async (req, res) => {
+  try {
+	const { idUsuario, idProducto } = req.params;
+	
+	// Hacer proxy al backend
+	const response = await axios.get(`${API_BASE_URL}/pedidos/verificar-activo/${idUsuario}/${idProducto}`, { 
+	  headers: getUpdatedHeaders(req) 
+	});
+	
+	// Devolver la respuesta del backend
+	res.status(response.status).json(response.data);
+  } catch (error) {
+	console.error('Error al verificar pedido activo:', error.message);
+	
+	// Si hay respuesta del backend, usar su status y data
+	if (error.response) {
+	  return res.status(error.response.status).json(error.response.data);
+	}
+	
+	// Error de conexión o similar
+	res.status(500).json({ 
+	  activo: false, 
+	  mensaje: "Error al verificar estado del pedido" 
+	});
+  }
+};
 /* INICIAR PEDIDO: obtiene el producto por id y renderiza la vista de inicio de pedido */
 exports.iniciarPedido = async (req, res) => {
 	try {
