@@ -1,10 +1,17 @@
-/* lógica de la navbar */
+/**
+ * @file Lógica de la navbar e inicio de sesión (frontend)
+ * @description Muestra/oculta elementos según la cookie de usuario, maneja toasts y el formulario de login.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   // Elementos de la navbar para visitante y usuario
   const elementosNavbarVisitante = document.querySelectorAll(".solo-visitante");
   const elementosNavbarUsuario = document.querySelectorAll(".solo-usuario");
 
-  /* Función para mostrar toasts/notificaciones */
+  /**
+   * Muestra un toast en pantalla con un mensaje y tipo.
+   * @param {string} mensaje - Texto a mostrar.
+   * @param {string} [tipo='error'] - 'error'|'success'|'info'.
+   */
   function mostrarToast(mensaje, tipo = 'error') {
     // Crear el contenedor de toasts si no existe
     let toastContainer = document.getElementById('toast-container');
@@ -44,7 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Hacer la función global para poder usarla en otros lugares
   window.mostrarToast = mostrarToast;
 
-  /* Verificar si hay un registro exitoso y mostrar toast */
+  /**
+   * Verifica la cookie 'registro-exitoso' y muestra un toast si fue true.
+   */
   function verificarRegistroExitoso() {
     // Buscar cookie de registro exitoso
     const registroExitoso = document.cookie
@@ -70,7 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Ejecutar verificación de registro exitoso
   verificarRegistroExitoso();
 
-  /* Obtener datos del usuario desde la cookie 'usuario' */
+  /**
+   * Lee y decodifica la cookie 'usuario' para obtener los datos del usuario.
+   * @returns {Object|null} Datos del usuario o null si no existe.
+   */
   function obtenerDatosUsuarioDesdeCookie() {
     const fila = document.cookie.split('; ').find(f => f.startsWith('usuario='));
     if (!fila) return null;
@@ -83,6 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /**
+   * Lee la cookie 'categorias' y devuelve el arreglo de categorías si existe.
+   * @returns {Array|null}
+   */
   function obtenerCategorias() {
   const cookie = document.cookie.split('; ').find(f => f.startsWith('categorias='));
   if (!cookie) return null;
@@ -176,6 +192,7 @@ function cerrarSesionUsuario() {
   // Redirigir a página principal (se mostrará navbar de visitante automáticamente)
   window.location.href = '/';
 }
+
 function logout() {
   cerrarSesionUsuario();
 }

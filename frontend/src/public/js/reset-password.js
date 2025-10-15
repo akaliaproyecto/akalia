@@ -1,3 +1,7 @@
+/**
+ * @file Script para la página de restablecer contraseña
+ * @description Controla el formulario de reset: valida contraseñas y envía el request al servidor.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('resetForm');
   if (!form) return;

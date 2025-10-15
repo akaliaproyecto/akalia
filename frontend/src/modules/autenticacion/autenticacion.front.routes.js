@@ -1,4 +1,7 @@
-/* En este archivo se definen las rutas disponibles para este módulo. Cada ruta recibe las solicitudes (requests) desde el navegador y las envía al servicio correspondiente para manejar la lógica. */
+/**
+ * @file Rutas frontend de autenticación
+ * @description Define rutas que el frontend usa para mostrar formularios y reenviar peticiones al backend.
+ */
 
 const express = require('express');
 const router = express.Router();
@@ -8,13 +11,22 @@ const {
   iniciarSesion, logout, resetearContrasena, recuperarContrasena
 } = require('./autenticacion.services')
 
-/* ruta post para registrar un nuevo usuario */
+/**
+ * POST /registro
+ * Ruta que recibe datos del formulario de registro y llama al servicio para crear usuario.
+ */
 router.post('/registro', registrarUsuario);
 
-/* ruta post para iniciar sesión */
+/**
+ * POST /login
+ * Recibe credenciales desde el formulario y realiza login vía servicio.
+ */
 router.post('/login', iniciarSesion);
 
-/* ruta post para iniciar sesión */
+/**
+ * POST /logout
+ * Cierra sesión en el frontend y backend.
+ */
 router.post('/logout', logout);
 
 // Page to request password recovery (GET shows form, POST sends email)

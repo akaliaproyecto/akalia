@@ -1,3 +1,7 @@
+/**
+ * @file Script para solicitar recuperación de contraseña
+ * @description Valida email, verifica existencia y solicita al backend el envío del enlace de recuperación.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('recuperarForm');
   if (!form) return;

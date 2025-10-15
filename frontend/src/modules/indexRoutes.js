@@ -1,3 +1,7 @@
+/**
+ * @file Index de rutas frontend
+ * @description Agrupa y exporta las rutas del frontend para la aplicación.
+ */
 const express = require('express');
 const router = express.Router();
 
