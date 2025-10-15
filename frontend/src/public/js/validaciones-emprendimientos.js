@@ -191,7 +191,7 @@ function inicializarValidacionesEditarEmprendimiento() {
   const formularioEditarEmprendimiento = document.getElementById('form-editar-emprendimiento-modal');
   
   if (!formularioEditarEmprendimiento) {
-    console.error('❌ Formulario de editar emprendimiento no encontrado');
+    console.error('Formulario de editar emprendimiento no encontrado');
     return;
   }
   

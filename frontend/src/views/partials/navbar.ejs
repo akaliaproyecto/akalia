@@ -77,6 +77,10 @@
           <li><a class="dropdown-item user-emprendimientos" href="/productos/usuario-productos">Mis productos</a></li>
           <li><a class="dropdown-item user-emprendimientos" href="/usuario-pedidos/<%= usuarioActual ? usuarioActual.idUsuario : '' %>">Mis ventas</a></li>
           <li><a class="dropdown-item user-emprendimientos" href="/usuario-compras/<%= usuarioActual ? usuarioActual.idUsuario : '' %>">Mis compras</a></li>
+          <!-- Agregar este enlace solo para admins -->
+    <% if (usuarioActual && (usuarioActual.rolUsuario === 'admin' || usuarioActual.rol === 'administrador')) { %>
+          <li><a class="dropdown-item user-emprendimientos" href="/admin">Panel Admin</a></li>
+    <% } %>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -126,9 +130,4 @@
   </div>
 </nav>
 
-
 <script src="/js/filtros.js"></script>
-
-<!-- Script pequeño: definir función global de reserva para filtrar por categoría
-     Esto asegura que `mostrarProductosPorCategoria` esté disponible en todas las vistas
-     aunque la página no cargue `/js/landing.js`. No sobreescribe si ya existe. -->

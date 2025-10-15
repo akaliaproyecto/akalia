@@ -35,7 +35,9 @@ const corsOptions = {
     const allowedOrigins = [
       process.env.CLIENT_URL,
       'https://akalia-app.onrender.com',
-      'http://localhost:4666'
+      'http://localhost:4666',
+      'http://localhost:4006',
+      'https://akalia-azbm.onrender.com/'
     ].filter(Boolean);
 
     if (allowedOrigins.includes(origin)) {
@@ -163,4 +165,9 @@ app.use('/pasarela', validateApiKey, mercadopagoRoutes);
 app.get('/api/municipios', (req, res) => {
   res.json(require('./config/municipios_por_departamento.json'));
 });
+
+// ADMIN
+const adminRoutes = require('./admin/admin.routes.js');
+app.use('/admin', validateApiKey, adminRoutes);
+
 module.exports = { app, sessionMiddleware };

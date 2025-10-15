@@ -10,6 +10,8 @@ const productoRoutes = require('../modules/productos/productos.front.routes');
 const captchaRoutes = require('./captcha/captcha.front.routes');
 const pedidosRoutes = require('../modules/pedidos/pedidos.front.routes');
 const footerRoutes = require('../modules/footer/footer.front.routes');
+const adminRoutes = require('../modules/admin/admin.routes.js');
+
 //const productoRoutes = require('./productos/producto.front.routes');
 //const contactanosRoutes = require('./contacto.routes');
 
@@ -23,7 +25,8 @@ router.use('/', productoRoutes);
 router.use('/', captchaRoutes);
 router.use('/', pedidosRoutes);
 router.use('/', footerRoutes);
-
+router.use('/', footerRoutes);
+router.use('/admin', adminRoutes);
 //router.use('/contactanos', contactanosRoutes);
 
 module.exports = router;

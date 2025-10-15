@@ -66,7 +66,13 @@
       </svg>
       <span class="sidebar-label d-none d-md-inline">Mis compras</span>
     </a>
-
+    <!-- Agregar este enlace solo para admins -->
+    <% if (usuarioActual && (usuarioActual.rolUsuario === 'admin' || usuarioActual.rol === 'administrador')) { %>
+      <a href="/admin" class="btn-option">
+        <i class="fas fa-shield-alt"></i>
+        <span class="sidebar-label">Panel Admin</span>
+      </a>
+    <% } %>
   </nav>
   <div class="w-100 mb-4 d-flex flex-column align-items-center">
 

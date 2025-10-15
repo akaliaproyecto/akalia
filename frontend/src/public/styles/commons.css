@@ -158,7 +158,10 @@ body {
   background: #FFDAD7;
   width: 15rem;  
   min-width: 13.9375rem;
-    height: calc(100vh - 4rem);
+  height: calc(100vh - 4rem);
+  position: sticky;
+  top: 0;
+  transition: all 0.3s ease;
 }
 
 .layout {
@@ -183,12 +186,12 @@ body {
 }
 
 .btn-option:hover {
-  border: 1px solid var(--dark-vinotinto); /* Vinotinto-active */
+  border: 1px solid var(--dark-vinotinto);
   color: var(--dark-vinotinto);
 }
 
 .btn-option:focus {
-  background: var(--dark-vinotinto); /* Vinotinto */
+  background: var(--dark-vinotinto);
   color: var(--normal-blanco);
 }
 .sidebar-label {
@@ -196,13 +199,31 @@ body {
   font-size: 1.2rem;
 }
 
+/* Responsive para tablets */
+@media (max-width: 992px) {
+  .akalia-sidebar {
+    width: 4.5rem;
+    min-width: 4.5rem;
+  }
+  .btn-option {
+    width: 3.8rem;
+    padding: 0.5rem;
+    justify-content: center;
+  }
+  .sidebar-label {
+    display: none !important;
+  }
+}
+
+/* Responsive para móviles */
 @media (max-width: 768px) {
   .akalia-sidebar {
     width: 4rem;
     min-width: 4rem;
-    
+    height: auto;
+    position: relative;
   }
-  .btn-option, .btn-option-active, .btn-option-logout {
+  .btn-option {
     width: 3.5rem;
     padding: 0.375rem 0.2rem;
     justify-content: center;
@@ -210,6 +231,43 @@ body {
   }
   .sidebar-label {
     display: none !important;
+  }
+  
+  /* Ajustar tabla responsive en móviles */
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+  
+  /* Mejorar legibilidad de badges en móviles */
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  /* Botones más compactos en móviles */
+  .btn-group-sm > .btn, .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Ajustes específicos para DataTables en móviles */
+@media (max-width: 576px) {
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_filter {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_paginate {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 

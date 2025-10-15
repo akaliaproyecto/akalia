@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Akalia</title>
+  <%- include('../partials/head.ejs'); %>
+  <link rel="stylesheet" href="/styles/funciones-usuarios.css">
+  
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-blanco-light">
+  <%- include('../partials/navbar.ejs'); %>
+  
+  <div class="d-flex flex-row flex-grow-1">
+    <%- include('../partials/admin-sidebar.ejs'); %>
+    
+    <main class="flex-grow-1 p-4">
+      <div class="container-fluid overflow-auto">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <h1 class="akalia-title akalia-title--large mb-0">Gestión de Emprendimientos</h1>
+          <span class="badge bg-terracota fs-6"><%= total %> emprendimientos</span>
+        </div>
+
+        <!-- Tabla -->
+        <div class="card">
+          <div class="card-body">
+            <% if (emprendimientos && emprendimientos.length > 0) { %>
+              <div class="table-responsive">
+                <table id="tablaEmprendimientos" class="table table-hover align-middle table-sm" style="width:100%">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Propietario</th>
+                      <th>Ubicación</th>
+                      <th>Estado</th>
+                      <th>Fecha</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% emprendimientos.forEach(e => { %>
+                      <tr>
+                        <td><%= e.nombreEmprendimiento %></td>
+                        <td><%= e.usuario?.nombreUsuario %> <%= e.usuario?.apellidoUsuario %></td>
+                        <td><%= e.ubicacionEmprendimiento?.ciudad || 'N/A' %></td>
+                        <td>
+                          <span class="badge bg-<%= e.emprendimientoActivo ? 'success' : 'secondary' %>">
+                            <%= e.emprendimientoActivo ? 'Activo' : 'Inactivo' %>
+                          </span>
+                        </td>
+                        <td><%= new Date(e.createdAt).toLocaleDateString('es-ES') %></td>
+                        <td>
+                          <button class="btn btn-sm btn-outline-<%= e.emprendimientoActivo ? 'warning' : 'success' %>" 
+                                  onclick="toggleEstadoEmprendimiento('<%= e._id %>',' <%= e.emprendimientoActivo %>')" 
+                                  title="<%= e.emprendimientoActivo ? 'Desactivar' : 'Activar' %>">
+                            <i class="fas fa-<%= e.emprendimientoActivo ? 'ban' : 'check' %>"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            <% } else { %>
+              <div class="text-center py-5">
+                <i class="fas fa-store fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No se encontraron emprendimientos</p>
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <%- include('../partials/footer.ejs'); %>
+  
+  <!-- Modal de confirmación -->
+  <div class="modal fade" id="modalConfirmarAccion" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmar Acción</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="mensajeConfirmacion">
+          <!-- Mensaje dinámico -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-terracota" id="btnConfirmarAccion">
+            <span class="spinner-border spinner-border-sm d-none" id="spinnerConfirmar"></span>
+            <span id="textoConfirmar">Confirmar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const apiBaseUrl = '<%= apiBaseUrl %>';
+    const apiKey = '<%= apiKey %>';
+    
+    let accionPendiente = null;
+    
+    async function toggleEstadoEmprendimiento(emprendimientoId, estadoActual) {
+      const nuevoEstado = !estadoActual;
+      const accion = nuevoEstado ? 'activar' : 'desactivar';
+      
+      // Configurar modal de confirmación
+      const mensajeConfirmacion = document.getElementById('mensajeConfirmacion');
+      mensajeConfirmacion.innerHTML = `
+        <p>¿Estás seguro de que deseas <strong>${accion}</strong> este emprendimiento?</p>
+        <div class="alert alert-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          Esta acción afectará todos los productos asociados a este emprendimiento.
+        </div>
+      `;
+      
+      // Guardar acción pendiente
+      accionPendiente = { emprendimientoId, nuevoEstado, accion };
+      
+      // Mostrar modal
+      const modal = new bootstrap.Modal(document.getElementById('modalConfirmarAccion'));
+      modal.show();
+    }
+    
+    // Manejar confirmación
+    document.getElementById('btnConfirmarAccion').addEventListener('click', async () => {
+      if (!accionPendiente) return;
+      
+      const { emprendimientoId, nuevoEstado, accion } = accionPendiente;
+      const spinner = document.getElementById('spinnerConfirmar');
+      const texto = document.getElementById('textoConfirmar');
+      const btn = document.getElementById('btnConfirmarAccion');
+      
+      // Mostrar spinner
+      spinner.classList.remove('d-none');
+      texto.textContent = 'Procesando...';
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(`${apiBaseUrl}/admin/emprendimientos/${emprendimientoId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'akalia-api-key': apiKey,
+            'Cookie': document.cookie
+          },
+          body: JSON.stringify({ emprendimientoActivo: nuevoEstado })
+        });
+
+        if (!response.ok) throw new Error('Error al actualizar emprendimiento');
+
+        // Mostrar toast de éxito
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast(`Emprendimiento ${accion === 'activar' ? 'activado' : 'desactivado'} correctamente`, 'success');
+        }
+        
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirmarAccion'));
+        modal.hide();
+        
+        // Recargar después de un breve delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+
+      } catch (error) {
+        console.error('Error:', error);
+        if (typeof window.mostrarToast === 'function') {
+          window.mostrarToast(`Error al ${accion} emprendimiento`, 'error');
+        }
+      } finally {
+        spinner.classList.add('d-none');
+        texto.textContent = 'Confirmar';
+        btn.disabled = false;
+        accionPendiente = null;
+      }
+    });
+  </script>
+  
+  <!-- jQuery (requerido por DataTables) -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+  
+  <script>
+    // Inicializar DataTables
+    $(document).ready(function() {
+      if ($('#tablaEmprendimientos').length) {
+        $('#tablaEmprendimientos').DataTable({
+          responsive: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+          },
+          pageLength: 10,
+          order: [[4, 'desc']], // Ordenar por fecha descendente
+          columnDefs: [
+            { 
+              responsivePriority: 1, 
+              targets: 0 // Nombre siempre visible
+            },
+            { 
+              responsivePriority: 2, 
+              targets: -1 // Acciones siempre visible
+            },
+            { 
+              orderable: false, 
+              targets: -1 // Acciones no ordenables
+            }
+          ]
+        });
+      }
+    });
+  </script>
+  
+  <script src="/js/login_signup.js"></script>
+  <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/captcha.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</body>
+</html>

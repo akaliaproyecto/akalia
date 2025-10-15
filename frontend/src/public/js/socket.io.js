@@ -1,8 +1,8 @@
 // Verificar que tenemos todos los datos necesarios
 if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuarioId) {
-  console.error('❌ Datos del chat no disponibles');
+  console.error('Datos del chat no disponibles');
 } else if (typeof io === 'undefined') {
-  console.error('❌ Socket.IO no está cargado');
+  console.error('Socket.IO no está cargado');
 } else {
   
   const { pedidoId, usuarioId, apiBaseUrl, mensajes, token } = window.CHAT_DATA;
@@ -51,7 +51,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
 
   // Manejar errores del servidor
   socket.on('error', (error) => {
-    console.error('❌ Error del servidor:', error);
+    console.error('Error del servidor:', error);
     alert('Error: ' + error);
   });
 
@@ -59,7 +59,7 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
   function renderMessage(msg) {
     const container = document.querySelector('.chat-messages');
     if (!container) {
-      console.error('❌ Contenedor de mensajes no encontrado');
+      console.error('Contenedor de mensajes no encontrado');
       return;
     }
 
@@ -146,6 +146,6 @@ if (!window.CHAT_DATA || !window.CHAT_DATA.pedidoId || !window.CHAT_DATA.usuario
     });
 
   } else {
-    console.error('❌ Formulario o input de mensajes no encontrados');
+    console.error('Formulario o input de mensajes no encontrados');
   }
 }

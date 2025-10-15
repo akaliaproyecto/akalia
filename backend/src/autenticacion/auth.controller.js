@@ -116,7 +116,7 @@ exports.verificarSesion = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('❌ Error verificando sesión:', error);
+    console.error('Error verificando sesión:', error);
     return res.status(500).json({ error: 'Error interno del servidor' });
   }
 };

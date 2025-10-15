@@ -76,5 +76,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT_FRONTEND, '0.0.0.0', () => {
-  console.log(`✅ Frontend iniciado exitosamente en puerto ${PORT_FRONTEND}`);
+  console.log(` Frontend iniciado exitosamente en puerto ${PORT_FRONTEND}`);
 });

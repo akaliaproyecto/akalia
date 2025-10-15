@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Akalia</title>
+  <%- include('../partials/head.ejs'); %>
+  <link rel="stylesheet" href="/styles/funciones-usuarios.css">
+  
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-blanco-light">
+  <%- include('../partials/navbar.ejs'); %>
+  
+  <div class="d-flex flex-row flex-grow-1">
+    <%- include('../partials/admin-sidebar.ejs'); %>
+    
+    <main class="flex-grow-1 p-4 overflow-auto">
+      <div class="container-fluid">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1 class="akalia-title akalia-title--large">Configuración del Sistema</h1>
+        </div>
+
+        <!-- Tabs para Categorías y Etiquetas -->
+        <ul class="nav nav-tabs mb-4" id="configTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="categorias-tab" data-bs-toggle="tab" 
+                    data-bs-target="#categorias" type="button" role="tab">
+              <i class="fas fa-folder me-2"></i>Categorías
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="etiquetas-tab" data-bs-toggle="tab" 
+                    data-bs-target="#etiquetas" type="button" role="tab">
+              <i class="fas fa-tags me-2"></i>Etiquetas
+            </button>
+          </li>
+        </ul>
+
+        <!-- Contenido de los Tabs -->
+        <div class="tab-content" id="configTabsContent">
+          
+          <!-- TAB CATEGORÍAS -->
+          <div class="tab-pane fade show active" id="categorias" role="tabpanel">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Gestión de Categorías</h5>
+                <button class="btn btn-terracota btn-sm" onclick="abrirModalCategoria()">
+                  <i class="fas fa-plus me-1"></i>Nueva Categoría
+                </button>
+              </div>
+              <div class="card-body">
+                <% if (categorias && categorias.length > 0) { %>
+                  <div class="table-responsive">
+                    <table id="tablaCategorias" class="table table-hover table-sm" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Imagen</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% categorias.forEach(cat => { %>
+                          <tr>
+                            <td><%= cat.nombreCategoria %></td>
+                            <td>
+                              <% if (cat.imagen) { %>
+                                <img src="<%= cat.imagen %>" alt="<%= cat.nombreCategoria %>" 
+                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                              <% } else { %>
+                                <span class="text-muted">Sin imagen</span>
+                              <% } %>
+                            </td>
+                            <td>
+                              <button class="btn btn-sm btn-outline-primary btn-editar-categoria" 
+                                      data-id="<%= cat._id %>"
+                                      data-nombre="<%= cat.nombreCategoria %>"
+                                      data-imagen="<%= cat.imagen || '' %>"
+                                      title="Editar">
+                                <i class="fas fa-edit"></i>
+                              </button>
+                              <button class="btn btn-sm btn-outline-danger btn-eliminar-categoria" 
+                                      data-id="<%= cat._id %>"
+                                      data-nombre="<%= cat.nombreCategoria %>"
+                                      title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                <% } else { %>
+                  <div class="text-center py-5">
+                    <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No hay categorías registradas</p>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB ETIQUETAS -->
+          <div class="tab-pane fade" id="etiquetas" role="tabpanel">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Gestión de Etiquetas</h5>
+                <button class="btn btn-terracota btn-sm" onclick="abrirModalEtiqueta()">
+                  <i class="fas fa-plus me-1"></i>Nueva Etiqueta
+                </button>
+              </div>
+              <div class="card-body">
+                <% if (etiquetas && etiquetas.length > 0) { %>
+                  <div class="table-responsive">
+                    <table id="tablaEtiquetas" class="table table-hover table-sm" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% etiquetas.forEach(et => { %>
+                          <tr>
+                            <td><span class="badge bg-secondary"><%= et.nombreEtiqueta %></span></td>
+                            <td>
+                              <!-- CAMBIO: Usar data-attributes en lugar de onclick con parámetros -->
+                              <button class="btn btn-sm btn-outline-primary btn-editar-etiqueta" 
+                                      data-id="<%= et._id %>"
+                                      data-nombre="<%= et.nombreEtiqueta %>"
+                                      title="Editar">
+                                <i class="fas fa-edit"></i>
+                              </button>
+                              <button class="btn btn-sm btn-outline-danger btn-eliminar-etiqueta" 
+                                      data-id="<%= et._id %>"
+                                      data-nombre="<%= et.nombreEtiqueta %>"
+                                      title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        <% }) %>
+                      </tbody>
+                    </table>
+                  </div>
+                <% } else { %>
+                  <div class="text-center py-5">
+                    <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">No hay etiquetas registradas</p>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <%- include('../partials/footer.ejs'); %>
+  
+  <!-- Modales -->
+  <%- include('../partials/admin-categoria-modal.ejs'); %>
+  <%- include('../partials/admin-etiqueta-modal.ejs'); %>
+
+  <script>
+    const apiBaseUrl = '<%= apiBaseUrl %>';
+    const apiKey = '<%= apiKey %>';
+  </script>
+  
+  <!-- jQuery (requerido por DataTables) -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+  
+  <script>
+    // Inicializar DataTables
+    $(document).ready(function() {
+      // DataTable para categorías
+      if ($('#tablaCategorias').length) {
+        $('#tablaCategorias').DataTable({
+          responsive: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+          },
+          pageLength: 10,
+          order: [[0, 'asc']],
+          columnDefs: [
+            { orderable: false, targets: [1, 2] } // Imagen y Acciones no ordenables
+          ]
+        });
+      }
+      
+      // DataTable para etiquetas
+      if ($('#tablaEtiquetas').length) {
+        $('#tablaEtiquetas').DataTable({
+          responsive: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+          },
+          pageLength: 10,
+          order: [[0, 'asc']],
+          columnDefs: [
+            { orderable: false, targets: [1] } // Acciones no ordenables
+          ]
+        });
+      }
+      
+      // Event delegation para botones de editar/eliminar categorías
+      $(document).on('click', '.btn-editar-categoria', function() {
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        const imagen = $(this).data('imagen');
+        abrirModalCategoria(id, nombre, imagen);
+      });
+      
+      $(document).on('click', '.btn-eliminar-categoria', function() {
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        eliminarCategoria(id, nombre);
+      });
+      
+      // Event delegation para botones de editar/eliminar etiquetas
+      $(document).on('click', '.btn-editar-etiqueta', function() {
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        abrirModalEtiqueta(id, nombre);
+      });
+      
+      $(document).on('click', '.btn-eliminar-etiqueta', function() {
+        const id = $(this).data('id');
+        const nombre = $(this).data('nombre');
+        eliminarEtiqueta(id, nombre);
+      });
+    });
+  </script>
+  
+  <script src="/js/admin-configuracion.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+  <script src="/js/login_signup.js"></script>
+  <script src="/js/validaciones-login-signup.js"></script>
+  <script src="/js/captcha.js"></script>
+</body>
+</html>
