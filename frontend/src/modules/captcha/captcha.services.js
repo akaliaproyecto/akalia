@@ -5,7 +5,11 @@ const { setCookie, getUpdatedHeaders } = require('../helpers');
 const API_BASE_URL = process.env.URL_BASE || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
-/* Generar el captcha */
+/**
+ * Solicita al backend el SVG del captcha y replica cookies en la respuesta.
+ * @param {Object} req - Request de Express (se usan headers y cookies).
+ * @param {Object} res - Response de Express para enviar el SVG al cliente.
+ */
 exports.generarCaptcha = async (req, res) => {
     try {
         const response = await axios.get(`${API_BASE_URL}/captcha/generar`, {
@@ -22,10 +26,14 @@ exports.generarCaptcha = async (req, res) => {
     }
 };
 
+/**
+ * Envía al backend el valor del captcha para validarlo. Replica cookies en la respuesta.
+ * @param {Object} req - Request con body { captcha }.
+ * @param {Object} res - Response para devolver JSON con resultado de validación.
+ */
 exports.validarCaptcha = async (req, res) => {
     try {
         console.log('console.log de captcha:', req.headers.cookie)
-        // HEADERS.cookie = req.headers.cookie || ""
         const response = await axios.post(`${API_BASE_URL}/captcha/validar`, req.body, {
             headers: getUpdatedHeaders(req)
         });

@@ -1,5 +1,13 @@
+/**
+ * @file Script CAPTCHA (frontend)
+ * @description Carga el SVG del captcha, maneja refresco y valida en el frontend mediante el endpoint.
+ */
 document.addEventListener('DOMContentLoaded', function () {
 
+  /**
+   * Obtiene referencias a los elementos del captcha en la página.
+   * @returns {Object} Objetos DOM para svg, botón de refresco y contenedor de error.
+   */
   function getCaptchaElements() {
     return {
       captchaSvg: document.getElementById('captcha-svg'),
@@ -8,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
     };
   }
 
+  /**
+   * Carga el captcha desde el servidor (ruta /generar-captcha) y lo inserta en el DOM.
+   * Maneja estados de carga y muestra errores simples si falla.
+   * @returns {Promise<void>}
+   */
   async function loadCaptcha() {
     const { captchaSvg, captchaError } = getCaptchaElements();
     if (!captchaSvg) return;
@@ -75,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }, true);
 });
 
+/**
+ * Valida el captcha en el servidor antes de enviar el formulario de login.
+ * @returns {Promise<boolean>} true si es válido, false si no.
+ */
 async function validarCaptchaAntesDeEnviar() {
   const captchaInput = document.getElementById('captcha-input').value;
   console.log(captchaInput)

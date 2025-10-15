@@ -1,5 +1,17 @@
+/**
+ * @file Controlador CAPTCHA (backend)
+ * @description Genera y valida captchas usando la sesión para almacenar el texto.
+ * Comentarios en español y simples para estudiantes.
+ */
 const { generarCaptcha, validarCaptcha } = require('../servicios/captcha');
 
+/**
+ * Genera un CAPTCHA y lo devuelve como SVG.
+ * Guarda el texto del captcha en la sesión para validarlo después.
+ * @param {Object} req - Objeto request de Express.
+ * @param {Object} res - Objeto response de Express.
+ * @returns {void}
+ */
 exports.generarCaptcha = (req, res) => {
     try {
         const captcha = generarCaptcha();
@@ -23,6 +35,13 @@ exports.generarCaptcha = (req, res) => {
     }
 };
 
+/**
+ * Valida el CAPTCHA enviado por el usuario comparándolo con el guardado en sesión.
+ * Si es inválido, genera un nuevo captcha y lo devuelve para reintentar.
+ * @param {Object} req - Objeto request de Express (body: { captcha }).
+ * @param {Object} res - Objeto response de Express.
+ * @returns {void}
+ */
 exports.validarCaptcha = (req, res) => {
     try {
         const { captcha } = req.body;
