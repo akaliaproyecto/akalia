@@ -1,3 +1,7 @@
+/**
+ * @file Rutas frontend - Landing
+ * @description Rutas que renderizan la página principal y vistas de productos (SSR).
+ */
 // IMPORTAR MÓDULOS 
 const express = require('express');
 const router = express.Router();
@@ -11,13 +15,22 @@ const {
   mostrarProductoPorId,
 } = require('./landing.services');
 
-/* Ruta que renderiza la landing con categorías, productos e imágenes.*/
+/**
+ * GET /
+ * Renderiza la landing con categorías, productos e imágenes.
+ */
 router.get('/', categoriasProductosLanding);
 
-/* Ruta que renderiza la vista productos.ejs */
+/**
+ * GET /productos
+ * Renderiza la lista de productos.
+ */
 router.get('/productos', mostrarProductos);
 
-/* Ruta que renderiza la vista de un producto específico por ID */
+/**
+ * GET /producto/:id
+ * Renderiza la página de detalle de un producto por su ID.
+ */
 router.get('/producto/:id', mostrarProductoPorId);
 
 module.exports = router;
