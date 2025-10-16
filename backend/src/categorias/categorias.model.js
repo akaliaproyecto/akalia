@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+/**
+ * Esquema de categoría
+ * @typedef {Object} Categoria
+ * @property {string} nombreCategoria - Nombre visible de la categoría (único).
+ * @property {string} [imagen] - URL de la imagen representativa (opcional).
+ * @property {boolean} categoriaActiva - Indica si la categoría está activa.
+ */
 const CategoriaSchema = new mongoose.Schema({
   nombreCategoria: {
     type: String,

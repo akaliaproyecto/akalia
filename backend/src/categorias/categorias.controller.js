@@ -1,11 +1,19 @@
+/**
+ * @file Controlador de categorías
+ * @description Contiene la lógica para listar, crear, actualizar y eliminar categorías.
+ * Los comentarios son sencillos y en español para estudiantes.
+ */
 // Se importa el modelo de categorías
 const modeloCategoria = require("./categorias.model");
 const uploadImage = require('../servicios/subirImagen')
 const Log = require('../middlewares/logs')
 const cookie = require('cookie');
 
-//Listar todas las categorías
-// Esta función responde con un arreglo JSON de todas las categorías almacenadas en MongoDB
+/**
+ * Obtiene todas las categorías y las almacena en una cookie para uso frontend.
+ * @param {Object} req - Request de Express.
+ * @param {Object} res - Response de Express.
+ */
 exports.obtenerCategorias = async (req, res) => {
   try {
     const categoriasEncontradas = await modeloCategoria.find();
@@ -26,7 +34,11 @@ exports.obtenerCategorias = async (req, res) => {
   }
 };
 
-//Listar una categoría por su id
+/**
+ * Obtiene una categoría por su ID.
+ * @param {Object} req - Request con params.id.
+ * @param {Object} res - Response que devuelve la categoría o error.
+ */
 exports.obtenerCategoriaPorId = async (req, res) => {
   const idCategoria = req.params.id;   // obtener el parámetro de la URL
 
@@ -43,7 +55,11 @@ exports.obtenerCategoriaPorId = async (req, res) => {
   }
 };
 
-//Crear una nueva categoría
+/**
+ * Crea una nueva categoría. Si se recibe un archivo, lo sube y guarda la URL.
+ * @param {Object} req - Request con body y posible archivo en req.file.
+ * @param {Object} res - Response que devuelve la categoría creada o error.
+ */
 exports.crearCategoria = async (req, res) => {
   const datosCategoria = req.body;
   try {
@@ -63,7 +79,11 @@ exports.crearCategoria = async (req, res) => {
   }
 };
 
-//editar una categoría por su id
+/**
+ * Actualiza una categoría por su ID. Permite reemplazar imagen si se sube archivo.
+ * @param {Object} req - Request con params.id y body con datos a actualizar.
+ * @param {Object} res - Response con la categoría actualizada o error.
+ */
 exports.actualizarCategoria = async (req, res) => {
   const idCategoria = req.params.id;
   const datosCategoria = req.body;
@@ -92,7 +112,11 @@ exports.actualizarCategoria = async (req, res) => {
   }
 };
 
-//eliminar una categoría por su id
+/**
+ * Marca una categoría como inactiva en vez de eliminarla físicamente.
+ * @param {Object} req - Request con params.id.
+ * @param {Object} res - Response con resultado de la operación.
+ */
 exports.eliminarCategoria = async (req, res) => {
   try {
     const categoriaEliminada = await modeloCategoria.findByIdAndUpdate(

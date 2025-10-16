@@ -7,7 +7,14 @@ const { setCookie, getUpdatedHeaders } = require('../helpers');
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
-/* Cargar categorías y productos para la página landing */
+console.log('🔍 Landing service - API_BASE_URL:', API_BASE_URL);
+console.log('🔍 Landing service - API_KEY:', process.env.API_KEY ? '✅ Set' : '❌ Missing');
+
+/**
+ * Carga categorías y productos para la página principal (landing) y renderiza la vista.
+ * @param {Object} req - Request de Express.
+ * @param {Object} res - Response de Express que renderiza la plantilla.
+ */
 exports.categoriasProductosLanding = async (req, res) => {
   try {
     // Obtener categorías desde el API
@@ -63,7 +70,11 @@ exports.categoriasProductosLanding = async (req, res) => {
   }
 };
 
-/* listar productos en la ruta /productos */
+/**
+ * Obtiene y renderiza la lista de productos para la página /productos.
+ * @param {Object} req - Request con posibles filtros en querystring.
+ * @param {Object} res - Response que renderiza la plantilla de productos.
+ */
 exports.mostrarProductos = async (req, res) => {
   try {
     // Leer valores de filtros desde querystring para mantener selección tras recarga
@@ -98,7 +109,11 @@ exports.mostrarProductos = async (req, res) => {
   }
 };
 
-/* mostrar un producto específico producto/:id */
+/**
+ * Obtiene los datos de un producto por ID y renderiza su vista de detalle.
+ * @param {Object} req - Request con params.id.
+ * @param {Object} res - Response que renderiza la plantilla de producto.
+ */
 exports.mostrarProductoPorId = async (req, res) => {
   try {
     // Obtener el ID del producto desde los parámetros de la URL

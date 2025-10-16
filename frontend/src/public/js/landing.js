@@ -1,4 +1,11 @@
-/* Redirigir a la ruta que muestra la lista de productos*/
+/**
+ * @file Script para la landing y páginas de productos
+ * @description Funciones que redirigen entre páginas y manejan el carrusel de imágenes.
+ */
+/**
+ * Redirige a la página que lista productos.
+ * @returns {void}
+ */
 function showListProducts() {
   try {
     window.location.href = '/productos';
@@ -8,7 +15,11 @@ function showListProducts() {
   }
 }
 
-/* Redirigir a la página de detalle de producto */
+/**
+ * Redirige a la página de detalle del producto dado su ID.
+ * @param {string} idProducto - ID del producto.
+ * @returns {void}
+ */
 function showProductDetail(idProducto) {
   try {
     if (!idProducto) return;
@@ -23,7 +34,11 @@ window.showListProducts = showListProducts;
 window.showProductDetail = showProductDetail;
 
 
-/* Inicializar Splide para la vista de producto */
+/**
+ * Inicializa el carrusel de imágenes (Splide) en la página de producto.
+ * Maneja miniaturas y sincroniza el estado activo.
+ * @returns {void}
+ */
 function iniciarSplideProducto() {
   try {
     // Buscar el contenedor principal del carrusel
