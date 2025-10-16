@@ -1,5 +1,10 @@
 /* JavaScript para gestión de pedidos en panel admin */
 
+/**
+ * Mostrar el detalle completo de un pedido en un modal.
+ * - Llama al endpoint backend `/admin/pedidos/:id` y renderiza un modal con la info.
+ * @param {string} pedidoId - ID del pedido a mostrar.
+ */
 async function verDetallePedido(pedidoId) {
   try {
     const response = await fetch(`${apiBaseUrl}/admin/pedidos/${pedidoId}`, {
@@ -123,6 +128,11 @@ async function verDetallePedido(pedidoId) {
   }
 }
 
+/**
+ * Actualizar el estado de un pedido desde el modal de detalle.
+ * - Lee el nuevo estado del select y hace PUT a `/admin/pedidos/:id`.
+ * @param {string} pedidoId - ID del pedido a actualizar.
+ */
 async function actualizarEstadoPedido(pedidoId) {
   const nuevoEstado = document.getElementById('nuevoEstadoPedido').value;
 

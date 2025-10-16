@@ -3,7 +3,18 @@ axios.defaults.withCredentials = true;
 
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL;
 
+/**
+ * Servicios SSR para el panel admin
+ * - Estas funciones se ejecutan en el servidor frontend y llaman al backend
+ *   para obtener datos y renderizar las vistas EJS del panel de administración.
+ */
 // ==================== DASHBOARD PRINCIPAL ====================
+/**
+ * Obtener datos para el dashboard admin y renderizar la vista.
+ * Llama al backend /admin/estadisticas y pasa los resultados a la plantilla.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerDashboard = async (req, res) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/admin/estadisticas`, {
@@ -32,6 +43,12 @@ exports.obtenerDashboard = async (req, res) => {
 };
 
 // ==================== GESTIÓN DE USUARIOS ====================
+/**
+ * Listar usuarios para la vista de administración.
+ * - Pasa los parámetros page, buscar y estado al backend.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.listarUsuarios = async (req, res) => {
   try {
     const { page = 1, buscar = '', estado = '' } = req.query;
@@ -66,6 +83,11 @@ exports.listarUsuarios = async (req, res) => {
 };
 
 // ==================== GESTIÓN DE PRODUCTOS ====================
+/**
+ * Listar productos para la vista admin.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.listarProductos = async (req, res) => {
   try {
     const { page = 1, buscar = '', categoria = '', estado = '' } = req.query;
@@ -101,6 +123,11 @@ exports.listarProductos = async (req, res) => {
 };
 
 // ==================== GESTIÓN DE EMPRENDIMIENTOS ====================
+/**
+ * Listar emprendimientos para la vista admin.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.listarEmprendimientos = async (req, res) => {
   try {
     const { page = 1, buscar = '', estado = '' } = req.query;
@@ -135,6 +162,11 @@ exports.listarEmprendimientos = async (req, res) => {
 };
 
 // ==================== GESTIÓN DE PEDIDOS ====================
+/**
+ * Listar pedidos para la vista admin.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.listarPedidos = async (req, res) => {
   try {
     const { page = 1, estado = '' } = req.query;
@@ -168,6 +200,11 @@ exports.listarPedidos = async (req, res) => {
 };
 
 // ==================== CONFIGURACIÓN (CATEGORÍAS Y ETIQUETAS) ====================
+/**
+ * Obtener datos de configuración (categorías y etiquetas) y renderizar la vista.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.mostrarConfiguracion = async (req, res) => {
   try {
     const [categoriasRes, etiquetasRes] = await Promise.all([

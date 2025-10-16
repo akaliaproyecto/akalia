@@ -3,6 +3,13 @@ const router = express.Router();
 const { requireAuth, requireAdmin } = require('../middlewares/auth.middlewares.js');
 const subirImagen = require('../middlewares/manejadorImg.js');
 
+/**
+ * Rutas de administración
+ * - Todas las rutas están protegidas por autenticación y rol admin.
+ * - Este router expone endpoints para usuarios, productos, emprendimientos,
+ *   pedidos, categorías y etiquetas.
+ */
+
 // Controladores (los crearemos después)
 const {
   obtenerEstadisticas,

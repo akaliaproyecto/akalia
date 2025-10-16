@@ -1,5 +1,9 @@
 /* JavaScript para gestión de productos en panel admin */
 
+/**
+ * Mostrar detalle de producto en un modal para administradores.
+ * @param {string} productoId - ID del producto a mostrar.
+ */
 async function verDetalleProducto(productoId) {
   try {
     const response = await fetch(`${apiBaseUrl}/admin/productos/${productoId}`, {
@@ -84,6 +88,12 @@ async function verDetalleProducto(productoId) {
   }
 }
 
+/**
+ * Activar/desactivar un producto desde el panel admin.
+ * - Pregunta confirmación y hace PUT al backend.
+ * @param {string} productoId
+ * @param {boolean} estadoActual - Estado actual del producto.
+ */
 async function toggleEstadoProducto(productoId, estadoActual) {
   const nuevoEstado = !estadoActual;
   const accion = nuevoEstado ? 'activar' : 'desactivar';

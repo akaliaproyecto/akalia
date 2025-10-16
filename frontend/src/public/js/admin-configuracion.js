@@ -1,7 +1,19 @@
 /* JavaScript para gestión de categorías y etiquetas en panel admin */
 
+/**
+ * Módulo de UI para configuración del panel admin.
+ * - Contiene helpers para mostrar toasts, spinners y manejar modales de
+ *   categorías y etiquetas. Solo manipula el DOM y hace llamadas fetch al backend.
+ */
+
 // ==================== UTILIDADES ====================
 
+/**
+ * Mostrar una notificación amigable en la UI.
+ * - Usa la función global `window.mostrarToast` si existe, si no, usa alert.
+ * @param {string} mensaje - Texto a mostrar.
+ * @param {string} [tipo='info'] - Tipo de notificación (info, success, error, warning).
+ */
 function mostrarToast(mensaje, tipo = 'info') {
   if (typeof window.mostrarToast === 'function') {
     window.mostrarToast(mensaje, tipo);
@@ -11,6 +23,13 @@ function mostrarToast(mensaje, tipo = 'info') {
   }
 }
 
+/**
+ * Mostrar u ocultar un spinner en un botón durante operaciones async.
+ * @param {string} botonId - ID del botón que contiene el spinner.
+ * @param {string} spinnerId - ID del elemento spinner.
+ * @param {string} textoId - ID del elemento que muestra el texto del botón.
+ * @param {boolean} mostrar - True para mostrar, false para ocultar.
+ */
 function mostrarSpinner(botonId, spinnerId, textoId, mostrar) {
   const spinner = document.getElementById(spinnerId);
   const texto = document.getElementById(textoId);
@@ -31,6 +50,13 @@ function mostrarSpinner(botonId, spinnerId, textoId, mostrar) {
 
 // ==================== CATEGORÍAS ====================
 
+/**
+ * Abrir modal para crear o editar una categoría.
+ * - Si se pasa `id`, se inicializa el modal en modo edición.
+ * @param {string|null} [id=null]
+ * @param {string} [nombre='']
+ * @param {string} [imagen='']
+ */
 function abrirModalCategoria(id = null, nombre = '', imagen = '') {
   const modal = new bootstrap.Modal(document.getElementById('modalCategoria'));
   const title = document.getElementById('modalCategoriaTitle');
@@ -79,10 +105,21 @@ function abrirModalCategoria(id = null, nombre = '', imagen = '') {
   modal.show();
 }
 
+/**
+ * Abrir modal de edición para una categoría existente.
+ * @param {string} id
+ * @param {string} nombre
+ * @param {string} imagen
+ */
 function editarCategoria(id, nombre, imagen) {
   abrirModalCategoria(id, nombre, imagen);
 }
 
+/**
+ * Mostrar modal de confirmación y eliminar una categoría vía API.
+ * @param {string} id
+ * @param {string} nombre
+ */
 async function eliminarCategoria(id, nombre) {
   // Crear modal de confirmación dinámico
   const modalHTML = `
@@ -159,6 +196,11 @@ async function eliminarCategoria(id, nombre) {
 
 // ==================== ETIQUETAS ====================
 
+/**
+ * Abrir modal para crear o editar una etiqueta.
+ * @param {string|null} [id=null]
+ * @param {string} [nombre='']
+ */
 function abrirModalEtiqueta(id = null, nombre = '') {
   const modal = new bootstrap.Modal(document.getElementById('modalEtiqueta'));
   const title = document.getElementById('modalEtiquetaTitle');
@@ -182,10 +224,20 @@ function abrirModalEtiqueta(id = null, nombre = '') {
   modal.show();
 }
 
+/**
+ * Abrir modal para editar una etiqueta.
+ * @param {string} id
+ * @param {string} nombre
+ */
 function editarEtiqueta(id, nombre) {
   abrirModalEtiqueta(id, nombre);
 }
 
+/**
+ * Mostrar modal de confirmación y eliminar una etiqueta vía API.
+ * @param {string} id
+ * @param {string} nombre
+ */
 async function eliminarEtiqueta(id, nombre) {
   // Crear modal de confirmación
   const modalHTML = `
@@ -259,6 +311,10 @@ async function eliminarEtiqueta(id, nombre) {
 
 // ==================== EVENT LISTENERS ====================
 
+/**
+ * Inicializador de eventos del DOM para los modales y formularios de configuración.
+ * - Registra handlers para previews de imagen, envíos de formularios y validations simples.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   
   // Vista previa de imagen al seleccionar archivo

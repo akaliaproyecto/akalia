@@ -1,5 +1,9 @@
 // Funciones para gestión de usuarios en panel admin
 
+/**
+ * Mostrar detalle de un usuario en un modal (admin).
+ * @param {string} userId - ID del usuario a mostrar.
+ */
 async function verDetalleUsuario(userId) {
   try {
     const modal = new bootstrap.Modal(document.getElementById('modalDetalleUsuario'));
@@ -83,6 +87,11 @@ async function verDetalleUsuario(userId) {
   }
 }
 
+/**
+ * Abrir modal con formulario de edición para un usuario.
+ * - Recupera datos del backend y llena el formulario.
+ * @param {string} userId
+ */
 async function editarUsuario(userId) {
   try {
     console.log('🔍 Editando usuario:', userId);
@@ -135,6 +144,10 @@ async function editarUsuario(userId) {
   }
 }
 
+/**
+ * Inicia el listener del DOM para manejar el envío del formulario de edición de usuario.
+ * - Valida campos mínimos y realiza la petición PUT al backend.
+ */
 // Manejo del formulario de edición
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('formEditarUsuario');

@@ -5,6 +5,15 @@ const Pedido = require('../pedidos/pedidos.model.js');
 const Categoria = require('../categorias/categorias.model.js');
 const Etiqueta = require('../etiquetas/etiquetas.model.js');
 const uploadImage = require('../servicios/subirImagen')
+/**
+ * Controladores de administración
+ *
+ * Módulo que contiene funciones usadas por el panel de administración.
+ * Cada función maneja peticiones (req, res) y se encarga de operaciones CRUD
+ * o de consulta sobre usuarios, productos, emprendimientos, pedidos,
+ * categorías y etiquetas.
+ * Comentarios en español, estilo simple para estudiantes.
+ */
 
 // ==================== ESTADÍSTICAS ====================
 exports.obtenerEstadisticas = async (req, res) => {
@@ -63,6 +72,13 @@ exports.obtenerEstadisticas = async (req, res) => {
 };
 
 // ==================== USUARIOS ====================
+/**
+ * Listar usuarios con paginación y filtros.
+ * Query params: page, limit, buscar, estado
+ * Devuelve JSON con usuarios y meta de paginación.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerUsuarios = async (req, res) => {
   try {
     const { page = 1, limit = 10, buscar = '', estado = '' } = req.query;
@@ -99,6 +115,12 @@ exports.obtenerUsuarios = async (req, res) => {
   }
 };
 
+/**
+ * Obtener un usuario por su ID.
+ * Devuelve el usuario sin la contraseña.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerUsuarioPorId = async (req, res) => {
   try {
     console.log('hola')
@@ -113,6 +135,12 @@ exports.obtenerUsuarioPorId = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar campos de un usuario desde el panel admin.
+ * Ejemplo: estadoUsuario, rolUsuario
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarUsuario = async (req, res) => {
   try {
     // CAMBIO: usar rolUsuario en lugar de rol
@@ -135,6 +163,11 @@ exports.actualizarUsuario = async (req, res) => {
   }
 };
 
+/**
+ * Desactivar (eliminar lógicamente) un usuario.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.eliminarUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findByIdAndUpdate(
@@ -155,6 +188,12 @@ exports.eliminarUsuario = async (req, res) => {
 };
 
 // ==================== PRODUCTOS ====================
+/**
+ * Listar productos con filtros y paginación para administración.
+ * Query params: page, limit, buscar, categoria, estado
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerProductos = async (req, res) => {
   try {
     const { page = 1, limit = 10, buscar = '', categoria = '', estado = '' } = req.query;
@@ -190,6 +229,11 @@ exports.obtenerProductos = async (req, res) => {
   }
 };
 
+/**
+ * Obtener detalle de un producto por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerProductoPorId = async (req, res) => {
   try {
     const producto = await Producto.findById(req.params.id)
@@ -205,6 +249,11 @@ exports.obtenerProductoPorId = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar estado o campos de un producto (admin).
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarProducto = async (req, res) => {
   try {
     const { productoActivo } = req.body;
@@ -226,6 +275,11 @@ exports.actualizarProducto = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar (marcar como eliminado) un producto.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.eliminarProducto = async (req, res) => {
   try {
     const producto = await Producto.findByIdAndUpdate(
@@ -246,6 +300,11 @@ exports.eliminarProducto = async (req, res) => {
 };
 
 // ==================== EMPRENDIMIENTOS ====================
+/**
+ * Listar emprendimientos con filtros y paginación.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerEmprendimientos = async (req, res) => {
   try {
     const { page = 1, limit = 10, buscar = '', estado = '' } = req.query;
@@ -278,6 +337,11 @@ exports.obtenerEmprendimientos = async (req, res) => {
   }
 };
 
+/**
+ * Obtener emprendimiento por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerEmprendimientoPorId = async (req, res) => {
   try {
     const emprendimiento = await Emprendimiento.findById(req.params.id)
@@ -293,6 +357,11 @@ exports.obtenerEmprendimientoPorId = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar estado o datos de un emprendimiento.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarEmprendimiento = async (req, res) => {
   try {
     const { emprendimientoActivo } = req.body;
@@ -314,6 +383,11 @@ exports.actualizarEmprendimiento = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar (marcar como eliminado) un emprendimiento.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.eliminarEmprendimiento = async (req, res) => {
   try {
     const emprendimiento = await Emprendimiento.findByIdAndUpdate(
@@ -334,6 +408,11 @@ exports.eliminarEmprendimiento = async (req, res) => {
 };
 
 // ==================== PEDIDOS ====================
+/**
+ * Listar pedidos con filtros (estado) y paginación.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerPedidos = async (req, res) => {
   try {
     const { page = 1, limit = 10, estado = '' } = req.query;
@@ -365,6 +444,11 @@ exports.obtenerPedidos = async (req, res) => {
   }
 };
 
+/**
+ * Obtener detalle de un pedido por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerPedidoPorId = async (req, res) => {
   try {
     const pedido = await Pedido.findById(req.params.id)
@@ -382,6 +466,11 @@ exports.obtenerPedidoPorId = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar estado u otros campos de un pedido.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarPedido = async (req, res) => {
   try {
     const { estadoPedido } = req.body;
@@ -404,6 +493,11 @@ exports.actualizarPedido = async (req, res) => {
 };
 
 // ==================== CATEGORÍAS ====================
+/**
+ * Listar categorías.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerCategorias = async (req, res) => {
   try {
     const categorias = await Categoria.find().sort({ nombreCategoria: 1 });
@@ -414,6 +508,11 @@ exports.obtenerCategorias = async (req, res) => {
   }
 };
 
+/**
+ * Crear una nueva categoría (puede incluir subida de imagen).
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.crearCategoria = async (req, res) => {
   try {
     let { nombreCategoria, imagen } = req.body;
@@ -440,6 +539,11 @@ exports.crearCategoria = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar una categoría por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarCategoria = async (req, res) => {
   try {
     let { nombreCategoria, imagen } = req.body;
@@ -466,6 +570,11 @@ exports.actualizarCategoria = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar categoría por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.eliminarCategoria = async (req, res) => {
   try {
     const categoria = await Categoria.findByIdAndDelete(req.params.id);
@@ -482,6 +591,11 @@ exports.eliminarCategoria = async (req, res) => {
 };
 
 // ==================== ETIQUETAS ====================
+/**
+ * Listar etiquetas.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerEtiquetas = async (req, res) => {
   try {
     const etiquetas = await Etiqueta.find().sort({ nombreEtiqueta: 1 });
@@ -492,6 +606,11 @@ exports.obtenerEtiquetas = async (req, res) => {
   }
 };
 
+/**
+ * Crear una nueva etiqueta.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.crearEtiqueta = async (req, res) => {
   try {
     const { nombreEtiqueta } = req.body;
@@ -511,6 +630,11 @@ exports.crearEtiqueta = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar etiqueta por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarEtiqueta = async (req, res) => {
   try {
     const { nombreEtiqueta } = req.body;
@@ -532,6 +656,11 @@ exports.actualizarEtiqueta = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar etiqueta por ID.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.eliminarEtiqueta = async (req, res) => {
   try {
     const etiqueta = await Etiqueta.findByIdAndDelete(req.params.id);
