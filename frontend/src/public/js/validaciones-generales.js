@@ -1,4 +1,9 @@
 /* Validaciones de formularios - Contacto y otros formularios generales */
+/**
+ * Validaciones generales del frontend.
+ * Incluye validadores para el formulario de contacto, mensajes en pedidos y reportes.
+ * Los comentarios usan JSDoc y lenguaje sencillo para un estudiante.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   
   // ===============================
@@ -6,6 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===============================
   
   // Funciones de validación compartidas
+  /**
+   * Marca un campo como inválido y muestra un mensaje de error.
+   * @param {HTMLElement} campo - Input/textarea/select que falla.
+   * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+   * @param {string} mensaje - Texto de ayuda para el usuario.
+   */
   function mostrarError(campo, elementoError, mensaje) {
     campo.classList.add('is-invalid');
     campo.classList.remove('is-valid');
@@ -15,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /**
+   * Marca un campo como válido y oculta el mensaje de error.
+   * @param {HTMLElement} campo - Input/textarea/select que pasó la validación.
+   * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+   */
   function mostrarExito(campo, elementoError) {
     campo.classList.add('is-valid');
     campo.classList.remove('is-invalid');
@@ -24,7 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Validación de formato de email (reutilizable)
+  /**
+   * Valida el formato básico de un correo electrónico.
+   * No es perfecto, pero sirve para validar la mayoría de casos.
+   * @param {string} email - Correo a validar.
+   * @returns {boolean} true si el formato parece válido.
+   */
   function validarFormatoEmail(email) {
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regexEmail.test(email);
@@ -64,7 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
       campoCorreo.parentNode.appendChild(errorCorreo);
     }
     
-    // Funciones de validación
+    /**
+     * Valida el campo de mensaje del formulario de contacto.
+     * Reglas: obligatorio, mínimo 10 y máximo 1000 caracteres.
+     * @returns {boolean} true si el mensaje es válido.
+     */
     function validarMensajeContacto() {
       const mensaje = campoMensaje.value.trim();
       
@@ -87,6 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     }
     
+    /**
+     * Valida el campo de correo del formulario de contacto.
+     * Reglas: obligatorio y con formato válido.
+     * @returns {boolean} true si el correo es válido.
+     */
     function validarCorreoContacto() {
       const correo = campoCorreo.value.trim();
       
@@ -119,7 +149,10 @@ document.addEventListener('DOMContentLoaded', () => {
       campoCorreo.addEventListener('blur', validarCorreoContacto);
     }
     
-    // Validación al enviar el formulario
+    /**
+     * Handler para submit del formulario de contacto.
+     * Ejecuta validaciones y muestra toasts/alertas según corresponda.
+     */
     formularioContacto.addEventListener('submit', async (evento) => {
       evento.preventDefault();
       
@@ -181,6 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
       campoMensajePedido.parentNode.appendChild(errorMensajePedido);
     }
     
+    /**
+     * Valida el campo de mensaje dentro de un pedido.
+     * Regla simple: no puede estar vacío y tiene un máximo de 1000 caracteres.
+     * @returns {boolean} true si el mensaje es válido.
+     */
     function validarMensajePedido() {
       const mensaje = campoMensajePedido.value.trim();
       
@@ -253,6 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
       campoDescripcionReporte.parentNode.appendChild(errorDescripcionReporte);
     }
     
+    /**
+     * Valida el motivo del reporte.
+     * Debe ser uno de los motivos aceptados en la lista.
+     * @returns {boolean} true si el motivo es válido.
+     */
     function validarMotivoReporte() {
       const motivo = campoMotivoReporte.value.trim();
       
@@ -280,6 +323,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     }
     
+    /**
+     * Valida la descripción del reporte.
+     * Reglas: obligatorio, 20-500 caracteres.
+     * @returns {boolean} true si la descripción es válida.
+     */
     function validarDescripcionReporte() {
       const descripcion = campoDescripcionReporte.value.trim();
       

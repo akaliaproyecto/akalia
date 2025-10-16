@@ -9,15 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
   // ===============================
   
   /**
-   * Inicializa los selects de ubicación para el formulario de crear emprendimiento
+   * Inicializa los selects de ubicación para el formulario de crear emprendimiento.
+   * - Ejecutado cuando se abre el modal de creación.
+   * - Usa window.ubicacionesService si está disponible.
    */
   function inicializarUbicacionesCrear() {
     const modalCrear = document.getElementById('modalCrearEmprendimiento');
-    
+
     if (modalCrear) {
       modalCrear.addEventListener('shown.bs.modal', async function() {
         console.log('Modal crear emprendimiento abierto, inicializando ubicaciones...');
-        
+
         if (window.ubicacionesService) {
           await window.ubicacionesService.inicializarSelects(
             'ubicacionDepartamento',
@@ -37,16 +39,18 @@ document.addEventListener('DOMContentLoaded', function() {
   // NOTA: Las ubicaciones para editar se manejan directamente desde perfilEmprendimientos.js
 
   /**
-   * Función para resetear los selects de ubicación
+   * Función para resetear los selects de ubicación (global)
+   * @param {string} selectDepartamentoId - ID del select de departamento
+   * @param {string} selectCiudadId - ID del select de ciudad
    */
   window.resetearUbicaciones = function(selectDepartamentoId, selectCiudadId) {
     const selectDepartamento = document.getElementById(selectDepartamentoId);
     const selectCiudad = document.getElementById(selectCiudadId);
-    
+
     if (selectDepartamento) {
       selectDepartamento.selectedIndex = 0;
     }
-    
+
     if (selectCiudad) {
       selectCiudad.innerHTML = '<option value="" disabled selected>Primero selecciona un departamento</option>';
       selectCiudad.disabled = true;
@@ -66,17 +70,17 @@ document.addEventListener('DOMContentLoaded', function() {
   window.validarUbicaciones = function(selectDepartamentoId, selectCiudadId) {
     const selectDepartamento = document.getElementById(selectDepartamentoId);
     const selectCiudad = document.getElementById(selectCiudadId);
-    
+
     const errores = {};
-    
+
     if (!selectDepartamento || !selectDepartamento.value) {
       errores.departamento = 'Debe seleccionar un departamento';
     }
-    
+
     if (!selectCiudad || !selectCiudad.value) {
       errores.ciudad = 'Debe seleccionar una ciudad';
     }
-    
+
     return Object.keys(errores).length === 0 ? true : errores;
   };
 

@@ -5,6 +5,12 @@
 // ===============================
 
 // Funciones de validación compartidas (disponibles globalmente)
+/**
+ * Mostrar un error visual en un campo y elemento asociado.
+ * @param {HTMLElement} campo - Elemento input
+ * @param {HTMLElement} elementoError - Elemento donde mostrar el mensaje
+ * @param {string} mensaje - Texto del mensaje de error
+ */
 function mostrarError(campo, elementoError, mensaje) {
   if (campo) {
     campo.classList.add('is-invalid');
@@ -18,6 +24,11 @@ function mostrarError(campo, elementoError, mensaje) {
   }
 }
 
+/**
+ * Marcar campo como válido y ocultar mensaje de error.
+ * @param {HTMLElement} campo
+ * @param {HTMLElement} elementoError
+ */
 function mostrarExito(campo, elementoError) {
   if (campo) {
     campo.classList.add('is-valid');
@@ -32,6 +43,11 @@ function mostrarExito(campo, elementoError) {
 }
 
 // Validación de formato de email (reutilizable)
+/**
+ * Valida que una cadena tenga formato de email básico.
+ * @param {string} email
+ * @returns {boolean}
+ */
 function validarFormatoEmail(email) {
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regexEmail.test(email);
@@ -50,6 +66,13 @@ function validarFormatoTelefono(telefono) {
 }
 
 // Función de validación de nombre/apellido reutilizable
+/**
+ * Valida un campo de nombre o apellido y muestra mensajes adecuadamente.
+ * @param {HTMLInputElement} campo
+ * @param {HTMLElement} elementoError
+ * @param {string} tipoCampo
+ * @returns {boolean}
+ */
 function validarNombreApellido(campo, elementoError, tipoCampo) {
   const valor = campo.value.trim();
 
@@ -72,6 +95,13 @@ function validarNombreApellido(campo, elementoError, tipoCampo) {
 }
 
 // Función de validación de email reutilizable
+/**
+ * Valida un email y opcionalmente verifica si ya existe en el backend.
+ * @param {HTMLInputElement} campo
+ * @param {HTMLElement} elementoError
+ * @param {boolean} verificarExistencia
+ * @returns {Promise<boolean>}
+ */
 function validarEmailUsuario(campo, elementoError, verificarExistencia = false) {
   return new Promise(async (resolve) => {
     const email = campo.value.trim();
@@ -116,6 +146,13 @@ function validarEmailUsuario(campo, elementoError, verificarExistencia = false) 
 }
 
 // Función de validación de teléfono reutilizable
+/**
+ * Valida un número de teléfono (10 dígitos) y actualiza la UI.
+ * @param {HTMLInputElement} campo
+ * @param {HTMLElement} elementoError
+ * @param {boolean} esRequerido
+ * @returns {boolean}
+ */
 function validarTelefonoUsuario(campo, elementoError, esRequerido = false) {
   const telefono = campo.value.trim();
 
@@ -139,6 +176,13 @@ function validarTelefonoUsuario(campo, elementoError, esRequerido = false) {
 }
 
 // Función de validación de contraseña reutilizable
+/**
+ * Valida una contraseña según reglas mínimas (8+ caracteres, mayúscula, número, símbolo).
+ * @param {HTMLInputElement} campo
+ * @param {HTMLElement} elementoError
+ * @param {boolean} esRequerida
+ * @returns {boolean}
+ */
 function validarContrasenaUsuario(campo, elementoError, esRequerida = true) {
   const contrasena = campo.value;
 
@@ -181,6 +225,13 @@ function validarContrasenaUsuario(campo, elementoError, esRequerida = true) {
 }
 
 // Función de validación de confirmación de contraseña reutilizable
+/**
+ * Valida que la confirmación de contraseña coincida con la original.
+ * @param {HTMLInputElement} campoContrasena
+ * @param {HTMLInputElement} campoConfirmacion
+ * @param {HTMLElement} elementoError
+ * @returns {boolean}
+ */
 function validarConfirmacionContrasena(campoContrasena, campoConfirmacion, elementoError) {
   const contrasena = campoContrasena.value;
   const confirmarContrasena = campoConfirmacion.value;
@@ -203,6 +254,9 @@ function validarConfirmacionContrasena(campoContrasena, campoConfirmacion, eleme
 // FUNCIÓN PARA INICIALIZAR VALIDACIONES DE EDITAR PERFIL (DINÁMICAMENTE)
 // ===============================
 
+/**
+ * Inicializa validaciones del formulario editar perfil (listeners y lógica).
+ */
 function inicializarValidacionesEditarPerfil() {
 
   const formularioEditarPerfil = document.getElementById('formEditarPerfil');

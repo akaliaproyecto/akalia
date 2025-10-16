@@ -131,6 +131,10 @@ app.get('/', (req, res) => {
 });
 
 //AUTENTICACIÓN
+/**
+ * Rutas de autenticación (montadas en /auth)
+ * - Manejan login, logout, recuperación de contraseña y sesión.
+ */
 const authRoutes = require('./autenticacion/auth.routes.js');
 app.use("/auth", authRoutes);
 
@@ -159,6 +163,10 @@ const etiquetasRoutes = require('./etiquetas/etiquetas.routes.js');
 app.use('/etiquetas', validateApiKey, etiquetasRoutes);
 
 // EMPRENDIMIENTOS
+/**
+ * Rutas de emprendimientos (API)
+ * - CRUD para emprendimientos, subida de imágenes y comprobaciones.
+ */
 const emprendimientosRoutes = require('./emprendimientos/emprendimiento.route.js');
 app.use('/emprendimientos', validateApiKey, emprendimientosRoutes);
 
@@ -167,6 +175,10 @@ const comisionesRoutes = require('./comisiones/comision.routes.js');
 app.use('/comisiones', validateApiKey, comisionesRoutes);
 
 // CAPTCHA
+/**
+ * Rutas de CAPTCHA
+ * - Generación y validación de captchas para formularios.
+ */
 const captchaRoutes = require('./captcha/captcha.routes.js')
 app.use('/captcha', validateApiKey, captchaRoutes)
 

@@ -10,6 +10,13 @@ const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http:/
 // Headers mínimos (no exponemos API KEY al cliente, solo la usamos para backend->backend)
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
+/**
+ * Listar productos del usuario autenticado
+ * - Llama al backend para obtener emprendimientos, productos, categorias y etiquetas
+ * - Renderiza la vista 'usuario-productos-listar' con los datos
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* Listar productos de un usuario */
 exports.listarProductosUsuario = async (req, res) => {
   // Obtener id del usuario 
@@ -22,6 +29,12 @@ exports.listarProductosUsuario = async (req, res) => {
   let listaCategorias = [];
   let listaEtiquetas = [];
 
+  /**
+   * Obtener array desde ruta del backend (helper local)
+   * - Hace GET y devuelve data o undefined si falla
+   * @param {string} ruta
+   * @returns {Promise<any[]>}
+   */
   // Función para convertir respuestas de la API en arrays 
   const obtenerArray = async (ruta) => {
     try {
@@ -88,6 +101,12 @@ exports.listarProductosUsuario = async (req, res) => {
   }
 };
 
+/**
+ * Mostrar detalle de producto (SSR)
+ * - Obtiene producto y datos relacionados para la vista o JSON
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* mostrarDetalleProducto */
 exports.mostrarDetalleProducto = async (req, res) => {
   try {
@@ -130,6 +149,12 @@ exports.mostrarDetalleProducto = async (req, res) => {
   }
 };
 
+/**
+ * Procesar edición de producto (SSR)
+ * - Construye FormData y envía PUT al backend con las cabeceras adecuadas
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* Editar producto: valida datos, arma FormData y actualiza en backend */
 exports.procesarEditarProducto = async (req, res) => {
   try {
@@ -205,6 +230,12 @@ exports.procesarEditarProducto = async (req, res) => {
   }
 };
 
+/**
+ * Procesar creación de producto (SSR)
+ * - Construye FormData con campos y archivos, envía POST al backend
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /*  Crear un nuevo producto */
 exports.procesarCrearProducto = async (req, res) => {
   try {
@@ -282,6 +313,12 @@ exports.procesarCrearProducto = async (req, res) => {
   }
 };
 
+/**
+ * Procesar eliminación lógica de producto (SSR)
+ * - Envía PATCH a backend y redirige al listado
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* Eliminar un producto */
 exports.procesarEliminarProducto = async (req, res) => {
   try {
@@ -304,6 +341,12 @@ exports.procesarEliminarProducto = async (req, res) => {
   }
 };
 
+/**
+ * Mostrar productos por categoría (SSR)
+ * - Llama al backend y prepara imagenes mínimas para la vista
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* Mostrar productos filtrados por categoría (SSR) */
 exports.mostrarProductosPorCategoria = async (req, res) => {
   try {
@@ -350,6 +393,12 @@ exports.mostrarProductosPorCategoria = async (req, res) => {
   }
 };
 
+/**
+ * Mostrar productos filtrados (SSR)
+ * - Consulta el endpoint /productos/filtrar del backend
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* Mostrar todos los productos filtrados */
 exports.mostrarProductosFiltrados = async (req, res) => {
   try {
@@ -391,6 +440,12 @@ exports.mostrarProductosFiltrados = async (req, res) => {
   }
 };
 
+/**
+ * Mostrar resultados de búsqueda por término (SSR)
+ * - Usa el endpoint /productos/nombre/:nombre del backend
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /* Mostrar resultados de búsqueda  */
 exports.mostrarResultadosBusqueda = async (req, res) => {
   try {

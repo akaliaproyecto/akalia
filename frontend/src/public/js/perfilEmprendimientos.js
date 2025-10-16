@@ -1,4 +1,9 @@
 // Helpers globales
+/**
+ * Obtener elemento por ID (helper global)
+ * @param {string} id
+ * @returns {HTMLElement|null}
+ */
 function get(id) {
   return document.getElementById(id);
 }
@@ -19,6 +24,10 @@ function abrirModalEliminar(modalId, nombreId, { usuario, id, nombre }) {
 }
 
 // Confirmar cambio de estado (genérico para eliminar o activar)
+/**
+ * Configura el botón de confirmación dentro del modal de eliminar/activar.
+ * @param {{btnId:string, modalId:string, mensajeId:string, estado:boolean}} opts
+ */
 function configurarBotonConfirmacion({
   btnId, modalId, mensajeId, estado
 }) {
@@ -72,6 +81,12 @@ function configurarBotonConfirmacion({
 }
 
 // API global para abrir modal desde íconos
+/**
+ * Abre el modal de eliminación de emprendimiento y setea datos.
+ * @param {string} usuario
+ * @param {string} id
+ * @param {string} nombre
+ */
 window.eliminarEmprendimiento = (usuario, id, nombre) => {
   abrirModalEliminar('modalEliminarEmprendimiento', 'nombreEmprendimientoBorrando', {
     usuario, id, nombre
@@ -92,6 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ------------------------- Modal Crear Emprendimiento ------------------------- */
+/**
+ * Mostrar modal para crear emprendimiento
+ * @param {string} [idUsuario]
+ */
 async function crearEmprendimiento(idUsuario) {
   try {
     // Mostrar modal
@@ -103,6 +122,11 @@ async function crearEmprendimiento(idUsuario) {
 }
 
 /* ------------------------- Modal EDITAR Emprendimiento ------------------------- */
+/**
+ * Abrir modal de edición y cargar datos del emprendimiento
+ * @param {string} idUsuario
+ * @param {string} idEmprendimiento
+ */
 window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
   try {
     const usuario = idUsuario;
@@ -168,6 +192,9 @@ window.editEmprendimiento = async function(idUsuario, idEmprendimiento) {
 }
 
 /* Ocultar el id en la URL al mostrar detalle de emprendimiento */
+/**
+ * Oculta el ID del emprendimiento en la URL para no exponerlo en la barra de direcciones
+ */
 function ocultarIdEmprendimientoEnUrl() {
   try {
     const rutaActual = window.location.pathname || '';

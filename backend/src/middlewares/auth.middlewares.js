@@ -1,3 +1,10 @@
+/**
+ * Middleware que exige que la petición esté autenticada
+ * - Comprueba que exista req.session.userId y devuelve 401 si no está presente.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {Function} next
+ */
 exports.requireAuth = (req, res, next) => {
   // Verificar si hay sesión y usuario
   if (!req.session || !req.session.usuario) {

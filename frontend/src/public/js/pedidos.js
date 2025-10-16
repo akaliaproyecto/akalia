@@ -1,3 +1,7 @@
+/**
+ * Calcular el total del pedido en el formulario
+ * - Lee unidades y precio pactado del DOM, actualiza campos visibles y ocultos
+ */
 function calcularTotal() {
   const unidades = parseInt(document.getElementById('unidades').value) || 0;
   const precioPactado = parseInt(document.getElementById('precioPactado').value) || 0;
@@ -9,6 +13,9 @@ function calcularTotal() {
   document.getElementById('totalVisible').textContent = '$' + total.toLocaleString();
 }
 
+/**
+ * Inicialización al cargar la página
+ */
 // Calcular total al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
   calcularTotal();
@@ -26,11 +33,17 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+/**
+ * Guardar cambios del pedido (función placeholder que muestra alerta)
+ */
 // Save order function
 function saveOrder() {
   alert('Cambios guardados exitosamente');
 }
 
+/**
+ * Acción para cancelar un pedido desde la UI (sin enviar al servidor en este scope)
+ */
 // Cancel order function
 function cancelOrder() {
   if (confirm('¿Estás seguro de que deseas cancelar este pedido?')) {
@@ -40,6 +53,10 @@ function cancelOrder() {
 }
 
 // Función para actualizar la dirección del pedido
+/**
+ * Enviar formulario para actualizar la dirección de un pedido
+ * @param {String} pedidoId - ID del pedido a actualizar
+ */
 function actualizarDireccion(pedidoId) {
   const selectDireccion = document.getElementById('direccionEnvio');
   const botonActualizar = event.target;
@@ -66,6 +83,12 @@ function actualizarDireccion(pedidoId) {
   form.submit();
 }
 
+/**
+ * Abrir modal que muestra advertencias y confirma la cancelación
+ * @param {String} pedidoId
+ * @param {String} usuarioId
+ * @param {String} rol - 'vendedor' o 'comprador'
+ */
 function abrirModalCancelarPedido(pedidoId, usuarioId, rol) {
   const advertencias = document.getElementById("advertencias");
   console.log('ayudapls',usuarioId)
@@ -92,6 +115,11 @@ function abrirModalCancelarPedido(pedidoId, usuarioId, rol) {
   modal.show();
 }
 
+/**
+ * Confirmar y enviar la cancelación del pedido mediante formulario
+ * @param {String} pedidoId
+ * @param {String} usuarioId
+ */
 function cancelarPedidoConfirmado(pedidoId,usuarioId) {
   // Mostrar loading en el botón
   const btnConfirmar = document.getElementById('btnConfirmarCancelacion');

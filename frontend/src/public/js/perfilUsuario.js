@@ -1,9 +1,21 @@
 // Helpers globales
+/**
+ * Obtener elemento por id del DOM.
+ * @param {string} id - Id del elemento
+ * @returns {HTMLElement|null}
+ */
 function get(id) {
   return document.getElementById(id);
 }
 
 // Función global para verificar contraseña actual
+/**
+ * Verifica la contraseña actual usando la ruta SSR que actúa como proxy.
+ * - Llama a `/usuario-detalle/verificar-contrasena` y devuelve el resultado JSON.
+ * @param {string} userId - ID del usuario
+ * @param {string} contrasenaActual - Contraseña a verificar
+ * @returns {Promise<Object>} Resultado del backend
+ */
 async function verificarContrasenaActual(userId, contrasenaActual) {
   try {
     const response = await fetch('/usuario-detalle/verificar-contrasena', {
@@ -32,6 +44,9 @@ async function verificarContrasenaActual(userId, contrasenaActual) {
 window.verificarContrasenaActual = verificarContrasenaActual;
 
 // Limpiar estado de validación de campos del modal editar perfil
+/**
+ * Limpia las clases y mensajes de validación del formulario de editar perfil.
+ */
 function limpiarEstadoValidacion() {
   const campos = ['editarNombre', 'editarApellido', 'editarEmail', 'editarTelefono', 'editarContrasena'];
   const errores = ['editarNombreError', 'editarApellidoError', 'editarEmailError', 'editarTelefonoError', 'editarContrasenaError'];
@@ -57,6 +72,12 @@ function limpiarEstadoValidacion() {
 }
 
 // Abrir modal (editar/eliminar) - elimina/editar usan IDs de los partials
+/**
+ * Abre el modal de eliminación de cuenta y prepara la UI.
+ * @param {string} modalId - Id del modal
+ * @param {string} nombreId - Id del span donde mostrar el nombre
+ * @param {{id:string, nombre:string}} param2 - Objeto con id y nombre
+ */
 function abrirModalEliminar(modalId, nombreId, { id, nombre }) {
   const modal = get(modalId);
   if (!modal) return;
@@ -81,6 +102,11 @@ function abrirModalEliminar(modalId, nombreId, { id, nombre }) {
 }
 
 // Configurar acción de confirmación (validación de contraseña + desactivar cuenta)
+/**
+ * Configura el botón que confirma la eliminación de cuenta.
+ * - Valida contraseña, llama a la ruta SSR para desactivar y muestra mensajes.
+ * @param {{btnId:string, modalId:string, mensajeId:string}} options
+ */
 function configurarBotonConfirmacion({ btnId, modalId, mensajeId }) {
   const btn = get(btnId);
   if (!btn) return;
@@ -146,6 +172,11 @@ window.eliminarUsuario = (id, nombre) => abrirModalEliminar('modalEliminarCuenta
 window.editarUsuario = (id) => editUsuario(id);
 
 // Async: editar usuario (llenar modal editar)
+/**
+ * Carga los datos del usuario y los inserta en el formulario de edición.
+ * - Llama a `/usuario-detalle/:id` para obtener los datos.
+ * @param {string} idUsuario - ID del usuario a editar
+ */
 async function editUsuario(idUsuario) {
   try {
     const response = await fetch(`/usuario-detalle/${encodeURIComponent(idUsuario)}`, { headers: { 'Accept': 'application/json' } });

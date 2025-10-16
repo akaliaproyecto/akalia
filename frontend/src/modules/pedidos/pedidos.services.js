@@ -6,6 +6,12 @@ require('dotenv').config();
 // Base URL de la API (usa variables de entorno o valor por defecto)
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 
+/**
+ * Listar pedidos de un usuario (ventas)
+ * - Renderiza la vista 'usuario-pedidos-listar' con los pedidos obtenidos desde la API
+ * @param {import('express').Request} req - req.params.id: ID del usuario
+ * @param {import('express').Response} res
+ */
 /* LISTAR VENTAS: renderiza la vista de "Mis ventas" en el perfil, obtiene los pedidos del usuario autenticado*/
 exports.listarPedidosUsuario = async (req, res) => {
 	try {
@@ -27,6 +33,12 @@ exports.listarPedidosUsuario = async (req, res) => {
 	}
 };
 
+/**
+ * Listar compras de un usuario
+ * - Renderiza la vista 'usuario-compras-listar' con los pedidos obtenidos desde la API
+ * @param {import('express').Request} req - req.params.id: ID del usuario
+ * @param {import('express').Response} res
+ */
 /* LISTAR COMPRAS: renderiza la vista de "Mis compras" en el perfil, obtiene los pedidos del usuario autenticado*/
 exports.listarComprasUsuario = async (req, res) => {
 	try {
@@ -78,6 +90,12 @@ exports.verificarPedidoActivo = async (req, res) => {
 	});
   }
 };
+/**
+ * Iniciar proceso de pedido para un producto
+ * - Obtiene datos del producto desde la API y renderiza la vista de creación de pedido
+ * @param {import('express').Request} req - req.params.productoId
+ * @param {import('express').Response} res
+ */
 /* INICIAR PEDIDO: obtiene el producto por id y renderiza la vista de inicio de pedido */
 exports.iniciarPedido = async (req, res) => {
 	try {
@@ -124,6 +142,12 @@ exports.iniciarPedido = async (req, res) => {
 	}
 };
 
+/**
+ * Crear pedido (frontend SSR)
+ * - Envía datos al backend para crear el pedido y redirige al detalle
+ * @param {import('express').Request} req - req.body contiene los datos del pedido
+ * @param {import('express').Response} res
+ */
 /* CREAR PEDIDO: USUARIO INICIA LA COMPRA */
 exports.crearPedido = async (req, res) => {
 	try {
@@ -174,6 +198,12 @@ exports.crearPedido = async (req, res) => {
 	}
 };
 
+/**
+ * Editar pedido (frontend SSR)
+ * - Envía datos modificados al backend y redirige al detalle
+ * @param {import('express').Request} req - req.params.id, req.body
+ * @param {import('express').Response} res
+ */
 /* EDITAR PEDIDO: USUARIO VENDEDOR */
 exports.editarPedido = async (req, res) => {
 	try {
@@ -211,6 +241,12 @@ exports.editarPedido = async (req, res) => {
 	}
 };
 
+/**
+ * Mostrar detalle de una compra
+ * - Obtiene el pedido por ID y renderiza la vista correspondiente (comprador o vendedor)
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 /* ver detalle compra: obtiene el detalle de la compra con el id */
 exports.detalleCompra = async (req, res) => {
 	try {
@@ -266,6 +302,12 @@ exports.detalleCompra = async (req, res) => {
 	}
 };
 
+/**
+ * Actualizar dirección de un pedido (frontend)
+ * - Envía PATCH al backend para actualizar la dirección de envío
+ * @param {import('express').Request} req - req.params.id, req.body.direccionEnvio
+ * @param {import('express').Response} res
+ */
 /* Actualizar dirección de un pedido */
 exports.actualizarDireccionPedido = async (req, res) => {
 	try {
@@ -316,6 +358,12 @@ exports.actualizarDireccionPedido = async (req, res) => {
 	}
 };
 
+/**
+ * Cancelar un pedido (frontend)
+ * - Envía PATCH al backend para cancelar el pedido y redirige según referer
+ * @param {import('express').Request} req - req.params.id, req.body
+ * @param {import('express').Response} res
+ */
 /* Cancelar un pedido */
 exports.cancelarPedido = async (req, res) => {
 	try {

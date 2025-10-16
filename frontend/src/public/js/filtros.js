@@ -1,8 +1,25 @@
+/**
+ * @file filtros.js
+ * @description Lógica de filtros y redirecciones desde el partial de productos.
+ * - Contiene helpers para redirigir por categoría y construir la URL con filtros.
+ * - Diseñado para un estudiante: claro y con funciones sencillas.
+ */
+
+/**
+ * Inicializa la función que permite redirigir al usuario cuando puls
+ * una categoría en el navbar.
+ * - Expone `window.mostrarProductosPorCategoria` para que los enlaces funcionen.
+ */
 /* Redirigir a la categoría seleccionada en el navbar */
 function redirigirCategoria() {
     // Si ya existe, no hacemos nada
     if (window && window.mostrarProductosPorCategoria) return;
 
+    /**
+     * Redirige al frontend a la página que muestra productos de una categoría.
+     * - Se expone en `window` para ser llamado desde atributos `onclick` en el navbar.
+     * @param {string|number} idCategoria - Id de la categoría a mostrar
+     */
     // Función simple que redirige a la ruta frontend que muestra productos por categoría
     function mostrarProductosPorCategoria(idCategoria) {
         try {
@@ -19,6 +36,11 @@ function redirigirCategoria() {
 };
 redirigirCategoria();
 
+/**
+ * Inicializa la lógica de filtros del partial `filtro-productos.ejs`.
+ * - Lee inputs de orden y rango de precio, ubicación y construye querystring.
+ * - Redirige a la ruta correcta según la página actual (categoría, búsqueda o lista general).
+ */
 /* Lógica de filtros en el partial filtro-productos.ejs */
 function inicializarFiltrosCliente() {
     const btnAplicar = document.getElementById('btnAplicarFiltros');
@@ -26,6 +48,10 @@ function inicializarFiltrosCliente() {
     if (!btnAplicar) return; // no existe el partial en esta página
 
     // Al aplicar: si estamos en una página de categoria o búsqueda, redirigimos a la misma ruta y agregamos los filtros en querystring, para que el servidor aplique los filtros sobre el subconjunto actual.
+    /**
+     * Handler para el botón "Aplicar filtros".
+     * - Construye la query con los filtros seleccionados y redirige a la URL resultante.
+     */
     btnAplicar.addEventListener('click', function () {
         // Construimos params desde los inputs actuales (incluye ubicación)
         const params = new URLSearchParams();
@@ -70,6 +96,10 @@ function inicializarFiltrosCliente() {
     });
 
     // Limpiar: volver a productos sin query
+    /**
+     * Handler para el botón "Limpiar filtros".
+     * - Resetea el formulario y redirige a la ruta adecuada (categoría o lista general).
+     */
     btnLimpiar.addEventListener('click', function () {
         // limpiar inputs del formulario
         const form = document.getElementById('filtroForm');
@@ -88,9 +118,17 @@ function inicializarFiltrosCliente() {
 }
 
 /* Inicializar filtros en el cliente */
+/**
+ * Inicializa la UI de filtros cuando el DOM está cargado.
+ */
 document.addEventListener('DOMContentLoaded', inicializarFiltrosCliente);
 
 /* Cargar departamentos en el select de filtro de ubicación */
+/**
+ * Carga los selects de departamento y ciudad para el filtro de ubicación.
+ * - Intenta usar un helper global `inicializarSelectorUbicaciones` si existe.
+ * - Si no, usa `ubicacionesService` como fallback para llenar departamentos.
+ */
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializar selects de departamento y ciudad usando el servicio global
     // IDs esperados en el partial: 'ubicacionDepartamento' y 'ubicacionCiudad'

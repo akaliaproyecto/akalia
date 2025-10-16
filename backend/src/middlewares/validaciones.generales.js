@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 /**
+ * Módulo de validaciones generales
+ * - Contiene validadores reutilizables (ID Mongo, email, teléfono, fechas, etc.)
+ * - Usado por controllers y validaciones de cada módulo.
+ */
+/**
  * Validaciones generales que pueden ser utilizadas por diferentes módulos
  */
 

@@ -4,6 +4,11 @@
 // FUNCIONES UTILITARIAS COMUNES (GLOBALES)
 // ===============================
 
+/**
+ * Verificar si un emprendimiento está activo (consulta al backend)
+ * @param {string} idEmprendimiento
+ * @returns {Promise<boolean>} true si está activo
+ */
 /* Función para verificar si un emprendimiento está activo */
 async function verificarEmprendimientoActivo(idEmprendimiento) {
   try {
@@ -21,6 +26,12 @@ async function verificarEmprendimientoActivo(idEmprendimiento) {
 }
 
 // Funciones de validación compartidas
+/**
+ * Marcar un campo como inválido y mostrar mensaje
+ * @param {HTMLElement} campo
+ * @param {HTMLElement} elementoError
+ * @param {string} mensaje
+ */
 function mostrarError(campo, elementoError, mensaje) {
   if (campo) {
     campo.classList.add('is-invalid');
@@ -32,6 +43,11 @@ function mostrarError(campo, elementoError, mensaje) {
   }
 }
 
+/**
+ * Marcar un campo como válido y ocultar mensaje de error
+ * @param {HTMLElement} campo
+ * @param {HTMLElement} elementoError
+ */
 function mostrarExito(campo, elementoError) {
   if (campo) {
     campo.classList.add('is-valid');
@@ -47,6 +63,12 @@ function mostrarExito(campo, elementoError) {
 // FUNCIONES DE VALIDACIÓN REUTILIZABLES (GLOBALES)
 // ===============================
 
+/**
+ * Validar el título del producto (mínimo 3, máximo 100 caracteres)
+ * @param {HTMLInputElement} campoTitulo
+ * @param {HTMLElement} elementoError
+ * @returns {boolean}
+ */
 function validarTituloProducto(campoTitulo, elementoError) {
   if (!campoTitulo) return true;
   
@@ -71,6 +93,12 @@ function validarTituloProducto(campoTitulo, elementoError) {
   return true;
 }
 
+/**
+ * Validar la descripción del producto (3-800 caracteres)
+ * @param {HTMLTextAreaElement} campoDescripcion
+ * @param {HTMLElement} elementoError
+ * @returns {boolean}
+ */
 function validarDescripcionProducto(campoDescripcion, elementoError) {
   if (!campoDescripcion) return true;
   
@@ -95,6 +123,12 @@ function validarDescripcionProducto(campoDescripcion, elementoError) {
   return true;
 }
 
+/**
+ * Validar el campo precio del producto (número positivo, sin decimales)
+ * @param {HTMLInputElement} campoPrecio
+ * @param {HTMLElement} elementoError
+ * @returns {boolean}
+ */
 function validarPrecioProducto(campoPrecio, elementoError) {
   if (!campoPrecio) return true;
   
@@ -122,6 +156,13 @@ function validarPrecioProducto(campoPrecio, elementoError) {
   return true;
 }
 
+/**
+ * Validar imágenes del producto (cantidad, tipos y tamaño)
+ * @param {HTMLInputElement} campoImagenes
+ * @param {HTMLElement} elementoError
+ * @param {boolean} esObligatorio
+ * @returns {boolean}
+ */
 function validarImagenesProducto(campoImagenes, elementoError, esObligatorio = true) {
   if (!campoImagenes) return true;
   
@@ -165,6 +206,13 @@ function validarImagenesProducto(campoImagenes, elementoError, esObligatorio = t
   return true;
 }
 
+/**
+ * Validar que el emprendimiento seleccionado exista y esté activo
+ * @param {HTMLSelectElement} campoEmprendimiento
+ * @param {HTMLElement} elementoError
+ * @param {HTMLElement|null} campoEstado
+ * @returns {Promise<boolean>}
+ */
 async function validarEmprendimientoProducto(campoEmprendimiento, elementoError, campoEstado = null) {
   if (!campoEmprendimiento) return true;
   
@@ -201,6 +249,12 @@ async function validarEmprendimientoProducto(campoEmprendimiento, elementoError,
   return true; // Siempre retornar true - la validación real del estado está en validarEstadoProducto
 }
 
+/**
+ * Validar que se haya seleccionado una categoría
+ * @param {HTMLSelectElement} campoCategoria
+ * @param {HTMLElement} elementoError
+ * @returns {boolean}
+ */
 function validarCategoriaProducto(campoCategoria, elementoError) {
   if (!campoCategoria) return true;
   
@@ -215,6 +269,13 @@ function validarCategoriaProducto(campoCategoria, elementoError) {
   return true;
 }
 
+/**
+ * Validar las etiquetas seleccionadas (entre 1 y 10)
+ * @param {HTMLInputElement} campoEtiquetas - campo hidden con JSON de etiquetas
+ * @param {HTMLElement} elementoError
+ * @param {boolean} esObligatorio
+ * @returns {boolean}
+ */
 function validarEtiquetasProducto(campoEtiquetas, elementoError, esObligatorio = true) {
   if (!campoEtiquetas) return true;
   
@@ -254,6 +315,13 @@ function validarEtiquetasProducto(campoEtiquetas, elementoError, esObligatorio =
   return true;
 }
 
+/**
+ * Validar el estado del producto y comprobar dependencia con el emprendimiento
+ * @param {HTMLSelectElement} campoEstado
+ * @param {HTMLElement} elementoError
+ * @param {HTMLSelectElement|null} campoEmprendimiento
+ * @returns {Promise<boolean>}
+ */
 async function validarEstadoProducto(campoEstado, elementoError, campoEmprendimiento = null) {
   if (!campoEstado) return false;
   
@@ -288,6 +356,12 @@ async function validarEstadoProducto(campoEstado, elementoError, campoEmprendimi
 // FUNCIÓN PARA CREAR ELEMENTOS DE ERROR (GLOBAL)
 // ===============================
 
+/**
+ * Crear (o devolver) un elemento DOM para mostrar errores asociados a un campo
+ * @param {HTMLElement} campo
+ * @param {string} errorId
+ * @returns {HTMLElement|null}
+ */
 function crearElementoError(campo, errorId) {
   if (!campo) return null;
   
@@ -308,6 +382,10 @@ function crearElementoError(campo, errorId) {
 // FUNCIÓN PARA INICIALIZAR VALIDACIONES DE EDITAR (GLOBAL)
 // ===============================
 
+/**
+ * Inicializar validaciones del formulario de editar producto
+ * - Agrega listeners y valida al enviar
+ */
 function inicializarValidacionesEditar() {
   
   const formularioEditarProducto = document.getElementById('form-editar-producto');

@@ -1,12 +1,27 @@
 /* Validaciones de formularios - Pedidos */
 
 
+/**
+ * Módulo de validaciones de pedidos
+ *
+ * Contiene funciones que validan los campos del formulario de creación/edición
+ * de pedidos en el frontend y helpers para mostrar errores/éxitos en el DOM.
+ * Comentarios en español, nivel principiante.
+ */
+
+
 
 // ===============================
 // FUNCIONES UTILITARIAS COMUNES
 // ===============================
 
 // Funciones de validación compartidas
+/**
+ * Mostrar un error visual en un campo y colocar el mensaje en el elemento de error.
+ * @param {HTMLElement|null} campo - Elemento input/select al que se aplica el error.
+ * @param {HTMLElement|null} elementoError - Elemento donde se mostrará el texto de error.
+ * @param {string} mensaje - Mensaje de error a mostrar.
+ */
 function mostrarError(campo, elementoError, mensaje) {
     if (campo) {
         campo.classList.add('is-invalid');
@@ -18,6 +33,11 @@ function mostrarError(campo, elementoError, mensaje) {
     }
 }
 
+/**
+ * Marcar un campo como válido y ocultar el mensaje de error asociado.
+ * @param {HTMLElement|null} campo - Elemento input/select a marcar como válido.
+ * @param {HTMLElement|null} elementoError - Elemento de error que se ocultará.
+ */
 function mostrarExito(campo, elementoError) {
     if (campo) {
         campo.classList.add('is-valid');
@@ -34,7 +54,12 @@ function mostrarExito(campo, elementoError) {
 // ===============================
 
 /**
- * Verificar si el usuario ya tiene un pedido en curso para el mismo producto
+ * Verificar si el usuario ya tiene un pedido en curso para el mismo producto.
+ * Petición al backend que devuelve true si existe un pedido activo.
+ * @async
+ * @param {string} idProducto - ID del producto a consultar.
+ * @param {string} idUsuarioComprador - ID del usuario comprador.
+ * @returns {Promise<boolean>} - True si el usuario tiene un pedido activo para ese producto.
  */
 async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
     try {
@@ -58,7 +83,9 @@ async function verificarPedidoExistente(idProducto, idUsuarioComprador) {
 // ===============================
 
 /**
- * Validar que el usuario tenga una dirección seleccionada
+ * Validar que el usuario tenga una dirección seleccionada en el select.
+ * Comprueba formato JSON y campos requeridos.
+ * @returns {boolean} - True si la dirección es válida.
  */
 function validarDireccion() {
     const selectDireccion = document.getElementById('direccionEnvio');
@@ -116,7 +143,8 @@ function validarDireccion() {
 }
 
 /**
- * Validar que comprador y vendedor sean diferentes
+ * Validar que el comprador y el vendedor no sean la misma persona.
+ * @returns {boolean} - True si son diferentes o no se puede comprobar.
  */
 function validarCompradorVendedor() {
     const idUsuarioComprador = document.getElementById('idUsuarioComprador')?.value;
@@ -133,7 +161,9 @@ function validarCompradorVendedor() {
 }
 
 /**
- * Validar cantidad de productos
+ * Validar la cantidad de unidades solicitadas.
+ * Acepta números enteros entre 1 y 999.
+ * @returns {boolean} - True si la cantidad es válida.
  */
 function validarCantidad() {
     const campoUnidades = document.getElementById('unidades');
@@ -158,7 +188,10 @@ function validarCantidad() {
 }
 
 /**
- * Validar precios
+ * Validar los campos de precio base y precio pactado.
+ * Comprueba que sean números, positivos y que el precio pactado no sea menor
+ * que el precio base.
+ * @returns {boolean} - True si los precios son válidos.
  */
 function validarPrecios() {
     // En editar el campo base se llama 'precio' en lugar de 'basePrice'
@@ -205,7 +238,8 @@ function validarPrecios() {
 }
 
 /**
- * Validar detalles del pedido
+ * Validar el campo de detalles del pedido (longitud mínima y máxima).
+ * @returns {boolean} - True si los detalles cumplen los requisitos.
  */
 function validarDetalles() {
     // Buscar tanto 'orderDetails' (crear) como 'descripcion' (editar)
@@ -236,7 +270,8 @@ function validarDetalles() {
 }
 
 /**
- * Validar estado del pedido
+ * Validar que el estado del pedido sea uno de los permitidos.
+ * @returns {boolean} - True si el estado es válido o no aplicable.
  */
 function validarEstado() {
     const campoEstado = document.getElementById('estadoPedido');
@@ -261,7 +296,11 @@ function validarEstado() {
 // ===============================
 
 /**
- * Validar todo el formulario de creación de pedido
+ * Validar todo el formulario de pedido. Ejecuta validaciones síncronas y
+ * una validación asíncrona para verificar pedidos existentes en el backend.
+ * @async
+ * @param {HTMLFormElement} formularioPedido - Elemento formulario que se valida.
+ * @returns {Promise<boolean>} - True si todas las validaciones pasan.
  */
 async function validarFormularioPedido(formularioPedido) {
     let esValido = true;
@@ -312,6 +351,11 @@ async function validarFormDireccion() {
 // ===============================
 
 // Buscar el formulario de crear pedido
+/**
+ * Inicializar validaciones cuando el DOM esté listo.
+ * Aquí se crean elementos de error, se registran listeners y se maneja el
+ * comportamiento al enviar formularios de pedido y actualización de dirección.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Inicializando sistema de validaciones de pedidos...');
 
@@ -319,6 +363,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (formularioPedido) {
 
+        /**
+         * Crear un contenedor de error debajo del input si no existe.
+         * @param {string} inputId - ID del input donde se añadirá el error.
+         * @param {string} errorId - ID que se asignará al elemento de error.
+         */
         // Crear elementos de error si no existen
         const crearElementoError = (inputId, errorId) => {
             const input = document.getElementById(inputId);
@@ -331,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // Crear elementos de error para todos los campos
+    // Crear elementos de error para todos los campos
         crearElementoError('direccionEnvio', 'direccionError');
         crearElementoError('unidades', 'unidadesError');
         crearElementoError('precioPactado', 'precioError');
@@ -340,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
         crearElementoError('estadoPedido', 'estadoError');
 
         // Validaciones en tiempo real
-        const campoUnidades = document.getElementById('unidades');
+    const campoUnidades = document.getElementById('unidades');
         if (campoUnidades) {
             campoUnidades.addEventListener('blur', validarCantidad);
             campoUnidades.addEventListener('input', function () {
@@ -352,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const campoPrecioPactado = document.getElementById('precioPactado');
+    const campoPrecioPactado = document.getElementById('precioPactado');
         if (campoPrecioPactado) {
             campoPrecioPactado.addEventListener('blur', validarPrecios);
             campoPrecioPactado.addEventListener('input', function () {
@@ -376,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        const selectDireccionValidacion = document.getElementById('direccionEnvio');
+    const selectDireccionValidacion = document.getElementById('direccionEnvio');
         if (selectDireccionValidacion) {
             selectDireccionValidacion.addEventListener('change', validarDireccion);
         }
@@ -413,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Mostrar advertencia si no hay direcciones
+    // Mostrar advertencia si no hay direcciones
         const selectDireccionAdvertencia = document.getElementById('direccionSelect') || document.getElementById('direccionEnvio');
         if (
             (!selectDireccionAdvertencia || 
@@ -445,6 +494,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const actualizarDireccion = document.getElementById('actualizar-direccion-form');
     if (actualizarDireccion) {
+        console.log('aqui si estoy entrando 1')
+        /**
+         * Crear elemento de error en el formulario de actualización de dirección
+         * (misma lógica que en el formulario de pedido, extraída para claridad).
+         * @param {string} inputId
+         * @param {string} errorId
+         */
         // Crear elementos de error si no existen
         const crearElementoError = (inputId, errorId) => {
             const input = document.getElementById(inputId);
@@ -460,7 +516,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Crear elementos de error para todos los campos
         crearElementoError('direccionEnvio', 'direccionError');
 
-        const selectDireccionValidacion = document.getElementById('direccionEnvio');
+    const selectDireccionValidacion = document.getElementById('direccionEnvio');
         if (selectDireccionValidacion) {
             selectDireccionValidacion.addEventListener('change', validarDireccion);
         }
@@ -494,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Mostrar advertencia si no hay direcciones
+    // Mostrar advertencia si no hay direcciones
         const selectDireccionAdvertencia = document.getElementById('direccionSelect') || document.getElementById('direccionEnvio');
         if (!selectDireccionAdvertencia || !selectDireccionAdvertencia.options || selectDireccionAdvertencia.options.length === 0) {
             const advertencia = document.createElement('div');
@@ -524,6 +580,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===============================
 
 // Función global para recalcular y validar precios
+/**
+ * Función global que ajusta el precio pactado si es menor que el precio base.
+ * Se expone en window para que otras partes del frontend puedan llamarla.
+ * @global
+ */
 window.validarPreciosPedido = function () {
     const campoBasePrice = document.getElementById('basePrice');
     const campoPrecioPactado = document.getElementById('precioPactado');

@@ -1,5 +1,29 @@
 const mongoose = require('mongoose');
 
+/**
+ * @typedef {Object} Direccion
+ * @property {string} direccion - Dirección completa
+ * @property {string} departamento - Departamento
+ * @property {string} ciudad - Ciudad
+ * @property {Date} fechaCreacion - Fecha de creación
+ */
+
+/**
+ * @typedef {Object} Notificacion
+ * @property {string} tituloNotificacion
+ * @property {string} tipoNotificacion - Tipo (ej: 'Nuevo pedido')
+ * @property {Date} fechaCreacion
+ * @property {string} contenidoNotificacion
+ */
+
+/**
+ * Esquema de Usuario
+ * Campos principales usados en la aplicación:
+ * - nombreUsuario, apellidoUsuario, correo, contrasena, rolUsuario, estadoUsuario, telefono, esVendedor
+ * - direcciones: array de Direccion
+ * - notificaciones: array de Notificacion
+ */
+
 const NotificacionSchema = new mongoose.Schema({
   tituloNotificacion: {
     type: String,
