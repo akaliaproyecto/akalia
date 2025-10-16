@@ -1,0 +1,620 @@
+Un producto ha sido creado: 68d35c3c1aa6aed36b779c9d, información: {
+  tituloProducto: 'ffffffff**ó iedmime',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'ewfwrf',
+  precio: 1,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e4ad5de-dea7-46a4-8c4a-108115a49560.jpg'
+  ],
+  categoria: '68a6b9e578ba98e77bf05661',
+  etiquetas: [ 'Pintura al Óleo', 'PRUEBA EDICION POSTMAN' ],
+  _id: new ObjectId('68d35c3c1aa6aed36b779c9d'),
+  createdAt: 2025-09-24T02:49:32.675Z,
+  updatedAt: 2025-09-24T02:49:32.675Z,
+  __v: 0
+}  fecha: Tue Sep 23 2025 21:49:32 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d35c3c1aa6aed36b779c9d'),
+  tituloProducto: 's',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 's',
+  precio: 1,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e4ad5de-dea7-46a4-8c4a-108115a49560.jpg'
+  ],
+  categoria: '68a6b9e578ba98e77bf05661',
+  etiquetas: [ 'Pintura al Óleo', 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T02:49:32.675Z,
+  updatedAt: 2025-09-24T03:20:04.410Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 22:20:04 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d35c3c1aa6aed36b779c9d'),
+  tituloProducto: 'sgfgfgf',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'g',
+  precio: 1,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e4ad5de-dea7-46a4-8c4a-108115a49560.jpg'
+  ],
+  categoria: '68a6b9e578ba98e77bf05661',
+  etiquetas: [ 'Pintura al Óleo', 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T02:49:32.675Z,
+  updatedAt: 2025-09-24T03:21:38.216Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 22:21:38 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d35c3c1aa6aed36b779c9d'),
+  tituloProducto: 'wew',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'weew',
+  precio: 1,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e4ad5de-dea7-46a4-8c4a-108115a49560.jpg'
+  ],
+  categoria: '68a6b99078ba98e77bf0565b',
+  etiquetas: [ 'Pintura al Óleo', 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T02:49:32.675Z,
+  updatedAt: 2025-09-24T03:48:14.164Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 22:48:14 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68d36b7878b4888b435c1a4f, información: {
+  tituloProducto: 'dddd',
+  idEmprendimiento: new ObjectId('68a74a1930c871659dd4546a'),
+  descripcionProducto: 'dsfewfw',
+  precio: 21,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/4aebbd10-81fe-4efd-a7b5-d660b6eeeaa1.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/a7b5cdc6-0bf2-4c88-8f41-8d2452116111.jpg'
+  ],
+  categoria: '68a6b70178ba98e77bf0564e',
+  etiquetas: [ 'Crochet' ],
+  _id: new ObjectId('68d36b7878b4888b435c1a4f'),
+  createdAt: 2025-09-24T03:54:32.353Z,
+  updatedAt: 2025-09-24T03:54:32.353Z,
+  __v: 0
+}  fecha: Tue Sep 23 2025 22:54:32 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68d36c0d78b4888b435c1a71, información: {
+  tituloProducto: 'wwewe',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'ewfwe',
+  precio: 2,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/76e84265-48ef-4b5b-a2f6-60657e3b4709.png'
+  ],
+  categoria: '68a6b70178ba98e77bf0564e',
+  etiquetas: [ 'PRUEBA EDICION POSTMAN' ],
+  _id: new ObjectId('68d36c0d78b4888b435c1a71'),
+  createdAt: 2025-09-24T03:57:01.882Z,
+  updatedAt: 2025-09-24T03:57:01.882Z,
+  __v: 0
+}  fecha: Tue Sep 23 2025 22:57:02 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d35c3c1aa6aed36b779c9d'),
+  tituloProducto: 'wew',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'weew',
+  precio: 1,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e4ad5de-dea7-46a4-8c4a-108115a49560.jpg'
+  ],
+  categoria: '68a6b99078ba98e77bf0565b',
+  etiquetas: [ 'Pintura al Óleo', 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T02:49:32.675Z,
+  updatedAt: 2025-09-24T04:05:21.397Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 23:05:21 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d36c0d78b4888b435c1a71'),
+  tituloProducto: 'wss',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'ewfwe',
+  precio: 2,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/76e84265-48ef-4b5b-a2f6-60657e3b4709.png'
+  ],
+  categoria: '68a6b70178ba98e77bf0564e',
+  etiquetas: [ 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T03:57:01.882Z,
+  updatedAt: 2025-09-24T04:05:41.165Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 23:05:41 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d36c0d78b4888b435c1a71'),
+  tituloProducto: 'wss',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'ewfwe',
+  precio: 2,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/76e84265-48ef-4b5b-a2f6-60657e3b4709.png'
+  ],
+  categoria: '68a6b70178ba98e77bf0564e',
+  etiquetas: [ 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T03:57:01.882Z,
+  updatedAt: 2025-09-24T04:05:56.442Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 23:05:56 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d36c0d78b4888b435c1a71'),
+  tituloProducto: 'wss',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'ewfwe',
+  precio: 2,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/76e84265-48ef-4b5b-a2f6-60657e3b4709.png'
+  ],
+  categoria: '68a6b70178ba98e77bf0564e',
+  etiquetas: [ 'PRUEBA EDICION POSTMAN' ],
+  createdAt: 2025-09-24T03:57:01.882Z,
+  updatedAt: 2025-09-24T04:27:33.898Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 23:27:34 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68d36c0d78b4888b435c1a71'),
+  tituloProducto: 'wss',
+  idEmprendimiento: new ObjectId('68d3463c75d711663a870fc7'),
+  descripcionProducto: 'ewfwe',
+  precio: 2,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/76e84265-48ef-4b5b-a2f6-60657e3b4709.png'
+  ],
+  categoria: '68a6b70178ba98e77bf0564e',
+  etiquetas: [
+    'PRUEBA EDICION POSTMAN',
+    'Punto de cruz (prueba edición Postman)'
+  ],
+  createdAt: 2025-09-24T03:57:01.882Z,
+  updatedAt: 2025-09-24T04:34:26.254Z,
+  __v: 0
+}, fecha: Tue Sep 23 2025 23:34:26 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68cec05336e2753e888a26ea'),
+  tituloProducto: 'Jabones Artesanale',
+  idEmprendimiento: new ObjectId('68cebfa436e2753e888a26dc'),
+  descripcionProducto: 'Jabones artesanales, hechos con mucho amor, en diferentes fragancias y colores.\r\n' +
+    'Lavanda, citronela, naranja, verbena, rosas\r\n' +
+    'Fragancias y olores sujetos a disponibilidad, pregunta por tu preferencia.\r\n' +
+    'Precio por unidad; negociable a partir de 6 unidades.',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/55419706-fa13-40fe-b1bb-ca43191c0f26.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/cfeb5a88-073d-422b-b94f-96791ccb8626.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e803fed-3b86-4bfb-bc1e-aefab0673894.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f7138e22-3aa0-4d48-9b5b-210b71009fa2.webp'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-09-20T14:55:15.982Z,
+  updatedAt: 2025-09-29T17:57:47.639Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 12:57:47 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68cec05336e2753e888a26ea'),
+  tituloProducto: 'Jabones Artesanales',
+  idEmprendimiento: new ObjectId('68cebfa436e2753e888a26dc'),
+  descripcionProducto: 'Jabones artesanales, hechos con mucho amor, en diferentes fragancias y colores.\r\n' +
+    'Lavanda, citronela, naranja, verbena, rosas\r\n' +
+    'Fragancias y olores sujetos a disponibilidad, pregunta por tu preferencia.\r\n' +
+    'Precio por unidad; negociable a partir de 6 unidades.',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/55419706-fa13-40fe-b1bb-ca43191c0f26.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/cfeb5a88-073d-422b-b94f-96791ccb8626.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0e803fed-3b86-4bfb-bc1e-aefab0673894.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f7138e22-3aa0-4d48-9b5b-210b71009fa2.webp'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-09-20T14:55:15.982Z,
+  updatedAt: 2025-09-29T17:58:35.606Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 12:58:35 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68dada3a4694cf94e930dac1, información: {
+  tituloProducto: 'Tejido artesanal de hoja de caña',
+  idEmprendimiento: new ObjectId('68dad75d4694cf94e930da97'),
+  descripcionProducto: 'Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña  Tejido artesanal de hoja de caña',
+  precio: 50000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/3416b9ad-ac13-4a1a-a807-28ebf933d6a4.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/4f5d9db7-7017-4c30-b1f9-262422d26fe0.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/efe77ea0-59da-47b7-90e8-26bfdf7c5c9c.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'tejido en dos agujas', 'figuras decorativas' ],
+  _id: new ObjectId('68dada3a4694cf94e930dac1'),
+  createdAt: 2025-09-29T19:12:58.993Z,
+  updatedAt: 2025-09-29T19:12:58.993Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:12:59 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68dada3a4694cf94e930dac1'),
+  tituloProducto: 'Tejido de hoja de caña',
+  idEmprendimiento: new ObjectId('68dad75d4694cf94e930da97'),
+  descripcionProducto: 'Tejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de cañaTejido de hoja de caña',
+  precio: 99000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f4cda295-60a0-489d-baa2-616beea0bf80.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/6c2474e3-9c23-4c99-9f3c-397981ba0709.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'tejido en dos agujas', 'figuras decorativas' ],
+  createdAt: 2025-09-29T19:12:58.993Z,
+  updatedAt: 2025-09-29T19:14:01.686Z,
+  __v: 0
+}, fecha: Mon Sep 29 2025 14:14:01 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dadaef4694cf94e930dae1, información: {
+  tituloProducto: 'Aromatizante en cerámica',
+  idEmprendimiento: new ObjectId('68dadab74694cf94e930dada'),
+  descripcionProducto: 'Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica Aromatizante en cerámica',
+  precio: 4000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/096906d0-f0f8-49ed-966c-06b3785a6aba.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/ccb26240-8e7d-41d8-87e1-ba9c342c5c3d.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/c8a96d4f-4293-4d9c-917f-39466bfd4d25.jpg'
+  ],
+  categoria: 'Cerámica y moldeado',
+  etiquetas: [ 'cerámica esmaltada' ],
+  _id: new ObjectId('68dadaef4694cf94e930dae1'),
+  createdAt: 2025-09-29T19:15:59.076Z,
+  updatedAt: 2025-09-29T19:15:59.076Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:15:59 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dadb464694cf94e930daef, información: {
+  tituloProducto: 'Mesa de centro en madera de roble',
+  idEmprendimiento: new ObjectId('68dadb0d4694cf94e930dae8'),
+  descripcionProducto: 'Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble Mesa en madera de roble',
+  precio: 80000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/1bb39646-3938-41c9-803e-9513444748c6.jpg'
+  ],
+  categoria: 'Madera y carpintería',
+  etiquetas: [ 'pintura en madera' ],
+  _id: new ObjectId('68dadb464694cf94e930daef'),
+  createdAt: 2025-09-29T19:17:26.772Z,
+  updatedAt: 2025-09-29T19:17:26.772Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:17:26 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dadbe44694cf94e930db2b, información: {
+  tituloProducto: 'Bolso tejido por indígenas de la guajira',
+  idEmprendimiento: new ObjectId('68dad75d4694cf94e930da97'),
+  descripcionProducto: 'Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira Bolso tejido por indígenas de la guajira',
+  precio: 80000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8d8818fb-38a4-444a-928d-8d281fc80d57.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/96daa0f2-39f8-47f9-b329-6b7f874e1d7c.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'bolsas ecológicas' ],
+  _id: new ObjectId('68dadbe44694cf94e930db2b'),
+  createdAt: 2025-09-29T19:20:04.560Z,
+  updatedAt: 2025-09-29T19:20:04.560Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 14:20:04 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68db21b617d48f148a3e348f, información: {
+  tituloProducto: 'Cactus en amigurumi',
+  idEmprendimiento: new ObjectId('68db217017d48f148a3e3473'),
+  descripcionProducto: 'Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi Cactus en amigurumi',
+  precio: 50000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/1b8bd4dd-5917-4572-bf8b-f44130a50a63.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/90947689-11e3-4f31-ad7e-f5bf7deab2dd.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/7b692072-c3da-40cf-9518-a3d99de13503.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'amigurumi' ],
+  _id: new ObjectId('68db21b617d48f148a3e348f'),
+  createdAt: 2025-09-30T00:17:58.003Z,
+  updatedAt: 2025-09-30T00:17:58.003Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 19:17:58 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68db466da90d427306e26e83, información: {
+  tituloProducto: 'Jabón natural de avena y mandarina',
+  idEmprendimiento: new ObjectId('68db217017d48f148a3e3473'),
+  descripcionProducto: 'Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina Jabón natural de avena y mandarina',
+  precio: 5000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2330e5dd-28cf-44c9-9f9b-e566613792c2.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5443ed87-af3a-45f4-9787-bfa567e24513.jpg'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [ 'jabones naturales' ],
+  _id: new ObjectId('68db466da90d427306e26e83'),
+  createdAt: 2025-09-30T02:54:37.144Z,
+  updatedAt: 2025-09-30T02:54:37.144Z,
+  __v: 0
+}  fecha: Mon Sep 29 2025 21:54:37 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dc1dbd6f88967b52aead97, información: {
+  tituloProducto: 'Bandeja de roble pintada a mano',
+  idEmprendimiento: new ObjectId('68dc1d826f88967b52aead86'),
+  descripcionProducto: 'Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano Bandeja de roble pintada a mano',
+  precio: 50000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/7594f95e-4d02-4469-98e1-b7f1ee78213b.jpg'
+  ],
+  categoria: 'Madera y carpintería',
+  etiquetas: [ 'pintura en madera' ],
+  _id: new ObjectId('68dc1dbd6f88967b52aead97'),
+  createdAt: 2025-09-30T18:13:17.454Z,
+  updatedAt: 2025-09-30T18:13:17.454Z,
+  __v: 0
+}  fecha: Tue Sep 30 2025 13:13:17 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dc5d40f45520e2c00275c8, información: {
+  tituloProducto: 'Esculturas pintadas de madera',
+  idEmprendimiento: new ObjectId('68dc1d826f88967b52aead86'),
+  descripcionProducto: 'Esculturas pintadas de madera Esculturas pintadas de madera Esculturas pintadas de madera Esculturas pintadas de madera Esculturas pintadas de madera',
+  precio: 150000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5b50745d-4f1e-42db-a29a-a1875d60450e.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/44b06ebb-b2e9-4980-9c7e-19e75d915be4.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8cd70ab4-1be7-4333-8ee4-e3c9fc2fcfbe.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/8aa5be07-d626-48f5-90e8-595d06ae4401.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/38b81daa-0b72-48f3-965e-b80a04ef411b.jpg'
+  ],
+  categoria: 'Madera y carpintería',
+  etiquetas: [ 'pintura en madera' ],
+  _id: new ObjectId('68dc5d40f45520e2c00275c8'),
+  createdAt: 2025-09-30T22:44:16.419Z,
+  updatedAt: 2025-09-30T22:44:16.419Z,
+  __v: 0
+}  fecha: Tue Sep 30 2025 17:44:16 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dc5df1f45520e2c00275e7, información: {
+  tituloProducto: 'regalo especial',
+  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
+  descripcionProducto: 'regalo especial regalo especial regalo especial regalo especial regalo especial',
+  precio: 8000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/5a6c6217-9945-4d72-bec7-1431e0703005.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/719c4d65-243d-44c6-ba5f-cc319fa69ae3.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/2782651f-073d-454a-acec-ddd3c028d63a.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/fa2ce2d4-b9ed-4655-9363-50be58b0ddf9.jpg'
+  ],
+  categoria: 'Textiles y costura',
+  etiquetas: [ 'macramé', 'telar' ],
+  _id: new ObjectId('68dc5df1f45520e2c00275e7'),
+  createdAt: 2025-09-30T22:47:13.168Z,
+  updatedAt: 2025-09-30T22:47:13.168Z,
+  __v: 0
+}  fecha: Tue Sep 30 2025 17:47:13 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dc97a904acdf48435fc188, información: {
+  tituloProducto: 'Tejicol',
+  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
+  descripcionProducto: 'Tejicol Tejicol Tejicol Tejicol Tejicol Tejicol',
+  precio: 80000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0ab8ad38-b60a-4379-ad1e-28075deb3c78.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/33d6f606-8a9f-4042-a4ea-9953334e03b0.jpg',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/a4f219a4-fb18-40e6-9bf8-0178d08e1c29.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'macramé' ],
+  _id: new ObjectId('68dc97a904acdf48435fc188'),
+  createdAt: 2025-10-01T02:53:29.439Z,
+  updatedAt: 2025-10-01T02:53:29.439Z,
+  __v: 0
+}  fecha: Tue Sep 30 2025 21:53:29 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido creado: 68dc987504acdf48435fc1bb, información: {
+  tituloProducto: 'mas tejidos',
+  idEmprendimiento: new ObjectId('68dc5d07f45520e2c00275be'),
+  descripcionProducto: 'mas tejidos mas tejidos mas tejidos mas tejidos',
+  precio: 7400,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/394ed3fa-751e-4d96-8760-b5906343a4e2.jpg'
+  ],
+  categoria: 'Tejido',
+  etiquetas: [ 'bordado' ],
+  _id: new ObjectId('68dc987504acdf48435fc1bb'),
+  createdAt: 2025-10-01T02:56:53.422Z,
+  updatedAt: 2025-10-01T02:56:53.422Z,
+  __v: 0
+}  fecha: Tue Sep 30 2025 21:56:53 GMT-0500 (hora estándar de Colombia)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanaless',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-09T21:46:51.347Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 16:46:51 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanaless',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-09T21:47:51.530Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 16:47:51 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales Jabones artesanales',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-09T21:50:23.628Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 16:50:23 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e02fb71793a08ea3ff878c'),
+  tituloProducto: 'Jabones artesanales',
+  idEmprendimiento: new ObjectId('68d3482c1aa6aed36b779c6b'),
+  descripcionProducto: 'Descubre el placer de cuidar tu piel con nuestros jabones artesanales hechos a mano, elaborados con ingredientes 100% naturales y libres de químicos agresivos. Cada barra es única y está creada con amor, utilizando aceites vegetales, mantecas, extractos de plantas y aromas naturales que limpian, hidratan y nutren la piel.\r\n' +
+    '\r\n' +
+    '🌿 Beneficios:\r\n' +
+    '\r\n' +
+    'Limpieza suave sin resecar.\r\n' +
+    '\r\n' +
+    'Hidratación profunda gracias a los aceites naturales.\r\n' +
+    '\r\n' +
+    'Fragancias naturales que relajan y revitalizan.\r\n' +
+    '\r\n' +
+    'Apto para todo tipo de piel, incluso las más sensibles.\r\n' +
+    '\r\n' +
+    '💚 Ideal para el uso diario o como un regalo especial lleno de encanto y bienestar.',
+  precio: 12000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/0dc4663d-2efb-4ced-a66a-e6650ad791db.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/94c3ad94-3fcf-4ce4-b3b7-47c9348856dd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/835b5ee2-eee5-406d-8618-8b46894dc249.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e4e76e43-7110-4840-a510-58ea7e474d2a.webp'
+  ],
+  categoria: 'Velas, jabones y cosmética',
+  etiquetas: [
+    'jabones naturales',
+    'jabones exfoliantes',
+    'jabones de glicerina'
+  ],
+  createdAt: 2025-10-03T20:19:03.055Z,
+  updatedAt: 2025-10-09T21:52:54.764Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 16:52:54 GMT-0500 (Colombia Standard Time)
+Un producto ha sido actualizado: {
+  _id: new ObjectId('68e571178cbe6184047dc90a'),
+  tituloProducto: 'Jarrón escultural de cerámica contemporánea hecho a mano',
+  idEmprendimiento: new ObjectId('68e5707c8cbe6184047dc903'),
+  descripcionProducto: 'Este jarrón artístico moldeado a mano combina la elegancia de la cerámica contemporánea con la esencia artesanal del trabajo en barro. Su forma escultórica y textura natural lo convierten en una pieza única, perfecta como centro de mesa o elemento decorativo. Elaborado con técnicas tradicionales y acabado moderno, cada jarrón refleja la autenticidad y el detalle que caracterizan a la cerámica artesanal colombiana.',
+  precio: 300000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/432dd961-15af-4077-a888-308ccf466e0c.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/3b0abb44-fee8-4a93-8950-1f753a6a13c6.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/e77922c5-43d3-4640-912d-bdb899d3376c.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/c0a11918-2696-4347-ad79-838a080346fd.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/21f08622-1c30-4aec-bf68-b8adb992ff09.webp'
+  ],
+  categoria: 'Cerámica y moldeado',
+  etiquetas: [ 'escultura cerámica', 'cerámica rústica' ],
+  createdAt: 2025-10-07T19:59:19.804Z,
+  updatedAt: 2025-10-09T22:14:26.780Z,
+  __v: 0
+}, fecha: Thu Oct 09 2025 17:14:26 GMT-0500 (Colombia Standard Time)
+Un producto ha sido eliminado: 68e2d5fd29b7ae1246aef0f1, fecha: Thu Oct 09 2025 17:29:03 GMT-0500 (Colombia Standard Time)
+Un producto ha sido eliminado: 68e2d5fd29b7ae1246aef0f1, fecha: Thu Oct 09 2025 17:30:43 GMT-0500 (Colombia Standard Time)
+Un producto ha sido eliminado: 68e2d5fd29b7ae1246aef0f1, fecha: Thu Oct 09 2025 17:33:36 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68f077451ce9872c8479a60d, información: {
+  tituloProducto: 'Grabado personalizado en papel — Iniciales y logotipos',
+  idEmprendimiento: new ObjectId('68f076931ce9872c8479a5fb'),
+  descripcionProducto: 'Servicio de grabado en relieve o láser sobre cualquier tipo de papel, ideal para personalizar sobres, hojas, tarjetas, servilletas, papel fotográfico o papelería premium. Se pueden aplicar iniciales, monogramas, nombres o logotipos, logrando un acabado elegante y profesional para eventos, marcas o detalles especiales. Perfecto para bodas, empresas, invitaciones o regalos personalizados, aportando distinción en cada presentación.',
+  precio: 5000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f8332d28-8ba0-4d8f-bfaa-8d9e1a9d32d0.avif',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/47e24517-85c5-4028-bc1b-ceeb6d69e943.avif',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/a9a2862b-0860-423d-9405-28d66b892503.avif',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/ca1dec64-8d6e-48ab-b970-9c12ea34876c.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/4b2aa035-07fa-4262-bcd7-67505415e75d.webp'
+  ],
+  categoria: 'Papelería',
+  etiquetas: [ 'papelería artesanal', 'caligrafía artística' ],
+  _id: new ObjectId('68f077451ce9872c8479a60d'),
+  createdAt: 2025-10-16T04:40:37.495Z,
+  updatedAt: 2025-10-16T04:40:37.495Z,
+  __v: 0
+}  fecha: Wed Oct 15 2025 23:40:37 GMT-0500 (hora estándar de Colombia)
