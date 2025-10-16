@@ -1,8 +1,19 @@
-/* Manejo dinámico de direcciones de usuario */
+/**
+ * @file direcciones-dinamicas.js
+ * @description Manejo dinámico de direcciones en el formulario de usuario.
+ * - Permite agregar, eliminar y validar direcciones (departamento, ciudad, dirección).
+ * - Pensado para un estudiante: funciones simples y autoexplicativas.
+ */
 
 let contadorDirecciones = 0;
 let direccionesArray = [];
 
+/**
+ * Crea el HTML de una fila de dirección para insertar en el DOM.
+ * @param {number} index - Índice de la dirección (0-based)
+ * @param {Object} [direccionData={}] - Datos iniciales { direccion, departamento, ciudad }
+ * @returns {string} HTML de la fila de dirección
+ */
 // Función para crear una nueva fila de dirección
 function crearFilaDireccion(index, direccionData = {}) {
   const direccionId = `direccion_${index}`;
@@ -60,6 +71,11 @@ function crearFilaDireccion(index, direccionData = {}) {
   `;
 }
 
+/**
+ * Agrega una nueva dirección al DOM y registra su estado interno.
+ * - Inicializa selectores y aumenta el contador.
+ * @param {Object} [direccionData={}] - Datos iniciales para la dirección.
+ */
 // Función para agregar una nueva dirección
 function agregarDireccion(direccionData = {}) {
   const contenedor = document.getElementById('contenedorDirecciones');
@@ -92,6 +108,10 @@ function agregarDireccion(direccionData = {}) {
   console.log('Dirección agregada:', contadorDirecciones - 1, direccionData);
 }
 
+/**
+ * Elimina una dirección del DOM y del array interno.
+ * @param {number} index - Índice de la dirección a eliminar
+ */
 // Función para eliminar una dirección
 function eliminarDireccion(index) {
   const direccionItem = document.getElementById(`direccionItem_${index}`);
@@ -113,6 +133,12 @@ function eliminarDireccion(index) {
   }
 }
 
+/**
+ * Inicializa los selectores (departamento/ciudad) y eventos para una dirección.
+ * - Carga departamentos y, si hay datos, carga ciudades y selecciona valores.
+ * @param {number} index - Índice de la dirección
+ * @param {Object} [direccionData={}] - Datos iniciales (departamento, ciudad)
+ */
 // Función para inicializar los selectores de ubicación para una dirección específica
 function inicializarSelectoresParaDireccion(index, direccionData = {}) {
   const direccionId = `direccion_${index}`;
@@ -188,6 +214,11 @@ function inicializarSelectoresParaDireccion(index, direccionData = {}) {
   });
 }
 
+/**
+ * Inicializa el sistema de direcciones dinámicas.
+ * - Resetea estado, configura botones y carga direcciones existentes si las hay.
+ * @param {Array<Object>} [direccionesExistentes=[]] - Array de direcciones para precargar
+ */
 // Función para inicializar el sistema de direcciones dinámicas
 function inicializarDireccionesDinamicas(direccionesExistentes = []) {
   console.log('Inicializando direcciones dinámicas con:', direccionesExistentes);
@@ -222,6 +253,10 @@ function inicializarDireccionesDinamicas(direccionesExistentes = []) {
   }
 }
 
+/**
+ * Lee el DOM y devuelve todas las direcciones actualmente visibles en el formulario.
+ * @returns {Array<{direccion:string, departamento:string, ciudad:string}>} Array de direcciones
+ */
 // Función para obtener todas las direcciones del formulario
 function obtenerDireccionesDelFormulario() {
   const direcciones = [];
@@ -255,6 +290,11 @@ function obtenerDireccionesDelFormulario() {
   return direcciones;
 }
 
+/**
+ * Valida todas las direcciones visibles en el formulario.
+ * - Llama a `validarCampoDireccion` para cada campo relevante.
+ * @returns {boolean} true si todas las direcciones son válidas
+ */
 // Función para validar todas las direcciones
 function validarTodasLasDirecciones() {
   let todasValidas = true;
@@ -284,6 +324,12 @@ function validarTodasLasDirecciones() {
   return todasValidas;
 }
 
+/**
+ * Valida un campo individual (dirección, departamento o ciudad) dentro de una dirección.
+ * - Muestra mensajes de error usando las utilidades `mostrarErrorDireccion` y `limpiarErrorDireccion`.
+ * @param {HTMLElement} campo - Campo input o select a validar
+ * @returns {boolean} true si el campo es válido
+ */
 // Función para validar un campo individual de dirección
 function validarCampoDireccion(campo) {
   if (!campo) return true;
@@ -356,6 +402,12 @@ function validarCampoDireccion(campo) {
   return true;
 }
 
+/**
+ * Verifica que una opción exista en el select (valor válido).
+ * @param {HTMLSelectElement} selectElement
+ * @param {string} valor
+ * @returns {boolean}
+ */
 // Función para validar que una opción sea válida en un select
 function validarOpcionValida(selectElement, valor) {
   if (!selectElement || !valor) return false;
@@ -365,6 +417,11 @@ function validarOpcionValida(selectElement, valor) {
   return opciones.some(opcion => opcion.value === valor);
 }
 
+/**
+ * Marca un campo con error y muestra el mensaje asociado en su '.invalid-feedback'.
+ * @param {HTMLElement} campo
+ * @param {string} mensaje
+ */
 // Funciones auxiliares para mostrar/limpiar errores
 function mostrarErrorDireccion(campo, mensaje) {
   if (campo) {
@@ -379,6 +436,10 @@ function mostrarErrorDireccion(campo, mensaje) {
   }
 }
 
+/**
+ * Limpia el estado de error del campo y oculta el mensaje.
+ * @param {HTMLElement} campo
+ */
 function limpiarErrorDireccion(campo) {
   if (campo) {
     campo.classList.remove('is-invalid');

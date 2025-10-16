@@ -9,6 +9,12 @@ const {
   verificarPedidoActivoExistente
 } = require('./pedidos.validations');
 
+/**
+ * Obtener todos los pedidos (panel admin)
+ * - Devuelve un array con todos los pedidos o 404 si no hay resultados.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 // Consultar/Listar todos los pedidos (panel admin)
 exports.obtenerPedidos = async (req, res) => {
   try {
@@ -24,6 +30,13 @@ exports.obtenerPedidos = async (req, res) => {
   }
 };
 
+/**
+ * Obtener ventas de un vendedor (pedidos donde es vendedor)
+ * - req.params.id contiene el ID del vendedor
+ * - Valida permisos contra la sesión
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 // Consultar/Listar todos los pedidos del usuario vendedor
 exports.obtenerVentas = async (req, res) => {
   const idUsuarioVendedor = req.params.id;
@@ -56,6 +69,13 @@ exports.obtenerVentas = async (req, res) => {
   }
 };
 
+/**
+ * Obtener compras de un usuario (pedidos donde es comprador)
+ * - req.params.id contiene el ID del comprador
+ * - Valida permisos contra la sesión
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 // Consultar/Listar todos los pedidos del usuario comprador
 exports.obtenerCompras = async (req, res) => {
   const idUsuarioComprador = req.params.id;
@@ -89,6 +109,12 @@ exports.obtenerCompras = async (req, res) => {
   }
 };
 
+/**
+ * Obtener un pedido por su ID
+ * - Valida formato de ID y permisos (comprador o vendedor)
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 // Consultar un pedido por ID 
 exports.obtenerPedidosPorId = async (req, res) => {
 
@@ -114,6 +140,12 @@ exports.obtenerPedidosPorId = async (req, res) => {
 };
 
 
+/**
+ * Crear un nuevo pedido
+ * - Valida los datos con validarDatosCreacionPedido y persiste el pedido
+ * @param {import('express').Request} req - req.body contiene datos del pedido
+ * @param {import('express').Response} res
+ */
 // Crear nuevo pedido
 exports.crearPedido = async (req, res) => {
   const datosPedido = req.body;
@@ -140,6 +172,12 @@ exports.crearPedido = async (req, res) => {
   }
 };
 
+/**
+ * Editar un pedido existente (por vendedor)
+ * - Valida existencia, permisos y datos de actualización
+ * @param {import('express').Request} req - req.params.id, req.body
+ * @param {import('express').Response} res
+ */
 // Editar un pedido existente
 exports.editarPedido = async (req, res) => {
   try {
@@ -186,6 +224,12 @@ exports.editarPedido = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar la dirección de envío de un pedido (comprador)
+ * - Valida permisos y formato de la nueva dirección
+ * @param {import('express').Request} req - req.params.id, req.body.direccionEnvio
+ * @param {import('express').Response} res
+ */
 // Actualizar direccion de un pedido (Usuario comprador)
 exports.actualizarPedido = async (req, res) => {
   try {
@@ -230,6 +274,12 @@ exports.actualizarPedido = async (req, res) => {
   }
 };
 
+/**
+ * Verificar si un usuario tiene un pedido activo para un producto
+ * - req.params.idUsuario y req.params.idProducto
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 // Verificar si un usuario tiene pedido activo para un producto específico
 exports.verificarPedidoActivo = async (req, res) => {
   try {
@@ -250,6 +300,12 @@ exports.verificarPedidoActivo = async (req, res) => {
   }
 };
 
+/**
+ * Cancelar un pedido (comprador o vendedor con permiso)
+ * - Marca el pedido como cancelado si cumple reglas de negocio
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 // Cancelar un pedido (Usuario comprador)
 exports.cancelarPedido = async (req, res) => {
   try {
@@ -293,6 +349,12 @@ exports.cancelarPedido = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar lógicamente un pedido (solo si no hay compra activa)
+ * - Marca estadoEliminacion = true
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 // Eliminar lógicamente un pedido (solo si no está activo)
 exports.eliminarPedido = async (req, res) => {
   try {

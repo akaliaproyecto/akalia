@@ -29,7 +29,9 @@ const io = new Server(server, {
 // convertir para socket
 /**
  * Middleware de Socket.IO para validar token enviado en el handshake.
- * Verifica JWT y añade info del usuario a `socket.user`.
+ * - Verifica JWT y añade info del usuario a `socket.user`.
+ * @param {Socket} socket - Socket de conexión
+ * @param {Function} next - Callback para continuar la conexión
  */
 io.use((socket, next) => {
   const token = socket.handshake.auth.token;
@@ -57,9 +59,13 @@ io.on("connection", (socket) => {
 });
 
 
+/**
+ * Tarea programada para backups (cron)
+ * - Se ejecuta los días 1 y 15 de cada mes a medianoche.
+ */
 cron.schedule('0 0 1,15 * *', async () => {
-    console.log('Realizando Backup de la Base de datos');
-    backup.backupDatabase();
+  console.log('Realizando Backup de la Base de datos');
+  backup.backupDatabase();
 });
 
 

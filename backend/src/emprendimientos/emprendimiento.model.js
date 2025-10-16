@@ -1,5 +1,17 @@
 const mongoose = require('mongoose');
 
+/**
+ * Emprendimiento - esquema de Mongoose
+ * @typedef {Object} Emprendimiento
+ * @property {import('mongoose').Types.ObjectId} usuario - Referencia al usuario propietario
+ * @property {string} nombreEmprendimiento - Nombre del emprendimiento
+ * @property {string} [descripcionEmprendimiento] - Descripción del emprendimiento
+ * @property {Date} fechaRegistro - Fecha de creación
+ * @property {boolean} emprendimientoActivo - Si el emprendimiento está activo
+ * @property {boolean} emprendimientoEliminado - Si el emprendimiento fue eliminado lógicamente
+ * @property {{departamento:string, ciudad:string}} ubicacionEmprendimiento - Ubicación (departamento y ciudad)
+ * @property {string} [logo] - URL del logo (opcional)
+ */
 const EmprendimientoSchema = new mongoose.Schema({
   usuario: {
     type: mongoose.Schema.Types.ObjectId,

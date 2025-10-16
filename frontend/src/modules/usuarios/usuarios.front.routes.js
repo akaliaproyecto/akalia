@@ -1,3 +1,7 @@
+/**
+ * Rutas frontend (SSR) del módulo usuarios.
+ * - Estas rutas renderizan vistas o actúan como proxy hacia el backend.
+ */
 /* En este archivo se definen las rutas disponibles para este módulo. Cada ruta recibe las solicitudes (requests) desde el navegador y las envía al servicio correspondiente para manejar la lógica. */
 
 const express = require('express');
@@ -17,6 +21,10 @@ const {
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 const HEADERS = { 'Content-Type': 'application/json', 'akalia-api-key': process.env.API_KEY || '' };
 
+/**
+ * GET /mi-perfil
+ * - Renderiza la vista del perfil del usuario (usa `obtenerUsuario` en servicios).
+ */
 /* Ruta GET para obtener el perfil del usuario */
 router.get('/mi-perfil', obtenerUsuario);
 

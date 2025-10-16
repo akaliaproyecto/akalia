@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 /**
  * Validaciones para el módulo de emprendimientos
+ * Contiene funciones auxiliares para validar IDs, nombres, descripciones, imágenes y datos completos.
  */
 
 /**

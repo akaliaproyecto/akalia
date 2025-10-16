@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+/**
+ * @typedef {Object} Mensaje
+ * @property {String} remitente - ID o referencia del remitente
+ * @property {String} texto - Contenido del mensaje
+ * @property {Date} fecha - Fecha del mensaje
+ */
 const MensajeSchema = new mongoose.Schema({
   idUsuarioRemitente: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,6 +29,13 @@ const MensajeSchema = new mongoose.Schema({
   }
 });
 
+/**
+ * @typedef {Object} DetallePedido
+ * @property {String} idProducto - ID del producto
+ * @property {Number} cantidad - Cantidad pedida
+ * @property {Number} precio - Precio unitario al momento del pedido
+ * @property {String} comentario - Comentarios adicionales
+ */
 const DetallePedidoSchema = new mongoose.Schema({
   idProducto: {
     type: mongoose.Schema.Types.ObjectId,
@@ -51,6 +64,14 @@ const DetallePedidoSchema = new mongoose.Schema({
 });
 
 // Esquema para la dirección de envío
+/**
+ * @typedef {Object} DireccionEnvio
+ * @property {String} departamento
+ * @property {String} municipio
+ * @property {String} direccion
+ * @property {String} nombreDestinatario
+ * @property {String} telefono
+ */
 const DireccionEnvioSchema = new mongoose.Schema({
   direccion: {
     type: String,
@@ -72,6 +93,17 @@ const DireccionEnvioSchema = new mongoose.Schema({
 });
 
 /* ESQUEMA PRINCIPAL DE PEDIDO */
+/**
+ * @typedef {Object} Pedido
+ * @property {String} idComprador - Referencia al usuario comprador
+ * @property {String} idVendedor - Referencia al usuario vendedor
+ * @property {DetallePedido[]} detalle - Array de items pedidos
+ * @property {Number} total - Total calculado del pedido
+ * @property {DireccionEnvio} direccionEnvio - Datos de envío
+ * @property {String} estado - Estado del pedido (creado, enviado, cancelado, etc.)
+ * @property {Mensaje[]} mensajes - Conversación asociada al pedido
+ * @property {Boolean} estadoEliminacion - Flag para eliminación lógica
+ */
 const PedidoSchema = new mongoose.Schema({
   idUsuarioComprador: {
     type: mongoose.Schema.Types.ObjectId,

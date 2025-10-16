@@ -13,6 +13,12 @@ const {
 
 
 /* listar emprendimientos */
+/**
+ * Obtener todos los emprendimientos.
+ * Responde con un arreglo de emprendimientos si existen o 404 si no hay resultados.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 const obtenerEmprendimientos = async (req, res) => {
   try {
     const emprendimientos = await modeloEmprendimiento.find();
@@ -28,6 +34,12 @@ const obtenerEmprendimientos = async (req, res) => {
 };
 
 /* listar un emprendimiento por ID */
+/**
+ * Obtener un emprendimiento por su ID.
+ * Valida formato de ID y que el usuario en sesión sea el propietario.
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 const obtenerEmprendimientoPorId = async (req, res) => {
   const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
   try {
@@ -49,6 +61,12 @@ const obtenerEmprendimientoPorId = async (req, res) => {
 };
 
 /* listar emprendimientos por ID de usuario */
+/**
+ * Obtener emprendimientos por ID de usuario.
+ * Retorna un arreglo (vacío si no hay emprendimientos) o 403 si no hay permisos.
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
   const idUsuario = req.params.id;
   try {
@@ -75,6 +93,12 @@ const obtenerEmprendimientoPorIdUsuario = async (req, res) => {
 };
 
 /* crear un nuevo emprendimiento */
+/**
+ * Crear un nuevo emprendimiento.
+ * Espera multipart/form-data con 'payload' (JSON) y opcionalmente 'logo' como archivo.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 const crearEmprendimiento = async (req, res) => {
   try {
     payload = JSON.parse(req.body.payload)
@@ -103,6 +127,12 @@ const crearEmprendimiento = async (req, res) => {
 };
 
 /* actualizar un emprendimiento */
+/**
+ * Actualizar un emprendimiento.
+ * Valida permisos (solo propietario) y actualiza campos y logo. Actualiza estado de productos relacionados.
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 const actualizarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   try {
@@ -150,6 +180,12 @@ const actualizarEmprendimiento = async (req, res) => {
 };
 
 /* deshabilitar un emprendimiento */
+/**
+ * Deshabilitar (eliminar lógicamente) un emprendimiento.
+ * Marca emprendimientoEliminado=true y emprendimientoActivo=false. Actualiza productos asociados.
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 const deshabilitarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   try {
@@ -190,6 +226,12 @@ const deshabilitarEmprendimiento = async (req, res) => {
 };
 
 /* Verificar si un emprendimiento está activo */
+/**
+ * Verificar si un emprendimiento está activo.
+ * Devuelve { activo: boolean, mensaje: string } según el estado del emprendimiento.
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 const verificarEmprendimientoActivo = async (req, res) => {
   try {
     const { id } = req.params;

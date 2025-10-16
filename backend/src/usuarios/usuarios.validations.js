@@ -6,6 +6,12 @@ const mongoose = require('mongoose');
  */
 
 /**
+ * @typedef {Object} ResultadoValidacion
+ * @property {boolean} valido - Indica si la validación pasó
+ * @property {string[]} errores - Lista de mensajes de error si hay
+ */
+
+/**
  * Valida el formato de un email
  * @param {string} email - Email a validar
  * @returns {boolean} - true si es válido, false si no

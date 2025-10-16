@@ -26,6 +26,7 @@ app.use(cookieParser()); // Middleware para manejar cookies
 // Middleware para pasar la API Key y URL base a todas las vistas
 /**
  * Middleware que añade la API Key y la URL base a las vistas (res.locals).
+ * - Permite que las vistas EJS tengan acceso a estas variables sin exponerlas en el cliente.
  */
 app.use((req, res, next) => {
   res.locals.apiKey = process.env.API_KEY;
@@ -35,6 +36,10 @@ app.use((req, res, next) => {
 
 
 // Middleware para obtener datos del usuario logueado desde cookies
+/**
+ * Middleware que extrae la cookie 'usuario' y la decodifica para setear req.usuarioAutenticado y res.locals.usuarioActual.
+ * - Evita parseo para peticiones estáticas.
+ */
 app.use((req, res, next) => {
   // Evitar logs para assets estáticos (css, js, imágenes, maps, etc.)
   const staticExtRegex = /\.(css|js|map|png|jpg|jpeg|gif|svg|ico)$/i;

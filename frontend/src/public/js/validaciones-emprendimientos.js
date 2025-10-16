@@ -14,6 +14,39 @@ function mostrarErrorEmprendimiento(campo, elementoError, mensaje) {
   }
 }
 
+/* Validaciones de formularios - Emprendimientos */
+/**
+ * Validaciones para formularios relacionados con emprendimientos.
+ * Contiene helpers para mostrar errores/exitos, validadores reutilizables y
+ * la inicialización de validaciones para formularios de crear y editar.
+ * Los comentarios están escritos para un estudiante principiante.
+ */
+
+// ===============================
+// FUNCIONES UTILITARIAS GLOBALES
+// ===============================
+
+// Funciones de validación compartidas
+/**
+ * Muestra un error visual en un campo (clase Bootstrap 'is-invalid').
+ * @param {HTMLElement} campo - Elemento input/textarea/select.
+ * @param {HTMLElement|null} elementoError - Contenedor del texto de error.
+ * @param {string} mensaje - Mensaje a mostrar.
+ */
+function mostrarErrorEmprendimiento(campo, elementoError, mensaje) {
+  campo.classList.add('is-invalid');
+  campo.classList.remove('is-valid');
+  if (elementoError) {
+    elementoError.textContent = mensaje;
+    elementoError.style.display = 'block';
+  }
+}
+
+/**
+ * Marca un campo como exitoso (clase Bootstrap 'is-valid') y oculta el error.
+ * @param {HTMLElement} campo - Elemento input/textarea/select.
+ * @param {HTMLElement|null} elementoError - Contenedor del texto de error.
+ */
 function mostrarExitoEmprendimiento(campo, elementoError) {
   campo.classList.add('is-valid');
   campo.classList.remove('is-invalid');
@@ -23,7 +56,12 @@ function mostrarExitoEmprendimiento(campo, elementoError) {
   }
 }
 
-// Función para validar que una opción sea válida en un select
+/**
+ * Comprueba si un valor está presente como opción válida en un elemento select.
+ * @param {HTMLSelectElement} selectElement - El select a revisar.
+ * @param {string} valor - Valor a buscar en las opciones.
+ * @returns {boolean} true si el valor existe en las opciones.
+ */
 function validarOpcionValidaEmprendimiento(selectElement, valor) {
   if (!selectElement || !valor) return false;
   
@@ -32,6 +70,12 @@ function validarOpcionValidaEmprendimiento(selectElement, valor) {
   return opciones.some(opcion => opcion.value === valor);
 }
 
+/**
+ * Crea (si no existe) y devuelve un contenedor para mostrar errores cerca del campo.
+ * @param {HTMLElement} campo - El campo al que se asociará el error.
+ * @param {string} idError - ID para el contenedor de error.
+ * @returns {HTMLElement|null} Elemento de error creado o existente, o null si no hay campo.
+ */
 function crearElementoErrorEmprendimiento(campo, idError) {
   if (!campo) return null;
   
@@ -50,6 +94,15 @@ function crearElementoErrorEmprendimiento(campo, idError) {
 // FUNCIONES DE VALIDACIÓN REUTILIZABLES
 // ===============================
 
+/**
+ * Valida el nombre del emprendimiento.
+ * - Obligatorio
+ * - Mínimo 3 caracteres
+ * - Máximo 100 caracteres
+ * @param {HTMLInputElement} campoNombre - Campo input del nombre.
+ * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+ * @returns {boolean} true si es válido.
+ */
 function validarNombreEmprendimiento(campoNombre, elementoError) {
   if (!campoNombre) return false;
   
@@ -74,6 +127,13 @@ function validarNombreEmprendimiento(campoNombre, elementoError) {
   return true;
 }
 
+/**
+ * Valida la descripción del emprendimiento (opcional).
+ * - Máximo 500 caracteres si se provee.
+ * @param {HTMLTextAreaElement} campoDescripcion - Campo de descripción.
+ * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+ * @returns {boolean} true si es válida o vacía.
+ */
 function validarDescripcionEmprendimiento(campoDescripcion, elementoError) {
   if (!campoDescripcion) return true; // Es opcional
   
@@ -89,6 +149,13 @@ function validarDescripcionEmprendimiento(campoDescripcion, elementoError) {
   return true;
 }
 
+/**
+ * Valida la selección de ciudad.
+ * Verifica que el campo exista y que el valor sea una opción válida del select.
+ * @param {HTMLSelectElement} campoCiudad - Select de ciudad.
+ * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+ * @returns {boolean} true si la ciudad es válida.
+ */
 function validarCiudadEmprendimiento(campoCiudad, elementoError) {
   if (!campoCiudad) {
 
@@ -113,6 +180,12 @@ function validarCiudadEmprendimiento(campoCiudad, elementoError) {
   return true;
 }
 
+/**
+ * Valida el departamento seleccionado.
+ * @param {HTMLSelectElement} campoDepartamento - Select de departamento.
+ * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+ * @returns {boolean} true si es válido.
+ */
 function validarDepartamentoEmprendimiento(campoDepartamento, elementoError) {
   if (!campoDepartamento) {
 
@@ -121,7 +194,7 @@ function validarDepartamentoEmprendimiento(campoDepartamento, elementoError) {
   
   const departamento = campoDepartamento.value ? campoDepartamento.value.trim() : '';
   
-
+  
   
   if (!departamento || departamento === '') {
     mostrarErrorEmprendimiento(campoDepartamento, elementoError, 'El departamento es obligatorio');
@@ -138,6 +211,16 @@ function validarDepartamentoEmprendimiento(campoDepartamento, elementoError) {
   return true;
 }
 
+/**
+ * Valida el archivo del logo.
+ * - Opcional por defecto
+ * - Tipos permitidos: JPG, PNG, GIF, WebP, SVG
+ * - Tamaño máximo: 25MB
+ * @param {HTMLInputElement} campoLogo - Input file del logo.
+ * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+ * @param {boolean} esOpcional - Si el campo puede estar vacío.
+ * @returns {boolean} true si es válido o vacío cuando es opcional.
+ */
 function validarLogoEmprendimiento(campoLogo, elementoError, esOpcional = true) {
   if (!campoLogo) return esOpcional;
   
@@ -167,6 +250,12 @@ function validarLogoEmprendimiento(campoLogo, elementoError, esOpcional = true) 
   return true;
 }
 
+/**
+ * Valida el estado (activo/inactivo) del emprendimiento.
+ * @param {HTMLElement} campoEstado - Campo que contiene el estado.
+ * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+ * @returns {boolean} true si el estado es 'true' o 'false'.
+ */
 function validarEstadoEmprendimiento(campoEstado, elementoError) {
   if (!campoEstado) return false;
   
@@ -185,6 +274,10 @@ function validarEstadoEmprendimiento(campoEstado, elementoError) {
 // FUNCIÓN PARA INICIALIZAR VALIDACIONES DE EDITAR (LLAMADA DINÁMICAMENTE)
 // ===============================
 
+/**
+ * Inicializa validaciones para el formulario de editar emprendimiento.
+ * Esta función se exporta globalmente para ser llamada desde otros scripts.
+ */
 function inicializarValidacionesEditarEmprendimiento() {
 
   
@@ -277,7 +370,6 @@ function inicializarValidacionesEditarEmprendimiento() {
     evento.preventDefault();
     evento.stopPropagation();
     
-
     
     // Ejecutar todas las validaciones
     const validaciones = [

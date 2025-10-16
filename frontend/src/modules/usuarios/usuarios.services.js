@@ -14,6 +14,13 @@ const {
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL ;
 
 /* Verificar contraseña actual del usuario - Middleware de Express */
+/**
+ * Middleware que reenvía al backend la petición para verificar la contraseña actual.
+ * Recibe en el body: { userId, contrasenaActual }.
+ * Responde con el resultado que devuelve el backend.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.verificarContrasenaActual = async (req, res) => {
   try {
     const { userId, contrasenaActual } = req.body;
@@ -41,6 +48,12 @@ exports.verificarContrasenaActual = async (req, res) => {
 };
 
 /* Verificar usuario logueado */
+/**
+ * Obtiene los datos del usuario autenticado desde el backend y renderiza la vista de perfil.
+ * - Usa `getUpdatedHeaders` para enviar cookies al backend y `setCookie` para replicarlas.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerUsuario = async (req, res) => {
   const id = req.usuarioAutenticado?.idUsuario;
   if (!id) return res.redirect('/?error=Debes+iniciar+sesion');
@@ -72,6 +85,13 @@ exports.obtenerUsuario = async (req, res) => {
 };
 
 /* Actualizar perfil del usuario */
+/**
+ * Envía al backend los datos para actualizar el perfil del usuario.
+ * - Normaliza el campo de correo y maneja direcciones y contraseña si se envían.
+ * - Si la petición viene desde un formulario SSR redirige a la vista de perfil.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.actualizarPerfilUsuario = async (req, res) => {
   const { id } = req.params;
   const { nombreUsuario, apellidoUsuario, correo, contrasena, telefono, direcciones } = req.body;
@@ -133,6 +153,12 @@ exports.actualizarPerfilUsuario = async (req, res) => {
 };
 
 /* Validar contraseña del usuario */
+/**
+ * Valida la contraseña ingresada por el usuario llamando al endpoint de autenticación del backend.
+ * - Obtiene el usuario, extrae el correo y realiza una petición a /auth/login para validar.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.validarContrasenaUsuario = async (req, res) => {
   const { id: idUsuario } = req.params;
   const { contrasenaIngresada } = req.body;
@@ -178,6 +204,11 @@ exports.validarContrasenaUsuario = async (req, res) => {
 };
 
 /* Desactivar cuenta del usuario */
+/**
+ * Desactiva la cuenta del usuario (marca estadoUsuario como 'inactivo' en el backend).
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.desactivarCuentaUsuario = async (req, res) => {
   // Extrae el id desde los parámetros de la ruta
   const { id } = req.params;
@@ -196,6 +227,12 @@ exports.desactivarCuentaUsuario = async (req, res) => {
 };
 
 // Endpoint que devuelve detalle de usuario en formato JSON (proxy al backend)
+/**
+ * Devuelve el detalle del usuario en JSON obteniéndolo del backend.
+ * - Útil para peticiones AJAX o módulos frontend que necesitan datos sin renderizar.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerDetalleUsuario = async (req, res) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ error: 'Falta id de usuario' });

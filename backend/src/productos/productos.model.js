@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+/**
+ * @typedef {Object} Producto
+ * @property {string} tituloProducto - Título del producto (3-100 caracteres)
+ * @property {string} idEmprendimiento - ObjectId del emprendimiento propietario
+ * @property {string} descripcionProducto - Descripción detallada del producto
+ * @property {number} precio - Precio en moneda local
+ * @property {boolean} productoActivo - Flag para producto activo
+ * @property {boolean} productoEliminado - Flag para borrado lógico
+ * @property {string[]} imagenes - URLs de las imágenes del producto
+ * @property {string} categoria - Nombre de la categoría
+ * @property {string[]} etiquetas - Lista de etiquetas asociadas
+ */
+
 const ProductoSchema = new mongoose.Schema({
   tituloProducto:
     { type: String, required: true, trim: true, minLength: 3, maxLength: 100 },

@@ -2,6 +2,13 @@ const supabase = require("../config/supabaseClient");
 const { v4: uuidv4 } = require("uuid");
 const sharp = require("sharp");
 
+/**
+ * Subir y procesar una imagen usando sharp y Supabase Storage
+ * - Redimensiona y convierte a webp, sube al bucket y retorna la URL pública
+ * @param {Object} file - Objeto file (multer) con buffer, originalname, mimetype, size
+ * @param {string} [folder='general'] - Carpeta (folder) dentro del bucket
+ * @returns {Promise<string|null>} URL pública del archivo subido o null si no hay file
+ */
 async function uploadImage(file, folder = "general") {
   if (!file) return null;
 

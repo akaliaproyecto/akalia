@@ -7,6 +7,13 @@ const formData = require('form-data');
 
 const API_BASE_URL = process.env.URL_BASE || process.env.API_BASE_URL || 'http://localhost:4006';
 /* Listar emprendimientos de un usuario y renderizar la vista */
+/**
+ * Listar emprendimientos de un usuario y renderizar la vista
+ * - Obtiene el id del usuario desde la sesión y llama al API backend.
+ * - Renderiza la plantilla con la lista de emprendimientos.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.listarEmprendimientosUsuario = async (req, res) => {
   // Preferir id desde sesión/autenticación. Si se pasa en params, lo usamos solo para mostrar
   const id = req.usuarioAutenticado?.idUsuario || req.params?.id;
@@ -38,6 +45,13 @@ exports.listarEmprendimientosUsuario = async (req, res) => {
   }
 }
 /* Agregar un nuevo emprendimiento */
+/**
+ * Agregar un nuevo emprendimiento (frontend proxy)
+ * - Recibe form-data desde el formulario y lo reenvía al API backend.
+ * - No devuelve JSON; redirige a la lista de emprendimientos.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.agregarEmprendimiento = async (req, res) => {
   try {
     const { usuario, nombreEmprendimiento, descripcionEmprendimiento } = req.body;
@@ -85,6 +99,13 @@ exports.agregarEmprendimiento = async (req, res) => {
 };
 
 /* Obtener detalle de un emprendimiento + productos (proxy) */
+/**
+ * Obtener detalle de un emprendimiento y sus productos (proxy)
+ * - Llama al API backend para obtener emprendimiento, productos, etiquetas y categorías.
+ * - Si la cabecera Accept incluye application/json devuelve JSON, si no renderiza vista.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.obtenerDetalleEmprendimiento = async (req, res) => {
   const id = req.params?.id;
   if (!id) return res.status(400).json({ error: 'Id requerido' });
@@ -130,6 +151,13 @@ exports.obtenerDetalleEmprendimiento = async (req, res) => {
 };
 
 /* Editar un nuevo emprendimiento */
+/**
+ * Editar un emprendimiento (frontend proxy)
+ * - Recibe form-data con 'payload' y opcionalmente 'logo', reenvía al backend con PUT.
+ * - Redirige al referer o al listado de emprendimientos.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.editarEmprendimiento = async (req, res) => {
   try {
     const { usuario, idEmprendimiento, nombreEmprendimiento, descripcionEmprendimiento, emprendimientoActivo } = req.body;
@@ -179,6 +207,13 @@ exports.editarEmprendimiento = async (req, res) => {
 };
 
 /* Eliminar un nuevo emprendimiento */
+/**
+ * Eliminar un emprendimiento (frontend proxy)
+ * - Realiza una petición PATCH al backend para marcar el emprendimiento como eliminado.
+ * - Redirige al listado del usuario.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.eliminarEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.id;
   const { usuario, emprendimientoEliminado } = req.body;
@@ -200,11 +235,22 @@ exports.eliminarEmprendimiento = async (req, res) => {
 }
 
 /* redirigir a listado de emprendimientos si no hay id en la URL */
+/**
+ * Redirigir a listado si no hay ID en la URL
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.redirigirSiNoHayIdEnUrl = async (req, res) => {
   return res.redirect('/usuario-emprendimientos');
 };
 
 /* Verificar si un emprendimiento está activo (proxy al backend) */
+/**
+ * Verificar si un emprendimiento está activo (proxy al backend)
+ * - Reenvía la petición al API backend y devuelve la respuesta tal cual.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 exports.verificarEmprendimientoActivo = async (req, res) => {
   try {
     const { id } = req.params;

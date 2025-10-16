@@ -1,4 +1,9 @@
 /* Validaciones de formularios - Administración (Categorías, Etiquetas, etc.) */
+/**
+ * Módulo de validaciones para la administración.
+ * Aquí se agregan validadores y helpers para formularios de categoría, etiqueta y pedidos.
+ * Comentarios en estilo JSDoc explican cada función para un desarrollador principiante.
+ */
 document.addEventListener('DOMContentLoaded', () => {
   
   // ===============================
@@ -6,6 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ===============================
   
   // Funciones de validación compartidas
+  /**
+   * Muestra un error visual en un campo de formulario.
+   * @param {HTMLElement} campo - Elemento input o textarea que falla la validación.
+   * @param {HTMLElement|null} elementoError - Contenedor donde se mostrará el mensaje de error.
+   * @param {string} mensaje - Texto de ayuda que describe el error.
+   */
   function mostrarError(campo, elementoError, mensaje) {
     campo.classList.add('is-invalid');
     campo.classList.remove('is-valid');
@@ -15,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /**
+   * Marca un campo como válido y limpia el mensaje de error asociado.
+   * @param {HTMLElement} campo - Elemento input o textarea que pasó la validación.
+   * @param {HTMLElement|null} elementoError - Contenedor del mensaje de error.
+   */
   function mostrarExito(campo, elementoError) {
     campo.classList.add('is-valid');
     campo.classList.remove('is-invalid');
@@ -25,6 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Validación de texto alfanumérico con espacios
+  /**
+   * Valida que un texto contenga solo letras, números y espacios.
+   * Acepta caracteres acentuados comunes en español.
+   * @param {string} texto - Texto a validar.
+   * @returns {boolean} true si el texto es válido, false en caso contrario.
+   */
   function validarTextoAlfanumerico(texto) {
     const regex = /^[a-zA-ZÀ-ÿ0-9\s]+$/;
     return regex.test(texto);
@@ -44,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let errorNombreCategoria = document.getElementById('nombreCategoriaError');
     let errorImagenCategoria = document.getElementById('imagenCategoriaError');
     
-    // Crear elementos de error si no existen
+  // Crear elementos de error si no existen
     if (!errorNombreCategoria && campoNombreCategoria) {
       errorNombreCategoria = document.createElement('div');
       errorNombreCategoria.id = 'nombreCategoriaError';
@@ -59,6 +81,15 @@ document.addEventListener('DOMContentLoaded', () => {
       campoImagenCategoria.parentNode.appendChild(errorImagenCategoria);
     }
     
+    /**
+     * Valida el campo de nombre de la categoría.
+     * Reglas:
+     * - Obligatorio
+     * - Mínimo 2 caracteres
+     * - Máximo 50 caracteres
+     * - Solo caracteres alfanuméricos y espacios
+     * @returns {boolean} true si el nombre es válido.
+     */
     function validarNombreCategoria() {
       const nombre = campoNombreCategoria.value.trim();
       
@@ -86,6 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     }
     
+    /**
+     * Valida la imagen subida para la categoría.
+     * Reglas:
+     * - Opciónal (si no hay archivo, es válido)
+     * - Tipos permitidos: JPG, PNG, GIF, WebP, SVG
+     * - Tamaño máximo: 25MB (nota: variable se indica en bytes)
+     * @returns {boolean} true si la imagen es válida o no existe.
+     */
     function validarImagenCategoria() {
       const imagen = campoImagenCategoria.files ? campoImagenCategoria.files[0] : null;
       
@@ -115,7 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Event listeners
     if (campoNombreCategoria) {
+      // Validar al perder foco
       campoNombreCategoria.addEventListener('blur', validarNombreCategoria);
+      // Validar en entrada si se excede longitud
       campoNombreCategoria.addEventListener('input', () => {
         const nombre = campoNombreCategoria.value.trim();
         if (nombre.length > 50) {
@@ -125,9 +166,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (campoImagenCategoria) {
+      // Validar cuando se selecciona un archivo
       campoImagenCategoria.addEventListener('change', validarImagenCategoria);
     }
     
+    /**
+     * Handler para el submit del formulario de crear categoría.
+     * Ejecuta todos los validadores y si pasa todo, envía el formulario.
+     * @param {Event} evento - Evento submit del formulario.
+     */
     formularioCrearCategoria.addEventListener('submit', (evento) => {
       evento.preventDefault();
       
@@ -181,6 +228,11 @@ document.addEventListener('DOMContentLoaded', () => {
       campoNombreEtiqueta.parentNode.appendChild(errorNombreEtiqueta);
     }
     
+    /**
+     * Valida el campo de nombre de etiqueta.
+     * Reglas similares a categoría: obligatorio, 2-50 caracteres, solo texto alfanumérico.
+     * @returns {boolean} true si el nombre de la etiqueta es válido.
+     */
     function validarNombreEtiqueta() {
       const nombre = campoNombreEtiqueta.value.trim();
       
@@ -218,6 +270,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     
+    /**
+     * Handler para crear etiqueta: valida y envía el formulario si es correcto.
+     * @param {Event} evento - Evento submit del formulario.
+     */
     formularioCrearEtiqueta.addEventListener('submit', (evento) => {
       evento.preventDefault();
       
@@ -272,6 +328,14 @@ document.addEventListener('DOMContentLoaded', () => {
       campoDescripcionPedido.parentNode.appendChild(errorDescripcionPedido);
     }
     
+    /**
+     * Valida el campo de unidades en el formulario de pedido.
+     * Reglas:
+     * - Obligatorio
+     * - Número entero
+     * - Mínimo 1, máximo 999
+     * @returns {boolean} true si las unidades son válidas.
+     */
     function validarUnidades() {
       const unidades = parseInt(campoUnidades.value);
       
@@ -294,6 +358,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     }
     
+    /**
+     * Valida la descripción del pedido.
+     * Reglas:
+     * - Obligatorio
+     * - Mínimo 3 caracteres
+     * - Máximo 255 caracteres
+     * @returns {boolean} true si la descripción es válida.
+     */
     function validarDescripcionPedido() {
       const descripcion = campoDescripcionPedido.value.trim();
       
@@ -331,6 +403,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     
+    /**
+     * Handler para el submit del formulario de pedido.
+     * Valida unidades y descripción antes de enviar el formulario.
+     * @param {Event} evento - Evento submit del formulario.
+     */
     formularioCrearPedido.addEventListener('submit', (evento) => {
       evento.preventDefault();
       

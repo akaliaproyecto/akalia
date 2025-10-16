@@ -597,3 +597,24 @@ Un producto ha sido actualizado: {
 Un producto ha sido eliminado: 68e2d5fd29b7ae1246aef0f1, fecha: Thu Oct 09 2025 17:29:03 GMT-0500 (Colombia Standard Time)
 Un producto ha sido eliminado: 68e2d5fd29b7ae1246aef0f1, fecha: Thu Oct 09 2025 17:30:43 GMT-0500 (Colombia Standard Time)
 Un producto ha sido eliminado: 68e2d5fd29b7ae1246aef0f1, fecha: Thu Oct 09 2025 17:33:36 GMT-0500 (Colombia Standard Time)
+Un producto ha sido creado: 68f077451ce9872c8479a60d, información: {
+  tituloProducto: 'Grabado personalizado en papel — Iniciales y logotipos',
+  idEmprendimiento: new ObjectId('68f076931ce9872c8479a5fb'),
+  descripcionProducto: 'Servicio de grabado en relieve o láser sobre cualquier tipo de papel, ideal para personalizar sobres, hojas, tarjetas, servilletas, papel fotográfico o papelería premium. Se pueden aplicar iniciales, monogramas, nombres o logotipos, logrando un acabado elegante y profesional para eventos, marcas o detalles especiales. Perfecto para bodas, empresas, invitaciones o regalos personalizados, aportando distinción en cada presentación.',
+  precio: 5000,
+  productoActivo: true,
+  productoEliminado: false,
+  imagenes: [
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/f8332d28-8ba0-4d8f-bfaa-8d9e1a9d32d0.avif',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/47e24517-85c5-4028-bc1b-ceeb6d69e943.avif',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/a9a2862b-0860-423d-9405-28d66b892503.avif',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/ca1dec64-8d6e-48ab-b970-9c12ea34876c.webp',
+    'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/productos/4b2aa035-07fa-4262-bcd7-67505415e75d.webp'
+  ],
+  categoria: 'Papelería',
+  etiquetas: [ 'papelería artesanal', 'caligrafía artística' ],
+  _id: new ObjectId('68f077451ce9872c8479a60d'),
+  createdAt: 2025-10-16T04:40:37.495Z,
+  updatedAt: 2025-10-16T04:40:37.495Z,
+  __v: 0
+}  fecha: Wed Oct 15 2025 23:40:37 GMT-0500 (hora estándar de Colombia)

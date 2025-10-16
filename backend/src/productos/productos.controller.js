@@ -12,6 +12,12 @@ const {
   validarDatosActualizacionProducto
 } = require('./productos.validations');
 
+/**
+ * Obtener todos los productos disponibles
+ * - Devuelve un array de productos activos o 404 si no hay ninguno
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 /*Consultar todos los productos*/
 exports.obtenerProductos = async (req, res) => {
   try {
@@ -32,6 +38,12 @@ exports.obtenerProductos = async (req, res) => {
   }
 };
 
+/**
+ * Obtener un producto por su ID
+ * - Valida el formato del ID y devuelve el producto con su emprendimiento poblado
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 /*Consultar un producto por su id*/
 exports.obtenerProductoPorId = async (req, res) => {
   let idProducto = req.params.id;
@@ -58,6 +70,12 @@ exports.obtenerProductoPorId = async (req, res) => {
   }
 };
 
+/**
+ * Buscar productos por nombre parcial
+ * - Soporta filtros por precio y ordenamiento mediante querystring
+ * @param {import('express').Request} req - req.params.nombre, req.query
+ * @param {import('express').Response} res
+ */
 /*Consultar un producto por su nombre*/
 exports.obtenerProductoPorNombre = async (req, res) => {
   // Nombre buscado (desde params)
@@ -136,6 +154,12 @@ exports.obtenerProductoPorNombre = async (req, res) => {
   }
 };
 
+/**
+ * Crear un nuevo producto
+ * - Guarda imágenes subidas y persiste el documento en la colección
+ * @param {import('express').Request} req - req.body, req.files
+ * @param {import('express').Response} res
+ */
 /*Crear un nuevo producto*/
 exports.crearProducto = async (req, res) => {
   // datos enviados por el cliente (formulario)
@@ -176,6 +200,12 @@ exports.crearProducto = async (req, res) => {
   }
 };
 
+/**
+ * Actualizar un producto por su ID
+ * - Valida permisos del usuario dueño del emprendimiento
+ * @param {import('express').Request} req - req.params.id o idProducto, req.body, req.files
+ * @param {import('express').Response} res
+ */
 /*editar un producto por su id*/
 exports.actualizarProducto = async (req, res) => {
   let idProducto = req.params.idProducto || req.params.id;  // leer el id desde la URL 
@@ -223,6 +253,12 @@ exports.actualizarProducto = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar lógicamente un producto
+ * - Marca el producto como eliminado sin borrarlo físicamente
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 /*Borrado lógico de un producto por su id*/
 exports.eliminarProducto = async (req, res) => {
   let idProducto = req.params.id;
@@ -260,6 +296,12 @@ exports.eliminarProducto = async (req, res) => {
   }
 };
 
+/**
+ * Obtener productos de un emprendimiento
+ * - Valida formato del ID y permisos del usuario
+ * @param {import('express').Request} req - req.params.idEmprendimiento
+ * @param {import('express').Response} res
+ */
 /* obtener Productos por Emprendimiento */
 exports.obtenerProductosEmprendimiento = async (req, res) => {
   const idEmprendimiento = req.params.idEmprendimiento || req.params.id;
@@ -296,6 +338,12 @@ exports.obtenerProductosEmprendimiento = async (req, res) => {
   }
 };
 
+/**
+ * Obtener todos los productos asociados a los emprendimientos de un usuario
+ * - Requiere que el id del usuario coincida con la sesión
+ * @param {import('express').Request} req - req.params.id
+ * @param {import('express').Response} res
+ */
 /* Obtener productos por usuario (todos los productos de los emprendimientos del usuario) */
 exports.obtenerProductosPorUsuario = async (req, res) => {
   const idUsuario = req.params.id;
@@ -335,6 +383,12 @@ exports.obtenerProductosPorUsuario = async (req, res) => {
   }
 };
 
+/**
+ * Obtener productos por categoría
+ * - Busca la categoría por su _id y aplica filtros de precio/orden
+ * @param {import('express').Request} req - req.params.idCategoria, req.query
+ * @param {import('express').Response} res
+ */
 /* Obtener productos de una categoría específica  */
 exports.obtenerProductosPorCategoria = async (req, res) => {
   const idCategoria = req.params.idCategoria || req.params.id;

@@ -1,8 +1,19 @@
+/**
+ * Obtener elemento del DOM por id
+ * @param {string} id
+ * @returns {HTMLElement|null}
+ */
 // Helpers globales: función simple para obtener elemento por id
 function get(id) {
   return document.getElementById(id);
 }
 
+/**
+ * Abrir modal para confirmar eliminación de producto
+ * @param {string} modalId - id del modal
+ * @param {string} nombreId - id del span donde mostrar el nombre
+ * @param {{usuario:string,id:string,nombre:string}} param2
+ */
 /* Modal eliminar Producto */
 function abrirModalEliminarProducto(modalId, nombreId, { usuario, id, nombre }) {
   const modal = get(modalId);
@@ -19,6 +30,10 @@ function abrirModalEliminarProducto(modalId, nombreId, { usuario, id, nombre }) 
   bootstrap.Modal.getOrCreateInstance(modal).show();
 }
 
+/**
+ * Configurar el botón de confirmación dentro del modal de eliminar producto
+ * @param {{btnId:string,modalId:string,mensajeId:string,estado:boolean}} param0
+ */
 function configurarBotonConfirmacionProducto({ btnId, modalId, mensajeId, estado }) {
   const btn = get(btnId);
   if (!btn) return;
@@ -92,6 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
   //ocultarIdProductoEnUrl();
 });
 
+/**
+ * Mostrar modal de creación de producto
+ * @param {string} idUsuario
+ */
 /* ------------------------- Modal Crear Producto ------------------------- */
 async function crearProducto(idUsuario) {
   try {
@@ -109,6 +128,10 @@ async function crearProducto(idUsuario) {
   }
 }
 
+/**
+ * Inicializar autocompletado de etiquetas (permite prefijos para formularios distintos)
+ * @param {string} prefijo
+ */
 /* Autocompletado de etiquetas */
 function inicializarAutocompletadoEtiquetasConPrefijo(prefijo = '') {
   //obtiene las referencias a los elementos del DOM con ids dinámicos (etiquetasBuscador${prefijo}, etiquetasSugerencias${prefijo}, etiquetasSeleccionadas${prefijo}, etiquetasHidden${prefijo}) y las asigna respectivamente a las variables buscador, sugerencias, seleccionadasCont y hidden
@@ -195,6 +218,11 @@ document.addEventListener('DOMContentLoaded', () => {
   inicializarAutocompletadoEtiquetas();
 });
 
+/**
+ * Abrir modal de edición de producto y cargar datos
+ * @param {string} idUsuario
+ * @param {string} idProducto
+ */
 /* ------------------------- Modal EDITAR Producto ------------------------- */
 window.editProducto = async function (idUsuario, idProducto) {
   try {
@@ -323,6 +351,9 @@ window.editProducto = async function (idUsuario, idProducto) {
   }
 }
 
+/**
+ * Ocultar el id del producto en la URL para limpiar la barra de direcciones
+ */
 /* Ocultar el id en la URL al mostrar detalle/editar de producto */
 function ocultarIdProductoEnUrl() {
   try {

@@ -2,11 +2,24 @@ const sanitizeHtml = require('sanitize-html');
 const mongoose = require('mongoose');
 const Pedido = require('../pedidos/pedidos.model');
 
+/**
+ * Módulo de sockets para el chat de pedidos
+ * - Maneja la conexión de sockets, unión a salas por pedido, envío y recepción de mensajes
+ * - Eventos principales emitidos/escuchados: 'joinPedido', 'previousMessages', 'sendMessage', 'newMessage', 'typing', 'error'
+ * @param {import('socket.io').Server} io - Instancia de Socket.IO
+ */
 module.exports = function (io) {
 
     // Evento de conexión
     io.on('connection', (socket) => {
 
+        /**
+         * Unirse a la sala de chat de un pedido
+         * - Entrada: { pedidoId }
+         * - Valida que el ID sea un ObjectId válido y emite 'previousMessages' con los mensajes guardados
+         * @event socket.on('joinPedido')
+         * @param {{pedidoId: string}} data
+         */
         // Unirse al chat del pedido
         socket.on('joinPedido', async ({ pedidoId }) => {
             try {
@@ -31,6 +44,13 @@ module.exports = function (io) {
             }
         });
 
+        /**
+         * Enviar un mensaje al chat de un pedido
+         * - Entrada: { pedidoId, contenido }
+         * - Sanitiza el contenido, guarda el mensaje en la colección Pedido y emite 'newMessage' a la sala
+         * @event socket.on('sendMessage')
+         * @param {{pedidoId: string, contenido: string}} data
+         */
         // Enviar mensaje
         socket.on('sendMessage', async ({ pedidoId, contenido }) => {
             try {
@@ -51,6 +71,13 @@ module.exports = function (io) {
                 }
 
                 // Crear el objeto mensaje
+                /**
+                 * @typedef {Object} MensajeChat
+                 * @property {import('mongoose').Types.ObjectId} idUsuarioRemitente - Referencia al remitente
+                 * @property {string} contenidoMensaje - Texto del mensaje (sanitizado)
+                 * @property {Date} fechaEnvio - Fecha de envío
+                 */
+                /** @type {MensajeChat} */
                 const mensaje = {
                     idUsuarioRemitente: new mongoose.Types.ObjectId(socket.user.id),
                     contenidoMensaje: clean,
@@ -77,6 +104,12 @@ module.exports = function (io) {
             }
         });
 
+        /**
+         * Indicador de escritura (typing)
+         * - Reenvía a la sala que un usuario está escribiendo
+         * @event socket.on('typing')
+         * @param {{pedidoId: string, typing: boolean}} data
+         */
         // Indicador de escritura (typing)
         socket.on('typing', ({ pedidoId, typing }) => {
             socket.to(`pedido_${pedidoId}`).emit('typing', { userId: socket.user.id, typing });

@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+/**
+ * Esquema de Etiqueta
+ * @typedef {Object} Etiqueta
+ * @property {string} nombreEtiqueta - Nombre de la etiqueta (requerido)
+ * @property {boolean} etiquetaActiva - Indica si la etiqueta está activa
+ */
 const EtiquetaSchema = new mongoose.Schema({
   nombreEtiqueta: { 
     type: String, 

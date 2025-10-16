@@ -1,3 +1,8 @@
+/**
+ * @file Controlador de usuarios
+ * @description Funciones que manejan las peticiones HTTP relacionadas con usuarios.
+ * Comentarios sencillos y en español, pensados para un estudiante.
+ */
 // Se importa el modelo de usuarios
 const modeloUsuario = require("./usuarios.model");
 const bcrypt = require('bcrypt');
@@ -12,6 +17,13 @@ const {
 
 const { configEmail } = require('../servicios/mailer');
 
+/**
+ * Obtener lista de usuarios con filtros opcionales.
+ * - Soporta filtros por nombre, apellido, correo, rol, estado, esVendedor, telefono y fecha.
+ * @param {import('express').Request} req - Request de Express con query params opcionales.
+ * @param {import('express').Response} res - Response de Express para enviar la lista o error.
+ * @returns {Promise<void>} - Responde con status 200 y lista, 404 si no hay resultados o 500 si hay error.
+ */
 /*Listar todos los usuarios*/
 exports.obtenerUsuarios = async (req, res) => {
   try {
@@ -60,6 +72,14 @@ exports.obtenerUsuarios = async (req, res) => {
   }
 };
 
+/**
+ * Obtener un usuario por su ID.
+ * - Valida formato de ID y la cabecera `akalia-api-key` mínima.
+ * - Devuelve un objeto formateado sin campos sensibles.
+ * @param {import('express').Request} req - Request de Express (req.params.id esperado).
+ * @param {import('express').Response} res - Response de Express con usuario o error.
+ * @returns {Promise<void>} - Responde con status 200 con usuario o errores 4xx/5xx.
+ */
 /*Listar un usuario por su id*/
 exports.obtenerUsuarioPorId = async (req, res) => {
   const idUsuario = req.params.id;   // obtener el parámetro de la URL
@@ -106,6 +126,12 @@ exports.obtenerUsuarioPorId = async (req, res) => {
   }
 };
 
+/**
+ * Consultar un usuario por su nombre de usuario.
+ * @param {import('express').Request} req - Request con req.params.nombre.
+ * @param {import('express').Response} res - Response con el usuario encontrado o 404.
+ * @returns {Promise<void>}
+ */
 /*Consultar un usuario por su nombre*/
 exports.obtenerUsuarioPorNombre = async (req, res) => {
   const nombreUsuario = req.params.nombre;
@@ -123,6 +149,14 @@ exports.obtenerUsuarioPorNombre = async (req, res) => {
   }
 };
 
+/**
+ * Crear un nuevo usuario.
+ * - Valida los datos con `validarDatosCreacionUsuario`, hashea la contraseña y crea el registro.
+ * @param {import('express').Request} req - Request con body: { nombreUsuario, apellidoUsuario, correo, contrasena, telefono }.
+ * @param {import('express').Response} res - Response que devuelve el usuario creado (sin contraseña) o errores.
+ * @param {Function} next - Next middleware (no usado explícitamente aquí).
+ * @returns {Promise<void>}
+ */
 /*Crear un nuevo usuario*/
 exports.crearUsuario = async (req, res, next) => {
   try {
@@ -209,6 +243,14 @@ exports.crearUsuario = async (req, res, next) => {
   }
 };
 
+/**
+ * Actualizar un usuario por su ID.
+ * - Solo permite actualizar campos permitidos y maneja direcciones.
+ * - Hashea nueva contraseña si se proporciona.
+ * @param {import('express').Request} req - Request con params.id o params.idUsuario y body con campos a actualizar.
+ * @param {import('express').Response} res - Response con usuario actualizado o error.
+ * @returns {Promise<void>}
+ */
 /* Actualizar un usuario por su id */
 exports.actualizarUsuario = async (req, res) => {
   const idUsuario = req.params.idUsuario || req.params.id;  // leer el id desde la URL 
@@ -344,6 +386,13 @@ exports.actualizarUsuario = async (req, res) => {
   }
 };
 
+/**
+ * Eliminar (deshabilitar) un usuario por su ID.
+ * - Marca el campo `estadoUsuario` como 'inactivo'.
+ * @param {import('express').Request} req - Request con params.id.
+ * @param {import('express').Response} res - Response con mensaje de éxito o error.
+ * @returns {Promise<void>}
+ */
 /* eliminar un usuario por su id */
 exports.eliminarUsuario = async (req, res) => {
   try {
@@ -371,6 +420,13 @@ exports.eliminarUsuario = async (req, res) => {
   }
 };
 
+/**
+ * Verificar si un email ya existe en la base de datos.
+ * - Endpoint público que devuelve { existe: boolean }.
+ * @param {import('express').Request} req - Request con params.email.
+ * @param {import('express').Response} res - Response con resultado.
+ * @returns {Promise<void>}
+ */
 /*Verificar si un email ya existe*/
 exports.verificarEmail = async (req, res) => {
   try {
@@ -392,6 +448,13 @@ exports.verificarEmail = async (req, res) => {
   }
 };
 
+/**
+ * Verificar la contraseña actual de un usuario.
+ * - Compara la contraseña enviada con la que está en la base de datos.
+ * @param {import('express').Request} req - Request con body: { userId, contrasenaActual }.
+ * @param {import('express').Response} res - Response con { valida: boolean }.
+ * @returns {Promise<void>}
+ */
 /*Verificar contraseña actual del usuario*/
 exports.verificarContrasenaActual = async (req, res) => {
   try {

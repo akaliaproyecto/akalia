@@ -3,7 +3,14 @@
  * Maneja las llamadas a la API para obtener los datos geográficos
  */
 
+/**
+ * Servicio para manejar ubicaciones (departamentos y municipios)
+ * - Carga datos desde el backend y ayuda a popular selects en formularios
+ */
 class UbicacionesService {
+  /**
+   * Crear una nueva instancia del servicio
+   */
   constructor() {
     this.municipiosData = null;
     this.API_BASE_URL = window.API_BASE_URL;
@@ -36,6 +43,10 @@ async obtenerMunicipios() {
    * Obtiene la lista de departamentos
    * @returns {Promise<Array>} Array de nombres de departamentos ordenados alfabéticamente
    */
+  /**
+   * Obtener lista de departamentos disponibles
+   * @returns {Promise<string[]>} Array de nombres de departamentos
+   */
   async obtenerDepartamentos() {
     try {
       const municipiosData = await this.obtenerMunicipios();
@@ -50,6 +61,11 @@ async obtenerMunicipios() {
    * Obtiene los municipios de un departamento específico
    * @param {string} departamento - Nombre del departamento
    * @returns {Promise<Array>} Array de municipios ordenados por nombre
+   */
+  /**
+   * Obtener municipios de un departamento
+   * @param {string} departamento - Nombre del departamento
+   * @returns {Promise<Array>} Lista de municipios
    */
   async obtenerMunicipiosPorDepartamento(departamento) {
     try {
@@ -74,6 +90,14 @@ async obtenerMunicipios() {
    * @param {string} valorTexto - Propiedad para el texto (por defecto el mismo valor)
    * @param {string} valorValue - Propiedad para el value (por defecto el mismo valor)
    * @param {string} placeholder - Texto del placeholder
+   */
+  /**
+   * Llenar un elemento <select> con opciones
+   * @param {HTMLSelectElement} selectElement
+   * @param {Array} opciones
+   * @param {string|null} valorTexto
+   * @param {string|null} valorValue
+   * @param {string} placeholder
    */
   llenarSelect(selectElement, opciones, valorTexto = null, valorValue = null, placeholder = 'Seleccionar...') {
     if (!selectElement) {
@@ -113,6 +137,12 @@ async obtenerMunicipios() {
    * @param {string} selectDepartamentoId - ID del select de departamentos
    * @param {string} selectMunicipioId - ID del select de municipios
    * @param {Object} valoresIniciales - Valores iniciales para preseleccionar
+   */
+  /**
+   * Inicializar selects de departamento y municipio en la interfaz
+   * @param {string} selectDepartamentoId - id del select de departamentos
+   * @param {string} selectMunicipioId - id del select de municipios
+   * @param {Object} valoresIniciales - { departamento, municipio }
    */
   async inicializarSelects(selectDepartamentoId, selectMunicipioId, valoresIniciales = {}) {
     try {

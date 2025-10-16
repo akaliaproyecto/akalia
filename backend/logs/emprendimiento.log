@@ -346,3 +346,31 @@ Un emprendimiento ha sido creado por el usuario 68e88330908bdbeffdc8ab27, empren
   updatedAt: 2025-10-10T04:19:10.663Z,
   __v: 0
 }, fecha: Thu Oct 09 2025 23:19:10 GMT-0500 (Colombia Standard Time)
+Un emprendimiento ha sido creado por el usuario 68f0755d1ce9872c8479a5ee, emprendimiento: {
+  usuario: new ObjectId('68f0755d1ce9872c8479a5ee'),
+  nombreEmprendimiento: 'Raíz Artesana',
+  descripcionEmprendimiento: 'Raíz Artesana es un emprendimiento dedicado a la creación de piezas hechas a mano que combinan tradición y diseño contemporáneo. Trabajamos con materiales como madera, cerámica, fibras naturales, textiles y cuero, elaborando productos únicos para decoración, uso personal y regalos especiales. Cada pieza nace del oficio artesanal y busca transmitir identidad, historia y calidez en cada detalle.',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  ubicacionEmprendimiento: { departamento: 'Boyacá', ciudad: 'Briceño' },
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/9639b2fd-911e-45e5-afe0-55602c013713.jpeg',
+  _id: new ObjectId('68f076931ce9872c8479a5fb'),
+  fechaRegistro: 2025-10-16T04:37:39.515Z,
+  createdAt: 2025-10-16T04:37:39.519Z,
+  updatedAt: 2025-10-16T04:37:39.519Z,
+  __v: 0
+}, fecha: Wed Oct 15 2025 23:37:39 GMT-0500 (hora estándar de Colombia)
+Un emprendimiento ha sido editado: {
+  ubicacionEmprendimiento: { departamento: 'Boyacá', ciudad: 'Briceño' },
+  _id: new ObjectId('68f076931ce9872c8479a5fb'),
+  usuario: new ObjectId('68f0755d1ce9872c8479a5ee'),
+  nombreEmprendimiento: 'Raíz Artesana',
+  descripcionEmprendimiento: 'Raíz Artesana es un emprendimiento dedicado a la creación de piezas hechas a mano que combinan tradición y diseño contemporáneo. Trabajamos con materiales como madera, cerámica, fibras naturales, textiles y cuero, elaborando productos únicos para decoración, uso personal y regalos especiales. Cada pieza nace del oficio artesanal y busca transmitir identidad, historia y calidez en cada detalle.',
+  emprendimientoActivo: true,
+  emprendimientoEliminado: false,
+  logo: 'https://jfqjioajaazanigdikst.supabase.co/storage/v1/object/public/akalia-imgs/emprendimientos/9639b2fd-911e-45e5-afe0-55602c013713.jpeg',
+  fechaRegistro: 2025-10-16T04:37:39.515Z,
+  createdAt: 2025-10-16T04:37:39.519Z,
+  updatedAt: 2025-10-16T04:38:13.369Z,
+  __v: 0
+}, fecha: Wed Oct 15 2025 23:38:13 GMT-0500 (hora estándar de Colombia)

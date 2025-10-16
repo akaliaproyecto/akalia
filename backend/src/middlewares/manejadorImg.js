@@ -1,6 +1,9 @@
 const multer = require('multer');
 
-// Usamos memoryStorage para que el archivo esté en buffer y lo subamos a Supabase
+/**
+ * Configuración de almacenamiento para multer
+ * - Usamos memoryStorage para mantener el archivo en memoria (buffer) y luego subirlo a Supabase u otro servicio.
+ */
 const storage = multer.memoryStorage();
 
 /*
@@ -15,6 +18,10 @@ const storage = multer.memoryStorage();
 
   La validación se hace en fileFilter para rechazar archivos binarios de otros tipos.
 */
+/**
+ * Lista de tipos MIME aceptados para subir imágenes
+ * - Se usa en fileFilter para rechazar uploads que no sean imágenes.
+ */
 const tiposAceptados = [
   'image/jpeg', // .jpg .jpeg
   'image/jfif', // .jfif (a veces se reporta así)
@@ -27,6 +34,11 @@ const tiposAceptados = [
   'image/heif'  // .heif (varía según cliente)
 ];
 
+/**
+ * Middleware de multer configurado
+ * - storage: memoria
+ * - fileFilter: valida tiposMime contra tiposAceptados
+ */
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
