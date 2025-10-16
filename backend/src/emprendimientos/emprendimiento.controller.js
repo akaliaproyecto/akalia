@@ -27,7 +27,7 @@ const obtenerEmprendimientos = async (req, res) => {
   }
 };
 
-/* listar un emprendimiento por ID */
+/* listar un emprendimiento por ID */1
 const obtenerEmprendimientoPorId = async (req, res) => {
   const idEmprendimiento = req.params.id;   // obtener el parámetro de la URL
   try {

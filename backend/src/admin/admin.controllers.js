@@ -4,6 +4,7 @@ const Emprendimiento = require('../emprendimientos/emprendimiento.model.js');
 const Pedido = require('../pedidos/pedidos.model.js');
 const Categoria = require('../categorias/categorias.model.js');
 const Etiqueta = require('../etiquetas/etiquetas.model.js');
+const uploadImage = require('../servicios/subirImagen')
 
 // ==================== ESTADÍSTICAS ====================
 exports.obtenerEstadisticas = async (req, res) => {
@@ -419,9 +420,11 @@ exports.crearCategoria = async (req, res) => {
     
     // Si hay un archivo subido, usar su URL
     if (req.file) {
-      imagen = req.file.path; // Cloudinary devuelve la URL en file.path
+      imagen = await uploadImage(req.file, "categorias"); // Cloudinary devuelve la URL en file.path
     }
-    
+        console.log('//////////////////////////////////////////////')
+
+    console.log(imagen)
     const categoriaExistente = await Categoria.findOne({ nombreCategoria });
     if (categoriaExistente) {
       return res.status(400).json({ error: 'La categoría ya existe' });
@@ -443,7 +446,7 @@ exports.actualizarCategoria = async (req, res) => {
     
     // Si hay un archivo subido, usar su URL
     if (req.file) {
-      imagen = req.file.path;
+      imagen = await uploadImage(req.file, "categorias");
     }
     
     const categoria = await Categoria.findByIdAndUpdate(
